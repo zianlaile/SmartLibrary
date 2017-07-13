@@ -15,10 +15,9 @@
     <!-- 静态资源 -->
     <mvc:annotation-driven/>
     <mvc:default-servlet-handler/> 
-   <!-- <mvc:resources mapping="/html/css/**" location="/css/" cache-period="31556926"/>
-    <mvc:resources mapping="/html/js/**" location="/js/" cache-period="31556926"/>
-    <mvc:resources mapping="/html/images/**" location="/images/" cache-period="31556926"/>
-    <mvc:resources mapping="/jsp/**" location="/jsp/" cache-period="31556926"/>
+    <mvc:resources mapping="/js/**" location="/js/" cache-period="31556926"/>
+    <mvc:resources mapping="/cttp/**" location="/cttp/" cache-period="31556926"/>
+    <!-- <mvc:resources mapping="/jsp/**" location="/jsp/" cache-period="31556926"/>
     <mvc:resources mapping="/index/**" location="/index/" cache-period="31556926"/>
     <mvc:resources mapping="/html/**" location="/html/" cache-period="31556926"/>-->
     <!--避免IE执行AJAX时，返回JSON出现下载文件 -->
@@ -50,11 +49,10 @@
         </property>
     </bean>
     <!-- 定义跳转的文件的前后缀 ，视图模式配置-->
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <!-- 这里的配置我的理解是自动给后面action的方法return的字符串加上前缀和后缀，变成一个 可用的url地址 -->
+<!--   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/" />
         <property name="suffix" value=".jsp" />
-    </bean>
+    </bean>-->
 
     <!-- 配置文件上传，如果没有使用文件上传可以不用配置，当然如果不配，那么配置文件中也不必引入上传组件包 -->
     <bean id="multipartResolver"  

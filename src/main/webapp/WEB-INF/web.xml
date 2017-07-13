@@ -10,7 +10,7 @@
     <param-value>classpath:applicationContext.xml</param-value>
   </context-param>
     <welcome-file-list>
-    <welcome-file>/index.jsp</welcome-file>
+    <welcome-file>/login.html</welcome-file>
   </welcome-file-list>
 
   <!-- <filter>
@@ -38,9 +38,9 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
-  <listener>
+  <!--<listener>
     <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
-  </listener>
+  </listener>-->
 
 
 

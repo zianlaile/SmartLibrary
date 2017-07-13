@@ -19,6 +19,7 @@ public class testUserPostService {
 		School a =new School();
 		a.setSchool_id("1");
 		logger.info("测试结束");
+		System.out.println(testuserdao.getschool(school));
 		return testuserdao.getschool(school);
 	}
 }

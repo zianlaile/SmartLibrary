@@ -387,10 +387,10 @@
           <div class="copyrights">Collect from <a href="http://www.cssmoban.com/"  title="网站模板">网站模板</a></div>-->
 
 
-          <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="col-md-12 col-sm-6 col-xs-12">
             <div class="x_panel">
               <div class="x_title">
-                <h2>Bar Graph</h2>
+                <h2>Pie Graph</h2>
                 <ul class="nav navbar-right panel_toolbox">
                   <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                   </li>
@@ -410,8 +410,7 @@
               </div>
               <div class="x_content">
 
-                <div id="test01" style="height:350px;"></div>
-
+                <div id="test01" style="height:500px;"></div>
 
               </div>
             </div>
@@ -424,20 +423,85 @@
               // 指定图表的配置项和数据
               var option = {
                   title: {
-                      text: 'ECharts 入门示例'
+                      text: '2000-2016年中国汽车销量及增长率'
                   },
-                  tooltip: {},
+                  tooltip: {
+                      trigger: 'axis'
+                  },
+                  toolbox: {
+                      feature: {
+                          dataView: {
+                              show: true,
+                              readOnly: false
+                          },
+                          restore: {
+                              show: true
+                          },
+                          saveAsImage: {
+                              show: true
+                          }
+                      }
+                  },
+                  grid: {
+                      containLabel: true
+                  },
                   legend: {
-                      data:['销量']
+                      data: ['增速','销量']
                   },
-                  xAxis: {
-                      data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-                  },
-                  yAxis: {},
+                  xAxis: [{
+                      type: 'category',
+                      axisTick: {
+                          alignWithLabel: true
+                      },
+                      data: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
+                  }],
+                  yAxis: [{
+                      type: 'value',
+                      name: '增速',
+                      min: 0,
+                      max: 50,
+                      position: 'right',
+                      axisLabel: {
+                          formatter: '{value} %'
+                      }
+                  }, {
+                      type: 'value',
+                      name: '销量',
+                      min: 0,
+                      max: 3000,
+                      position: 'left'
+                  }],
                   series: [{
+                      name: '增速',
+                      type: 'line',
+                      stack: '总量',
+                      label: {
+                          normal: {
+                              show: true,
+                              position: 'top',
+                          }
+                      },
+                      lineStyle: {
+                          normal: {
+                              width: 3,
+                              shadowColor: 'rgba(0,0,0,0.4)',
+                              shadowBlur: 10,
+                              shadowOffsetY: 10
+                          }
+                      },
+                      data: [1,13,37,35,15,13,25,21,6,45,32,2,4,13,6,4,11]
+                  }, {
                       name: '销量',
                       type: 'bar',
-                      data: [5, 20, 36, 10, 10, 20]
+                      yAxisIndex: 1,
+                      stack: '总量',
+                      label: {
+                          normal: {
+                              show: true,
+                              position: 'top'
+                          }
+                      },
+                      data: [209,236,325,439,507,576,722,879,938,1364,1806,1851,1931,2198,2349,2460,2735]
                   }]
               };
 

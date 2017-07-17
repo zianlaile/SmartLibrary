@@ -25,7 +25,7 @@ public class testUsergetcontroller {
 	//get方法测试
 	public List<School> getschool(HttpServletRequest request) {
 		logger.info("测试开始");
-		System.out.println("245212");
+		System.out.println("24512");
 		System.out.println(request.getQueryString());
 		logger.info("测试结束");
 		return testuserservice.getschool1();

@@ -12,14 +12,14 @@
 		var name="浙江工业大学";
 		
 		$.ajax({
-	 		type:"post",
-	 		contentType: 'application/json',
-	 		url:"version1",
-	 		data:JSON.stringify({
-					school_id:school_id,
-					name:name}),
-	 		async:false,
-	 		dataType: 'json',
+			type:"post",
+			contentType: 'application/json',
+			url:"version1",
+			data:JSON.stringify({
+				school_id:school_id,
+				name:name}),
+			async:false,
+			dataType: 'json',
 			success: function(data, textStatus, jqXHR){
 				console.log(data);
 			}

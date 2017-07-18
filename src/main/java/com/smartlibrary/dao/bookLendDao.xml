@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smartlibrary.dao.bookLendDao">
+    <select id="getBorrowCountByMonth" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
+        select zztmc.`year`,zztmc.`month`,zztmc.book_lend_times,zztmc.book_return_times
+        FROM zz_time_month_count zztmc
+        GROUP BY zztmc.`year`,zztmc.`month`
+        ORDER BY zztmc.`year`,zztmc.`month`
+    </select>
+    <select id="getBorrowCountByYear" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
+        select zztmc.`year`,sum(zztmc.book_lend_times) as book_lend_times ,sum(zztmc.book_return_times) as book_return_times
+        FROM zz_time_month_count zztmc
+        GROUP BY zztmc.`year`
+        ORDER BY zztmc.`year`
+    </select>
+</mapper>

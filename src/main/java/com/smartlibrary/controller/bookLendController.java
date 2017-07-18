@@ -34,5 +34,11 @@ public class bookLendController {
         Book_Lend b=new Book_Lend();
         return booklendservice.getBorrowCountByMonth(b);
     }
+    @RequestMapping(method = { RequestMethod.GET },value = "ByDay")
+    @ResponseBody
+    public Map<String ,List> getBorrowCountByDay(HttpServletRequest request) {
+        Book_Lend b=new Book_Lend();
+        return booklendservice.getBorrowCountByDay(b);
+    }
 
 }

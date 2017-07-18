@@ -59,7 +59,7 @@
                   </li>
                   <li><a><i class="fa fa-edit"></i> 进馆数据分析 <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="form.html">进馆数据统计</a></li>
+                      <li><a href="sml_gctrl_times.html">进馆数据统计</a></li>
                       <li><a href="form_advanced.html">每日进馆人数统计</a></li>
                       <li><a href="form_validation.html">进馆人员分析</a></li>
                       <li><a href="form_wizards.html">进馆学院专业分析</a></li>
@@ -541,8 +541,8 @@
                         },
                         dataZoom: [{
                             type: 'inside',
-                            start: 0,
-                            end: 80
+                            start: 60,
+                            end: 100
                         }, {
                             start: 0,
                             end: 10,
@@ -586,7 +586,7 @@
                     // 使用刚指定的配置项和数据显示图表。
                     day_count.setOption(day_count_option);
                     // 异步加载数据
-                    $.get('../../bookLend/ByMonth').done(function (data) {
+                    $.get('../../bookLend/ByDay').done(function (data) {
                         // 填入数据
                         day_count.setOption({
                             xAxis: {

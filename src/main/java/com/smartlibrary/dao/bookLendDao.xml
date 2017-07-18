@@ -14,4 +14,10 @@
         GROUP BY zztmc.`year`
         ORDER BY zztmc.`year`
     </select>
+    <select id="getBorrowCountByDay" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
+        select zztdc.`year`,zztdc.`month`,zztdc.`day`,zztdc.book_lend_times
+        FROM zz_time_day_count zztdc
+        GROUP BY zztdc.`year`,zztdc.`month`,zztdc.`day`
+        ORDER BY zztdc.`year`,zztdc.`month`,zztdc.`day`
+    </select>
 </mapper>

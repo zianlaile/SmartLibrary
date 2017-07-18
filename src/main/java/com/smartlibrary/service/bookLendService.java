@@ -52,4 +52,22 @@ public class bookLendService {
         data.put("times",times);
         return data;
     }
+
+    public Map<String ,List>  getBorrowCountByDay(Book_Lend b){
+        List<Book_Lend> day= booklenddao.getBorrowCountByDay(b);
+        Book_Lend bl;
+        ArrayList<Integer> lend_times=new  ArrayList<Integer>();
+        ArrayList<String> times=new  ArrayList<String>();
+        Map<String ,List> data=new HashMap<String ,List>();
+        for(int i=0;i<day.size();i++){
+            bl=day.get(i);
+            bl.setTime(String.valueOf(bl.getYear())+"/"+String.valueOf(bl.getMonth())+"/"+String.valueOf(bl.getDay()));
+            //组成返回对象X轴与Y轴
+            lend_times.add(day.get(i).getBook_lend_times());
+            times.add(day.get(i).getTime());
+        }
+        data.put("lend_times",lend_times);
+        data.put("times",times);
+        return data;
+    }
 }

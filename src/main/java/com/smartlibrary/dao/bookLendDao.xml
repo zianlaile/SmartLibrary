@@ -20,4 +20,12 @@
         GROUP BY zztdc.`year`,zztdc.`month`,zztdc.`day`
         ORDER BY zztdc.`year`,zztdc.`month`,zztdc.`day`
     </select>
+    <!--CURDATE()-->
+    <select id="getBorrowCountByHourAndAcademy" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
+        SELECT zzbhalb.`hour`,zzbhalb.academy ,zzbhalb.book_lend_times ,zzbhalb.book_back_times
+        FROM zz_book_hour_academy_lend_back  zzbhalb
+        WHERE zzbhalb.ymdhdate  &gt;  DATE_SUB('2015-01-19',INTERVAL 2 DAY) AND zzbhalb.ymdhdate &lt; '2015-01-19';
+        GROUP BY zzbhalb.hour ,zzbhalb.academy
+        ORDER BY zzbhalb.hour ,zzbhalb.academy
+    </select>
 </mapper>

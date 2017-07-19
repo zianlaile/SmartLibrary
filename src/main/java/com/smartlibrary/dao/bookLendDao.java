@@ -11,4 +11,5 @@ public interface bookLendDao {
     public abstract List<Book_Lend> getBorrowCountByMonth(Book_Lend b);
     public abstract List<Book_Lend> getBorrowCountByYear(Book_Lend b);
     public abstract List<Book_Lend> getBorrowCountByDay(Book_Lend b);
+    public abstract List<Book_Lend> getBorrowCountByHourAndAcademy(Book_Lend b);
 }

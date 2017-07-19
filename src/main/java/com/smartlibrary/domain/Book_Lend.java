@@ -12,6 +12,15 @@ public class Book_Lend extends BaseObject{
     int day;
     int hour;
     String time;//将年月日相连
+    String academy;
+
+    public String getAcademy() {
+        return academy;
+    }
+
+    public void setAcademy(String academy) {
+        this.academy = academy;
+    }
 
     public String getTime() {
         return time;

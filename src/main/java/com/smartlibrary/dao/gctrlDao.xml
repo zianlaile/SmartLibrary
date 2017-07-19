@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smartlibrary.dao.gctrlDao">
+    <select id="getGctrlCountByMonth" parameterType="com.smartlibrary.domain.gctrl" resultType="com.smartlibrary.domain.gctrl">
+        select zztmc.`year`,zztmc.`month`,zztmc.gctrl_times
+        FROM zz_time_month_count zztmc
+        GROUP BY zztmc.`year`,zztmc.`month`
+        ORDER BY zztmc.`year`,zztmc.`month`
+    </select>
+    <select id="getGctrlCountByYear" parameterType="com.smartlibrary.domain.gctrl" resultType="com.smartlibrary.domain.gctrl">
+        select zztmc.`year`,sum(zztmc.gctrl_times) as gctrl_times
+        FROM zz_time_month_count zztmc
+        GROUP BY zztmc.`year`
+        ORDER BY zztmc.`year`
+    </select>
+    <select id="getGctrlCountByDay" parameterType="com.smartlibrary.domain.gctrl" resultType="com.smartlibrary.domain.gctrl">
+       select zztdc.`year`,zztdc.`month`,zztdc.`day`,zztdc.gctrl_times
+        FROM zz_time_day_count zztdc
+        GROUP BY zztdc.`year`,zztdc.`month`,zztdc.`day`
+        ORDER BY zztdc.`year`,zztdc.`month`,zztdc.`day`
+    </select>
+</mapper>

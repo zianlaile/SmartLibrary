@@ -20,4 +20,12 @@
         GROUP BY zztdc.`year`,zztdc.`month`,zztdc.`day`
         ORDER BY zztdc.`year`,zztdc.`month`,zztdc.`day`
     </select>
+    <!--CURDATE()  表不对，暂时不写-->
+    <select id="getGctrlCountByDay2" parameterType="com.smartlibrary.domain.gctrl" resultType="com.smartlibrary.domain.gctrl">
+       select zztdc.`year`,zztdc.`month`,zztdc.`day`,zztdc.gctrl_times
+        FROM zz_time_day_count zztdc
+	    WHERE zztdc.`year`= DATE_FORMAT('2016-01-12', '%Y')
+        GROUP BY zztdc.`year`,zztdc.`month`,zztdc.`day`
+        ORDER BY zztdc.`year`,zztdc.`month`,zztdc.`day`
+    </select>
 </mapper>

@@ -6,6 +6,9 @@ package com.smartlibrary.domain;
  */
 public class Book_Lend extends BaseObject{
     int book_lend_times;
+    int m_book_lend_times;
+    int f_book_lend_times;
+    int book_back_times;
     int book_return_times;
     int year;
     int month;
@@ -13,6 +16,57 @@ public class Book_Lend extends BaseObject{
     int hour;
     String time;//将年月日相连
     String academy;
+    String book_kind;
+    String publisher;
+    Double book_lend_w;
+
+    public Double getBook_lend_w() {
+        return book_lend_w;
+    }
+
+    public void setBook_lend_w(Double book_lend_w) {
+        this.book_lend_w = book_lend_w;
+    }
+
+    public int getM_book_lend_times() {
+        return m_book_lend_times;
+    }
+
+    public void setM_book_lend_times(int m_book_lend_times) {
+        this.m_book_lend_times = m_book_lend_times;
+    }
+
+    public int getF_book_lend_times() {
+        return f_book_lend_times;
+    }
+
+    public void setF_book_lend_times(int f_book_lend_times) {
+        this.f_book_lend_times = f_book_lend_times;
+    }
+
+    public int getBook_back_times() {
+        return book_back_times;
+    }
+
+    public void setBook_back_times(int book_back_times) {
+        this.book_back_times = book_back_times;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public String getBook_kind() {
+        return book_kind;
+    }
+
+    public void setBook_kind(String book_kind) {
+        this.book_kind = book_kind;
+    }
 
     public String getAcademy() {
         return academy;

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,5 +41,32 @@ public class bookLendController {
         Book_Lend b=new Book_Lend();
         return booklendservice.getBorrowCountByDay(b);
     }
+
+
+    @RequestMapping(method = { RequestMethod.GET },value = "ByHourAndAcademy")
+    @ResponseBody
+    public    Map<Integer, HashMap<String ,List>>  getBorrowCountByHourAndAcademy(HttpServletRequest request){
+        Book_Lend b=new Book_Lend();
+        return booklendservice.getBorrowCountByHourAndAcademy(b);
+    }
+    @RequestMapping(method = { RequestMethod.GET },value = "ByHourAndBookkinds")
+    @ResponseBody
+    public   Map<String ,List>  getBorrowCountByHourAndBookkinds(HttpServletRequest request){
+        Book_Lend b=new Book_Lend();
+        return booklendservice.getBorrowCountByHourAndBookkinds(b);
+    }
+    @RequestMapping(method = { RequestMethod.GET },value = "BySexAndBookkinds")
+    @ResponseBody
+    public Map<String ,List> getBorrowCountBySexAndBookkinds(HttpServletRequest request){
+        Book_Lend b=new Book_Lend();
+        return booklendservice.getBorrowCountBySexAndBookkinds(b);
+    }
+
+    @RequestMapping(method = { RequestMethod.GET },value = "ByPublisher")
+    @ResponseBody
+    public Map<String ,List> getBorrowCountByPublisher(HttpServletRequest request){
+        Book_Lend b=new Book_Lend();
+        return booklendservice.getBorrowCountByPublisher(b);
+    };
 
 }

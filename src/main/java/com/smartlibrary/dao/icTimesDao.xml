@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smartlibrary.dao.icTimesDao">
+    <select id="getICTimesByYear" resultType="IC_Times">
+        SELECT `year`,sum(croom_times) AS croom_times,sum(seat_times) AS seat_times,SUM(eread_times) AS  eread_times
+        FROM zz_ic_month_identity
+        GROUP BY `year`
+        ORDER BY `year`
+    </select>
+    <select id="getICTimesByMonth" resultType="IC_Times">
+        SELECT `year`,`month`,seat_times,eread_times,croom_times
+        FROM zz_time_month_count
+        GROUP BY `year` ,`month`
+        ORDER BY `year` , `month`
+    </select>
+    <select id="getICTimesByDay" resultType="IC_Times">
+        SELECT `year`,`month`,`day`,croom_times,seat_times,eread_times
+        FROM zz_time_day_count
+        GROUP BY `year`,`month`,`day`
+        ORDER BY `year`,`month`,`day`
+    </select>
+</mapper>

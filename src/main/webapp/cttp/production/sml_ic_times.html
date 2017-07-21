@@ -1,10 +1,1082 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>IC空间数据统计</title>
+
+    <!-- Bootstrap -->
+    <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+
+    <!-- bootstrap-progressbar -->
+    <link href="../vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <!-- JQVMap -->
+    <link href="../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
+    <!-- bootstrap-daterangepicker -->
+    <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="../build/css/custom.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/font-awesome-ie7.min.css" rel="stylesheet">
+    <link href="css/large-chart.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="../vendors/jquery/dist/jquery.min.js"></script>
+    <!-- 引入 ECharts 文件 -->
+    <script src="../../js/echarts.min.js"></script>
 </head>
-<body>
+<!--//getlarge_year-->
+<script type="application/javascript">
+    var yeardata;
+    var monthdata;
+    var daydata;
+
+    function yearchart(chartid){
+        var year_count = echarts.init(document.getElementById(chartid));
+        var  year_count_option = {
+            color: ['#3398DB','#FFFF00','#A52A2A'],
+            legend:{
+                data: ['电子阅览室','座位','研修间'],},
+            tooltip : {
+                trigger: 'axis',
+                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            toolbox: {
+                feature: {
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            xAxis : [
+                {
+                    type : 'category',
+                    data : yeardata.year,
+                    axisTick: {
+                        alignWithLabel: true
+                    }
+                }
+            ],
+            yAxis : [
+                {
+                    // type : 'category',
+                    // data : ['10','20','30','40'],
+                    axisTick: {
+                        alignWithLabel: true
+                    }
+                }
+            ],
+            series : [
+                {
+                    name:'电子阅览室',
+                    type:'bar',
+                    barWidth: '20%',
+                    itemStyle: {
+                        normal: {
+
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(17, 168,171, 1)'
+                            }, {
+                                offset: 1,
+                                color: 'rgba(17, 168,171, 0.1)'
+                            }]),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        },
+                    },
+                    data:yeardata.eread_times
+                },
+                {
+                    name:'座位',
+                    type:'bar',
+                    barWidth: '20%',
+                    itemStyle: {
+                        normal: {
+
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(255, 69,0, 1)'
+                            }, {
+                                offset: 1,
+                                color: 'rgba(255, 69,0, 0.1)'
+                            }]),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        },
+                    },
+                    data:yeardata.seat_times
+                },
+                {
+                    name:'研修间',
+                    type:'bar',
+                    barWidth: '20%',
+                    itemStyle: {
+                        normal: {
+
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(0, 128,128, 1)'
+                            }, {
+                                offset: 1,
+                                color: 'rgba(0, 128,128, 0.1)'
+                            }]),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        },
+                    },
+                    data:yeardata.croom_times
+                },
+
+            ],
+            label: {
+                normal: {
+                    show: true,
+                    position: 'top',
+                    formatter: '{c}'
+                }
+            },
+        };
+        year_count.setOption(year_count_option);
+        if(chartid=="largeyear"){
+            year_count.setOption({
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    containLabel: true
+                },
+            });
+        }
+        else{
+            year_count.setOption({
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom:'3%',
+                    containLabel: true
+                },
+            });
+        }
+    }
+    function daychart(chartid) {
+        var day_count = echarts.init(document.getElementById(chartid));
+        var  day_count_option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    lineStyle: {
+                        color: '#57617B'
+                    }
+                }
+            },
+            legend: {
+                icon: 'rect',
+                itemWidth: 14,
+                itemHeight: 5,
+                itemGap: 13,
+                data: ['电子阅览室', '座位', '研修间'],
+                right: '10%',
+                textStyle: {
+                    fontSize: 12,
+                    color: '#57617B'
+                }
+            },
+            toolbox: {
+                feature: {
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            xAxis: [{
+                type: 'category',
+                boundaryGap: false,
+                axisLine: {
+                    lineStyle: {
+                        color: '#57617B'
+                    }
+                },
+                data: daydata.day
+            }],
+            yAxis: [{
+                type: 'value',
+                name: '人次',
+                axisTick: {
+                    show: false
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#57617B'
+                    }
+                },
+                axisLabel: {
+                    margin: 10,
+                    textStyle: {
+                        fontSize: 14
+                    }
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: '#57617B'
+                    }
+                }
+            }],
+            dataZoom: [{
+                type: 'inside',
+                start: 0,
+                end: 30
+            }, {
+                start: 0,
+                end: 30,
+                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                handleSize: '80%',
+                handleStyle: {
+                    color: '#fff',
+                    shadowBlur: 3,
+                    shadowColor: 'rgba(0, 0, 0, 0.6)',
+                    shadowOffsetX: 2,
+                    shadowOffsetY: 2
+                }
+            }],
+            series: [{
+                name: '电子阅览室',
+                type: 'line',
+                smooth: true,
+                symbol: 'circle',
+                symbolSize: 5,
+                showSymbol: false,
+                lineStyle: {
+                    normal: {
+                        width: 1
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgba(17, 168, 171, 1)'
+                        }, {
+                            offset: 0.8,
+                            color: 'rgba(17, 168, 171, 0.3)'
+                        }], false),
+                        shadowColor: 'rgba(0, 0, 0, 0.1)',
+                        shadowBlur: 10
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: 'rgb(17,168,171)',
+                        borderColor: 'rgba(17,168,171,0.27)',
+                        borderWidth: 12
+
+                    }
+                },
+                data: daydata.eread_times
+            }, {
+                name: '座位',
+                type: 'line',
+                smooth: true,
+                symbol: 'circle',
+                symbolSize: 5,
+                showSymbol: false,
+                lineStyle: {
+                    normal: {
+                        width: 1
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgba(255, 69, 0, 1)'
+                        }, {
+                            offset: 0.8,
+                            color: 'rgba(255, 69, 0, 0.3)'
+                        }], false),
+                        shadowColor: 'rgba(0, 0, 0, 0.1)',
+                        shadowBlur: 10
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: 'rgb(255,69,0)',
+                        borderColor: 'rgba(255,69,0,0.2)',
+                        borderWidth: 12
+
+                    }
+                },
+                data: daydata.seat_times
+            }, {
+                name: '研修间',
+                type: 'line',
+                smooth: true,
+                symbol: 'circle',
+                symbolSize: 5,
+                showSymbol: false,
+                lineStyle: {
+                    normal: {
+                        width: 1
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgba(0, 128, 128, 1)'
+                        }, {
+                            offset: 0.8,
+                            color: 'rgba(0, 128, 128, 0.3)'
+                        }], false),
+                        shadowColor: 'rgba(0, 0, 0, 0.1)',
+                        shadowBlur: 10
+                    }
+                },
+                itemStyle: {
+                    normal: {
+
+                        color: 'rgb(0,128,128)',
+                        borderColor: 'rgba(0,128,128,0.2)',
+                        borderWidth: 12
+                    }
+                },
+                data: daydata.croom_times
+            }, ]
+        };
+        day_count.setOption(day_count_option);
+        if(chartid=="largeday"){
+            day_count.setOption({
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    containLabel: true
+                },
+            });
+        }
+        else{
+            day_count.setOption({
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom:'15%',
+                    containLabel: true
+                },
+            });
+        }
+    }
+    function monthchart(chartid) {
+        var month_count = echarts.init(document.getElementById(chartid));
+        var  month_count_option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    lineStyle: {
+                        color: '#57617B'
+                    }
+                }
+            },
+            legend: {
+                icon: 'rect',
+                itemWidth: 14,
+                itemHeight: 5,
+                itemGap: 13,
+                data: ['电子阅览室', '座位', '研修间'],
+                right: '10%',
+                textStyle: {
+                    fontSize: 12,
+                    color: '#57617B'
+                }
+            },
+            toolbox: {
+                feature: {
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            xAxis: [{
+                type: 'category',
+                boundaryGap: false,
+                axisLine: {
+                    lineStyle: {
+                        color: '#57617B'
+                    }
+                },
+                data: monthdata.month
+            }],
+            yAxis: [{
+                type: 'value',
+                name: '人次',
+                axisTick: {
+                    show: false
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#57617B'
+                    }
+                },
+                axisLabel: {
+                    margin: 10,
+                    textStyle: {
+                        fontSize: 14
+                    }
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: '#57617B'
+                    }
+                }
+            }],
+            dataZoom: [{
+                type: 'inside',
+                start: 0,
+                end: 30
+            }, {
+                start: 0,
+                end: 30,
+                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                handleSize: '80%',
+                handleStyle: {
+                    color: '#fff',
+                    shadowBlur: 3,
+                    shadowColor: 'rgba(0, 0, 0, 0.6)',
+                    shadowOffsetX: 2,
+                    shadowOffsetY: 2
+                }
+            }],
+            series: [{
+                name: '电子阅览室',
+                type: 'line',
+                smooth: true,
+                symbol: 'circle',
+                symbolSize: 5,
+                showSymbol: false,
+                lineStyle: {
+                    normal: {
+                        width: 1
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgba(17, 168, 171, 1)'
+                        }, {
+                            offset: 0.8,
+                            color: 'rgba(17, 168, 171, 0.3)'
+                        }], false),
+                        shadowColor: 'rgba(0, 0, 0, 0.1)',
+                        shadowBlur: 10
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: 'rgb(17,168,171)',
+                        borderColor: 'rgba(17,168,171,0.27)',
+                        borderWidth: 12
+
+                    }
+                },
+                data: monthdata.eread_times
+            }, {
+                name: '座位',
+                type: 'line',
+                smooth: true,
+                symbol: 'circle',
+                symbolSize: 5,
+                showSymbol: false,
+                lineStyle: {
+                    normal: {
+                        width: 1
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgba(255, 69, 0, 1)'
+                        }, {
+                            offset: 0.8,
+                            color: 'rgba(255, 69, 0, 0.3)'
+                        }], false),
+                        shadowColor: 'rgba(0, 0, 0, 0.1)',
+                        shadowBlur: 10
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: 'rgb(255,69,0)',
+                        borderColor: 'rgba(255,69,0,0.2)',
+                        borderWidth: 12
+
+                    }
+                },
+                data: monthdata.seat_times
+            }, {
+                name: '研修间',
+                type: 'line',
+                smooth: true,
+                symbol: 'circle',
+                symbolSize: 5,
+                showSymbol: false,
+                lineStyle: {
+                    normal: {
+                        width: 1
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgba(0, 128, 128, 1)'
+                        }, {
+                            offset: 0.8,
+                            color: 'rgba(0, 128, 128, 0.3)'
+                        }], false),
+                        shadowColor: 'rgba(0, 0, 0, 0.1)',
+                        shadowBlur: 10
+                    }
+                },
+                itemStyle: {
+                    normal: {
+
+                        color: 'rgb(0,128,128)',
+                        borderColor: 'rgba(0,128,128,0.2)',
+                        borderWidth: 12
+                    }
+                },
+                data: monthdata.croom_times
+            }, ]
+        };
+        month_count.setOption(month_count_option);
+        if(chartid=="largemonth"){
+            month_count.setOption({
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    containLabel: true
+                },
+            });
+        }
+        else{
+            month_count.setOption({
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom:'15%',
+                    containLabel: true
+                },
+            });
+        }
+    }
+    $(function(){
+        $.ajax({
+            type:"get",
+            contentType: 'application/json',
+            url:"../../ictimes/byyear",
+            async:false,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                yeardata=data;
+            }
+        });
+        $.ajax({
+            type:"get",
+            contentType: 'application/json',
+            url:"../../ictimes/bymonth",
+            async:false,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                monthdata=data;
+            }
+        });
+        $.ajax({
+            type:"get",
+            contentType: 'application/json',
+            url:"../../ictimes/byday",
+            async:false,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                daydata=data;
+            }
+        });
+        yearchart("year_count");
+        monthchart("month_count");
+        daychart("day_count");
+        $(".remove").click(function(){
+            $(".mask").css("display","none");
+        });
+    });
+    function getlarge_year() {
+        $(".chart_title p").text("年-IC空间数据统计");
+        $(".mask").css("display","block");
+        $("#largemonth").css("display","none");
+        $("#largeday").css("display","none");
+        $("#largeyear").css("display","block");
+        yearchart("largeyear");
+    }
+    function getlarge_month() {
+        $(".chart_title p").text("月-IC空间数据统计");
+        $(".mask").css("display","block");
+        $("#largemonth").css("display","block");
+        $("#largeday").css("display","none");
+        $("#largeyear").css("display","none");
+        monthchart("largemonth");
+    }
+    function getlarge_day() {
+        $(".chart_title p").text("日-IC空间数据统计");
+        $(".mask").css("display","block");
+        $("#largemonth").css("display","none");
+        $("#largeday").css("display","block");
+        $("#largeyear").css("display","none");
+        daychart("largeday");
+    }
+</script>
+<body class="nav-md">
+<div class="container body">
+    <div class="main_container">
+        <div class="col-md-3 left_col">
+            <div class="left_col scroll-view">
+                <div class="navbar nav_title" style="border: 0;">
+                    <a href="index.html" class="site_title"><span>杭州联创信息</span></a>
+                </div>
+                <div class="clearfix"></div>
+                <br />
+
+                <!-- sidebar menu -->
+                <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                    <div class="menu_section">
+                        <h3>图书馆资源利用分析</h3>
+                        <ul class="nav side-menu">
+                            <li><a><i class="fa fa-home"></i> 借阅数据分析 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="index.html">图书馆借阅统计</a></li>
+                                    <li><a href="sml_book_academy_times.html">学院借还分析</a></li>
+                                    <li><a href="sml_book_sex_times.html">性别图书种类分析</a></li>
+                                    <li><a href="sml_book_publisher_times.html">借阅出版社排名</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-edit"></i> 进馆数据分析 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="sml_gctrl_times.html">进馆数据统计</a></li>
+                                    <li><a href="sml_gctrl_day_times.html">每日进馆人数统计</a></li>
+                                    <li><a href="sml_gctrl_identity_times.html">进馆人员分析</a></li>
+                                    <li><a href="sml_gctrl_academy_times.html">进馆学院专业分析</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-desktop"></i> IC空间数据分析 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="sml_ic_times.html">IC空间数据统计</a></li>
+                                    <li><a href="sml_ic_amount_times.html">IC空间使用量分析</a></li>
+                                    <li><a href="sml_ic_usetime_times.html">IC空间使用时长统计</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-table"></i> 自主打印复印分析 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="sml_printcs_times.html">自主文印数据统计</a></li>
+                                    <li><a href="sml_printcs_pagetype_times.html">纸张类型统计</a></li>
+                                    <li><a href="sml_printcs_printtype_times.htmll">文印类型统计</a></li>
+                                    <li><a href="sml_printcs_location_times.html">文印地点统计</a></li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="menu_section">
+                        <h3>图书馆资源推荐</h3>
+                        <ul class="nav side-menu">
+                            <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="e_commerce.html">E-commerce</a></li>
+                                    <li><a href="projects.html">Projects</a></li>
+                                    <li><a href="project_detail.html">Project Detail</a></li>
+                                    <li><a href="contacts.html">Contacts</a></li>
+                                    <li><a href="profile.html">Profile</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="page_403.html">403 Error</a></li>
+                                    <li><a href="page_404.html">404 Error</a></li>
+                                    <li><a href="page_500.html">500 Error</a></li>
+                                    <li><a href="plain_page.html">Plain Page</a></li>
+                                    <li><a href="login.html">Login Page</a></li>
+                                    <li><a href="pricing_tables.html">Pricing Tables</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="#level1_1">Level One</a>
+                                    <li><a>Level One<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li class="sub_menu"><a href="level2.html">Level Two</a>
+                                            </li>
+                                            <li><a href="#level2_1">Level Two</a>
+                                            </li>
+                                            <li><a href="#level2_2">Level Two</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#level1_2">Level One</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+            <div class="nav_menu">
+                <nav>
+                    <div class="nav toggle">
+                        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                    </div>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="">
+                            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <img src="images/img.jpg" alt="">John Doe
+                                <span class=" fa fa-angle-down"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                <li><a href="javascript:;"> Profile</a></li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <span class="badge bg-red pull-right">50%</span>
+                                        <span>Settings</span>
+                                    </a>
+                                </li>
+                                <li><a href="javascript:;">Help</a></li>
+                                <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                            </ul>
+                        </li>
+
+                        <li role="presentation" class="dropdown">
+                            <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-envelope-o"></i>
+                                <span class="badge bg-green">6</span>
+                            </a>
+                            <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                                <li>
+                                    <a>
+                                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div class="text-center">
+                                        <a>
+                                            <strong>See All Alerts</strong>
+                                            <i class="fa fa-angle-right"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="clearfix"></div>
+            <div class="row" style="height: 350px;">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>年-IC空间数据统计</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="" href="javascript:getlarge_year()"><i class="fa icon-resize-full"></i></a>
+                                </li>
+                                <!-- <li class="dropdown">
+                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                     <ul class="dropdown-menu" role="menu">
+                                         <li><a href="javascript:getlarge_year()">Settings 1</a>
+                                         </li>
+                                         <li><a href="#">Settings 2</a>
+                                         </li>
+                                     </ul>
+                                 </li>-->
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div id="year_count" style="height:280px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>月-IC空间数据统计</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="" href="javascript:getlarge_month()"><i class="fa icon-resize-full"></i></a>
+                                </li>
+                                <!--<li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Settings 1</a>
+                                        </li>
+                                        <li><a href="#">Settings 2</a>
+                                        </li>
+                                    </ul>
+                                </li>-->
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div id="month_count" style="height:280px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row"  style="height:  350px;" >
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>日-IC空间数据统计</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="" href="javascript:getlarge_day()"><i class="fa icon-resize-full"></i></a>
+                                </li>
+                                <!--<li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Settings 1</a>
+                                        </li>
+                                        <li><a href="#">Settings 2</a>
+                                        </li>
+                                    </ul>
+                                </li>-->
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div id="day_count" style="height:250px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mask" style="display: none">
+    <div class="bigger-wrap">
+        <div class="remove">
+            <i class="icon-remove"></i>
+        </div>
+        <div class="chart_title">
+            <p></p>
+        </div>
+        <div id="largeyear" class="large_chart"  style="display: none"></div>
+        <div id="largemonth" class="large_chart"  style="display: none"></div>
+        <div id="largeday" class="large_chart"  style="display: none"></div>
+
+    </div>
+</div>
+<!--<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('test01'));
+
+    // 指定图表的配置项和数据
+    var option = {
+        tooltip: {
+            trigger: 'axis'
+        },
+        toolbox: {
+            right:50,
+            feature: {
+                dataView: {
+                    show: true,
+                    readOnly: false
+                },
+                restore: {
+                    show: true
+                },
+                saveAsImage: {
+                    show: true
+                }
+            }
+        },
+        grid: {
+            containLabel: true,
+            width:'80%'
+        },
+        legend: {
+            data: ['增速','销量']
+        },
+        xAxis: [{
+            type: 'category',
+            axisTick: {
+                alignWithLabel: true
+            },
+            data: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
+        }],
+        yAxis: [{
+            type: 'value',
+            name: '增速',
+            min: 0,
+            max: 50,
+            position: 'right',
+            axisLabel: {
+                formatter: '{value} %'
+            }
+        }, {
+            type: 'value',
+            name: '销量',
+            min: 0,
+            max: 3000,
+            position: 'left'
+        }],
+        series: [{
+            name: '增速',
+            type: 'line',
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'top',
+                }
+            },
+            lineStyle: {
+                normal: {
+                    width: 3,
+                    shadowColor: 'rgba(0,0,0,0.4)',
+                    shadowBlur: 10,
+                    shadowOffsetY: 10
+                }
+            },
+            data: [1,13,37,35,15,13,25,21,6,45,32,2,4,13,6,4,11]
+        }, {
+            name: '销量',
+            type: 'bar',
+            yAxisIndex: 1,
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'top'
+                }
+            },
+            data: [209,236,325,439,507,576,722,879,938,1364,1806,1851,1931,2198,2349,2460,2735]
+        }]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>-->
+<!-- Bootstrap -->
+<script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="../vendors/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="../vendors/nprogress/nprogress.js"></script>
+<!-- Chart.js -->
+<script src="../vendors/Chart.js/dist/Chart.min.js"></script>
+<!-- gauge.js -->
+<script src="../vendors/gauge.js/dist/gauge.min.js"></script>
+<!-- bootstrap-progressbar -->
+<script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<!-- iCheck -->
+<script src="../vendors/iCheck/icheck.min.js"></script>
+<!-- Skycons -->
+<script src="../vendors/skycons/skycons.js"></script>
+<!-- Flot -->
+<script src="../vendors/Flot/jquery.flot.js"></script>
+<script src="../vendors/Flot/jquery.flot.pie.js"></script>
+<script src="../vendors/Flot/jquery.flot.time.js"></script>
+<script src="../vendors/Flot/jquery.flot.stack.js"></script>
+<script src="../vendors/Flot/jquery.flot.resize.js"></script>
+<!-- Flot plugins -->
+<script src="../vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+<script src="../vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+<script src="../vendors/flot.curvedlines/curvedLines.js"></script>
+<!-- DateJS -->
+<script src="../vendors/DateJS/build/date.js"></script>
+<!-- JQVMap -->
+<script src="../vendors/jqvmap/dist/jquery.vmap.js"></script>
+<script src="../vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+<script src="../vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+<!-- bootstrap-daterangepicker -->
+<script src="../vendors/moment/min/moment.min.js"></script>
+<script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+<!-- ECharts -->
+<!--<script src="../vendors/echarts/dist/echarts.min.js"></script>-->
+<!--<script src="../vendors/echarts/map/js/world.js"></script>-->
+
+<!-- Custom Theme Scripts -->
+<script src="../build/js/custom.min.js"></script>
 
 </body>
 </html>

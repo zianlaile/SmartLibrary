@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smartlibrary.dao.printTimesDao">
+    <select id="getPrintTimesByyear" resultType="Print_Times">
+        SELECT `year`,SUM(print_times) AS print_times
+        FROM zz_time_month_count
+        GROUP BY `year`
+        ORDER BY `year`
+    </select>
+    <select id="getPrintTimesBymonth" resultType="Print_Times">
+        SELECT `year`,`month`,SUM(print_times) AS print_times
+        FROM zz_time_month_count
+        GROUP BY `year`,`month`
+        ORDER BY `year`,`month`
+    </select>
+    <select id="getPrintTimesByday" resultType="Print_Times">
+        SELECT `year`,`month`,`day`,SUM(print_times) AS print_times
+        FROM zz_time_day_count
+        GROUP BY `year`,`month`,`day`
+        ORDER BY `year`,`month`,`day`
+    </select>
+</mapper>

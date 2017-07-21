@@ -1,10 +1,1319 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Gentelella Alela! | </title>
+
+    <!-- Bootstrap -->
+    <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+
+    <!-- bootstrap-progressbar -->
+    <link href="../vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <!-- JQVMap -->
+    <link href="../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
+    <!-- bootstrap-daterangepicker -->
+    <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="../build/css/custom.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/font-awesome-ie7.min.css" rel="stylesheet">
+    <link href="css/large-chart.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="../vendors/jquery/dist/jquery.min.js"></script>
+    <!-- 引入 ECharts 文件 -->
+    <script src="../../js/echarts.min.js"></script>
 </head>
-<body>
+<!--//getlargeyear_identity_count-->
+<script type="application/javascript">
+    function getlargeyear_identity_count(){
+        $(".chart_title p").text("每年进馆人员身份分析");
+        $(".mask").css("display","block");
+        $("#largesex_academy_count").css("display","none");
+        $("#largeyear_identity_count").css("display","block");
+        var year_identity_count = echarts.init(document.getElementById('largeyear_identity_count'));
+        // 使用刚指定的配置项和数据显示图表。
+        // 异步加载数据
+        $.get('../../gctrl/ByIdentity').done(function (resultdata) {
+            // 填入数据
+            //console.log(data);
+            var academy=resultdata.academy;
+            var yearlist=resultdata.year;
+            var Undergraduate_times=resultdata.data[0];
+            var Graduate_times=resultdata.data[1];
+            var Teacher_times=resultdata.data[2];
+            var Other_times=resultdata.data[3];
+            var dataMap = {};
+            function dataFormatter(academy,yearlist,obj) {
+                var pList =academy ;
+                var temp;
+                for (var k = 0; k <yearlist.length; k++) {
+                    var year=yearlist[k];
+                    var max = 0;
+                    var sum = 0;
+                    temp = obj[year];
+                    //console.log(temp);
+                    for (var i = 0, l = temp.length; i < l; i++) {
+                        max = Math.max(max, temp[i]);
+                        sum += temp[i];
+                        obj[year][i] = {
+                            name : pList[i],
+                            value : temp[i]
+                        }
+                    }
+                    obj[year + 'max'] = Math.floor(max / 100) * 100;
+                    obj[year+ 'sum'] = sum;
+                }
+                return obj;
+            }
+            dataMap.dataPI = dataFormatter(academy,yearlist,Undergraduate_times);
+            dataMap.dataSI = dataFormatter(academy,yearlist,Graduate_times);
+            dataMap.dataTI = dataFormatter(academy,yearlist,Teacher_times);
+            dataMap.dataGDP = dataFormatter(academy,yearlist,Other_times);
+            //console.log(dataMap);
+            var options=[];
+            for(var i=0; i<yearlist.length;i++){
+                var option={
+                    tooltip: {},
+                    legend: {
+                        x: 'right',
+                        data: ['大学生', '研究生', '教师', '其他']
+
+                    },
+                    calculable : true,
+                    grid: {
+                        top: 30,
+                        bottom:100
+                    },
+                    xAxis: [
+                        {
+                            'type':'category',
+                            'axisLabel':{ rotate:20,'interval':0},
+                            'data':academy,
+                            splitLine: {show: false}
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            name: '人次'
+                        }
+                    ],
+                    series: [
+                        {name: '大学生',
+                            type: 'bar',
+                            data: dataMap.dataPI[yearlist[i]]
+                        },
+                        {name: '研究生',
+                            type: 'bar',
+                            data: dataMap.dataSI[yearlist[i]]
+                        },
+                        {
+                            name: '教师',
+                            type: 'bar',
+                            data: dataMap.dataTI[yearlist[i]]
+                        },
+                        {
+                            name: '其他',
+                            type: 'bar',
+                            data: dataMap.dataGDP[yearlist[i]]
+                        },
+                        {
+                            name: '总分布',
+                            type: 'pie',
+                            center: ['90%', '35%'],
+                            radius: '28%',
+                            data: [
+                                {name: '大学生', value: dataMap.dataPI[yearlist[i]+'sum']},
+                                {name: '研究生', value: dataMap.dataSI[yearlist[i]+'sum']},
+                                {name: '教师', value: dataMap.dataTI[yearlist[i]+'sum']},
+                                {name: '其他', value: dataMap.dataGDP[yearlist[i]+'sum']}
+                            ]
+                        }
+                    ]
+                }
+                options.push(option);
+            }
+            var year_identity_count_option={
+                timeline: {
+                    // y: 0,
+                    axisType: 'category',
+                    // realtime: false,
+                    // loop: false,
+                    autoPlay: true,
+                    // currentIndex: 2,
+                    playInterval: 2000,
+                    // controlStyle: {
+                    //     position: 'left'
+                    // },
+                    data:yearlist ,
+                    label: {
+                        formatter : function(s) {
+                            return (new Date(s)).getFullYear();
+                        }
+                    }
+                },
+                'options':options
+            }
+
+
+            year_identity_count.setOption(year_identity_count_option);
+        });
+    }
+    $(function(){
+        $(".remove").click(function(){
+            $(".mask").css("display","none");
+        });
+    });
+</script>
+
+
+<!--//getlargesex_academy_count-->
+<script type="application/javascript">
+    function getlargesex_academy_count(){
+        $(".chart_title p").text("进馆男女比例分析");
+        $(".mask").css("display","block");
+        $("#largeyear_identity_count").css("display","none");
+        $("#largesex_academy_count").css("display","block");
+        var sex_academy_count = echarts.init(document.getElementById('largesex_academy_count'));
+        // 异步加载数据
+        $.get('../../gctrl/BySexAndAcademy').done(function (returndata) {
+            // 填入数据
+
+            var myData =returndata.academylist;
+            var databeast = returndata.manAndwoman[0];
+            var databeauty = returndata.manAndwoman[1];
+            var timeLineData = returndata.onedaylist;
+
+            var option = {
+                baseOption: {
+                    backgroundColor: '#000',
+                    timeline: {
+                        show: true,
+                        axisType: 'category',
+                        tooltip: {
+                            show: true,
+                            formatter: function(params) {
+                                console.log(params);
+                                return params.name + '数据统计';
+                            }
+                        },
+                        autoPlay: true,
+                        currentIndex: 6,
+                        playInterval: 1000,
+                        label: {
+                            normal: {
+                                show: true,
+                                interval: 'auto',
+                                formatter: '{value}日',
+                            },
+                        },
+                        data: [],
+                    },
+                    legend: {
+                        data: ['男生', '女生'],
+                        top: 4,
+                        right: '20%',
+                        textStyle: {
+                            color: '#fff',
+                        },
+                    },
+                    tooltip: {
+                        show: true,
+                        trigger: 'axis',
+                        formatter: '{b}<br/>{a}: {c}人',
+                        axisPointer: {
+                            type: 'shadow',
+                        }
+                    },
+
+                    toolbox:{
+                        right:20,
+                        feature:{
+                            saveAsImage: {},
+                            restore: {},
+                            dataView: {},
+                            dataZoom: {},
+                            magicType: {
+                                type:['line','bar']
+                            },
+                            // brush: {},
+                        }
+                    },
+
+                    grid: [{
+                        show: false,
+                        left: '4%',
+                        top: 60,
+                        bottom: 60,
+                        containLabel: true,
+                        width: '46%',
+                    }, {
+                        show: false,
+                        left: '50.5%',
+                        top: 80,
+                        bottom: 60,
+                        width: '0%',
+                    }, {
+                        show: false,
+                        right: '4%',
+                        top: 60,
+                        bottom: 60,
+                        containLabel: true,
+                        width: '46%',
+                    }, ],
+
+                    xAxis: [
+                        {
+                            type: 'value',
+                            inverse: true,
+                            axisLine: {
+                                show: false,
+                            },
+                            axisTick: {
+                                show: false,
+                            },
+                            position: 'top',
+                            axisLabel: {
+                                show: true,
+                                textStyle: {
+                                    color: '#B2B2B2',
+                                    fontSize: 12,
+                                },
+                            },
+                            splitLine: {
+                                show: true,
+                                lineStyle: {
+                                    color: '#1F2022',
+                                    width: 1,
+                                    type: 'solid',
+                                },
+                            },
+                        }, {
+                            gridIndex: 1,
+                            show: false,
+                        }, {
+                            gridIndex: 2,
+                            type: 'value',
+                            axisLine: {
+                                show: false,
+                            },
+                            axisTick: {
+                                show: false,
+                            },
+                            position: 'top',
+                            axisLabel: {
+                                show: true,
+                                textStyle: {
+                                    color: '#B2B2B2',
+                                    fontSize: 12,
+                                },
+                            },
+                            splitLine: {
+                                show: true,
+                                lineStyle: {
+                                    color: '#1F2022',
+                                    width: 1,
+                                    type: 'solid',
+                                },
+                            },
+                        }, ],
+                    yAxis: [{
+                        type: 'category',
+                        inverse: true,
+                        position: 'right',
+                        axisLine: {
+                            show: false
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                        axisLabel: {
+                            show: false,
+                            margin: 8,
+                            textStyle: {
+                                color: '#9D9EA0',
+                                fontSize: 12,
+                            },
+
+                        },
+                        data: myData,
+                    }, {
+                        gridIndex: 1,
+                        type: 'category',
+                        inverse: true,
+                        position: 'left',
+                        axisLine: {
+                            show: false
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                        axisLabel: {
+                            show: true,
+                            textStyle: {
+                                color: '#9D9EA0',
+                                fontSize: 12,
+                            },
+
+                        },
+                        data: myData.map(function(value) {
+                            return {
+                                value: value,
+                                textStyle: {
+                                    align: 'center',
+                                }
+                            }
+                        }),
+                    }, {
+                        gridIndex: 2,
+                        type: 'category',
+                        inverse: true,
+                        position: 'left',
+                        axisLine: {
+                            show: false
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                        axisLabel: {
+                            show: false,
+                            textStyle: {
+                                color: '#9D9EA0',
+                                fontSize: 12,
+                            },
+
+                        },
+                        data: myData,
+                    }, ],
+                    series: [],
+
+                },
+
+                options: [],
+
+
+            };
+
+            for (var i = 0; i < timeLineData.length; i++) {
+                option.baseOption.timeline.data.push(timeLineData[i]);
+                option.options.push({
+                    series: [{
+                        name: '男生',
+                        type: 'bar',
+                        barGap: 20,
+                        barWidth: 20,
+                        label: {
+                            normal: {
+                                show: false,
+                            },
+                            emphasis: {
+                                show: true,
+                                position: 'left',
+                                offset: [0, 0],
+                                textStyle: {
+                                    color: '#fff',
+                                    fontSize: 14,
+                                },
+                            },
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#659F83',
+                            },
+                            emphasis: {
+                                color: '#08C7AE',
+                            },
+                        },
+                        data: databeast[timeLineData[i]],
+                    },
+
+
+                        {
+                            name: '女生',
+                            type: 'bar',
+                            barGap: 20,
+                            barWidth: 20,
+                            xAxisIndex: 2,
+                            yAxisIndex: 2,
+                            label: {
+                                normal: {
+                                    show: false,
+                                },
+                                emphasis: {
+                                    show: true,
+                                    position: 'right',
+                                    offset: [0, 0],
+                                    textStyle: {
+                                        color: '#fff',
+                                        fontSize: 14,
+                                    },
+                                },
+                            },
+                            itemStyle: {
+                                normal: {
+                                    color: '#F68989',
+                                },
+                                emphasis: {
+                                    color: '#F94646',
+                                },
+                            },
+                            data: databeauty[timeLineData[i]],
+                        }
+                    ]
+                });
+            }
+            sex_academy_count.setOption(option);
+        });
+
+    }
+
+</script>
+
+
+<!--//getlarge_day()-->
+<script type="application/javascript">
+    function getlarge_day(){
+        $(".chart_title p").text("日-借阅统计");
+        $(".mask").css("display","block");
+        $("#largeyear").css("display","none");
+        $("#largemonth").css("display","none");
+        $("#largeday").css("display","block");
+        var day_count = echarts.init(document.getElementById('largeday'));
+        var  day_count_option = {
+
+            tooltip: {
+                trigger: 'axis',
+                position: function (pt) {
+                    return [pt[0], '10%'];
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            legend: {
+
+                data:['借阅每日统计']
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: []
+            },
+            yAxis: {
+                type: 'value',
+                boundaryGap: [0, '100%']
+            },
+            dataZoom: [{
+                type: 'inside',
+                start: 60,
+                end: 100
+            }, {
+                start: 0,
+                end: 10,
+                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                handleSize: '80%',
+                handleStyle: {
+                    color: '#fff',
+                    shadowBlur: 3,
+                    shadowColor: 'rgba(0, 0, 0, 0.6)',
+                    shadowOffsetX: 2,
+                    shadowOffsetY: 2
+                }
+            }],
+            series: [
+                {
+                    name:'借阅每日统计',
+                    type:'line',
+                    smooth:true,
+                    symbol: 'none',
+                    sampling: 'average',
+                    itemStyle: {
+                        normal: {
+                            color: 'rgb(255, 70, 131)'
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgb(255, 158, 68)'
+                            }, {
+                                offset: 1,
+                                color: 'rgb(255, 70, 131)'
+                            }])
+                        }
+                    },
+                    data: []
+                }
+            ]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        day_count.setOption(day_count_option);
+        // 异步加载数据
+        $.get('../../bookLend/ByDay').done(function (data) {
+            // 填入数据
+            day_count.setOption({
+                xAxis: {
+                    data: data.times
+                },
+                series: [{
+                    // 根据名字对应到相应的系列
+                    name: '借阅每日统计',
+                    data: data.lend_times
+                }]
+            });
+        });
+    }
+
+</script>
+<body class="nav-md">
+<div class="container body">
+    <div class="main_container">
+        <div class="col-md-3 left_col">
+            <div class="left_col scroll-view">
+                <div class="navbar nav_title" style="border: 0;">
+                    <a href="index.html" class="site_title"><span>杭州联创信息</span></a>
+                </div>
+                <div class="clearfix"></div>
+                <br />
+
+                <!-- sidebar menu -->
+                <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                    <div class="menu_section">
+                        <h3>图书馆资源利用分析</h3>
+                        <ul class="nav side-menu">
+                            <li><a><i class="fa fa-home"></i> 借阅数据分析 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="index.html">图书馆借阅统计</a></li>
+                                    <li><a href="sml_book_academy_times.html">学院借还分析</a></li>
+                                    <li><a href="sml_book_sex_times.html">性别图书种类分析</a></li>
+                                    <li><a href="sml_book_publisher_times.html">借阅出版社排名</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-edit"></i> 进馆数据分析 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="sml_gctrl_times.html">进馆数据统计</a></li>
+                                    <li><a href="sml_gctrl_day_times.html">每日进馆人数统计</a></li>
+                                    <li><a href="sml_gctrl_identity_times.html">进馆人员分析</a></li>
+                                    <li><a href="sml_gctrl_academy_times.html">进馆学院专业分析</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-desktop"></i> IC空间数据分析 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="sml_ic_times.html">IC空间数据统计</a></li>
+                                    <li><a href="sml_ic_amount_times.html">IC空间使用量分析</a></li>
+                                    <li><a href="sml_ic_usetime_times.html">IC空间使用时长统计</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-table"></i> 自主打印复印分析 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="sml_printcs_times.html">自主文印数据统计</a></li>
+                                    <li><a href="sml_printcs_pagetype_times.html">纸张类型统计</a></li>
+                                    <li><a href="sml_printcs_printtype_times.htmll">文印类型统计</a></li>
+                                    <li><a href="sml_printcs_location_times.html">文印地点统计</a></li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="menu_section">
+                        <h3>图书馆资源推荐</h3>
+                        <ul class="nav side-menu">
+                            <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="e_commerce.html">E-commerce</a></li>
+                                    <li><a href="projects.html">Projects</a></li>
+                                    <li><a href="project_detail.html">Project Detail</a></li>
+                                    <li><a href="contacts.html">Contacts</a></li>
+                                    <li><a href="profile.html">Profile</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="page_403.html">403 Error</a></li>
+                                    <li><a href="page_404.html">404 Error</a></li>
+                                    <li><a href="page_500.html">500 Error</a></li>
+                                    <li><a href="plain_page.html">Plain Page</a></li>
+                                    <li><a href="login.html">Login Page</a></li>
+                                    <li><a href="pricing_tables.html">Pricing Tables</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="#level1_1">Level One</a>
+                                    <li><a>Level One<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li class="sub_menu"><a href="level2.html">Level Two</a>
+                                            </li>
+                                            <li><a href="#level2_1">Level Two</a>
+                                            </li>
+                                            <li><a href="#level2_2">Level Two</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#level1_2">Level One</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+            <div class="nav_menu">
+                <nav>
+                    <div class="nav toggle">
+                        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                    </div>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="">
+                            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <img src="images/img.jpg" alt="">John Doe
+                                <span class=" fa fa-angle-down"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                <li><a href="javascript:;"> Profile</a></li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <span class="badge bg-red pull-right">50%</span>
+                                        <span>Settings</span>
+                                    </a>
+                                </li>
+                                <li><a href="javascript:;">Help</a></li>
+                                <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                            </ul>
+                        </li>
+
+                        <li role="presentation" class="dropdown">
+                            <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-envelope-o"></i>
+                                <span class="badge bg-green">6</span>
+                            </a>
+                            <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                                <li>
+                                    <a>
+                                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div class="text-center">
+                                        <a>
+                                            <strong>See All Alerts</strong>
+                                            <i class="fa fa-angle-right"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="clearfix"></div>
+            <div class="row" style="height: 350px;">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>每年进馆人员身份分析</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="" href="javascript:getlargeyear_identity_count()"><i class="fa icon-resize-full"></i></a>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div id="year_identity_count" style="height:280px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    // 基于月统计
+                    var year_identity_count = echarts.init(document.getElementById('year_identity_count'));
+                    // 使用刚指定的配置项和数据显示图表。
+                    // 异步加载数据
+                    $.get('../../gctrl/ByIdentity').done(function (resultdata) {
+                        // 填入数据
+                        //console.log(data);
+                        var academy=resultdata.academy;
+                        var yearlist=resultdata.year;
+                        var Undergraduate_times=resultdata.data[0];
+                        var Graduate_times=resultdata.data[1];
+                        var Teacher_times=resultdata.data[2];
+                        var Other_times=resultdata.data[3];
+                        var dataMap = {};
+                        function dataFormatter(academy,yearlist,obj) {
+                            var pList =academy ;
+                            var temp;
+                            for (var k = 0; k <yearlist.length; k++) {
+                                var year=yearlist[k];
+                                var max = 0;
+                                var sum = 0;
+                                temp = obj[year];
+                                //console.log(temp);
+                                for (var i = 0, l = temp.length; i < l; i++) {
+                                    max = Math.max(max, temp[i]);
+                                    sum += temp[i];
+                                    obj[year][i] = {
+                                        name : pList[i],
+                                        value : temp[i]
+                                    }
+                                }
+                                obj[year + 'max'] = Math.floor(max / 100) * 100;
+                                obj[year+ 'sum'] = sum;
+                            }
+                            return obj;
+                        }
+                        dataMap.dataPI = dataFormatter(academy,yearlist,Undergraduate_times);
+                        dataMap.dataSI = dataFormatter(academy,yearlist,Graduate_times);
+                        dataMap.dataTI = dataFormatter(academy,yearlist,Teacher_times);
+                        dataMap.dataGDP = dataFormatter(academy,yearlist,Other_times);
+                        console.log(dataMap);
+
+
+                        var options=[];
+                        for(var i=0; i<yearlist.length;i++){
+                            var option={
+                                tooltip: {},
+                                legend: {
+                                    x: 'right',
+                                    data: ['大学生', '研究生', '教师', '其他']
+
+                                },
+                                calculable : true,
+                                grid: {
+                                    top: 80,
+                                    bottom:100
+                                },
+                                xAxis: [
+                                    {
+                                        'type':'category',
+                                        'axisLabel':{ rotate:20,'interval':0},
+                                        'data':academy,
+                                        splitLine: {show: false}
+                                    }
+                                ],
+                                yAxis: [
+                                    {
+                                        type: 'value',
+                                        name: '人次'
+                                    }
+                                ],
+                                series: [
+                                    {name: '大学生',
+                                        type: 'bar',
+                                        data: dataMap.dataPI[yearlist[i]]
+                                    },
+                                    {name: '研究生',
+                                        type: 'bar',
+                                        data: dataMap.dataSI[yearlist[i]]
+                                    },
+                                    {
+                                        name: '教师',
+                                        type: 'bar',
+                                        data: dataMap.dataTI[yearlist[i]]
+                                    },
+                                    {
+                                        name: '其他',
+                                        type: 'bar',
+                                        data: dataMap.dataGDP[yearlist[i]]
+                                    },
+                                    {
+                                        name: '总分布',
+                                        type: 'pie',
+                                        center: ['90%', '35%'],
+                                        radius: '28%',
+                                        data: [
+                                            {name: '大学生', value: dataMap.dataPI[yearlist[i]+'sum']},
+                                            {name: '研究生', value: dataMap.dataSI[yearlist[i]+'sum']},
+                                            {name: '教师', value: dataMap.dataTI[yearlist[i]+'sum']},
+                                            {name: '其他', value: dataMap.dataGDP[yearlist[i]+'sum']}
+                                        ]
+                                    }
+                                ]
+                            }
+                            options.push(option);
+                        }
+                        var year_identity_count_option={
+                            timeline: {
+                                // y: 0,
+                                axisType: 'category',
+                                // realtime: false,
+                                // loop: false,
+                                autoPlay: true,
+                                // currentIndex: 2,
+                                playInterval: 2000,
+                                // controlStyle: {
+                                //     position: 'left'
+                                // },
+                                data:yearlist ,
+                                label: {
+                                    formatter : function(s) {
+                                        return (new Date(s)).getFullYear();
+                                    }
+                                }
+                            },
+                            'options':options
+                        }
+
+
+                        year_identity_count.setOption(year_identity_count_option);
+                    });
+                </script>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row"  style="height:  350px;" >
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>进馆男女比例分析</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="" href="javascript:getlargesex_academy_count()"><i class="fa icon-resize-full"></i></a>
+                                </li>
+
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div id="sex_academy_count" style="height:250px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    //
+                    var sex_academy_count = echarts.init(document.getElementById('sex_academy_count'));
+                    // 异步加载数据
+                    $.get('../../gctrl/BySexAndAcademy').done(function (returndata) {
+                        // 填入数据
+
+                        var myData =returndata.academylist;
+                        var databeast = returndata.manAndwoman[0];
+                        var databeauty = returndata.manAndwoman[1];
+                        var timeLineData = returndata.onedaylist;
+
+                        var option = {
+                            baseOption: {
+                                backgroundColor: '#000',
+                                timeline: {
+                                    show: true,
+                                    axisType: 'category',
+                                    tooltip: {
+                                        show: true,
+                                        formatter: function(params) {
+                                            console.log(params);
+                                            return params.name + '数据统计';
+                                        }
+                                    },
+                                    autoPlay: true,
+                                    currentIndex: 6,
+                                    playInterval: 1000,
+                                    label: {
+                                        normal: {
+                                            show: true,
+                                            interval: 'auto',
+                                            formatter: '{value}日',
+                                        },
+                                    },
+                                    data: [],
+                                },
+                                legend: {
+                                    data: ['男生', '女生'],
+                                    top: 4,
+                                    right: '20%',
+                                    textStyle: {
+                                        color: '#fff',
+                                    },
+                                },
+                                tooltip: {
+                                    show: true,
+                                    trigger: 'axis',
+                                    formatter: '{b}<br/>{a}: {c}人',
+                                    axisPointer: {
+                                        type: 'shadow',
+                                    }
+                                },
+
+                                toolbox:{
+                                    right:20,
+                                    feature:{
+                                        saveAsImage: {},
+                                        restore: {},
+                                        dataView: {},
+                                        dataZoom: {},
+                                        magicType: {
+                                            type:['line','bar']
+                                        },
+                                        // brush: {},
+                                    }
+                                },
+
+                                grid: [{
+                                    show: false,
+                                    left: '4%',
+                                    top: 60,
+                                    bottom: 60,
+                                    containLabel: true,
+                                    width: '46%',
+                                }, {
+                                    show: false,
+                                    left: '50.5%',
+                                    top: 80,
+                                    bottom: 60,
+                                    width: '0%',
+                                }, {
+                                    show: false,
+                                    right: '4%',
+                                    top: 60,
+                                    bottom: 60,
+                                    containLabel: true,
+                                    width: '46%',
+                                }, ],
+
+                                xAxis: [
+                                    {
+                                        type: 'value',
+                                        inverse: true,
+                                        axisLine: {
+                                            show: false,
+                                        },
+                                        axisTick: {
+                                            show: false,
+                                        },
+                                        position: 'top',
+                                        axisLabel: {
+                                            show: true,
+                                            textStyle: {
+                                                color: '#B2B2B2',
+                                                fontSize: 12,
+                                            },
+                                        },
+                                        splitLine: {
+                                            show: true,
+                                            lineStyle: {
+                                                color: '#1F2022',
+                                                width: 1,
+                                                type: 'solid',
+                                            },
+                                        },
+                                    }, {
+                                        gridIndex: 1,
+                                        show: false,
+                                    }, {
+                                        gridIndex: 2,
+                                        type: 'value',
+                                        axisLine: {
+                                            show: false,
+                                        },
+                                        axisTick: {
+                                            show: false,
+                                        },
+                                        position: 'top',
+                                        axisLabel: {
+                                            show: true,
+                                            textStyle: {
+                                                color: '#B2B2B2',
+                                                fontSize: 12,
+                                            },
+                                        },
+                                        splitLine: {
+                                            show: true,
+                                            lineStyle: {
+                                                color: '#1F2022',
+                                                width: 1,
+                                                type: 'solid',
+                                            },
+                                        },
+                                    }, ],
+                                yAxis: [{
+                                    type: 'category',
+                                    inverse: true,
+                                    position: 'right',
+                                    axisLine: {
+                                        show: false
+                                    },
+                                    axisTick: {
+                                        show: false
+                                    },
+                                    axisLabel: {
+                                        show: false,
+                                        margin: 8,
+                                        textStyle: {
+                                            color: '#9D9EA0',
+                                            fontSize: 12,
+                                        },
+
+                                    },
+                                    data: myData,
+                                }, {
+                                    gridIndex: 1,
+                                    type: 'category',
+                                    inverse: true,
+                                    position: 'left',
+                                    axisLine: {
+                                        show: false
+                                    },
+                                    axisTick: {
+                                        show: false
+                                    },
+                                    axisLabel: {
+                                        show: true,
+                                        textStyle: {
+                                            color: '#9D9EA0',
+                                            fontSize: 12,
+                                        },
+
+                                    },
+                                    data: myData.map(function(value) {
+                                        return {
+                                            value: value,
+                                            textStyle: {
+                                                align: 'center',
+                                            }
+                                        }
+                                    }),
+                                }, {
+                                    gridIndex: 2,
+                                    type: 'category',
+                                    inverse: true,
+                                    position: 'left',
+                                    axisLine: {
+                                        show: false
+                                    },
+                                    axisTick: {
+                                        show: false
+                                    },
+                                    axisLabel: {
+                                        show: false,
+                                        textStyle: {
+                                            color: '#9D9EA0',
+                                            fontSize: 12,
+                                        },
+
+                                    },
+                                    data: myData,
+                                }, ],
+                                series: [],
+
+                            },
+
+                            options: [],
+
+
+                        };
+
+                        for (var i = 0; i < timeLineData.length; i++) {
+                            option.baseOption.timeline.data.push(timeLineData[i]);
+                            option.options.push({
+                                series: [{
+                                    name: '男生',
+                                    type: 'bar',
+                                    barGap: 20,
+                                    barWidth: 20,
+                                    label: {
+                                        normal: {
+                                            show: false,
+                                        },
+                                        emphasis: {
+                                            show: true,
+                                            position: 'left',
+                                            offset: [0, 0],
+                                            textStyle: {
+                                                color: '#fff',
+                                                fontSize: 14,
+                                            },
+                                        },
+                                    },
+                                    itemStyle: {
+                                        normal: {
+                                            color: '#659F83',
+                                        },
+                                        emphasis: {
+                                            color: '#08C7AE',
+                                        },
+                                    },
+                                    data: databeast[timeLineData[i]],
+                                },
+
+
+                                    {
+                                        name: '女生',
+                                        type: 'bar',
+                                        barGap: 20,
+                                        barWidth: 20,
+                                        xAxisIndex: 2,
+                                        yAxisIndex: 2,
+                                        label: {
+                                            normal: {
+                                                show: false,
+                                            },
+                                            emphasis: {
+                                                show: true,
+                                                position: 'right',
+                                                offset: [0, 0],
+                                                textStyle: {
+                                                    color: '#fff',
+                                                    fontSize: 14,
+                                                },
+                                            },
+                                        },
+                                        itemStyle: {
+                                            normal: {
+                                                color: '#F68989',
+                                            },
+                                            emphasis: {
+                                                color: '#F94646',
+                                            },
+                                        },
+                                        data: databeauty[timeLineData[i]],
+                                    }
+                                ]
+                            });
+                        }
+                        sex_academy_count.setOption(option);
+                    });
+
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mask" style="display: none">
+    <div class="bigger-wrap">
+        <div class="remove">
+            <i class="icon-remove"></i>
+        </div>
+        <div class="chart_title">
+            <p></p>
+        </div>
+        <div id="largeyear_identity_count" class="large_chart"  style="display: none"></div>
+        <div id="largesex_academy_count" class="large_chart"  style="display: none"></div>
+    </div>
+</div>
+
+<!-- Bootstrap -->
+<script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="../vendors/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="../vendors/nprogress/nprogress.js"></script>
+<!-- Chart.js -->
+<script src="../vendors/Chart.js/dist/Chart.min.js"></script>
+<!-- gauge.js -->
+<script src="../vendors/gauge.js/dist/gauge.min.js"></script>
+<!-- bootstrap-progressbar -->
+<script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<!-- iCheck -->
+<script src="../vendors/iCheck/icheck.min.js"></script>
+<!-- Skycons -->
+<script src="../vendors/skycons/skycons.js"></script>
+<!-- Flot -->
+<script src="../vendors/Flot/jquery.flot.js"></script>
+<script src="../vendors/Flot/jquery.flot.pie.js"></script>
+<script src="../vendors/Flot/jquery.flot.time.js"></script>
+<script src="../vendors/Flot/jquery.flot.stack.js"></script>
+<script src="../vendors/Flot/jquery.flot.resize.js"></script>
+<!-- Flot plugins -->
+<script src="../vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+<script src="../vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+<script src="../vendors/flot.curvedlines/curvedLines.js"></script>
+<!-- DateJS -->
+<script src="../vendors/DateJS/build/date.js"></script>
+<!-- JQVMap -->
+<script src="../vendors/jqvmap/dist/jquery.vmap.js"></script>
+<script src="../vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+<script src="../vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+<!-- bootstrap-daterangepicker -->
+<script src="../vendors/moment/min/moment.min.js"></script>
+<script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+<!-- ECharts -->
+<!--<script src="../vendors/echarts/dist/echarts.min.js"></script>-->
+<!--<script src="../vendors/echarts/map/js/world.js"></script>-->
+
+<!-- Custom Theme Scripts -->
+<script src="../build/js/custom.min.js"></script>
 
 </body>
 </html>

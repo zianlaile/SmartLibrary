@@ -20,12 +20,29 @@
         GROUP BY zztdc.`year`,zztdc.`month`,zztdc.`day`
         ORDER BY zztdc.`year`,zztdc.`month`,zztdc.`day`
     </select>
-    <!--CURDATE()  表不对，暂时不写-->
+    <!--CURDATE()-->
     <select id="getGctrlCountByDay2" parameterType="com.smartlibrary.domain.gctrl" resultType="com.smartlibrary.domain.gctrl">
        select zztdc.`year`,zztdc.`month`,zztdc.`day`,zztdc.gctrl_times
         FROM zz_time_day_count zztdc
 	    WHERE zztdc.`year`= DATE_FORMAT('2016-01-12', '%Y')
         GROUP BY zztdc.`year`,zztdc.`month`,zztdc.`day`
         ORDER BY zztdc.`year`,zztdc.`month`,zztdc.`day`
+    </select>
+
+    <select id="getGctrlCountByIdentity" parameterType="com.smartlibrary.domain.gctrl" resultType="com.smartlibrary.domain.gctrl">
+        select `year`,academy ,undergraduate_times,graduate_times,teacher_times,other_times
+        FROM zz_gctrl_month_academy_identity
+        GROUP BY `year` ,academy
+        ORDER BY  `year` ,academy
+    </select>
+
+
+    <!--CURDATE()-->
+    <select id="getGctrlCountBySexAndAcademy" parameterType="com.smartlibrary.domain.gctrl" resultType="com.smartlibrary.domain.gctrl">
+        select ymdchar,day,academy,m_times,f_times
+        FROM zz_gctrl_day_academy_gender
+        WHERE ymddate  &gt;  DATE_SUB('2015-03-25',INTERVAL 16 DAY) AND ymddate &lt;  '2015-03-25'
+        GROUP BY ymdchar,academy
+        ORDER BY  ymdchar,academy
     </select>
 </mapper>

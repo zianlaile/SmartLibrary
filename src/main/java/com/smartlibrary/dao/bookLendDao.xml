@@ -44,7 +44,7 @@
         GROUP BY a.book_kind,a.academy
         ORDER BY a.book_kind,a.academy
     </select>
-    <!--CURDATE()  表不对，暂时不写-->
+    <!--CURDATE()-->
     <select id="getBorrowCountBySexAndBookkinds" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
         SELECT zzbmbg.`month`,zzbmbg.book_kind,zzbmbg.m_book_lend_times,zzbmbg.f_book_lend_times
         FROM zz_book_month_bookkinds_gender  zzbmbg
@@ -53,7 +53,7 @@
         ORDER BY zzbmbg.`month`,zzbmbg.book_kind
     </select>
 
-    <!--CURDATE()  表不对，暂时不写-->
+    <!--CURDATE() -->
     <select id="getBorrowCountByPublisher" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
         SELECT zzyp.publisher,zzyp.times as book_lend_times
         FROM zz_book_year_publisher  zzyp

@@ -37,318 +37,185 @@
 </head>
 <!--//getlarge_year-->
 <script type="application/javascript">
-    function getlarge_year(){
-        $(".chart_title p").text("年-进馆统计");
-        $(".mask").css("display","block");
-        $("#largemonth").css("display","none");
-        $("#largeday").css("display","none");
-        $("#largeyear").css("display","block");
-        var year_count = echarts.init(document.getElementById('largeyear'));
-        var  year_count_option = {
-            color: ['#3398DB'],
-            tooltip : {
-                trigger: 'axis',
-                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                }
-            },
-            legend: {
-                data:['进馆每年统计']
-            },
-            toolbox: {
-                feature: {
-                    restore: {},
-                    saveAsImage: {}
-                }
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                containLabel: true
-            },
-            xAxis : [
-                {
-                    type : 'category',
-                    data : [],
-                    axisTick: {
-                        alignWithLabel: true
-                    }
-                }
-            ],
-            yAxis : [
-                {
-                    // type : 'category',
-                    // data : ['10','20','30','40'],
-                    axisTick: {
-                        alignWithLabel: true
-                    }
-                }
-            ],
-            series : [
-                {
-                    name:'进馆每年统计',
-                    type:'bar',
-                    barWidth: '40%',
-                    data:[]
-                },
-
-            ],
-            label: {
-                normal: {
-                    show: true,
-                    position: 'top',
-                    formatter: '{c}'
-                }
-            },
-            itemStyle: {
-                normal: {
-
-                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                        offset: 0,
-                        color: 'rgba(17, 168,171, 1)'
-                    }, {
-                        offset: 1,
-                        color: 'rgba(17, 168,171, 0.1)'
-                    }]),
-                    shadowColor: 'rgba(0, 0, 0, 0.1)',
-                    shadowBlur: 10
-                }
-            }
-        };
-        // 使用刚指定的配置项和数据显示图表。
-        year_count.setOption(year_count_option);
-        // 异步加载数据
-        $.get('../../gctrl/ByYear').done(function (data) {
-            // 填入数据
-            console.log(data);
-            year_count.setOption({
-                xAxis: {
-                    data: data.times
-                },
-                series: [{
-                    // 根据名字对应到相应的系列
-                    name: '进馆每年统计',
-                    data: data.gctrl_times
-                }]
-            });
-        });
-    }
     $(function(){
         $(".remove").click(function(){
             $(".mask").css("display","none");
         });
     });
 </script>
-
-
-<!--//getlarge_month-->
-<script type="application/javascript">
-    function getlarge_month(){
-        $(".chart_title p").text("月-进馆统计");
-        $(".mask").css("display","block");
-        $("#largeyear").css("display","none");
-        $("#largeday").css("display","none");
-        $("#largemonth").css("display","block");
-        var month_count = echarts.init(document.getElementById('largemonth'));
-        var  month_count_option = {
-
-            tooltip: {
-                trigger: 'axis',
-                position: function (pt) {
-                    return [pt[0], '10%'];
-                }
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                containLabel: true
-            },
-            toolbox: {
-                feature: {
-
-                    restore: {},
-                    saveAsImage: {}
-                }
-            },
-            legend: {
-                data:['进馆每月统计']
-            },
-            xAxis: {
-                type: 'category',
-                boundaryGap: false,
-                data: []
-            },
-            yAxis: {
-                type: 'value',
-                boundaryGap: [0, '100%']
-            },
-            dataZoom: [{
-                type: 'inside',
-                start: 0,
-                end: 80
-            }, {
-                start: 0,
-                end: 10,
-                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                handleSize: '80%',
-                handleStyle: {
-                    color: '#fff',
-                    shadowBlur: 3,
-                    shadowColor: 'rgba(0, 0, 0, 0.6)',
-                    shadowOffsetX: 2,
-                    shadowOffsetY: 2
-                }
-            }],
-            series: [
-                {
-                    name:'进馆每月统计',
-                    type:'line',
-                    smooth:true,
-                    symbol: 'none',
-                    sampling: 'average',
-                    itemStyle: {
-                        normal: {
-                            color: 'rgb(255, 70, 131)'
-                        }
-                    },
-                    areaStyle: {
-                        normal: {
-                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                offset: 0,
-                                color: 'rgb(255, 158, 68)'
-                            }, {
-                                offset: 1,
-                                color: 'rgb(255, 70, 131)'
-                            }])
-                        }
-                    },
-                    data: []
-                }
-            ]
-        };
-        // 使用刚指定的配置项和数据显示图表。
-        month_count.setOption(month_count_option);
-        // 异步加载数据
-        $.get('../../gctrl/ByMonth').done(function (data) {
-            console.log(data);
-            // 填入数据
-            month_count.setOption({
-                xAxis: {
-                    data: data.times
-                },
-                series: [{
-                    // 根据名字对应到相应的系列
-                    name: '进馆每月统计',
-                    data: data.gctrl_times
-                }]
-            });
-        });
-    }
-
-</script>
-
-
 <!--//getlarge_day()-->
 <script type="application/javascript">
     function getlarge_day(){
-        $(".chart_title p").text("日-进馆统计");
+        $(".chart_title p").text("每日进馆人数统计");
         $(".mask").css("display","block");
-        $("#largeyear").css("display","none");
-        $("#largemonth").css("display","none");
         $("#largeday").css("display","block");
-        var day_count = echarts.init(document.getElementById('largeday'));
-        var  day_count_option = {
-
-            tooltip: {
-                trigger: 'axis',
-                position: function (pt) {
-                    return [pt[0], '10%'];
-                }
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                containLabel: true
-            },
-            toolbox: {
-                feature: {
-
-                    restore: {},
-                    saveAsImage: {}
-                }
-            },
-            legend: {
-
-                data:['进馆每日统计']
-            },
-            xAxis: {
-                type: 'category',
-                boundaryGap: false,
-                data: []
-            },
-            yAxis: {
-                type: 'value',
-                boundaryGap: [0, '100%']
-            },
-            dataZoom: [{
-                type: 'inside',
-                start: 60,
-                end: 100
-            }, {
-                start: 0,
-                end: 10,
-                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                handleSize: '80%',
-                handleStyle: {
-                    color: '#fff',
-                    shadowBlur: 3,
-                    shadowColor: 'rgba(0, 0, 0, 0.6)',
-                    shadowOffsetX: 2,
-                    shadowOffsetY: 2
-                }
-            }],
-            series: [
-                {
-                    name:'进馆每日统计',
-                    type:'line',
-                    smooth:true,
-                    symbol: 'none',
-                    sampling: 'average',
+        var largeday = echarts.init(document.getElementById('largeday'));
+        // 异步加载数据
+        $.get('../../gctrl/ByDay2').done(function (resultdata) {
+            // 填入数据
+            var gctrl_times=resultdata.gctrl_times;
+            var times=resultdata.times;
+            var data=[];
+            for(var i=0;i<times.length;i++){
+                var onedata=[];
+                onedata.push(times[i]);
+                onedata.push(gctrl_times[i]);
+                data.push(onedata);
+            }
+            var day_count_option_option = {
+                backgroundColor: '#404a59',
+                title: {
+                    top: 30,
+                    text: '今年每天进馆人数',
+                    left: 'center',
+                    textStyle: {
+                        color: '#fff'
+                    }
+                },
+                tooltip : {
+                    trigger: 'item'
+                },
+                legend: {
+                    top: '30',
+                    left: '100',
+                    data:['人数', 'Top 12'],
+                    textStyle: {
+                        color: '#fff'
+                    }
+                },
+                calendar: [{
+                    top: 100,
+                    left: 'center',
+                    range: ['2016-01-01', '2016-06-30'],
+                    splitLine: {
+                        show: true,
+                        lineStyle: {
+                            color: '#000',
+                            width: 4,
+                            type: 'solid'
+                        }
+                    },
+                    yearLabel: {
+                        formatter: '{start} 上半年',
+                        textStyle: {
+                            color: '#fff'
+                        }
+                    },
                     itemStyle: {
                         normal: {
-                            color: 'rgb(255, 70, 131)'
+                            color: '#323c48',
+                            borderWidth: 1,
+                            borderColor: '#111'
+                        }
+                    }
+                }, {
+                    top: 340,
+                    left: 'center',
+                    range: ['2016-07-01', '2016-12-31'],
+                    splitLine: {
+                        show: true,
+                        lineStyle: {
+                            color: '#000',
+                            width: 4,
+                            type: 'solid'
                         }
                     },
-                    areaStyle: {
+                    yearLabel: {
+                        formatter: '{start} 上半年',
+                        textStyle: {
+                            color: '#fff'
+                        }
+                    },
+                    itemStyle: {
                         normal: {
-                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                offset: 0,
-                                color: 'rgb(255, 158, 68)'
-                            }, {
-                                offset: 1,
-                                color: 'rgb(255, 70, 131)'
-                            }])
+                            color: '#323c48',
+                            borderWidth: 1,
+                            borderColor: '#111'
+                        }
+                    }
+                }],
+                series : [
+                    {
+                        name: '人数',
+                        type: 'scatter',
+                        coordinateSystem: 'calendar',
+                        data: data,
+                        symbolSize: function (val) {
+                            return val[1] / 500;
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#ddb926'
+                            }
                         }
                     },
-                    data: []
-                }
-            ]
-        };
-        // 使用刚指定的配置项和数据显示图表。
-        day_count.setOption(day_count_option);
-        // 异步加载数据
-        $.get('../../gctrl/ByDay').done(function (data) {
-            // 填入数据
-            day_count.setOption({
-                xAxis: {
-                    data: data.times
-                },
-                series: [{
-                    // 根据名字对应到相应的系列
-                    name: '进馆每日统计',
-                    data: data.gctrl_times
-                }]
-            });
+                    {
+                        name: '人数',
+                        type: 'scatter',
+                        coordinateSystem: 'calendar',
+                        calendarIndex: 1,
+                        data: data,
+                        symbolSize: function (val) {
+                            return val[1] / 500;
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#ddb926'
+                            }
+                        }
+                    },
+                    {
+                        name: 'Top 12',
+                        type: 'effectScatter',
+                        coordinateSystem: 'calendar',
+                        calendarIndex: 1,
+                        data: data.sort(function (a, b) {
+                            return b[1] - a[1];
+                        }).slice(0, 12),
+                        symbolSize: function (val) {
+                            return val[1] / 500;
+                        },
+                        showEffectOn: 'render',
+                        rippleEffect: {
+                            brushType: 'stroke'
+                        },
+                        hoverAnimation: true,
+                        itemStyle: {
+                            normal: {
+                                color: '#f4e925',
+                                shadowBlur: 10,
+                                shadowColor: '#333'
+                            }
+                        },
+                        zlevel: 1
+                    },
+                    {
+                        name: 'Top 12',
+                        type: 'effectScatter',
+                        coordinateSystem: 'calendar',
+                        data: data.sort(function (a, b) {
+                            return b[1] - a[1];
+                        }).slice(0, 12),
+                        symbolSize: function (val) {
+                            return val[1] / 500;
+                        },
+                        showEffectOn: 'render',
+                        rippleEffect: {
+                            brushType: 'stroke'
+                        },
+                        hoverAnimation: true,
+                        itemStyle: {
+                            normal: {
+                                color: '#f4e925',
+                                shadowBlur: 10,
+                                shadowColor: '#333'
+                            }
+                        },
+                        zlevel: 1
+                    }
+                ]
+            };
+            largeday.setOption(day_count_option_option);
         });
     }
 
@@ -555,7 +422,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>日-进馆统计</h2>
+                            <h2>每日进馆人数统计</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
@@ -574,97 +441,174 @@
                 <script type="text/javascript">
                     // 基于月统计
                     var day_count = echarts.init(document.getElementById('day_count'));
-                    var  day_count_option = {
-
-                        tooltip: {
-                            trigger: 'axis',
-                            position: function (pt) {
-                                return [pt[0], '10%'];
-                            }
-                        },
-                        toolbox: {
-                            feature: {
-
-                                restore: {},
-                                saveAsImage: {}
-                            }
-                        },
-                        legend: {
-
-                            data:['进馆每日统计']
-                        },
-                        xAxis: {
-                            type: 'category',
-                            boundaryGap: false,
-                            data: []
-                        },
-                        yAxis: {
-                            type: 'value',
-                            boundaryGap: [0, '100%']
-                        },
-                        dataZoom: [{
-                            type: 'inside',
-                            start: 60,
-                            end: 100
-                        }, {
-                            start: 0,
-                            end: 10,
-                            handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                            handleSize: '80%',
-                            handleStyle: {
-                                color: '#fff',
-                                shadowBlur: 3,
-                                shadowColor: 'rgba(0, 0, 0, 0.6)',
-                                shadowOffsetX: 2,
-                                shadowOffsetY: 2
-                            }
-                        }],
-                        series: [
-                            {
-                                name:'进馆每日统计',
-                                type:'line',
-                                smooth:true,
-                                symbol: 'none',
-                                sampling: 'average',
+                    // 异步加载数据
+                    $.get('../../gctrl/ByDay2').done(function (resultdata) {
+                        // 填入数据
+                        var gctrl_times=resultdata.gctrl_times;
+                        var times=resultdata.times;
+                        var data=[];
+                        for(var i=0;i<times.length;i++){
+                            var onedata=[];
+                            onedata.push(times[i]);
+                            onedata.push(gctrl_times[i]);
+                            data.push(onedata);
+                        }
+                        var day_count_option_option = {
+                            backgroundColor: '#404a59',
+                            title: {
+                                top: 30,
+                                text: '今年每天进馆人数',
+                                left: 'center',
+                                textStyle: {
+                                    color: '#fff'
+                                }
+                            },
+                            tooltip : {
+                                trigger: 'item'
+                            },
+                            legend: {
+                                top: '30',
+                                left: '100',
+                                data:['人数', 'Top 12'],
+                                textStyle: {
+                                    color: '#fff'
+                                }
+                            },
+                            calendar: [{
+                                top: 100,
+                                left: 'center',
+                                range: ['2016-01-01', '2016-06-30'],
+                                splitLine: {
+                                    show: true,
+                                    lineStyle: {
+                                        color: '#000',
+                                        width: 4,
+                                        type: 'solid'
+                                    }
+                                },
+                                yearLabel: {
+                                    formatter: '{start} 上半年',
+                                    textStyle: {
+                                        color: '#fff'
+                                    }
+                                },
                                 itemStyle: {
                                     normal: {
-                                        color: 'rgb(255, 70, 131)'
+                                        color: '#323c48',
+                                        borderWidth: 1,
+                                        borderColor: '#111'
+                                    }
+                                }
+                            }, {
+                                top: 340,
+                                left: 'center',
+                                range: ['2016-07-01', '2016-12-31'],
+                                splitLine: {
+                                    show: true,
+                                    lineStyle: {
+                                        color: '#000',
+                                        width: 4,
+                                        type: 'solid'
                                     }
                                 },
-                                areaStyle: {
+                                yearLabel: {
+                                    formatter: '{start} 上半年',
+                                    textStyle: {
+                                        color: '#fff'
+                                    }
+                                },
+                                itemStyle: {
                                     normal: {
-                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                            offset: 0,
-                                            color: 'rgb(255, 158, 68)'
-                                        }, {
-                                            offset: 1,
-                                            color: 'rgb(255, 70, 131)'
-                                        }])
+                                        color: '#323c48',
+                                        borderWidth: 1,
+                                        borderColor: '#111'
+                                    }
+                                }
+                            }],
+                            series : [
+                                {
+                                    name: '人数',
+                                    type: 'scatter',
+                                    coordinateSystem: 'calendar',
+                                    data: data,
+                                    symbolSize: function (val) {
+                                        return val[1] / 500;
+                                    },
+                                    itemStyle: {
+                                        normal: {
+                                            color: '#ddb926'
+                                        }
                                     }
                                 },
-                                data: []
-                            }
-                        ]
-                    };
-                    // 使用刚指定的配置项和数据显示图表。
-                    day_count.setOption(day_count_option);
-                    // 异步加载数据
-                    $.get('../../gctrl/ByDay').done(function (data) {
-                        // 填入数据
-                        day_count.setOption({
-                            xAxis: {
-                                data: data.times
-                            },
-                            series: [{
-                                // 根据名字对应到相应的系列
-                                name: '进馆每日统计',
-                                data: data.gctrl_times
-                            }]
-                        });
+                                {
+                                    name: '人数',
+                                    type: 'scatter',
+                                    coordinateSystem: 'calendar',
+                                    calendarIndex: 1,
+                                    data: data,
+                                    symbolSize: function (val) {
+                                        return val[1] / 500;
+                                    },
+                                    itemStyle: {
+                                        normal: {
+                                            color: '#ddb926'
+                                        }
+                                    }
+                                },
+                                {
+                                    name: 'Top 12',
+                                    type: 'effectScatter',
+                                    coordinateSystem: 'calendar',
+                                    calendarIndex: 1,
+                                    data: data.sort(function (a, b) {
+                                        return b[1] - a[1];
+                                    }).slice(0, 12),
+                                    symbolSize: function (val) {
+                                        return val[1] / 500;
+                                    },
+                                    showEffectOn: 'render',
+                                    rippleEffect: {
+                                        brushType: 'stroke'
+                                    },
+                                    hoverAnimation: true,
+                                    itemStyle: {
+                                        normal: {
+                                            color: '#f4e925',
+                                            shadowBlur: 10,
+                                            shadowColor: '#333'
+                                        }
+                                    },
+                                    zlevel: 1
+                                },
+                                {
+                                    name: 'Top 12',
+                                    type: 'effectScatter',
+                                    coordinateSystem: 'calendar',
+                                    data: data.sort(function (a, b) {
+                                        return b[1] - a[1];
+                                    }).slice(0, 12),
+                                    symbolSize: function (val) {
+                                        return val[1] / 500;
+                                    },
+                                    showEffectOn: 'render',
+                                    rippleEffect: {
+                                        brushType: 'stroke'
+                                    },
+                                    hoverAnimation: true,
+                                    itemStyle: {
+                                        normal: {
+                                            color: '#f4e925',
+                                            shadowBlur: 10,
+                                            shadowColor: '#333'
+                                        }
+                                    },
+                                    zlevel: 1
+                                }
+                            ]
+                        };
+                        day_count.setOption(day_count_option_option);
                     });
-                    /* $.get('../../gctrl').done(function (data) {
-                     console.log(data);
-                     });*/
+
                 </script>
             </div>
         </div>
@@ -678,103 +622,10 @@
         <div class="chart_title">
             <p></p>
         </div>
-        <div id="largeyear" class="large_chart"  style="display: none"></div>
-        <div id="largemonth" class="large_chart"  style="display: none"></div>
         <div id="largeday" class="large_chart"  style="display: none"></div>
 
     </div>
 </div>
-<!--<script type="text/javascript">
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('test01'));
-
-    // 指定图表的配置项和数据
-    var option = {
-        tooltip: {
-            trigger: 'axis'
-        },
-        toolbox: {
-            right:50,
-            feature: {
-                dataView: {
-                    show: true,
-                    readOnly: false
-                },
-                restore: {
-                    show: true
-                },
-                saveAsImage: {
-                    show: true
-                }
-            }
-        },
-        grid: {
-            containLabel: true,
-            width:'80%'
-        },
-        legend: {
-            data: ['增速','销量']
-        },
-        xAxis: [{
-            type: 'category',
-            axisTick: {
-                alignWithLabel: true
-            },
-            data: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
-        }],
-        yAxis: [{
-            type: 'value',
-            name: '增速',
-            min: 0,
-            max: 50,
-            position: 'right',
-            axisLabel: {
-                formatter: '{value} %'
-            }
-        }, {
-            type: 'value',
-            name: '销量',
-            min: 0,
-            max: 3000,
-            position: 'left'
-        }],
-        series: [{
-            name: '增速',
-            type: 'line',
-            stack: '总量',
-            label: {
-                normal: {
-                    show: true,
-                    position: 'top',
-                }
-            },
-            lineStyle: {
-                normal: {
-                    width: 3,
-                    shadowColor: 'rgba(0,0,0,0.4)',
-                    shadowBlur: 10,
-                    shadowOffsetY: 10
-                }
-            },
-            data: [1,13,37,35,15,13,25,21,6,45,32,2,4,13,6,4,11]
-        }, {
-            name: '销量',
-            type: 'bar',
-            yAxisIndex: 1,
-            stack: '总量',
-            label: {
-                normal: {
-                    show: true,
-                    position: 'top'
-                }
-            },
-            data: [209,236,325,439,507,576,722,879,938,1364,1806,1851,1931,2198,2349,2460,2735]
-        }]
-    };
-
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
-</script>-->
 <!-- Bootstrap -->
 <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- FastClick -->

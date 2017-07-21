@@ -41,4 +41,24 @@ public class gctrlController {
         return gctrlservice.getGctrlCountByDay(b);
     }
 
+    @RequestMapping(method = { RequestMethod.GET },value = "ByDay2")
+    @ResponseBody
+    public Map<String ,List> getGctrlCountByDay2(HttpServletRequest request) {
+        gctrl b=new gctrl();
+        return gctrlservice.getGctrlCountByDay2(b);
+    }
+    @RequestMapping(method = { RequestMethod.GET },value = "ByIdentity")
+    @ResponseBody
+    public Map<String ,List> getGctrlCountByIdentity(HttpServletRequest request) {
+        gctrl b=new gctrl();
+        return gctrlservice.getGctrlCountByIdentity(b);
+    }
+
+    @RequestMapping(method = { RequestMethod.GET },value = "BySexAndAcademy")
+    @ResponseBody
+    public Map<String ,List> getGctrlCountBySexAndAcademy(HttpServletRequest request) {
+        gctrl b=new gctrl();
+        return gctrlservice.getGctrlCountBySexAndAcademy(b);
+    }
+
 }

@@ -11,4 +11,5 @@ public interface icTimesDao {
     public abstract List<IC_Times> getICTimesByYear();
     public abstract List<IC_Times> getICTimesByMonth();
     public abstract List<IC_Times> getICTimesByDay();
+    public abstract List<IC_Times> getICTimesBYTypeAndMonth();
 }

@@ -20,4 +20,10 @@
         GROUP BY `year`,`month`,`day`
         ORDER BY `year`,`month`,`day`
     </select>
+    <select id="getICTimesBYTypeAndMonth" resultType="IC_Times">
+        SELECT `year`,`month`,user_type,SUM(croom_times) AS croom_times,SUM(eread_times) AS  eread_times,SUM(seat_times) AS seat_times,SUM(equipment_times) AS equipment_times
+         FROM zz_ic_month_identity
+        GROUP BY user_type,`year`,`month`
+        ORDER BY user_type,`year`,`month`
+    </select>
 </mapper>

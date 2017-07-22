@@ -10,7 +10,25 @@ public class IC_Times extends BaseObject{
     private int seat_times;
     private int eread_times;
     private int croom_times;
+    private int equipment_times;
     private String time;
+    private String user_type;
+
+    public String getUser_type() {
+        return user_type;
+    }
+
+    public void setUser_type(String user_type) {
+        this.user_type = user_type;
+    }
+
+    public int getEquipment_times() {
+        return equipment_times;
+    }
+
+    public void setEquipment_times(int equipment_times) {
+        this.equipment_times = equipment_times;
+    }
 
     public String getTime() {
         return time;

@@ -41,4 +41,9 @@ public class icTimesController {
     public Map<String,List> GetictimesByTypeAndMonth(HttpServletRequest request){
         return ictimesservice.getIC_Times_ByTypeAndMonth();
     }
+    @RequestMapping(method = { RequestMethod.GET },value = "bytypeandday")
+    @ResponseBody
+    public Map<String,List> GetictimesByTypeAndDay(HttpServletRequest request){
+        return ictimesservice.getIC_Times_ByTypeAndDay();
+    }
 }

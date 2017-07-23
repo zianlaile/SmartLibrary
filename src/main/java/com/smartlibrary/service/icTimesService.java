@@ -92,14 +92,11 @@ public class icTimesService {
         List equipmenttimeso = new ArrayList<Integer>();
         List equipmenttimest = new ArrayList<Integer>();
         List equipmenttimesu = new ArrayList<Integer>();
-        /*List amounttimesg = new ArrayList<Integer>();
-        List amounttimeso = new ArrayList<Integer>();
-        List amounttimest = new ArrayList<Integer>();
-        List amounttimesu = new ArrayList<Integer>();*/
         List month = new ArrayList<String>();
-        Set monthlist = new TreeSet();
         for(int i=0;i<gettypeandmonthdata.size();i++){
-            monthlist.add(String.valueOf(gettypeandmonthdata.get(i).getYear())+"/"+String.valueOf(gettypeandmonthdata.get(i).getMonth()));
+            if(!month.contains(String.valueOf(gettypeandmonthdata.get(i).getYear())+"/"+String.valueOf(gettypeandmonthdata.get(i).getMonth()))){
+                month.add(String.valueOf(gettypeandmonthdata.get(i).getYear())+"/"+String.valueOf(gettypeandmonthdata.get(i).getMonth()));
+            }
             if(gettypeandmonthdata.get(i).getUser_type().equals("G")){
                 croomtimesg.add(gettypeandmonthdata.get(i).getCroom_times());
                 ereadtimesg.add(gettypeandmonthdata.get(i).getEread_times());
@@ -125,16 +122,10 @@ public class icTimesService {
                 equipmenttimesu.add(gettypeandmonthdata.get(i).getEquipment_times());
             }
         }
-        Iterator<String> monthit = monthlist.iterator();
+        /*Iterator<String> monthit = monthlist.iterator();
         while(monthit.hasNext()) {
             String monthits=monthit.next();
             month.add(monthits);
-        }
-        /*for(int j=0;j<croomtimesg.size();j++){
-            amounttimesg.add(croomtimesg.get(j)+ereadtimesg.get(j)+seattimesg.get(j)+equipmenttimesg.get(j));
-            amounttimeso.add(croomtimeso.get(j)+ereadtimeso.get(j)+seattimeso.get(j)+equipmenttimeso.get(j));
-            amounttimest.add(croomtimest.get(j)+ereadtimest.get(j)+seattimest.get(j)+equipmenttimest.get(j));
-            amounttimesu.add(croomtimesu.get(j)+ereadtimesu.get(j)+seattimesu.get(j)+equipmenttimesu.get(j));
         }*/
         typeandmonthdata.put("croomtimesg",croomtimesg);
         typeandmonthdata.put("croomtimeso",croomtimeso);
@@ -152,11 +143,80 @@ public class icTimesService {
         typeandmonthdata.put("equipmenttimeso",equipmenttimeso);
         typeandmonthdata.put("equipmenttimest",equipmenttimest);
         typeandmonthdata.put("equipmenttimesu",equipmenttimesu);
-        /*typeandmonthdata.put("amounttimesg",amounttimesg);
-        typeandmonthdata.put("amounttimeso",amounttimeso);
-        typeandmonthdata.put("amounttimest",amounttimest);
-        typeandmonthdata.put("amounttimesu",amounttimesu);*/
         typeandmonthdata.put("month",month);
         return typeandmonthdata;
+    }
+    public Map<String,List> getIC_Times_ByTypeAndDay(){
+        Map typeanddaydata = new HashMap<String,List>();
+        List<IC_Times> gettypeanddaydata= ictimesdao.getICTimesByTypeAndDay();
+        List croomtimesg = new ArrayList<Integer>();
+        List croomtimeso = new ArrayList<Integer>();
+        List croomtimest = new ArrayList<Integer>();
+        List croomtimesu = new ArrayList<Integer>();
+        List ereadtimesg = new ArrayList<Integer>();
+        List ereadtimeso = new ArrayList<Integer>();
+        List ereadtimest = new ArrayList<Integer>();
+        List ereadtimesu = new ArrayList<Integer>();
+        List seattimesg = new ArrayList<Integer>();
+        List seattimeso = new ArrayList<Integer>();
+        List seattimest = new ArrayList<Integer>();
+        List seattimesu = new ArrayList<Integer>();
+        List equipmenttimesg = new ArrayList<Integer>();
+        List equipmenttimeso = new ArrayList<Integer>();
+        List equipmenttimest = new ArrayList<Integer>();
+        List equipmenttimesu = new ArrayList<Integer>();
+        List day = new ArrayList<String>();
+        for(int i=0;i<gettypeanddaydata.size();i++){
+            if (!day.contains(String.valueOf(gettypeanddaydata.get(i).getYear()) + "/" + String.valueOf(gettypeanddaydata.get(i).getMonth()) + "/" + String.valueOf(gettypeanddaydata.get(i).getDay()))) {
+                day.add(String.valueOf(gettypeanddaydata.get(i).getYear())+"/"+String.valueOf(gettypeanddaydata.get(i).getMonth())+"/"+String.valueOf(gettypeanddaydata.get(i).getDay()));
+            }
+            if(gettypeanddaydata.get(i).getUser_type().equals("G")){
+                croomtimesg.add(gettypeanddaydata.get(i).getCroom_duration());
+                ereadtimesg.add(gettypeanddaydata.get(i).getEread_duration());
+                seattimesg.add(gettypeanddaydata.get(i).getSeat_duration());
+                equipmenttimesg.add(gettypeanddaydata.get(i).getEquipment_duration());
+            }
+            else if(gettypeanddaydata.get(i).getUser_type().equals("O")){
+                croomtimeso.add(gettypeanddaydata.get(i).getCroom_duration());
+                ereadtimeso.add(gettypeanddaydata.get(i).getEread_duration());
+                seattimeso.add(gettypeanddaydata.get(i).getSeat_duration());
+                equipmenttimeso.add(gettypeanddaydata.get(i).getEquipment_duration());
+            }
+            else if(gettypeanddaydata.get(i).getUser_type().equals("T")){
+                croomtimest.add(gettypeanddaydata.get(i).getCroom_duration());
+                ereadtimest.add(gettypeanddaydata.get(i).getEread_duration());
+                seattimest.add(gettypeanddaydata.get(i).getSeat_duration());
+                equipmenttimest.add(gettypeanddaydata.get(i).getEquipment_duration());
+            }
+            else if(gettypeanddaydata.get(i).getUser_type().equals("U")){
+                croomtimesu.add(gettypeanddaydata.get(i).getCroom_duration());
+                ereadtimesu.add(gettypeanddaydata.get(i).getEread_duration());
+                seattimesu.add(gettypeanddaydata.get(i).getSeat_duration());
+                equipmenttimesu.add(gettypeanddaydata.get(i).getEquipment_duration());
+            }
+        }
+        /*Iterator<String> dayit = daylist.iterator();
+        while(dayit.hasNext()) {
+            String dayits=dayit.next();
+            day.add(dayits);
+        }*/
+        typeanddaydata.put("croomtimesg",croomtimesg);
+        typeanddaydata.put("croomtimeso",croomtimeso);
+        typeanddaydata.put("croomtimest",croomtimest);
+        typeanddaydata.put("croomtimesu",croomtimesu);
+        typeanddaydata.put("ereadtimesg",ereadtimesg);
+        typeanddaydata.put("ereadtimeso",ereadtimeso);
+        typeanddaydata.put("ereadtimest",ereadtimest);
+        typeanddaydata.put("ereadtimesu",ereadtimesu);
+        typeanddaydata.put("seattimesg",seattimesg);
+        typeanddaydata.put("seattimeso",seattimeso);
+        typeanddaydata.put("seattimest",seattimest);
+        typeanddaydata.put("seattimesu",seattimesu);
+        typeanddaydata.put("equipmenttimesg",equipmenttimesg);
+        typeanddaydata.put("equipmenttimeso",equipmenttimeso);
+        typeanddaydata.put("equipmenttimest",equipmenttimest);
+        typeanddaydata.put("equipmenttimesu",equipmenttimesu);
+        typeanddaydata.put("day",day);
+        return typeanddaydata;
     }
 }

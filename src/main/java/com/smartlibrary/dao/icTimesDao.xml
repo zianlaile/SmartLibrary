@@ -26,4 +26,11 @@
         GROUP BY user_type,`year`,`month`
         ORDER BY user_type,`year`,`month`
     </select>
+    <select id="getICTimesByTypeAndDay" resultType="IC_Times">
+        SELECT `year`,`month`,`day`,user_type,croom_duration,eread_duration,seat_duration,equipment_duration
+        FROM zz_ic_day_identity
+        GROUP BY `year`,`month`,`day`,user_type
+        ORDER BY `year` DESC,`month` DESC,`day` DESC
+        LIMIT 40
+    </select>
 </mapper>

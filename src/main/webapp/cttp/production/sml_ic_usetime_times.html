@@ -67,6 +67,12 @@
                     type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
                 }
             },
+            toolbox: {
+                feature: {
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
             legend: {
 
 
@@ -127,9 +133,12 @@
                         {value:eval(durationo.join("+")), name:'其他'}
                     ]
                 },
-
-
-
+            ],
+            color: [
+                '#FF9080',
+                '#00BFB7',
+                '#1E90FF',
+                '#FFA500'
             ]
         };
         count.setOption(count_option);

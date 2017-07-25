@@ -20,4 +20,10 @@
         GROUP BY `year`,`month`,`day`
         ORDER BY `year`,`month`,`day`
     </select>
+    <select id="getPrintTimesBypapertype" resultType="Print_Times">
+        SELECT `year`,`month`,paper_type,times AS print_times,counts
+        FROM zz_print_month_papertype
+        GROUP BY `year`,`month`,paper_type
+        ORDER BY `year`,`month`,paper_type
+    </select>
 </mapper>

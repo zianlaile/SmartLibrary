@@ -1,5 +1,6 @@
 package com.smartlibrary.controller;
 
+import com.smartlibrary.domain.Print_Times;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,5 +35,10 @@ public class printTimesController {
     @ResponseBody
     public Map<String,List> GetPrinttimesByDay(HttpServletRequest request){
         return printtimesservice.getPrint_Times_Byday();
+    }
+    @RequestMapping(method={RequestMethod.GET},value = "/bypagetype")
+    @ResponseBody
+    public Map<String,List> GetPrinttimesBypapertype(HttpServletRequest request){
+        return printtimesservice.getPrint_Times_Bypapertype();
     }
 }

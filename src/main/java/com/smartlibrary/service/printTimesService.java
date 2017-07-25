@@ -58,4 +58,40 @@ public class printTimesService {
         daydata.put("printtimes",printtimes);
         return daydata;
     }
+        public Map<String,List> getPrint_Times_Bypapertype(){
+        Map papertype = new HashMap<String,List>();
+        List<Print_Times> papertypedata = printtimesdao.getPrintTimesBypapertype();
+        List<String> year = new ArrayList<String>();
+        List<Integer> paperdcount = new ArrayList<Integer>();
+        List<Integer> paperdtimes = new ArrayList<Integer>();
+        List<Integer> paperecount = new ArrayList<Integer>();
+        List<Integer> paperetimes = new ArrayList<Integer>();
+        List<Integer> paperocount = new ArrayList<Integer>();
+        List<Integer> paperotimes = new ArrayList<Integer>();
+        for(int i=0;i<papertypedata.size();i++){
+            if(!year.contains(String.valueOf(papertypedata.get(i).getYear())+"年")){
+                year.add(String.valueOf(papertypedata.get(i).getYear())+"年");
+            }
+            if(papertypedata.get(i).getPaper_type().equals("e")){
+                paperecount.add(papertypedata.get(i).getCounts());
+                paperetimes.add(papertypedata.get(i).getPrint_times());
+            }
+            else if(papertypedata.get(i).getPaper_type().equals("o")){
+                paperocount.add(papertypedata.get(i).getCounts());
+                paperotimes.add(papertypedata.get(i).getPrint_times());
+            }
+            if(papertypedata.get(i).getPaper_type().equals("d")){
+                paperdcount.add(papertypedata.get(i).getCounts());
+                paperdtimes.add(papertypedata.get(i).getPrint_times());
+            }
+        }
+        papertype.put("year",year);
+        papertype.put("paperdcount",paperdcount);
+        papertype.put("paperecount",paperecount);
+        papertype.put("paperocount",paperocount);
+        papertype.put("paperdtimes",paperdtimes);
+        papertype.put("paperetimes",paperetimes);
+        papertype.put("paperotimes",paperotimes);
+        return papertype;
+    }
 }

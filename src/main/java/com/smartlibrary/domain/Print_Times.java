@@ -9,6 +9,24 @@ public class Print_Times extends BaseObject{
     private int day;
     private int print_times;
     private String time;
+    private String paper_type;
+    private int counts;
+
+    public String getPaper_type() {
+        return paper_type;
+    }
+
+    public void setPaper_type(String paper_type) {
+        this.paper_type = paper_type;
+    }
+
+    public int getCounts() {
+        return counts;
+    }
+
+    public void setCounts(int counts) {
+        this.counts = counts;
+    }
 
     public int getYear() {
         return year;

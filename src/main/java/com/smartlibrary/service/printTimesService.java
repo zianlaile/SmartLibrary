@@ -58,7 +58,7 @@ public class printTimesService {
         daydata.put("printtimes",printtimes);
         return daydata;
     }
-        public Map<String,List> getPrint_Times_Bypapertype(){
+    public Map<String,List> getPrint_Times_Bypapertype(){
         Map papertype = new HashMap<String,List>();
         List<Print_Times> papertypedata = printtimesdao.getPrintTimesBypapertype();
         List<String> year = new ArrayList<String>();
@@ -93,5 +93,31 @@ public class printTimesService {
         papertype.put("paperetimes",paperetimes);
         papertype.put("paperotimes",paperotimes);
         return papertype;
+    }
+    public Map<String,List> getPrint_Times_Bylocation(){
+        Map locationdata = new HashMap<String,List>();
+        List<String> month = new ArrayList<String>();
+        List<Integer> count = new ArrayList<Integer>();
+        List<String> location = new ArrayList<String>();
+        List<Integer> times = new ArrayList<Integer>();
+        List<Integer> money = new ArrayList<Integer>();
+        List<Print_Times> getdatabylocation = printtimesdao.getPrintTimesBylocation();
+        for(int i=0;i<getdatabylocation.size();i++){
+            if(!month.contains(String.valueOf(getdatabylocation.get(i).getYear())+"/"+String.valueOf(getdatabylocation.get(i).getMonth()))){
+                month.add(String.valueOf(getdatabylocation.get(i).getYear())+"/"+String.valueOf(getdatabylocation.get(i).getMonth()));
+            }
+            if(!location.contains(getdatabylocation.get(i).getLocation())){
+                location.add(getdatabylocation.get(i).getLocation());
+            }
+            count.add(getdatabylocation.get(i).getCounts());
+            times.add(getdatabylocation.get(i).getPrint_times());
+            money.add(getdatabylocation.get(i).getMoney());
+        }
+        locationdata.put("month",month);
+        locationdata.put("location",location);
+        locationdata.put("count",count);
+        locationdata.put("times",times);
+        locationdata.put("money",money);
+        return locationdata;
     }
 }

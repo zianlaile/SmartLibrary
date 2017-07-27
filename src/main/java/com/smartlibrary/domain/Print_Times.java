@@ -11,6 +11,24 @@ public class Print_Times extends BaseObject{
     private String time;
     private String paper_type;
     private int counts;
+    private String location;
+    private int money;
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
 
     public String getPaper_type() {
         return paper_type;

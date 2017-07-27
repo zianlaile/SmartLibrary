@@ -26,4 +26,13 @@
         GROUP BY `year`,`month`,paper_type
         ORDER BY `year`,`month`,paper_type
     </select>
+    <select id="getPrintTimesBylocation" resultType="Print_Times">
+        SELECT `year`,`month`,location,counts,times AS print_times,money
+        FROM `zz_print_month_location`
+        GROUP BY `year`,`month`,location
+        ORDER BY `year`,`month`,location
+    </select>
+    <select id="getlocationcount" resultType="Integer">
+        SELECT COUNT(DISTINCT location) FROM zz_print_month_location
+    </select>
 </mapper>

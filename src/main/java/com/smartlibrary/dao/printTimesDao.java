@@ -12,4 +12,6 @@ public interface printTimesDao {
     public abstract List<Print_Times> getPrintTimesBymonth();
     public abstract List<Print_Times> getPrintTimesByday();
     public abstract List<Print_Times> getPrintTimesBypapertype();
+    public abstract List<Print_Times> getPrintTimesBylocation();
+    public abstract Integer getlocationcount();
 }

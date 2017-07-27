@@ -41,4 +41,9 @@ public class printTimesController {
     public Map<String,List> GetPrinttimesBypapertype(HttpServletRequest request){
         return printtimesservice.getPrint_Times_Bypapertype();
     }
+    @RequestMapping(method={RequestMethod.GET},value = "/bylocation")
+    @ResponseBody
+    public Map<String,List> GetPrinttimesBylocation(HttpServletRequest request){
+        return printtimesservice.getPrint_Times_Bylocation();
+    }
 }

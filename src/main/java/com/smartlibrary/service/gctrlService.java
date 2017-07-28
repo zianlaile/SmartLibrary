@@ -196,4 +196,7 @@ public class gctrlService {
         return data;
     }
 
+    public  List<gctrl> getGctrlCountByAcademyAndMajor(gctrl b){
+        return gctrldao.getGctrlCountByAcademyAndMajor(b);
+    }
 }

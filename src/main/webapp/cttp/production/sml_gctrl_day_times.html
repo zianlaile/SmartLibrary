@@ -43,7 +43,7 @@
         });
     });
 </script>
-<!--//getlarge_day()-->
+
 <script type="application/javascript">
     function getlarge_day(){
         $(".chart_title p").text("每日进馆人数统计");
@@ -63,15 +63,8 @@
                 data.push(onedata);
             }
             var day_count_option_option = {
-                backgroundColor: '#404a59',
-                title: {
-                    top: 30,
-                    text: '今年每天进馆人数',
-                    left: 'center',
-                    textStyle: {
-                        color: '#fff'
-                    }
-                },
+               // backgroundColor: '#404a59',
+
                 tooltip : {
                     trigger: 'item'
                 },
@@ -80,7 +73,7 @@
                     left: '100',
                     data:['人数', 'Top 12'],
                     textStyle: {
-                        color: '#fff'
+                       // color: '#fff'
                     }
                 },
                 calendar: [{
@@ -103,7 +96,7 @@
                     },
                     itemStyle: {
                         normal: {
-                            color: '#323c48',
+                            //color: '#323c48',
                             borderWidth: 1,
                             borderColor: '#111'
                         }
@@ -121,14 +114,14 @@
                         }
                     },
                     yearLabel: {
-                        formatter: '{start} 上半年',
+                        formatter: '{start} 下半年',
                         textStyle: {
                             color: '#fff'
                         }
                     },
                     itemStyle: {
                         normal: {
-                            color: '#323c48',
+                           // color: '#323c48',
                             borderWidth: 1,
                             borderColor: '#111'
                         }
@@ -454,15 +447,8 @@
                             data.push(onedata);
                         }
                         var day_count_option_option = {
-                            backgroundColor: '#404a59',
-                            title: {
-                                top: 30,
-                                text: '今年每天进馆人数',
-                                left: 'center',
-                                textStyle: {
-                                    color: '#fff'
-                                }
-                            },
+                           // backgroundColor: '#404a59',
+
                             tooltip : {
                                 trigger: 'item'
                             },
@@ -471,7 +457,7 @@
                                 left: '100',
                                 data:['人数', 'Top 12'],
                                 textStyle: {
-                                    color: '#fff'
+                                   // color: '#fff'
                                 }
                             },
                             calendar: [{
@@ -494,7 +480,7 @@
                                 },
                                 itemStyle: {
                                     normal: {
-                                        color: '#323c48',
+                                      //  color: '#323c48',
                                         borderWidth: 1,
                                         borderColor: '#111'
                                     }
@@ -512,14 +498,14 @@
                                     }
                                 },
                                 yearLabel: {
-                                    formatter: '{start} 上半年',
+                                    formatter: '{start} 下半年',
                                     textStyle: {
                                         color: '#fff'
                                     }
                                 },
                                 itemStyle: {
                                     normal: {
-                                        color: '#323c48',
+                                      //  color: '#323c48',
                                         borderWidth: 1,
                                         borderColor: '#111'
                                     }

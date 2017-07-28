@@ -45,4 +45,12 @@
         GROUP BY ymdchar,academy
         ORDER BY  ymdchar,academy
     </select>
+
+
+    <select id="getGctrlCountByAcademyAndMajor" parameterType="com.smartlibrary.domain.gctrl" resultType="com.smartlibrary.domain.gctrl">
+        select school,academy,all_times/1000 as all_times
+        FROM zz_gctrl_month_academy_identity
+        GROUP BY school,academy
+        ORDER BY  school,academy
+    </select>
 </mapper>

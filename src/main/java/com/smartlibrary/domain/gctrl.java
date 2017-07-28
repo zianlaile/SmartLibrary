@@ -15,8 +15,26 @@ public class gctrl extends BaseObject{
     int graduate_times;
     int teacher_times;
     int other_times;
+    double all_times;
     int f_times;
     int m_times;
+    String school;
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
+    public double getAll_times() {
+        return all_times;
+    }
+
+    public void setAll_times(double all_times) {
+        this.all_times = all_times;
+    }
 
     public int getF_times() {
         return f_times;

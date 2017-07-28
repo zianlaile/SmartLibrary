@@ -107,7 +107,11 @@
                     yAxis: [
                         {
                             type: 'value',
-                            name: '人次'
+                            name: '人次',
+                            "axisLabel": {
+                                "interval": 0,
+                                formatter: '{value}次',
+                            }
                         }
                     ],
                     series: [
@@ -198,7 +202,7 @@
 
             var option = {
                 baseOption: {
-                    backgroundColor: '#000',
+                   // backgroundColor: '#000',
                     timeline: {
                         show: true,
                         axisType: 'category',
@@ -226,7 +230,7 @@
                         top: 4,
                         right: '20%',
                         textStyle: {
-                            color: '#fff',
+                           // color: '#fff',
                         },
                     },
                     tooltip: {
@@ -287,6 +291,7 @@
                             position: 'top',
                             axisLabel: {
                                 show: true,
+                                formatter: '{value}人',
                                 textStyle: {
                                     color: '#B2B2B2',
                                     fontSize: 12,
@@ -315,6 +320,7 @@
                             position: 'top',
                             axisLabel: {
                                 show: true,
+                                formatter: '{value}人',
                                 textStyle: {
                                     color: '#B2B2B2',
                                     fontSize: 12,
@@ -874,7 +880,11 @@
                                 yAxis: [
                                     {
                                         type: 'value',
-                                        name: '人次'
+                                        name: '人次',
+                                        "axisLabel": {
+                                            "interval": 0,
+                                            formatter: '{value}次',
+                                        }
                                     }
                                 ],
                                 series: [
@@ -975,14 +985,14 @@
 
                         var option = {
                             baseOption: {
-                                backgroundColor: '#000',
+                              //  backgroundColor: '#000',
                                 timeline: {
                                     show: true,
                                     axisType: 'category',
                                     tooltip: {
                                         show: true,
                                         formatter: function(params) {
-                                            console.log(params);
+                                           // console.log(params);
                                             return params.name + '数据统计';
                                         }
                                     },
@@ -1003,7 +1013,7 @@
                                     top: 4,
                                     right: '20%',
                                     textStyle: {
-                                        color: '#fff',
+                                       // color: '#fff',
                                     },
                                 },
                                 tooltip: {
@@ -1064,6 +1074,7 @@
                                         position: 'top',
                                         axisLabel: {
                                             show: true,
+                                            formatter: '{value}人',
                                             textStyle: {
                                                 color: '#B2B2B2',
                                                 fontSize: 12,
@@ -1092,6 +1103,7 @@
                                         position: 'top',
                                         axisLabel: {
                                             show: true,
+                                            formatter: '{value}人',
                                             textStyle: {
                                                 color: '#B2B2B2',
                                                 fontSize: 12,

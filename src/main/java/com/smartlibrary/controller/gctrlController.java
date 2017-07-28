@@ -61,4 +61,11 @@ public class gctrlController {
         return gctrlservice.getGctrlCountBySexAndAcademy(b);
     }
 
+    @RequestMapping(method = { RequestMethod.GET },value = "ByAcademyAndMajor")
+    @ResponseBody
+    public  List<gctrl> getGctrlCountByAcademyAndMajor(HttpServletRequest request) {
+        gctrl b=new gctrl();
+        return gctrlservice.getGctrlCountByAcademyAndMajor(b);
+    }
+
 }

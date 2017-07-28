@@ -35,7 +35,6 @@
     <!-- 引入 ECharts 文件 -->
     <script src="../../js/echarts.min.js"></script>
 </head>
-<!--//getlarge_year-->
 <script type="application/javascript">
     function getlarge_academy_hour_count(){
         $(".chart_title p").text("昨日学院图书借还分析");
@@ -142,9 +141,6 @@
         });
     });
 </script>
-
-
-<!--//getlarge_month-->
 <script type="application/javascript">
     function getlarge_bookind_hour_count(){
         $(".chart_title p").text("今年学院图书种类分析");
@@ -217,8 +213,6 @@
     }
 
 </script>
-
-
 <body class="nav-md">
 <div class="container body">
     <div class="main_container">
@@ -416,6 +410,7 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
+            <div class="clearfix"></div>
             <div class="row" style="height: 350px;">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
@@ -500,8 +495,13 @@
                                     'type': 'value',
                                     'name': '借/还书量',
                                     'max': 200
+
                                 }, {
                                     'type': 'value',
+                                    "axisLabel": {
+                                        "interval": 0,
+                                        formatter: '{value}本',
+                                    }
                                 }],
                                 series: [{
                                     'name': '借书量',
@@ -526,14 +526,13 @@
                                 playInterval: 2000},
                             'options':options
                         }
-                       // console.log(academy_hour_count_option);
+                        // console.log(academy_hour_count_option);
                         academy_hour_count.setOption(academy_hour_count_option);
                     });
                 </script>
             </div>
-
             <div class="clearfix"></div>
-            <div class="row" style="height: 350px;">
+            <div class="row"  style="height:  350px;" >
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">
@@ -550,7 +549,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="bookind_hour_count" style="height:280px;"></div>
+                            <div id="bookind_hour_count" style="height:250px;"></div>
                         </div>
                     </div>
                 </div>
@@ -633,9 +632,9 @@
         </div>
         <div id="large_academy_hour_count" class="large_chart"  style="display: none"></div>
         <div id="large_bookind_hour_count" class="large_chart"  style="display: none"></div>
-
     </div>
 </div>
+
 <!-- Bootstrap -->
 <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- FastClick -->

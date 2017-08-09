@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Gentelella Alela! | </title>
+    <title>智慧图书馆2.0</title>
 
     <!-- Bootstrap -->
     <link href="cttp/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -20,41 +20,158 @@
 
     <!-- Custom Theme Style -->
     <link href="cttp/build/css/custom.min.css" rel="stylesheet">
-  </head>
 
+    <!-- jQuery -->
+    <script type="text/javascript" src="cttp/vendors/jquery/dist/jquery.min.js"></script>
+  </head>
+  <script type="text/javascript">
+      //服务器校验
+      function severCheck() {
+          if (check()) {
+              var loginname = $("#loginname").val();
+              var password = $("#password").val();
+              var formData = $('#loginForm').serialize();
+              console.info(loginname+'---'+password);
+              console.info(formData);
+              $.ajax({
+                  type: "POST",
+                  url: 'sys/login_login',
+                  data: formData,
+                  dataType:'json',
+                  cache: false,
+                  success: function(data){
+                      if("success" == data.result){
+//                          saveCookie();
+                          window.location='cttp/production/index.html';
+                      }else if("usererror" == data.result){
+                          $("#loginname").tips({
+                              side : 1,
+                              msg : "用户名或密码有误",
+                              bg : '#FF5080',
+                              time : 15
+                          });
+//                          showfh();
+                          $("#loginname").focus();
+                      }else if("codeerror" == data.result){
+                          $("#code").tips({
+                              side : 1,
+                              msg : "验证码输入有误",
+                              bg : '#FF5080',
+                              time : 15
+                          });
+//                          showfh();
+                          $("#code").focus();
+                      }else{
+                          $("#loginname").tips({
+                              side : 1,
+                              msg : "缺少参数",
+                              bg : '#FF5080',
+                              time : 15
+                          });
+//                          showfh();
+                          $("#loginname").focus();
+                      }
+                      /*if(data.ret == 0){
+                          window.location='cttp/production/index.html';
+                      }else{
+                          $.messager.alert('登录失败',data.info)
+                          alert(data.info);
+                      }*/
+                  }
+              });
+
+          }
+      }
+
+      $(document).ready(function() {
+          changeCode1();
+          $("#codeImg").bind("click", changeCode1);
+      });
+      function genTimestamp() {
+          var time = new Date();
+          return time.getTime();
+      }
+      function changeCode1() {
+          $("#codeImg").attr("src", "code?t=" + genTimestamp());
+      }
+      //客户端校验
+      function check() {
+
+          if ($("#loginname").val() == "") {
+              $("#loginname").tips({
+                  side : 2,
+                  msg : '用户名不得为空',
+                  bg : '#AE81FF',
+                  time : 3
+              });
+              $("#loginname").focus();
+              return false;
+          } else {
+              $("#loginname").val(jQuery.trim($('#loginname').val()));
+          }
+
+          if ($("#password").val() == "") {
+              $("#password").tips({
+                  side : 2,
+                  msg : '密码不得为空',
+                  bg : '#AE81FF',
+                  time : 3
+              });
+              $("#password").focus();
+              return false;
+          }
+
+          if ($("#code").val() == "") {
+              $("#code").tips({
+                  side : 1,
+                  msg : '验证码不得为空',
+                  bg : '#AE81FF',
+                  time : 3
+              });
+              $("#code").focus();
+              return false;
+          }
+          return true;
+      }
+
+  </script>
   <body class="login">
     <div>
-      <a class="hiddenanchor" id="signup"></a>
       <a class="hiddenanchor" id="signin"></a>
 
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
-            <form>
-              <h1>Login Form</h1>
-              <div>
-                <input type="text" class="form-control" placeholder="Username" required="" />
+            <form id="loginForm" class="form-horizontal form-label-left input_mask">
+              <input  type="hidden" name="test" id="test" value="" required="required" />
+              <h1>智慧图书馆2.0</h1>
+              <div class="form-group">
+                <input type="text" name="loginname" id="loginname" value="" class="form-control" placeholder="Username" required="required" />
               </div>
-              <div>
-                <input type="password" class="form-control" placeholder="Password" required="" />
+              <div class="form-group">
+                <input type="password" name="password" id="password" value="" class="form-control" placeholder="Password" required="required" />
               </div>
-              <div>
-                <a class="btn btn-default submit" href="cttp/production/index.html">Log in</a>
-                <a class="reset_pass" href="#">Lost your password?</a>
+              <div class="form-group">
+                <div style="float: left;">
+                  <input type="text" name="code" id="code" class="form-control" style="height:25px;width:85px;"/>
+                </div>
+                <div style="float: left;">
+                  <i><img style="height:25px;" id="codeImg" alt="点击更换" title="点击更换" src="" /></i>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <button type="button" class="btn btn-success" onclick="severCheck();" id="to-recover">登 录</button>
               </div>
 
               <div class="clearfix"></div>
 
               <div class="separator">
-                <p class="change_link">New to site?
-                  <a href="#signup" class="to_register"> Create Account </a>
-                </p>
-
                 <div class="clearfix"></div>
                 <br />
 
                 <div>
-                  <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
+                  <h1><i class="fa fa-paw"></i> 浙江理工大学</h1>
                   <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
                 </div>
               </div>
@@ -62,42 +179,23 @@
           </section>
         </div>
 
-        <div id="register" class="animate form registration_form">
-          <section class="login_content">
-            <form>
-              <h1>Create Account</h1>
-              <div>
-                <input type="text" class="form-control" placeholder="Username" required="" />
-              </div>
-              <div>
-                <input type="email" class="form-control" placeholder="Email" required="" />
-              </div>
-              <div>
-                <input type="password" class="form-control" placeholder="Password" required="" />
-              </div>
-              <div>
-                <a class="btn btn-default submit" href="cttp/production/index.html">Submit</a>
-              </div>
-
-              <div class="clearfix"></div>
-
-              <div class="separator">
-                <p class="change_link">Already a member ?
-                  <a href="#signin" class="to_register"> Log in </a>
-                </p>
-
-                <div class="clearfix"></div>
-                <br />
-
-                <div>
-                  <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-                  <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
-                </div>
-              </div>
-            </form>
-          </section>
-        </div>
       </div>
     </div>
+
+
+    <!-- Bootstrap -->
+    <script src="cttp/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="cttp/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="cttp/vendors/nprogress/nprogress.js"></script>
+    <!-- validator -->
+    <script src="cttp/vendors/validator/validator.js"></script>
+    <!-- tips -->
+    <script src="js/jquery.tips.js "></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="cttp/build/js/custom.min.js"></script>
+
   </body>
 </html>

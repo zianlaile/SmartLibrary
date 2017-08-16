@@ -13,6 +13,33 @@ public class Print_Times extends BaseObject{
     private int counts;
     private String location;
     private int money;
+    private String ymddate;
+    private int daycount;
+    private String print_type;
+
+    public String getPrint_type() {
+        return print_type;
+    }
+
+    public void setPrint_type(String print_type) {
+        this.print_type = print_type;
+    }
+
+    public String getYmddate() {
+        return ymddate;
+    }
+
+    public void setYmddate(String ymddate) {
+        this.ymddate = ymddate;
+    }
+
+    public int getDaycount() {
+        return daycount;
+    }
+
+    public void setDaycount(int daycount) {
+        this.daycount = daycount;
+    }
 
     public String getLocation() {
         return location;

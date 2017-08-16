@@ -120,4 +120,50 @@ public class printTimesService {
         locationdata.put("money",money);
         return locationdata;
     }
+    public Map<String,List> getPrint_Times_Byprinttype(){
+        Map printtypedata = new HashMap<String,List>();
+        List<String> monthlist = new ArrayList<String>();
+        List<String> daylist = new ArrayList<String>();
+        List<Integer> monthcountlist = new ArrayList<Integer>();
+        List<Print_Times> gettypedata = printtimesdao.getPrintTimesByprinttype();
+        List<Integer> typectimes = new ArrayList<Integer>();
+        List<Integer> typeptimes = new ArrayList<Integer>();
+        List<Integer> typestimes = new ArrayList<Integer>();
+        List<Integer> typeccounts = new ArrayList<Integer>();
+        List<Integer> typepcounts = new ArrayList<Integer>();
+        List<Integer> typescounts = new ArrayList<Integer>();
+        List<Print_Times> getdaylist = printtimesdao.getPrintTimesByprinttypeday();
+        List<Print_Times> getmonthandcount = printtimesdao.getPrintTimesByprinttypemonth();
+        for(int i=0;i<getdaylist.size();i++){
+            daylist.add(getdaylist.get(i).getYmddate());
+        }
+        for(int i=0;i<getmonthandcount.size();i++){
+            monthlist.add(String.valueOf(getmonthandcount.get(i).getYear())+"-"+String.format("%02d", getmonthandcount.get(i).getMonth()));
+            monthcountlist.add(getmonthandcount.get(i).getDaycount());
+        }
+        for(int i=0;i<gettypedata.size();i++){
+            if(gettypedata.get(i).getPrint_type().equals("C")){
+                typectimes.add(gettypedata.get(i).getPrint_times());
+                typeccounts.add(gettypedata.get(i).getCounts());
+            }
+            else if(gettypedata.get(i).getPrint_type().equals("P")){
+                typeptimes.add(gettypedata.get(i).getPrint_times());
+                typepcounts.add(gettypedata.get(i).getCounts());
+            }
+            else if(gettypedata.get(i).getPrint_type().equals("S")){
+                typestimes.add(gettypedata.get(i).getPrint_times());
+                typescounts.add(gettypedata.get(i).getCounts());
+            }
+        }
+        printtypedata.put("typectimes",typectimes);
+        printtypedata.put("typeptimes",typeptimes);
+        printtypedata.put("typestimes",typestimes);
+        printtypedata.put("typeccounts",typeccounts);
+        printtypedata.put("typepcounts",typepcounts);
+        printtypedata.put("typescounts",typescounts);
+        printtypedata.put("daylist",daylist);
+        printtypedata.put("monthlist",monthlist);
+        printtypedata.put("monthcountlist",monthcountlist);
+        return printtypedata;
+    }
 }

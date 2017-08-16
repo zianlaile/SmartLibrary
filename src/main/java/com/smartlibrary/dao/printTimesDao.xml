@@ -32,7 +32,18 @@
         GROUP BY `year`,`month`,location
         ORDER BY `year`,`month`,location
     </select>
-    <select id="getlocationcount" resultType="Integer">
-        SELECT COUNT(DISTINCT location) FROM zz_print_month_location
+    <select id="getPrintTimesByprinttype" resultType="Print_Times">
+        SELECT `year`,`month`,`day`,print_type,times AS print_times,counts
+        FROM zz_print_day_printtype
+        GROUP BY `year`,`month`,`day`,print_type
+        ORDER BY `year`,`month`,`day`,print_type
+    </select>
+    <select id="getPrintTimesByprinttypeday" resultType="Print_Times">
+        SELECT DISTINCT(ymddate) FROM zz_print_day_printtype
+    </select>
+    <select id="getPrintTimesByprinttypemonth" resultType="Print_Times">
+        SELECT `year`,`month`,COUNT(DISTINCT ymddate) AS daycount
+        FROM zz_print_day_printtype
+        GROUP BY `year`,`month`
     </select>
 </mapper>

@@ -565,10 +565,10 @@
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="clearfix"></div>
-            <div class="row" style="height: 350px;">
+            <div class="row" style="height: 325px;">
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="x_panel">
-                        <div class="x_title">
+                        <div class="x_title"  style="padding:0px;" >
                             <h2>年-借阅统计</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -580,8 +580,8 @@
                             </ul>
                             <div class="clearfix"></div>
                         </div>
-                        <div class="x_content">
-                            <div id="year_count" style="height:280px;"></div>
+                        <div class="x_content"  style="height:240px;">
+                            <div id="year_count" style="height:240px;"></div>
                         </div>
                     </div>
                 </div>
@@ -671,7 +671,7 @@
                     // 异步加载数据
                     $.get('../../bookLend/ByYear').done(function (data) {
                         // 填入数据
-                        console.log(data);
+                        //console.log(data);
                         year_count.setOption({
                             xAxis: {
                                 data: data.times
@@ -689,29 +689,20 @@
                 </script>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="x_panel">
-                        <div class="x_title">
+                        <div class="x_title"   style="padding:0px;" >
                             <h2>月-借阅统计</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
                                 <li><a class="" href="javascript:getlarge_month()"><i class="fa icon-resize-full"></i></a>
                                 </li>
-                                <!--<li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Settings 1</a>
-                                        </li>
-                                        <li><a href="#">Settings 2</a>
-                                        </li>
-                                    </ul>
-                                </li>-->
                                 <li><a class="close-link"><i class="fa fa-close"></i></a>
                                 </li>
                             </ul>
                             <div class="clearfix"></div>
                         </div>
-                        <div class="x_content">
-                            <div id="month_count" style="height:280px;"></div>
+                        <div class="x_content"  style="height:240px;">
+                            <div id="month_count" style="height:240px;"></div>
                         </div>
                     </div>
                 </div>
@@ -797,7 +788,7 @@
                     month_count.setOption(month_count_option);
                     // 异步加载数据
                     $.get('../../bookLend/ByMonth').done(function (data) {
-                        console.log(data);
+                       // console.log(data);
                         // 填入数据
                         month_count.setOption({
                             xAxis: {
@@ -816,25 +807,16 @@
                 </script>
             </div>
             <div class="clearfix"></div>
-            <div class="row"  style="height:  350px;" >
+            <div class="row"  style="height:  340px;" >
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
-                        <div class="x_title">
+                        <div class="x_title"   style="padding:0px;" >
                             <h2>日-借阅统计</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
                                 <li><a class="" href="javascript:getlarge_day()"><i class="fa icon-resize-full"></i></a>
                                 </li>
-                                <!--<li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Settings 1</a>
-                                        </li>
-                                        <li><a href="#">Settings 2</a>
-                                        </li>
-                                    </ul>
-                                </li>-->
                                 <li><a class="close-link"><i class="fa fa-close"></i></a>
                                 </li>
                             </ul>

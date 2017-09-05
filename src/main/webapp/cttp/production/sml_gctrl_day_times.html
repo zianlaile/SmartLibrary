@@ -76,6 +76,14 @@
                        // color: '#fff'
                     }
                 },
+                toolbox:{
+                    right:20,
+                    feature:{
+                        saveAsImage: {},
+                        restore: {}
+
+                    }
+                },
                 calendar: [{
                     top: 100,
                     left: 'center',
@@ -411,10 +419,10 @@
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="clearfix"></div>
-            <div class="row"  style="height: 500px;" >
+            <div class="row"  style="height: 665px;" >
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
-                        <div class="x_title">
+                        <div class="x_title"  style="padding:0px;">
                             <h2>每日进馆人数统计</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -427,7 +435,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="day_count" style="height:500px;"></div>
+                            <div id="day_count" style="height:560px;"></div>
                         </div>
                     </div>
                 </div>
@@ -458,6 +466,14 @@
                                 data:['人数', 'Top 12'],
                                 textStyle: {
                                    // color: '#fff'
+                                }
+                            },
+                            toolbox:{
+                                right:20,
+                                feature:{
+                                    saveAsImage: {},
+                                    restore: {}
+
                                 }
                             },
                             calendar: [{

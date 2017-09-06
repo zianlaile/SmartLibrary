@@ -579,6 +579,8 @@
         }
     }
     $(function(){
+        var a=$(window).height()-10;
+        $(".right_col").height(a);
         $.ajax({
             type:"get",
             contentType: 'application/json',

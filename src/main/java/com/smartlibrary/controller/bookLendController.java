@@ -64,7 +64,7 @@ public class bookLendController {
 
     @RequestMapping(method = { RequestMethod.GET },value = "ByPublisher")
     @ResponseBody
-    public Map<String ,List> getBorrowCountByPublisher(HttpServletRequest request){
+    public  Map<Integer ,Map>  getBorrowCountByPublisher(HttpServletRequest request){
         Book_Lend b=new Book_Lend();
         return booklendservice.getBorrowCountByPublisher(b);
     };

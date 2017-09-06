@@ -72,8 +72,10 @@ public class gctrlService {
         gctrl bl;
         ArrayList<Integer> gctrl_times=new  ArrayList<Integer>();
         ArrayList<String> times=new  ArrayList<String>();
+        ArrayList<Integer> year=new  ArrayList<Integer>();
         Map<String ,List> data=new HashMap<String ,List>();
         for(int i=0;i<day2.size();i++){
+            year.add(day2.get(0).getYear());
             bl=day2.get(i);
             bl.setTime(String.valueOf(bl.getYear())+"-"+String.valueOf(bl.getMonth())+"-"+String.valueOf(bl.getDay()));
             //组成返回对象X轴与Y轴
@@ -82,6 +84,7 @@ public class gctrlService {
         }
         data.put("gctrl_times",gctrl_times);
         data.put("times",times);
+        data.put("year",year);
         return data;
     }
 

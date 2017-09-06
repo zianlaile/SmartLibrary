@@ -55,11 +55,15 @@
 
     <!--CURDATE() -->
     <select id="getBorrowCountByPublisher" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
-        SELECT zzyp.publisher,zzyp.times as book_lend_times
-        FROM zz_book_year_publisher  zzyp
-        WHERE zzyp.`year`= DATE_FORMAT('2016-01-12', '%Y')
-        GROUP BY zzyp.publisher
-        ORDER BY zzyp.times DESC,zzyp.publisher
-		LIMIT 20
+        select a1.year,a1.times as book_lend_times ,a1.publisher
+        from zz_book_year_publisher a1
+        inner join
+        (select a.year,a.times ,a.publisher from zz_book_year_publisher a left join zz_book_year_publisher b
+        on a.year=b.year and a.times&lt;=b.times
+        group by a.year,a.times
+        having count(b.times)&lt;=15
+        )b1
+        on a1.year=b1.year and a1.times=b1.times
+        order by a1.year,a1.times desc
     </select>
 </mapper>

@@ -55,6 +55,7 @@
                     // backgroundColor: '#000',
                     timeline: {
                         show: true,
+                        bottom: '8%',
                         axisType: 'category',
                         tooltip: {
                             show: true,
@@ -105,20 +106,20 @@
                         show: false,
                         left: '4%',
                         top: 60,
-                        bottom: 60,
+                        bottom: '20%',
                         containLabel: true,
                         width: '46%',
                     }, {
                         show: false,
                         left: '50.5%',
                         top: 80,
-                        bottom: 60,
+                        bottom: '20%',
                         width: '0%',
                     }, {
                         show: false,
                         right: '4%',
                         top: 60,
-                        bottom: 60,
+                        bottom: '20%',
                         containLabel: true,
                         width: '46%',
                     }, ],
@@ -536,7 +537,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title" style="padding:0px;">
-                            <h2>性别图书种类分析</h2>
+                            <h2>性别-图书种类分析</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
@@ -771,6 +772,7 @@
                         };
 
                         for (var i = 0; i < timeLineData.length; i++) {
+                            //console.log(timeLineData);
                             option.baseOption.timeline.data.push(timeLineData[i]);
                             option.options.push({
                                 series: [{

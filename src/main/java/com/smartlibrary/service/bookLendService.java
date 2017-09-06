@@ -208,17 +208,35 @@ public class bookLendService {
         return data;
     }
 
-    public Map<String ,List> getBorrowCountByPublisher(Book_Lend b){
+    public Map<Integer ,Map> getBorrowCountByPublisher(Book_Lend b){
         List<Book_Lend> publish= booklenddao.getBorrowCountByPublisher(b);
-        ArrayList<String> publisher=new  ArrayList<String>();
-        ArrayList<Integer> times=new  ArrayList<Integer>();
-        Map<String ,List> data=new HashMap<String ,List>();
+        Map<Integer ,Map> returndata=new TreeMap<Integer ,Map>();
+        Set oneyear=new TreeSet();
         for(int i=0;i<publish.size();i++){
-            publisher.add(publish.get(i).getPublisher());
-            times.add(publish.get(i).getBook_lend_times());
+            oneyear.add(publish.get(i).getYear());
         }
-        data.put("publisher",publisher);
-        data.put("times",times);
-        return data;
+        Iterator<Integer> oneyearit = oneyear.iterator();
+        ArrayList<Integer> oneyearlist=new  ArrayList<Integer>();
+        while(oneyearit.hasNext()) {
+            int  year =oneyearit.next();
+            oneyearlist.add(year);
+        }
+
+        for (int j = 0; j < oneyearlist.size(); j++) {
+            int year =oneyearlist.get(j);
+            ArrayList<String> publisher=new  ArrayList<String>();
+            ArrayList<Integer> times=new  ArrayList<Integer>();
+            Map<String ,List> data=new TreeMap<String ,List>();
+            for (int k = 0; k < publish.size(); k++) {
+                if(year==publish.get(k).getYear()){
+                    publisher.add(publish.get(k).getPublisher());
+                    times.add(publish.get(k).getBook_lend_times());
+                }
+            }
+            data.put("publisher",publisher);
+            data.put("times",times);
+            returndata.put(year,data);
+        }
+        return returndata;
     };
 }

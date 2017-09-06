@@ -35,7 +35,6 @@
     <!-- 引入 ECharts 文件 -->
     <script src="../../js/echarts.min.js"></script>
 </head>
-<!--//getlarge_year-->
 <script type="application/javascript">
     $(function(){
         $(".remove").click(function(){
@@ -55,6 +54,8 @@
             // 填入数据
             var gctrl_times=resultdata.gctrl_times;
             var times=resultdata.times;
+            var year=resultdata.year[0];
+            $(".chart_title p").text(year+"每日进馆人数统计");
             var data=[];
             for(var i=0;i<times.length;i++){
                 var onedata=[];
@@ -64,9 +65,21 @@
             }
             var day_count_option_option = {
                // backgroundColor: '#404a59',
-
+                /*title: {
+                    top: 30,
+                    text: year+'年每天进馆人数',
+                    left: 'center',
+                    textStyle: {
+                    }
+                },*/
                 tooltip : {
-                    trigger: 'item'
+                    trigger: 'item',
+                    position: 'top',
+                    formatter: function (params) {
+                        // console.log(params);
+                        //return "000"
+                        return params.data[0] + '     进馆' +':'+ params.data[1]+ '人' ;
+                    }
                 },
                 legend: {
                     top: '30',
@@ -87,7 +100,9 @@
                 calendar: [{
                     top: 100,
                     left: 'center',
-                    range: ['2016-01-01', '2016-06-30'],
+                    range: [year+'-01-01', year+'-06-30'],
+                    dayLabel:{nameMap : 'cn'},
+                    monthLabel :{nameMap : 'cn'},
                     splitLine: {
                         show: true,
                         lineStyle: {
@@ -112,7 +127,9 @@
                 }, {
                     top: 340,
                     left: 'center',
-                    range: ['2016-07-01', '2016-12-31'],
+                    range: [year+'-07-01', year+'-12-31'],
+                    dayLabel:{nameMap : 'cn'},
+                    monthLabel :{nameMap : 'cn'},
                     splitLine: {
                         show: true,
                         lineStyle: {
@@ -440,13 +457,15 @@
                     </div>
                 </div>
                 <script type="text/javascript">
-                    // 基于月统计
+                    //
                     var day_count = echarts.init(document.getElementById('day_count'));
                     // 异步加载数据
                     $.get('../../gctrl/ByDay2').done(function (resultdata) {
                         // 填入数据
                         var gctrl_times=resultdata.gctrl_times;
                         var times=resultdata.times;
+                        var year=resultdata.year[0];
+
                         var data=[];
                         for(var i=0;i<times.length;i++){
                             var onedata=[];
@@ -456,9 +475,21 @@
                         }
                         var day_count_option_option = {
                            // backgroundColor: '#404a59',
-
+                            title: {
+                                top: 30,
+                                text: year+'年每天进馆人数',
+                                left: 'center',
+                                textStyle: {
+                                }
+                            },
                             tooltip : {
-                                trigger: 'item'
+                                trigger: 'item',
+                                position: 'top',
+                                formatter: function (params) {
+                                   // console.log(params);
+                                    //return "000"
+                                    return params.data[0] + '     进馆' +':'+ params.data[1]+ '人' ;
+                                }
                             },
                             legend: {
                                 top: '30',
@@ -479,7 +510,9 @@
                             calendar: [{
                                 top: 100,
                                 left: 'center',
-                                range: ['2016-01-01', '2016-06-30'],
+                                range: [year+'-01-01', year+'-06-30'],
+                                dayLabel:{nameMap : 'cn'},
+                                monthLabel :{nameMap : 'cn'},
                                 splitLine: {
                                     show: true,
                                     lineStyle: {
@@ -504,7 +537,9 @@
                             }, {
                                 top: 340,
                                 left: 'center',
-                                range: ['2016-07-01', '2016-12-31'],
+                                range: [year+'-07-01', year+'-12-31'],
+                                dayLabel:{nameMap : 'cn'},
+                                monthLabel :{nameMap : 'cn'},
                                 splitLine: {
                                     show: true,
                                     lineStyle: {
@@ -533,6 +568,7 @@
                                     type: 'scatter',
                                     coordinateSystem: 'calendar',
                                     data: data,
+
                                     symbolSize: function (val) {
                                         return val[1] / 500;
                                     },

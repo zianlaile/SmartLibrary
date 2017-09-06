@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Gentelella Alela! | </title>
+    <title>进馆数据统计</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -63,7 +63,7 @@
             },
             grid: {
                 left: '3%',
-                right: '4%',
+                right: '10%',
                 containLabel: true
             },
             xAxis : [
@@ -93,7 +93,18 @@
                     name:'进馆每年统计',
                     type:'bar',
                     barWidth: '40%',
-                    data:[]
+                    data:[],
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
                 },
 
             ],
@@ -164,7 +175,7 @@
             },
             grid: {
                 left: '3%',
-                right: '4%',
+                right: '10%',
                 bottom: '20%',
                 containLabel: true
             },
@@ -232,7 +243,18 @@
                             }])
                         }
                     },
-                    data: []
+                    data: [],
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
                 }
             ]
         };
@@ -277,7 +299,7 @@
             },
             grid: {
                 left: '3%',
-                right: '4%',
+                right: '10%',
                 bottom:'20%',
                 containLabel: true
             },
@@ -346,7 +368,18 @@
                             }])
                         }
                     },
-                    data: []
+                    data: [],
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
                 }
             ]
         };
@@ -611,7 +644,7 @@
                         },
                         grid: {
                             left: '3%',
-                            right: '4%',
+                            right: '10%',
                             bottom: '3%',
                             containLabel: true
                         },
@@ -642,7 +675,18 @@
                                 name:'进馆每年统计',
                                 type:'bar',
                                 barWidth: '40%',
-                                data:[]
+                                data:[],
+                                markPoint: {
+                                    data: [
+                                        {type: 'max', name: '最大值'},
+                                        {type: 'min', name: '最小值'}
+                                    ]
+                                },
+                                markLine: {
+                                    data: [
+                                        {type: 'average', name: '平均值'}
+                                    ]
+                                }
                             },
 
                         ],
@@ -732,7 +776,7 @@
                         },
                         grid: {
                             left: '3%',
-                            right: '4%',
+                            right: '10%',
                             containLabel: true
                         },
                         xAxis: {
@@ -788,7 +832,18 @@
                                         }])
                                     }
                                 },
-                                data: []
+                                data: [],
+                                markPoint: {
+                                    data: [
+                                        {type: 'max', name: '最大值'},
+                                        {type: 'min', name: '最小值'}
+                                    ]
+                                },
+                                markLine: {
+                                    data: [
+                                        {type: 'average', name: '平均值'}
+                                    ]
+                                }
                             }
                         ]
                     };
@@ -848,7 +903,6 @@
                         },
                         toolbox: {
                             feature: {
-
                                 restore: {},
                                 saveAsImage: {}
                             }
@@ -910,7 +964,18 @@
                                         }])
                                     }
                                 },
-                                data: []
+                                data: [],
+                                markPoint: {
+                                    data: [
+                                        {type: 'max', name: '最大值'},
+                                        {type: 'min', name: '最小值'}
+                                    ]
+                                },
+                                markLine: {
+                                    data: [
+                                        {type: 'average', name: '平均值'}
+                                    ]
+                                }
                             }
                         ]
                     };

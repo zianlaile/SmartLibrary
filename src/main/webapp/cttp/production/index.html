@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Gentelella Alela! | </title>
+    <title>图书馆借阅统计</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -95,7 +95,18 @@
                     name:'借阅每年统计',
                     type:'bar',
                     barWidth: '40%',
-                    data:[]
+                    data:[],
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
                 },
 
             ],
@@ -234,7 +245,18 @@
                             }])
                         }
                     },
-                    data: []
+                    data: [],
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
                 }
             ]
         };
@@ -348,7 +370,18 @@
                             }])
                         }
                     },
-                    data: []
+                    data: [],
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
                 }
             ]
         };
@@ -612,7 +645,7 @@
                         },
                         grid: {
                             left: '3%',
-                            right: '4%',
+                            right: '10%',
                             bottom: '3%',
                             containLabel: true
                         },
@@ -644,7 +677,18 @@
                                 name:'借阅每年统计',
                                 type:'bar',
                                 barWidth: '40%',
-                                data:[]
+                                data:[],
+                                markPoint: {
+                                    data: [
+                                        {type: 'max', name: '最大值'},
+                                        {type: 'min', name: '最小值'}
+                                    ]
+                                },
+                                markLine: {
+                                    data: [
+                                        {type: 'average', name: '平均值'}
+                                    ]
+                                }
                             },
 
                         ],
@@ -723,7 +767,6 @@
                         },
                         toolbox: {
                             feature: {
-
                                 restore: {},
                                 saveAsImage: {}
                             }
@@ -733,7 +776,7 @@
                         },
                         grid: {
                             left: '3%',
-                            right: '4%',
+                            right: '10%',
                             containLabel: true
                         },
                         xAxis: {
@@ -789,7 +832,18 @@
                                         }])
                                     }
                                 },
-                                data: []
+                                data: [],
+                                markPoint: {
+                                    data: [
+                                        {type: 'max', name: '最大值'},
+                                        {type: 'min', name: '最小值'}
+                                    ]
+                                },
+                                markLine: {
+                                    data: [
+                                        {type: 'average', name: '平均值'}
+                                    ]
+                                }
                             }
                         ]
                     };
@@ -911,7 +965,18 @@
                                         }])
                                     }
                                 },
-                                data: []
+                                data: [],
+                                markPoint: {
+                                    data: [
+                                        {type: 'max', name: '最大值'},
+                                        {type: 'min', name: '最小值'}
+                                    ]
+                                },
+                                markLine: {
+                                    data: [
+                                        {type: 'average', name: '平均值'}
+                                    ]
+                                }
                             }
                         ]
                     };

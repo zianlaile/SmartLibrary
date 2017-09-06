@@ -55,38 +55,22 @@
                     },
                     legend: {
                         "show": true,
-                        x: 'right',
+                        top: 4,
+                        right: '20%',
                         'data': ['借书量', '还书量'],
                         'selected': {
                             '借书量': true,
                             '还书量': true,
                         }
                     },
-                    toolbox: {
-                        'show': true,
-                        orient: 'vertical',
-                        x: 'right',
-                        y: 'center',
-                        'feature': {
-                            'mark': {
-                                'show': true
-                            },
-                            'dataView': {
-                                'show': true,
-                                'readOnly': true
-                            },
-                            'magicType': {
-                                'show': true,
-                                'type': ['line', 'bar', 'stack', 'tiled']
-                            },
-                            'restore': {
-                                'show': true
-                            },
-                            'saveAsImage': {
-                                'show': true
-                            }
+                    toolbox:{
+                        right:20,
+                        feature:{
+                            saveAsImage: {},
+                            restore: {}
                         }
                     },
+
                     calculable: true,
                     grid: {
                         'y': 80,
@@ -162,8 +146,16 @@
                     link: 'https://github.com/pissang/echarts-next/graphs/punch-card'
                 },
                 legend: {
-                    data: ['图书借阅量 '],
-                    left: 'right'
+                    data: ['图书借阅量'],
+                    right:'20%',
+                },
+                toolbox:{
+                    right:20,
+                    feature:{
+                        saveAsImage: {},
+                        restore: {}
+
+                    }
                 },
                 tooltip: {
                     position: 'top',
@@ -411,10 +403,10 @@
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="clearfix"></div>
-            <div class="row" style="height: 350px;">
+            <div class="row" style="height: 325px;">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
-                        <div class="x_title">
+                        <div class="x_title" style="padding:0px;">
                             <h2>昨日学院图书借还分析</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -427,7 +419,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="academy_hour_count" style="height:280px;"></div>
+                            <div id="academy_hour_count" style="height:240px;"></div>
                         </div>
                     </div>
                 </div>
@@ -446,38 +438,22 @@
                                 },
                                 legend: {
                                     "show": true,
-                                    x: 'right',
+                                    top: 4,
+                                    right: '20%',
                                     'data': ['借书量', '还书量'],
                                     'selected': {
                                         '借书量': true,
                                         '还书量': true,
                                     }
                                 },
-                                toolbox: {
-                                    'show': true,
-                                    orient: 'vertical',
-                                    x: 'right',
-                                    y: 'center',
-                                    'feature': {
-                                        'mark': {
-                                            'show': true
-                                        },
-                                        'dataView': {
-                                            'show': true,
-                                            'readOnly': true
-                                        },
-                                        'magicType': {
-                                            'show': true,
-                                            'type': ['line', 'bar', 'stack', 'tiled']
-                                        },
-                                        'restore': {
-                                            'show': true
-                                        },
-                                        'saveAsImage': {
-                                            'show': true
-                                        }
+                                toolbox:{
+                                    right:20,
+                                    feature:{
+                                        saveAsImage: {},
+                                        restore: {}
                                     }
                                 },
+
                                 calculable: true,
                                 grid: {
                                     'y': 80,
@@ -532,10 +508,10 @@
                 </script>
             </div>
             <div class="clearfix"></div>
-            <div class="row"  style="height:  350px;" >
+            <div class="row"  style="height:  340px;" >
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
-                        <div class="x_title">
+                        <div class="x_title"  style="padding:0px;">
                             <h2>今年学院图书种类分析</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -569,7 +545,16 @@
                             },
                             legend: {
                                 data: ['图书借阅量'],
-                                left: 'right'
+                                right:'20%',
+                            },
+
+                            toolbox:{
+                                right:20,
+                                feature:{
+                                    saveAsImage: {},
+                                    restore: {}
+
+                                }
                             },
                             tooltip: {
                                 position: 'top',

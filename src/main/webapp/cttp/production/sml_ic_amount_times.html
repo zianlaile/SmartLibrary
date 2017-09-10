@@ -81,23 +81,23 @@
                     }
                 },
                 right:"2%",
-                top:"10%",
+                /*top:"10%",*/
                 feature: {
                     restore: {},
                     saveAsImage: {}
                 }
             },
-            "grid": {
+            /*"grid": {
                 "borderWidth": 0,
                 "top": 110,
                 "bottom": 95,
                 textStyle: {
                     color: "#222"
                 }
-            },
+            },*/
             "legend": {
-                right: '10%',
-                top: '11%',
+                /*right: '10%',*/
+                /*top: '11%',*/
                 textStyle: {
                     color: '#90979c',
                 },
@@ -152,33 +152,23 @@
                 },
 
             }],
-            "dataZoom": [{
-                "show": true,
-                "height": 30,
-                "xAxisIndex": [
-                    0
-                ],
-                bottom: 30,
-                "start": 30,
-                "end": 60,
-                handleIcon: 'path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z',
-                handleSize: '110%',
-                handleStyle:{
-                    color:"#d3dee5",
-
-                },
-                textStyle:{
-                    color:"#"},
-                borderColor:"#90979c"
-
-
+            /*dataZoom: [{
+                type: 'inside',
+                start: 70,
+                end: 100
             }, {
-                "type": "inside",
-                "show": true,
-                "height": 15,
-                "start": 1,
-                "end": 35
-            }],
+                start: 70,
+                end: 100,
+                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                handleSize: '80%',
+                handleStyle: {
+                    color: '#fff',
+                    shadowBlur: 3,
+                    shadowColor: 'rgba(0, 0, 0, 0.6)',
+                    shadowOffsetX: 2,
+                    shadowOffsetY: 2
+                }
+            }],*/
             "series": [{
                 "name": "本科生",
                 "type": "bar",
@@ -266,7 +256,7 @@
                     symbol:'circle',
                     "itemStyle": {
                         "normal": {
-                            "color": "rgba(252,230,48,1)",
+                            "color": "rgba(30,144,255,1)",
                             "barBorderRadius": 0,
                             "label": {
                                 "show": true,
@@ -282,6 +272,67 @@
             ]
         };
         croom_count.setOption(croom_count_option);
+        if(chartid=="largecroom"){
+            croom_count.setOption({
+                grid: {
+                    bottom:'15%',
+                    "borderWidth": 0,
+                    textStyle: {
+                        color: "#222"
+                    }
+                },
+            });
+            croom_count.setOption({
+                dataZoom: [{
+                    type: 'inside',
+                    start: 70,
+                    end: 100
+                }, {
+                    start: 70,
+                    end: 100,
+                    bottom:'5%',
+                    handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                    handleSize: '80%',
+                    handleStyle: {
+                        color: '#fff',
+                        shadowBlur: 3,
+                        shadowColor: 'rgba(0, 0, 0, 0.6)',
+                        shadowOffsetX: 2,
+                        shadowOffsetY: 2
+                    }
+                }],
+            });
+        }
+        else{
+            croom_count.setOption({
+                grid: {
+                    "borderWidth": 0,
+                    "bottom": 95,
+                    textStyle: {
+                        color: "#222"
+                    }
+                },
+            });
+            croom_count.setOption({
+                dataZoom: [{
+                    type: 'inside',
+                    start: 70,
+                    end: 100
+                }, {
+                    start: 70,
+                    end: 100,
+                    handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                    handleSize: '80%',
+                    handleStyle: {
+                        color: '#fff',
+                        shadowBlur: 3,
+                        shadowColor: 'rgba(0, 0, 0, 0.6)',
+                        shadowOffsetX: 2,
+                        shadowOffsetY: 2
+                    }
+                }],
+            });
+        }
     }
     function getlarge_croom() {
         $(".chart_title p").text("研修间-使用量分析");
@@ -306,14 +357,14 @@
 
                 },
             },
-            "grid": {
+            /*"grid": {
                 "borderWidth": 0,
                 "top": 110,
                 "bottom": 95,
                 textStyle: {
                     color: "#fff"
                 }
-            },
+            },*/
             toolbox: {
                 iconStyle: {
                     normal: {
@@ -324,15 +375,15 @@
                     }
                 },
                 right:"2%",
-                top:"10%",
+                /*top:"10%",*/
                 feature: {
                     restore: {},
                     saveAsImage: {}
                 }
             },
             "legend": {
-                right: '10%',
-                top: '11%',
+                /*right: '10%',*/
+                /*top: '11%',*/
                 textStyle: {
                     color: '#90979c',
                 },
@@ -387,33 +438,23 @@
                 },
 
             }],
-            "dataZoom": [{
-                "show": true,
-                "height": 30,
-                "xAxisIndex": [
-                    0
-                ],
-                bottom: 30,
-                "start": 30,
-                "end": 60,
-                handleIcon: 'path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z',
-                handleSize: '110%',
-                handleStyle:{
-                    color:"#d3dee5",
-
-                },
-                textStyle:{
-                    color:"#222"},
-                borderColor:"#90979c"
-
-
+            /*dataZoom: [{
+                type: 'inside',
+                start: 70,
+                end: 100
             }, {
-                "type": "inside",
-                "show": true,
-                "height": 15,
-                "start": 1,
-                "end": 35
-            }],
+                start: 70,
+                end: 100,
+                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                handleSize: '80%',
+                handleStyle: {
+                    color: '#fff',
+                    shadowBlur: 3,
+                    shadowColor: 'rgba(0, 0, 0, 0.6)',
+                    shadowOffsetX: 2,
+                    shadowOffsetY: 2
+                }
+            }],*/
             "series": [{
                 "name": "本科生",
                 "type": "bar",
@@ -501,7 +542,7 @@
                     symbol:'circle',
                     "itemStyle": {
                         "normal": {
-                            "color": "rgba(252,230,48,1)",
+                            "color": "rgba(30,144,255,1)",
                             "barBorderRadius": 0,
                             "label": {
                                 "show": true,
@@ -517,6 +558,67 @@
             ]
         };
         eread_count.setOption(eread_count_option);
+        if(chartid=="largeread"){
+            eread_count.setOption({
+                grid: {
+                    bottom:'15%',
+                    "borderWidth": 0,
+                    textStyle: {
+                        color: "#222"
+                    }
+                },
+            });
+            eread_count.setOption({
+                dataZoom: [{
+                    type: 'inside',
+                    start: 70,
+                    end: 100
+                }, {
+                    start: 70,
+                    end: 100,
+                    bottom:'5%',
+                    handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                    handleSize: '80%',
+                    handleStyle: {
+                        color: '#fff',
+                        shadowBlur: 3,
+                        shadowColor: 'rgba(0, 0, 0, 0.6)',
+                        shadowOffsetX: 2,
+                        shadowOffsetY: 2
+                    }
+                }],
+            });
+        }
+        else{
+            eread_count.setOption({
+                grid: {
+                    "borderWidth": 0,
+                    "bottom": 95,
+                    textStyle: {
+                        color: "#222"
+                    }
+                },
+            });
+            eread_count.setOption({
+                dataZoom: [{
+                    type: 'inside',
+                    start: 70,
+                    end: 100
+                }, {
+                    start: 70,
+                    end: 100,
+                    handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                    handleSize: '80%',
+                    handleStyle: {
+                        color: '#fff',
+                        shadowBlur: 3,
+                        shadowColor: 'rgba(0, 0, 0, 0.6)',
+                        shadowOffsetX: 2,
+                        shadowOffsetY: 2
+                    }
+                }],
+            });
+        }
     }
     function getlarge_eread() {
         $(".chart_title p").text("电子阅览室-使用量分析");
@@ -541,14 +643,14 @@
 
                 },
             },
-            "grid": {
+            /*"grid": {
                 "borderWidth": 0,
                 "top": 110,
                 "bottom": 95,
                 textStyle: {
                     color: "#222"
                 }
-            },
+            },*/
             toolbox: {
                 iconStyle: {
                     normal: {
@@ -559,15 +661,15 @@
                     }
                 },
                 right:"2%",
-                top:"10%",
+                /*top:"10%",*/
                 feature: {
                     restore: {},
                     saveAsImage: {}
                 }
             },
             "legend": {
-                right: '10%',
-                top: '11%',
+                /*right: '10%',*/
+                /*top: '11%',*/
                 textStyle: {
                     color: '#90979c',
                 },
@@ -622,33 +724,23 @@
                 },
 
             }],
-            "dataZoom": [{
-                "show": true,
-                "height": 30,
-                "xAxisIndex": [
-                    0
-                ],
-                bottom: 30,
-                "start": 30,
-                "end": 60,
-                handleIcon: 'path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z',
-                handleSize: '110%',
-                handleStyle:{
-                    color:"#d3dee5",
-
-                },
-                textStyle:{
-                    color:"#222"},
-                borderColor:"#90979c"
-
-
+            /*dataZoom: [{
+                type: 'inside',
+                start: 70,
+                end: 100
             }, {
-                "type": "inside",
-                "show": true,
-                "height": 15,
-                "start": 1,
-                "end": 35
-            }],
+                start: 70,
+                end: 100,
+                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                handleSize: '80%',
+                handleStyle: {
+                    color: '#fff',
+                    shadowBlur: 3,
+                    shadowColor: 'rgba(0, 0, 0, 0.6)',
+                    shadowOffsetX: 2,
+                    shadowOffsetY: 2
+                }
+            }],*/
             "series": [{
                 "name": "本科生",
                 "type": "bar",
@@ -736,7 +828,7 @@
                     symbol:'circle',
                     "itemStyle": {
                         "normal": {
-                            "color": "rgba(252,230,48,1)",
+                            "color": "rgba(30,144,255,1)",
                             "barBorderRadius": 0,
                             "label": {
                                 "show": true,
@@ -752,6 +844,67 @@
             ]
         };
         seat_count.setOption(seat_count_option);
+        if(chartid=="largeseat"){
+            seat_count.setOption({
+                grid: {
+                    bottom:'15%',
+                    "borderWidth": 0,
+                    textStyle: {
+                        color: "#222"
+                    }
+                },
+            });
+            seat_count.setOption({
+                dataZoom: [{
+                    type: 'inside',
+                    start: 70,
+                    end: 100
+                }, {
+                    start: 70,
+                    end: 100,
+                    bottom:'5%',
+                    handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                    handleSize: '80%',
+                    handleStyle: {
+                        color: '#fff',
+                        shadowBlur: 3,
+                        shadowColor: 'rgba(0, 0, 0, 0.6)',
+                        shadowOffsetX: 2,
+                        shadowOffsetY: 2
+                    }
+                }],
+            });
+        }
+        else{
+            seat_count.setOption({
+                grid: {
+                    "borderWidth": 0,
+                    "bottom": 95,
+                    textStyle: {
+                        color: "#222"
+                    }
+                },
+            });
+            seat_count.setOption({
+                dataZoom: [{
+                    type: 'inside',
+                    start: 70,
+                    end: 100
+                }, {
+                    start: 70,
+                    end: 100,
+                    handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                    handleSize: '80%',
+                    handleStyle: {
+                        color: '#fff',
+                        shadowBlur: 3,
+                        shadowColor: 'rgba(0, 0, 0, 0.6)',
+                        shadowOffsetX: 2,
+                        shadowOffsetY: 2
+                    }
+                }],
+            });
+        }
     }
     function getlarge_seat() {
         $(".chart_title p").text("座位-使用量分析");
@@ -786,23 +939,23 @@
                     }
                 },
                 right:"2%",
-                top:"10%",
+                /*top:"10%",*/
                 feature: {
                     restore: {},
                     saveAsImage: {}
                 }
             },
-            "grid": {
+            /*"grid": {
                 "borderWidth": 0,
                 "top": 110,
                 "bottom": 95,
                 textStyle: {
                     color: "#222"
                 }
-            },
+            },*/
             "legend": {
-                right: '10%',
-                top: '11%',
+                /*right: '10%',*/
+                /*top: '11%',*/
                 textStyle: {
                     color: '#90979c',
                 },
@@ -857,33 +1010,23 @@
                 },
 
             }],
-            "dataZoom": [{
-                "show": true,
-                "height": 30,
-                "xAxisIndex": [
-                    0
-                ],
-                bottom: 30,
-                "start": 30,
-                "end": 60,
-                handleIcon: 'path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z',
-                handleSize: '110%',
-                handleStyle:{
-                    color:"#d3dee5",
-
-                },
-                textStyle:{
-                    color:"#222"},
-                borderColor:"#90979c"
-
-
+            /*dataZoom: [{
+                type: 'inside',
+                start: 70,
+                end: 100
             }, {
-                "type": "inside",
-                "show": true,
-                "height": 15,
-                "start": 1,
-                "end": 35
-            }],
+                start: 70,
+                end: 100,
+                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                handleSize: '80%',
+                handleStyle: {
+                    color: '#fff',
+                    shadowBlur: 3,
+                    shadowColor: 'rgba(0, 0, 0, 0.6)',
+                    shadowOffsetX: 2,
+                    shadowOffsetY: 2
+                }
+            }],*/
             "series": [{
                 "name": "本科生",
                 "type": "bar",
@@ -971,7 +1114,7 @@
                     symbol:'circle',
                     "itemStyle": {
                         "normal": {
-                            "color": "rgba(252,230,48,1)",
+                            "color": "rgba(30,144,255,1)",
                             "barBorderRadius": 0,
                             "label": {
                                 "show": true,
@@ -987,6 +1130,67 @@
             ]
         };
         equipment_count.setOption(equipment_count_option);
+        if(chartid=="largeequipment"){
+            equipment_count.setOption({
+                grid: {
+                    bottom:'15%',
+                    "borderWidth": 0,
+                    textStyle: {
+                        color: "#222"
+                    }
+                },
+            });
+            equipment_count.setOption({
+                dataZoom: [{
+                    type: 'inside',
+                    start: 70,
+                    end: 100
+                }, {
+                    start: 70,
+                    end: 100,
+                    bottom:'5%',
+                    handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                    handleSize: '80%',
+                    handleStyle: {
+                        color: '#fff',
+                        shadowBlur: 3,
+                        shadowColor: 'rgba(0, 0, 0, 0.6)',
+                        shadowOffsetX: 2,
+                        shadowOffsetY: 2
+                    }
+                }],
+            });
+        }
+        else{
+            equipment_count.setOption({
+                grid: {
+                    "borderWidth": 0,
+                    "bottom": 95,
+                    textStyle: {
+                        color: "#222"
+                    }
+                },
+            });
+            equipment_count.setOption({
+                dataZoom: [{
+                    type: 'inside',
+                    start: 70,
+                    end: 100
+                }, {
+                    start: 70,
+                    end: 100,
+                    handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                    handleSize: '80%',
+                    handleStyle: {
+                        color: '#fff',
+                        shadowBlur: 3,
+                        shadowColor: 'rgba(0, 0, 0, 0.6)',
+                        shadowOffsetX: 2,
+                        shadowOffsetY: 2
+                    }
+                }],
+            });
+        }
     }
     function getlarge_equipment() {
         $(".chart_title p").text("设备-外借量分析");

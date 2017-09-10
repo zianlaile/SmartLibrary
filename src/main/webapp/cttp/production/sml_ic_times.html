@@ -97,7 +97,18 @@
                             shadowBlur: 10
                         },
                     },
-                    data:yeardata.eread_times
+                    data:yeardata.eread_times,
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
                 },
                 {
                     name:'座位',
@@ -117,7 +128,18 @@
                             shadowBlur: 10
                         },
                     },
-                    data:yeardata.seat_times
+                    data:yeardata.seat_times,
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
                 },
                 {
                     name:'研修间',
@@ -137,7 +159,18 @@
                             shadowBlur: 10
                         },
                     },
-                    data:yeardata.croom_times
+                    data:yeardata.croom_times,
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
                 },
 
             ],
@@ -163,7 +196,7 @@
             year_count.setOption({
                 grid: {
                     left: '3%',
-                    right: '4%',
+                    right: '8%',
                     bottom:'3%',
                     containLabel: true
                 },
@@ -232,7 +265,7 @@
                     }
                 }
             }],
-            dataZoom: [{
+            /*dataZoom: [{
                 type: 'inside',
                 start: 70,
                 end: 100
@@ -248,7 +281,7 @@
                     shadowOffsetX: 2,
                     shadowOffsetY: 2
                 }
-            }],
+            }],*/
             series: [{
                 name: '电子阅览室',
                 type: 'line',
@@ -282,7 +315,18 @@
 
                     }
                 },
-                data: daydata.eread_times
+                data: daydata.eread_times,
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值'}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
             }, {
                 name: '座位',
                 type: 'line',
@@ -316,7 +360,18 @@
 
                     }
                 },
-                data: daydata.seat_times
+                data: daydata.seat_times,
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值'}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
             }, {
                 name: '研修间',
                 type: 'line',
@@ -350,7 +405,18 @@
                         borderWidth: 12
                     }
                 },
-                data: daydata.croom_times
+                data: daydata.croom_times,
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值'}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
             }, ]
         };
         day_count.setOption(day_count_option);
@@ -359,8 +425,29 @@
                 grid: {
                     left: '3%',
                     right: '4%',
+                    bottom:'10%',
                     containLabel: true
                 },
+            });
+            day_count.setOption({
+                dataZoom: [{
+                    type: 'inside',
+                    start: 70,
+                    end: 100
+                }, {
+                    start: 70,
+                    end: 100,
+                    bottom:'5%',
+                    handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                    handleSize: '80%',
+                    handleStyle: {
+                        color: '#fff',
+                        shadowBlur: 3,
+                        shadowColor: 'rgba(0, 0, 0, 0.6)',
+                        shadowOffsetX: 2,
+                        shadowOffsetY: 2
+                    }
+                }],
             });
         }
         else{
@@ -372,12 +459,35 @@
                     containLabel: true
                 },
             });
+            day_count.setOption({
+                dataZoom: [{
+                    type: 'inside',
+                    start: 70,
+                    end: 100
+                }, {
+                    start: 70,
+                    end: 100,
+                    bottom:'0',
+                    handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                    handleSize: '80%',
+                    handleStyle: {
+                        color: '#fff',
+                        shadowBlur: 3,
+                        shadowColor: 'rgba(0, 0, 0, 0.6)',
+                        shadowOffsetX: 2,
+                        shadowOffsetY: 2
+                    }
+                }],
+            });
         }
     }
     function monthchart(chartid) {
         var month_count = echarts.init(document.getElementById(chartid));
         var  month_count_option = {
-            tooltip: {
+
+        };
+        if(chartid=="largemonth"){
+            month_count_option={tooltip: {
                 trigger: 'axis',
                 axisPointer: {
                     lineStyle: {
@@ -385,184 +495,436 @@
                     }
                 }
             },
-            legend: {
-                icon: 'rect',
-                itemWidth: 14,
-                itemHeight: 5,
-                itemGap: 13,
-                data: ['电子阅览室', '座位', '研修间'],
-                right: '10%',
-                textStyle: {
-                    fontSize: 12,
-                    color: '#57617B'
-                }
-            },
-            toolbox: {
-                feature: {
-                    restore: {},
-                    saveAsImage: {}
-                }
-            },
-            xAxis: [{
-                type: 'category',
-                boundaryGap: false,
-                axisLine: {
-                    lineStyle: {
-                        color: '#57617B'
-                    }
-                },
-                data: monthdata.month
-            }],
-            yAxis: [{
-                type: 'value',
-                name: '人次',
-                axisTick: {
-                    show: false
-                },
-                axisLine: {
-                    lineStyle: {
-                        color: '#57617B'
-                    }
-                },
-                axisLabel: {
-                    margin: 10,
+                legend: {
+                    icon: 'rect',
+                    itemWidth: 14,
+                    itemHeight: 5,
+                    itemGap: 13,
+                    data: ['电子阅览室', '座位', '研修间'],
+                    right: '10%',
                     textStyle: {
-                        fontSize: 14
-                    }
-                },
-                splitLine: {
-                    lineStyle: {
+                        fontSize: 12,
                         color: '#57617B'
                     }
-                }
-            }],
-            dataZoom: [{
-                type: 'inside',
-                start: 70,
-                end: 100
-            }, {
-                start:0,
-                end: 100,
-                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                handleSize: '80%',
-                handleStyle: {
-                    color: '#fff',
-                    shadowBlur: 3,
-                    shadowColor: 'rgba(0, 0, 0, 0.6)',
-                    shadowOffsetX: 2,
-                    shadowOffsetY: 2
-                }
-            }],
-            series: [{
-                name: '电子阅览室',
-                type: 'line',
-                smooth: true,
-                symbol: 'circle',
-                symbolSize: 5,
-                showSymbol: false,
-                lineStyle: {
-                    normal: {
-                        width: 1
+                },
+                toolbox: {
+                    feature: {
+                        restore: {},
+                        saveAsImage: {}
                     }
                 },
-                areaStyle: {
-                    normal: {
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                            offset: 0,
-                            color: 'rgba(17, 168, 171, 1)'
-                        }, {
-                            offset: 0.8,
-                            color: 'rgba(17, 168, 171, 0.3)'
-                        }], false),
-                        shadowColor: 'rgba(0, 0, 0, 0.1)',
-                        shadowBlur: 10
+                xAxis: [{
+                    type: 'category',
+                    boundaryGap: false,
+                    axisLine: {
+                        lineStyle: {
+                            color: '#57617B'
+                        }
+                    },
+                    data: monthdata.month
+                }],
+                yAxis: [{
+                    type: 'value',
+                    name: '人次',
+                    axisTick: {
+                        show: false
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#57617B'
+                        }
+                    },
+                    axisLabel: {
+                        margin: 10,
+                        textStyle: {
+                            fontSize: 14
+                        }
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: '#57617B'
+                        }
                     }
-                },
-                itemStyle: {
-                    normal: {
-                        color: 'rgb(17,168,171)',
-                        borderColor: 'rgba(17,168,171,0.27)',
-                        borderWidth: 12
+                }],
+                dataZoom: [{
+                    type: 'inside',
+                    start: 70,
+                    end: 100
+                }, {
+                    start:0,
+                    end: 100,
+                    bottom:'5%',
+                    handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                    handleSize: '80%',
+                    handleStyle: {
+                        color: '#fff',
+                        shadowBlur: 3,
+                        shadowColor: 'rgba(0, 0, 0, 0.6)',
+                        shadowOffsetX: 2,
+                        shadowOffsetY: 2
+                    }
+                }],
+                series: [{
+                    name: '电子阅览室',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(17, 168, 171, 1)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(17, 168, 171, 0.3)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: 'rgb(17,168,171)',
+                            borderColor: 'rgba(17,168,171,0.27)',
+                            borderWidth: 12
 
+                        }
+                    },
+                    data: monthdata.eread_times,
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
                     }
-                },
-                data: monthdata.eread_times
-            }, {
-                name: '座位',
-                type: 'line',
-                smooth: true,
-                symbol: 'circle',
-                symbolSize: 5,
-                showSymbol: false,
-                lineStyle: {
-                    normal: {
-                        width: 1
-                    }
-                },
-                areaStyle: {
-                    normal: {
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                            offset: 0,
-                            color: 'rgba(255, 69, 0, 1)'
-                        }, {
-                            offset: 0.8,
-                            color: 'rgba(255, 69, 0, 0.3)'
-                        }], false),
-                        shadowColor: 'rgba(0, 0, 0, 0.1)',
-                        shadowBlur: 10
-                    }
-                },
-                itemStyle: {
-                    normal: {
-                        color: 'rgb(255,69,0)',
-                        borderColor: 'rgba(255,69,0,0.2)',
-                        borderWidth: 12
+                }, {
+                    name: '座位',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(255, 69, 0, 1)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(255, 69, 0, 0.3)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: 'rgb(255,69,0)',
+                            borderColor: 'rgba(255,69,0,0.2)',
+                            borderWidth: 12
 
+                        }
+                    },
+                    data: monthdata.seat_times,
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
                     }
-                },
-                data: monthdata.seat_times
-            }, {
-                name: '研修间',
-                type: 'line',
-                smooth: true,
-                symbol: 'circle',
-                symbolSize: 5,
-                showSymbol: false,
-                lineStyle: {
-                    normal: {
-                        width: 1
-                    }
-                },
-                areaStyle: {
-                    normal: {
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                            offset: 0,
-                            color: 'rgba(0, 128, 128, 1)'
-                        }, {
-                            offset: 0.8,
-                            color: 'rgba(0, 128, 128, 0.3)'
-                        }], false),
-                        shadowColor: 'rgba(0, 0, 0, 0.1)',
-                        shadowBlur: 10
-                    }
-                },
-                itemStyle: {
-                    normal: {
+                }, {
+                    name: '研修间',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(0, 128, 128, 1)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(0, 128, 128, 0.3)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
 
-                        color: 'rgb(0,128,128)',
-                        borderColor: 'rgba(0,128,128,0.2)',
-                        borderWidth: 12
+                            color: 'rgb(0,128,128)',
+                            borderColor: 'rgba(0,128,128,0.2)',
+                            borderWidth: 12
+                        }
+                    },
+                    data: monthdata.croom_times,
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
+                }, ]};
+        }
+        else{
+            month_count_option={
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        lineStyle: {
+                            color: '#57617B'
+                        }
                     }
                 },
-                data: monthdata.croom_times
-            }, ]
-        };
+                legend: {
+                    icon: 'rect',
+                    itemWidth: 14,
+                    itemHeight: 5,
+                    itemGap: 13,
+                    data: ['电子阅览室', '座位', '研修间'],
+                    right: '10%',
+                    textStyle: {
+                        fontSize: 12,
+                        color: '#57617B'
+                    }
+                },
+                toolbox: {
+                    feature: {
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: [{
+                    type: 'category',
+                    boundaryGap: false,
+                    axisLine: {
+                        lineStyle: {
+                            color: '#57617B'
+                        }
+                    },
+                    data: monthdata.month
+                }],
+                yAxis: [{
+                    type: 'value',
+                    name: '人次',
+                    axisTick: {
+                        show: false
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#57617B'
+                        }
+                    },
+                    axisLabel: {
+                        margin: 10,
+                        textStyle: {
+                            fontSize: 14
+                        }
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: '#57617B'
+                        }
+                    }
+                }],
+                dataZoom: [{
+                    type: 'inside',
+                    start: 70,
+                    end: 100
+                }, {
+                    start:0,
+                    end: 100,
+                    bottom:'0',
+                    handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                    handleSize: '80%',
+                    handleStyle: {
+                        color: '#fff',
+                        shadowBlur: 3,
+                        shadowColor: 'rgba(0, 0, 0, 0.6)',
+                        shadowOffsetX: 2,
+                        shadowOffsetY: 2
+                    }
+                }],
+                series: [{
+                    name: '电子阅览室',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(17, 168, 171, 1)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(17, 168, 171, 0.3)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: 'rgb(17,168,171)',
+                            borderColor: 'rgba(17,168,171,0.27)',
+                            borderWidth: 12
+
+                        }
+                    },
+                    data: monthdata.eread_times,
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
+                }, {
+                    name: '座位',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(255, 69, 0, 1)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(255, 69, 0, 0.3)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: 'rgb(255,69,0)',
+                            borderColor: 'rgba(255,69,0,0.2)',
+                            borderWidth: 12
+
+                        }
+                    },
+                    data: monthdata.seat_times,
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
+                }, {
+                    name: '研修间',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(0, 128, 128, 1)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(0, 128, 128, 0.3)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+
+                            color: 'rgb(0,128,128)',
+                            borderColor: 'rgba(0,128,128,0.2)',
+                            borderWidth: 12
+                        }
+                    },
+                    data: monthdata.croom_times,
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
+                }, ]
+            };
+        }
         month_count.setOption(month_count_option);
         if(chartid=="largemonth"){
             month_count.setOption({
                 grid: {
                     left: '3%',
                     right: '4%',
+                    bottom:'10%',
                     containLabel: true
                 },
             });
@@ -571,7 +933,7 @@
             month_count.setOption({
                 grid: {
                     left: '3%',
-                    right: '4%',
+                    right: '8%',
                     bottom:'15%',
                     containLabel: true
                 },
@@ -579,8 +941,13 @@
         }
     }
     $(function(){
-        var a=$(window).height()-10;
-        $(".right_col").height(a);
+        var left=$(".left_col").height();
+        left=left-17;
+        $(".right_col").height(left);
+        var height=left/2-$(".x_title").height()-90;
+        $("#year_count").height(height);
+        $("#month_count").height(height);
+        $("#day_count").height(height);
         $.ajax({
             type:"get",
             contentType: 'application/json',
@@ -642,6 +1009,9 @@
         $("#largeyear").css("display","none");
         daychart("largeday");
     }
+    /*window.onload=function(){
+        var right_col=$("")
+    }*/
 </script>
 <body class="nav-md">
 <div class="container body">
@@ -693,7 +1063,7 @@
 
                         </ul>
                     </div>
-                    <div class="menu_section">
+                    <!--<div class="menu_section">
                         <h3>图书馆资源推荐</h3>
                         <ul class="nav side-menu">
                             <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
@@ -734,7 +1104,7 @@
                             </li>
                             <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
                         </ul>
-                    </div>
+                    </div>-->
 
                 </div>
 
@@ -841,7 +1211,7 @@
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="clearfix"></div>
-            <div class="row" style="height: 350px;">
+            <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">
@@ -866,7 +1236,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="year_count" style="height:280px;"></div>
+                            <div id="year_count"></div>
                         </div>
                     </div>
                 </div>
@@ -894,13 +1264,13 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="month_count" style="height:280px;"></div>
+                            <div id="month_count"></div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="clearfix"></div>
-            <div class="row"  style="height:  350px;" >
+            <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">
@@ -925,7 +1295,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="day_count" style="height:250px;"></div>
+                            <div id="day_count"></div>
                         </div>
                     </div>
                 </div>

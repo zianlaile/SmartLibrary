@@ -84,7 +84,18 @@
                     name:'自主文印数据每年统计',
                     type:'bar',
                     barWidth: '40%',
-                    data:yeardata.printtimes
+                    data:yeardata.printtimes,
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
                 },
 
             ],
@@ -125,7 +136,7 @@
             year_count.setOption({
                 grid: {
                     left: '3%',
-                    right: '4%',
+                    right: '7%',
                     bottom:'3%',
                     containLabel: true
                 },
@@ -162,7 +173,7 @@
                 type: 'value',
                 boundaryGap: [0, '100%']
             },
-            dataZoom: [{
+            /*dataZoom: [{
                 type: 'inside',
                 start: 0,
                 end: 80
@@ -178,7 +189,7 @@
                     shadowOffsetX: 2,
                     shadowOffsetY: 2
                 }
-            }],
+            }],*/
             series: [
                 {
                     name:'自主文印数据每月统计',
@@ -202,7 +213,18 @@
                             }])
                         }
                     },
-                    data: monthdata.printtimes
+                    data: monthdata.printtimes,
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
                 }
             ]
         };
@@ -213,15 +235,60 @@
                 grid: {
                     left: '3%',
                     right: '4%',
+                    bottom:'10%',
                     containLabel: true
                 },
+                dataZoom: [{
+                    type: 'inside',
+                    start: 0,
+                    end: 80
+                }, {
+                    start: 0,
+                    end: 10,
+                    bottom:'5%',
+                    handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                    handleSize: '80%',
+                    handleStyle: {
+                        color: '#fff',
+                        shadowBlur: 3,
+                        shadowColor: 'rgba(0, 0, 0, 0.6)',
+                        shadowOffsetX: 2,
+                        shadowOffsetY: 2
+                    }
+                }],
+            });
+        }
+        else{
+            month_count.setOption({
+                /*grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom:'10%',
+                    containLabel: true
+                },*/
+                dataZoom: [{
+                    type: 'inside',
+                    start: 0,
+                    end: 80
+                }, {
+                    start: 0,
+                    end: 10,
+                    handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                    handleSize: '80%',
+                    handleStyle: {
+                        color: '#fff',
+                        shadowBlur: 3,
+                        shadowColor: 'rgba(0, 0, 0, 0.6)',
+                        shadowOffsetX: 2,
+                        shadowOffsetY: 2
+                    }
+                }],
             });
         }
     }
     function daychart(chartid) {
         var day_count = echarts.init(document.getElementById(chartid));
         var  day_count_option = {
-
             tooltip: {
                 trigger: 'axis',
                 position: function (pt) {
@@ -248,7 +315,7 @@
                 type: 'value',
                 boundaryGap: [0, '100%']
             },
-            dataZoom: [{
+            /*dataZoom: [{
                 type: 'inside',
                 start: 0,
                 end: 80
@@ -264,7 +331,7 @@
                     shadowOffsetX: 2,
                     shadowOffsetY: 2
                 }
-            }],
+            }],*/
             series: [
                 {
                     name:'自主文印数据每日统计',
@@ -288,7 +355,18 @@
                             }])
                         }
                     },
-                    data: daydata.printtimes
+                    data: daydata.printtimes,
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
                 }
             ]
         };
@@ -299,12 +377,64 @@
                 grid: {
                     left: '3%',
                     right: '4%',
+                    bottom:'10%',
                     containLabel: true
                 },
+                dataZoom: [{
+                    type: 'inside',
+                    start: 0,
+                    end: 80
+                }, {
+                    start: 0,
+                    end: 10,
+                    bottom:'5%',
+                    handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                    handleSize: '80%',
+                    handleStyle: {
+                        color: '#fff',
+                        shadowBlur: 3,
+                        shadowColor: 'rgba(0, 0, 0, 0.6)',
+                        shadowOffsetX: 2,
+                        shadowOffsetY: 2
+                    }
+                }],
+            });
+        }
+        else{
+            day_count.setOption({
+                /*grid: {
+                    left: '3%',
+                    right: '4%',
+                    containLabel: true
+                },*/
+                dataZoom: [{
+                    type: 'inside',
+                    start: 0,
+                    end: 80
+                }, {
+                    start: 0,
+                    end: 10,
+                    handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                    handleSize: '80%',
+                    handleStyle: {
+                        color: '#fff',
+                        shadowBlur: 3,
+                        shadowColor: 'rgba(0, 0, 0, 0.6)',
+                        shadowOffsetX: 2,
+                        shadowOffsetY: 2
+                    }
+                }],
             });
         }
     }
     $(function(){
+        var left=$(".left_col").height();
+        left=left-17;
+        $(".right_col").height(left);
+        var height=left/2-$(".x_title").height()-90;
+        $("#year_count").height(height);
+        $("#month_count").height(height);
+        $("#day_count").height(height);
         $.ajax({
             type:"get",
             contentType: 'application/json',
@@ -418,7 +548,7 @@
 
                         </ul>
                     </div>
-                    <div class="menu_section">
+                    <!--<div class="menu_section">
                         <h3>图书馆资源推荐</h3>
                         <ul class="nav side-menu">
                             <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
@@ -459,7 +589,7 @@
                             </li>
                             <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
                         </ul>
-                    </div>
+                    </div>-->
 
                 </div>
 

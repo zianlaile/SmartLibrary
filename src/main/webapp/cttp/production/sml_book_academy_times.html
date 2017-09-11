@@ -216,6 +216,23 @@
     }
 
 </script>
+
+
+
+<!--屏幕适配-->
+<script type="application/javascript">
+
+    $(function(){
+        var left=$(".left_col").height();
+        left=left-17;
+        $(".right_col").height(left);
+        var height=left/2-$(".x_title").height()-90;
+        $("#academy_hour_count").height(height);
+        $("#bookind_hour_count").height(height);
+
+    });
+</script>
+
 <body class="nav-md">
 <div class="container body">
     <div class="main_container">

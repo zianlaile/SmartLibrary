@@ -154,8 +154,6 @@
         });
     });
 </script>
-
-
 <!--//getlarge_month-->
 <script type="application/javascript">
     function getlarge_month(){
@@ -278,8 +276,6 @@
     }
 
 </script>
-
-
 <!--//getlarge_day()-->
 <script type="application/javascript">
     function getlarge_day(){
@@ -402,6 +398,22 @@
     }
 
 </script>
+
+<!--屏幕适配-->
+<script type="application/javascript">
+
+    $(function(){
+        var left=$(".left_col").height();
+        left=left-17;
+        $(".right_col").height(left);
+        var height=left/2-$(".x_title").height()-90;
+        $("#year_count").height(height);
+        $("#month_count").height(height);
+        $("#day_count").height(height);
+
+    });
+</script>
+
 <body class="nav-md">
 <div class="container body">
     <div class="main_container">

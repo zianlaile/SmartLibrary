@@ -238,5 +238,21 @@ public class bookLendService {
             returndata.put(year,data);
         }
         return returndata;
-    };
+    }
+
+
+
+    public Map<String,List> getBookkindCount(Book_Lend b) {
+        List<Book_Lend> bookkind= booklenddao.getBookkindCount(b);
+        ArrayList<Integer> lend_times=new  ArrayList<Integer>();
+        ArrayList<String> book_kind=new  ArrayList<String>();
+        Map<String ,List> data=new HashMap<String ,List>();
+        for(int i=0;i<bookkind.size();i++){
+            lend_times.add(bookkind.get(i).getBook_lend_times());
+            book_kind.add(bookkind.get(i).getBook_kind());
+        }
+        data.put("lend_times",lend_times);
+        data.put("book_kind",book_kind);
+        return data;
+    }
 }

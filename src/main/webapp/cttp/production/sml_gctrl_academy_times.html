@@ -139,6 +139,19 @@
     });
 </script>
 
+
+<!--屏幕适配-->
+<script type="application/javascript">
+
+    $(function(){
+        var left=$(".left_col").height();
+        left=left-17;
+        $(".right_col").height(left);
+        var height=left-$(".x_title").height()-120;
+        $("#academyAndmajor_count").height(height);
+
+    });
+</script>
 <body class="nav-md">
 <div class="container body">
     <div class="main_container">

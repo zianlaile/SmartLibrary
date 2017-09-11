@@ -47,6 +47,7 @@
     function getlarge_day(){
         $(".chart_title p").text("每日进馆人数统计");
         $(".mask").css("display","block");
+        $("#largeday2").css("display","none");
         $("#largeday").css("display","block");
         var largeday = echarts.init(document.getElementById('largeday'));
         // 异步加载数据
@@ -238,6 +239,90 @@
     }
 
 </script>
+
+
+<script type="application/javascript">
+    function getlarge_day2(){
+        $(".chart_title p").text("每日进馆人数统计");
+        $(".mask").css("display","block");
+        $("#largeday2").css("display","none");
+        $("#largeday2").css("display","block");
+        var largeday2 = echarts.init(document.getElementById('largeday2'));
+        // 异步加载数据
+        $.get('../../gctrl/ByDay_count2').done(function (resultdata) {
+            // 填入数据
+            var day_count2_option = {
+
+                legend: {
+                    data: ['日进馆排名'],
+                    align: 'left'
+                },
+                toolbox:{
+                    right:20,
+                    feature:{
+                        saveAsImage: {},
+                        restore: {}
+
+                    }
+                },
+                grid: {
+                    left: '10%',
+                    bottom: '15%',
+                    right: '10%',
+                    containLabel: true
+                },
+                tooltip: {},
+                xAxis: {
+                    data: resultdata.time,
+                    'axisLabel': {
+                        rotate:30,
+                        'interval': 0
+                    },
+                    silent: false,
+                    splitLine: {
+                        show: false
+                    }
+                },
+                yAxis: {
+                },
+                series: [{
+                    name: '日进馆排名',
+                    type: 'bar',
+                    data: resultdata.gctrl_times,
+                    itemStyle:{
+                        normal:{
+                            color:'#0ff9a8',
+                        }
+                    },
+                    animationDelay: function (idx) {
+                        return idx * 10;
+                    }
+                }],
+                animationEasing: 'elasticOut',
+                animationDelayUpdate: function (idx) {
+                    return idx * 5;
+                }
+            };
+            largeday2.setOption(day_count2_option);
+        });
+    }
+
+</script>
+
+<!--屏幕适配-->
+<script type="application/javascript">
+
+    $(function(){
+        var left=$(".left_col").height();
+        left=left-17;
+        $(".right_col").height(left);
+        var height=left-$(".x_title").height()-120;
+        $("#day_count").height(height);
+        $("#day_count2").height(height);
+
+    });
+</script>
+
 <body class="nav-md">
 <div class="container body">
     <div class="main_container">
@@ -437,7 +522,7 @@
         <div class="right_col" role="main">
             <div class="clearfix"></div>
             <div class="row"  style="height: 665px;" >
-                <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="col-md-7 col-sm-7 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title"  style="padding:0px;">
                             <h2>每日进馆人数统计</h2>
@@ -493,7 +578,7 @@
                             },
                             legend: {
                                 top: '30',
-                                left: '100',
+                                left: '50',
                                 data:['人数', 'Top 12'],
                                 textStyle: {
                                    // color: '#fff'
@@ -648,6 +733,82 @@
                     });
 
                 </script>
+                <div class="col-md-5 col-sm-5 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title"  style="padding:0px;">
+                            <h2>日-进馆人数top12</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="" href="javascript:getlarge_day2()"><i class="fa icon-resize-full"></i></a>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div id="day_count2" style="height:560px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    //
+                    var day_count2 = echarts.init(document.getElementById('day_count2'));
+                    // 异步加载数据
+                    $.get('../../gctrl/ByDay_count2').done(function (resultdata) {
+                        // 填入数据
+                        console.log(resultdata);
+                        var day_count2_option = {
+
+                            legend: {
+                                data: ['日进馆排名'],
+                                align: 'left'
+                            },
+                            toolbox:{
+                                right:20,
+                                feature:{
+                                    saveAsImage: {},
+                                    restore: {}
+
+                                }
+                            },
+                            tooltip: {},
+                            xAxis: {
+                                data: resultdata.time,
+                                'axisLabel': {
+                                    rotate:35,
+                                    'interval': 0
+                                },
+                                silent: false,
+                                splitLine: {
+                                    show: false
+                                }
+                            },
+                            yAxis: {
+                            },
+                            series: [{
+                                name: '日进馆排名',
+                                type: 'bar',
+                                data: resultdata.gctrl_times,
+                                itemStyle:{
+                                    normal:{
+                                        color:'#0ff9a8',
+                                    }
+                                },
+                                animationDelay: function (idx) {
+                                    return idx * 30;
+                                }
+                            }],
+                            animationEasing: 'elasticOut',
+                            animationDelayUpdate: function (idx) {
+                                return idx * 5;
+                            }
+                        };
+                        day_count2.setOption(day_count2_option);
+                    });
+
+                </script>
             </div>
         </div>
     </div>
@@ -661,6 +822,7 @@
             <p></p>
         </div>
         <div id="largeday" class="large_chart"  style="display: none"></div>
+        <div id="largeday2" class="large_chart"  style="display: none"></div>
 
     </div>
 </div>

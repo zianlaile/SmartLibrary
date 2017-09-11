@@ -24,7 +24,7 @@
     <select id="getGctrlCountByDay2" parameterType="com.smartlibrary.domain.gctrl" resultType="com.smartlibrary.domain.gctrl">
        select zztdc.`year`,zztdc.`month`,zztdc.`day`,zztdc.gctrl_times
         FROM zz_time_day_count zztdc
-	    WHERE zztdc.`year`= DATE_FORMAT('2016-01-12', '%Y')
+	    WHERE zztdc.`year`= DATE_FORMAT('2015-01-12', '%Y')
         GROUP BY zztdc.`year`,zztdc.`month`,zztdc.`day`
         ORDER BY zztdc.`year`,zztdc.`month`,zztdc.`day`
     </select>
@@ -52,5 +52,15 @@
         FROM zz_gctrl_month_academy_identity
         GROUP BY school,academy
         ORDER BY  school,academy
+    </select>
+
+
+    <select id="getGctrlCount2ByDay" parameterType="com.smartlibrary.domain.gctrl" resultType="com.smartlibrary.domain.gctrl">
+       SELECT a.ymdchar as time,sum(a.m_times+a.f_times) as gctrl_times
+        FROM zz_gctrl_day_academy_gender a
+        WHERE   a.`year`= DATE_FORMAT('2015-01-12', '%Y')
+        GROUP BY a.ymdchar
+        ORDER BY gctrl_times DESC
+        limit 12
     </select>
 </mapper>

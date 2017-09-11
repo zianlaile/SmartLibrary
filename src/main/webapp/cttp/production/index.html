@@ -415,9 +415,13 @@
         $("#year_count").height(height);
         $("#month_count").height(height);
         $("#day_count").height(height);
+        yearchart();
+        monthchart();
+        daychart();
 
     });
 </script>
+
 <body class="nav-md">
 <div class="container body">
     <div class="main_container">
@@ -468,7 +472,7 @@
 
                         </ul>
                     </div>
-                    <div class="menu_section">
+                 <!--   <div class="menu_section">
                         <h3>图书馆资源推荐</h3>
                         <ul class="nav side-menu">
                             <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
@@ -509,7 +513,7 @@
                             </li>
                             <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
                         </ul>
-                    </div>
+                    </div>-->
 
                 </div>
 
@@ -616,7 +620,7 @@
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="clearfix"></div>
-            <div class="row" style="height: 325px;">
+            <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title"  style="padding:0px;" >
@@ -631,123 +635,122 @@
                             </ul>
                             <div class="clearfix"></div>
                         </div>
-                        <div class="x_content"  style="height:240px;">
-                            <div id="year_count" style="height:240px;"></div>
+                        <div class="x_content"  >
+                            <div id="year_count" ></div>
                         </div>
                     </div>
                 </div>
                 <script type="text/javascript">
-
-                    var year_count = echarts.init(document.getElementById('year_count'));
-                    var  year_count_option = {
-                        color: ['#3398DB'],
-                        tooltip : {
-                            trigger: 'axis',
-                            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                            }
-                        },
-                        legend: {
-
-                            data:['借阅每年统计']
-                        },
-                        toolbox: {
-                            feature: {
-                                restore: {},
-                                saveAsImage: {}
-                            }
-                        },
-                        grid: {
-                            left: '3%',
-                            right: '10%',
-                            bottom: '3%',
-                            containLabel: true
-                        },
-                        xAxis : [
-                            {
-                                type : 'category',
-                                data : [],
-                                axisTick: {
-                                    alignWithLabel: true
-                                }
-                            }
-                        ],
-                        yAxis : [
-                            {
-                                // type : 'category',
-                                // data : ['10','20','30','40'],
-                              //  type: 'value',
-                                "axisLabel": {
-                                    "interval": 0,
-                                    formatter: '{value}次',
-                                },
-                                axisTick: {
-                                    alignWithLabel: true
-                                }
-                            }
-                        ],
-                        series : [
-                            {
-                                name:'借阅每年统计',
-                                type:'bar',
-                                barWidth: '40%',
-                                data:[],
-                                markPoint: {
-                                    data: [
-                                        {type: 'max', name: '最大值'},
-                                        {type: 'min', name: '最小值'}
-                                    ]
-                                },
-                                markLine: {
-                                    data: [
-                                        {type: 'average', name: '平均值'}
-                                    ]
+                    function yearchart() {
+                        var year_count = echarts.init(document.getElementById('year_count'));
+                        var year_count_option = {
+                            color: ['#3398DB'],
+                            tooltip: {
+                                trigger: 'axis',
+                                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
                                 }
                             },
+                            legend: {
 
-                        ],
-                        label: {
-                            normal: {
-                                show: true,
-                                position: 'top',
-                                formatter: '{c}'
-                            }
-                        },
-                        itemStyle: {
-                            normal: {
-
-                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                    offset: 0,
-                                    color: 'rgba(17, 168,171, 1)'
-                                }, {
-                                    offset: 1,
-                                    color: 'rgba(17, 168,171, 0.1)'
-                                }]),
-                                shadowColor: 'rgba(0, 0, 0, 0.1)',
-                                shadowBlur: 10
-                            }
-                        }
-                    };
-                    // 使用刚指定的配置项和数据显示图表。
-                    year_count.setOption(year_count_option);
-                    // 异步加载数据
-                    $.get('../../bookLend/ByYear').done(function (data) {
-                        // 填入数据
-                        //console.log(data);
-                        year_count.setOption({
-                            xAxis: {
-                                data: data.times
+                                data: ['借阅每年统计']
                             },
-                            series: [{
-                                // 根据名字对应到相应的系列
-                                name: '借阅每年统计',
-                                data: data.lend_times
-                            }]
+                            toolbox: {
+                                feature: {
+                                    restore: {},
+                                    saveAsImage: {}
+                                }
+                            },
+                            grid: {
+                                left: '3%',
+                                right: '10%',
+                                bottom: '3%',
+                                containLabel: true
+                            },
+                            xAxis: [
+                                {
+                                    type: 'category',
+                                    data: [],
+                                    axisTick: {
+                                        alignWithLabel: true
+                                    }
+                                }
+                            ],
+                            yAxis: [
+                                {
+                                    // type : 'category',
+                                    // data : ['10','20','30','40'],
+                                    //  type: 'value',
+                                    "axisLabel": {
+                                        "interval": 0,
+                                        formatter: '{value}次',
+                                    },
+                                    axisTick: {
+                                        alignWithLabel: true
+                                    }
+                                }
+                            ],
+                            series: [
+                                {
+                                    name: '借阅每年统计',
+                                    type: 'bar',
+                                    barWidth: '40%',
+                                    data: [],
+                                    markPoint: {
+                                        data: [
+                                            {type: 'max', name: '最大值'},
+                                            {type: 'min', name: '最小值'}
+                                        ]
+                                    },
+                                    markLine: {
+                                        data: [
+                                            {type: 'average', name: '平均值'}
+                                        ]
+                                    }
+                                },
+
+                            ],
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'top',
+                                    formatter: '{c}'
+                                }
+                            },
+                            itemStyle: {
+                                normal: {
+
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                        offset: 0,
+                                        color: 'rgba(17, 168,171, 1)'
+                                    }, {
+                                        offset: 1,
+                                        color: 'rgba(17, 168,171, 0.1)'
+                                    }]),
+                                    shadowColor: 'rgba(0, 0, 0, 0.1)',
+                                    shadowBlur: 10
+                                }
+                            }
+                        };
+                        // 使用刚指定的配置项和数据显示图表。
+                        year_count.setOption(year_count_option);
+                        // 异步加载数据
+                        $.get('../../bookLend/ByYear').done(function (data) {
+                            // 填入数据
+                            //console.log(data);
+                            year_count.setOption({
+                                xAxis: {
+                                    data: data.times
+                                },
+                                series: [{
+                                    // 根据名字对应到相应的系列
+                                    name: '借阅每年统计',
+                                    data: data.lend_times
+                                }]
+                            });
                         });
-                    });
-                    /* $.get('../../bookLend').done(function (data) {
-                     console.log(data);
-                     });*/
+                    }
+
                 </script>
 
                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -764,13 +767,14 @@
                             </ul>
                             <div class="clearfix"></div>
                         </div>
-                        <div class="x_content"  style="height:240px;">
-                            <div id="month_count" style="height:240px;"></div>
+                        <div class="x_content"  >
+                            <div id="month_count" ></div>
                         </div>
                     </div>
                 </div>
                 <script type="text/javascript">
                     // 基于月统计
+                    function monthchart() {
                     var month_count = echarts.init(document.getElementById('month_count'));
                     var  month_count_option = {
 
@@ -879,9 +883,7 @@
                             }]
                         });
                     });
-                    /* $.get('../../bookLend').done(function (data) {
-                     console.log(data);
-                     });*/
+                    }
                 </script>
             </div>
             <div class="clearfix"></div>
@@ -907,6 +909,7 @@
                 </div>
                 <script type="text/javascript">
                     // 基于月统计
+                    function daychart() {
                     var day_count = echarts.init(document.getElementById('day_count'));
                     var  day_count_option = {
 
@@ -1011,9 +1014,7 @@
                             }]
                         });
                     });
-                    /* $.get('../../bookLend').done(function (data) {
-                     console.log(data);
-                     });*/
+                    }
                 </script>
             </div>
         </div>

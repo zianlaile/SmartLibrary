@@ -35,6 +35,8 @@
     <!-- 引入 ECharts 文件 -->
     <script src="../../js/echarts.min.js"></script>
 </head>
+
+
 <script type="application/javascript">
     function getlarge_academy_hour_count(){
         $(".chart_title p").text("昨日学院图书借还分析");
@@ -218,7 +220,6 @@
 </script>
 
 
-
 <!--屏幕适配-->
 <script type="application/javascript">
 
@@ -229,6 +230,8 @@
         var height=left/2-$(".x_title").height()-90;
         $("#academy_hour_count").height(height);
         $("#bookind_hour_count").height(height);
+        academy_hourchart();
+        bookind_hourchart();
 
     });
 </script>
@@ -245,7 +248,7 @@
                 <br />
 
                 <!-- sidebar menu -->
-                <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+           <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                     <div class="menu_section">
                         <h3>图书馆资源利用分析</h3>
                         <ul class="nav side-menu">
@@ -283,50 +286,51 @@
 
                         </ul>
                     </div>
-                    <div class="menu_section">
-                        <h3>图书馆资源推荐</h3>
-                        <ul class="nav side-menu">
-                            <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="e_commerce.html">E-commerce</a></li>
-                                    <li><a href="projects.html">Projects</a></li>
-                                    <li><a href="project_detail.html">Project Detail</a></li>
-                                    <li><a href="contacts.html">Contacts</a></li>
-                                    <li><a href="profile.html">Profile</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="page_403.html">403 Error</a></li>
-                                    <li><a href="page_404.html">404 Error</a></li>
-                                    <li><a href="page_500.html">500 Error</a></li>
-                                    <li><a href="plain_page.html">Plain Page</a></li>
-                                    <li><a href="login.html">Login Page</a></li>
-                                    <li><a href="pricing_tables.html">Pricing Tables</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="#level1_1">Level One</a>
-                                    <li><a>Level One<span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li class="sub_menu"><a href="level2.html">Level Two</a>
-                                            </li>
-                                            <li><a href="#level2_1">Level Two</a>
-                                            </li>
-                                            <li><a href="#level2_2">Level Two</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#level1_2">Level One</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
-                        </ul>
-                    </div>
 
-                </div>
+               <!--  <div class="menu_section">
+                     <h3>图书馆资源推荐</h3>
+                     <ul class="nav side-menu">
+                         <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
+                             <ul class="nav child_menu">
+                                 <li><a href="e_commerce.html">E-commerce</a></li>
+                                 <li><a href="projects.html">Projects</a></li>
+                                 <li><a href="project_detail.html">Project Detail</a></li>
+                                 <li><a href="contacts.html">Contacts</a></li>
+                                 <li><a href="profile.html">Profile</a></li>
+                             </ul>
+                         </li>
+                         <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
+                             <ul class="nav child_menu">
+                                 <li><a href="page_403.html">403 Error</a></li>
+                                 <li><a href="page_404.html">404 Error</a></li>
+                                 <li><a href="page_500.html">500 Error</a></li>
+                                 <li><a href="plain_page.html">Plain Page</a></li>
+                                 <li><a href="login.html">Login Page</a></li>
+                                 <li><a href="pricing_tables.html">Pricing Tables</a></li>
+                             </ul>
+                         </li>
+                         <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span class="fa fa-chevron-down"></span></a>
+                             <ul class="nav child_menu">
+                                 <li><a href="#level1_1">Level One</a>
+                                 <li><a>Level One<span class="fa fa-chevron-down"></span></a>
+                                     <ul class="nav child_menu">
+                                         <li class="sub_menu"><a href="level2.html">Level Two</a>
+                                         </li>
+                                         <li><a href="#level2_1">Level Two</a>
+                                         </li>
+                                         <li><a href="#level2_2">Level Two</a>
+                                         </li>
+                                     </ul>
+                                 </li>
+                                 <li><a href="#level1_2">Level One</a>
+                                 </li>
+                             </ul>
+                         </li>
+                         <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
+                     </ul>
+                 </div>-->
+
+             </div>
 
             </div>
         </div>
@@ -431,7 +435,7 @@
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="clearfix"></div>
-            <div class="row" style="height: 325px;">
+            <div class="row" >
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title" style="padding:0px;">
@@ -447,102 +451,105 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="academy_hour_count" style="height:240px;"></div>
+                            <div id="academy_hour_count" ></div>
                         </div>
                     </div>
                 </div>
                 <script type="text/javascript">
-                    var academy_hour_count = echarts.init(document.getElementById('academy_hour_count'));
-                    // 异步加载数据
-                    $.get('../../bookLend/ByHourAndAcademy').done(function (data) {
-                        // 填入数据
-                        var timeline=[];
-                        var options=[];
-                        for(var key in data){
-                            timeline.push(key);
-                            var option={
-                                tooltip: {
-                                    'trigger': 'axis'
-                                },
-                                legend: {
-                                    "show": true,
-                                    top: 4,
-                                    right: '20%',
-                                    'data': ['借书量', '还书量'],
-                                    'selected': {
-                                        '借书量': true,
-                                        '还书量': true,
-                                    }
-                                },
-                                toolbox:{
-                                    right:20,
-                                    feature:{
-                                        saveAsImage: {},
-                                        restore: {}
-                                    }
-                                },
-
-                                calculable: true,
-                                grid: {
-                                    'y': 30,
-                                    'y2': 100
-                                },
-                                xAxis: [{
-                                    'type': 'category',
-                                    'axisLabel': {
-                                        rotate:20,
-                                        'interval': 0
+                    function academy_hourchart() {
+                        var academy_hour_count = echarts.init(document.getElementById('academy_hour_count'));
+                        // 异步加载数据
+                        $.get('../../bookLend/ByHourAndAcademy').done(function (data) {
+                            // 填入数据
+                            var timeline = [];
+                            var options = [];
+                            for (var key in data) {
+                                timeline.push(key);
+                                var option = {
+                                    tooltip: {
+                                        'trigger': 'axis'
                                     },
-                                    'data':data[key].academy
-                                }],
-                                yAxis: [{
-                                    'type': 'value',
-                                    'name': '借/还书量',
-                                    'max': 200
-
-                                }, {
-                                    'type': 'value',
-                                    "axisLabel": {
-                                        "interval": 0,
-                                        formatter: '{value}本',
-                                    }
-                                }],
-                                series: [{
-                                    'name': '借书量',
-                                    'yAxisIndex': 1,
-                                    'type': 'bar',
-                                    'data':data[key].book_lend_times
-                                }, {
-                                    'name': '还书量',
-                                    'yAxisIndex': 1,
-                                    'type': 'bar',
-                                    'data':data[key].book_back_times
-                                }]
-                            };
-                            options.push(option);
-                        }
-                        var academy_hour_count_option={
-                            'timeline':{
-                                data:timeline,
-                                label: {
-                                    normal: {
-                                        show: true,
-                                        interval: 'auto',
-                                        formatter: '{value}时',
+                                    legend: {
+                                        "show": true,
+                                        top: 4,
+                                        right: '20%',
+                                        'data': ['借书量', '还书量'],
+                                        'selected': {
+                                            '借书量': true,
+                                            '还书量': true,
+                                        }
                                     },
+                                    toolbox: {
+                                        right: 20,
+                                        feature: {
+                                            saveAsImage: {},
+                                            restore: {}
+                                        }
+                                    },
+
+                                    calculable: true,
+                                    grid: {
+                                        'y': 30,
+                                        'y2': 100
+                                    },
+                                    xAxis: [{
+                                        'type': 'category',
+                                        'axisLabel': {
+                                            rotate: 20,
+                                            'interval': 0
+                                        },
+                                        'data': data[key].academy
+                                    }],
+                                    yAxis: [{
+                                        'type': 'value',
+                                        'name': '借/还书量',
+                                        'max': 200
+
+                                    }, {
+                                        'type': 'value',
+                                        "axisLabel": {
+                                            "interval": 0,
+                                            formatter: '{value}本',
+                                        }
+                                    }],
+                                    series: [{
+                                        'name': '借书量',
+                                        'yAxisIndex': 1,
+                                        'type': 'bar',
+                                        'data': data[key].book_lend_times
+                                    }, {
+                                        'name': '还书量',
+                                        'yAxisIndex': 1,
+                                        'type': 'bar',
+                                        'data': data[key].book_back_times
+                                    }]
+                                };
+                                options.push(option);
+                            }
+                            var academy_hour_count_option = {
+                                'timeline': {
+                                    data: timeline,
+                                    label: {
+                                        normal: {
+                                            show: true,
+                                            interval: 'auto',
+                                            formatter: '{value}时',
+                                        },
+                                    },
+                                    axisType: 'category',
+                                    show: true,
+                                    autoPlay: true,
+                                    playInterval: 2000
                                 },
-                                axisType: 'category',
-                                show: true,
-                                autoPlay: true,
-                                playInterval: 2000},
-                            'options':options
-                        }
-                        academy_hour_count.setOption(academy_hour_count_option);
-                    });
+                                'options': options
+                            }
+                            academy_hour_count.setOption(academy_hour_count_option);
+                        });
+                    }
                 </script>
             </div>
             <div class="clearfix"></div>
-            <div class="row"  style="height:  340px;" >
+            <div class="row"  >
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title"  style="padding:0px;">
@@ -559,83 +566,85 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="bookind_hour_count" style="height:250px;"></div>
+                            <div id="bookind_hour_count"></div>
                         </div>
                     </div>
                 </div>
                 <script type="text/javascript">
-                    var bookind_hour_count = echarts.init(document.getElementById('bookind_hour_count'));
-                    // 异步加载数据
-                    $.get('../../bookLend/ByHourAndBookkinds').done(function (data1) {
-                        console.log(data1)
-                        var hours=data1.academy;
-                        var days=data1.bookkindslist
-                        var data=data1.data
-                        // 填入数据
-                        var bookind_hour_count_option ={
-                            title: {
-                                text: ' ',
-                                link: 'https://github.com/pissang/echarts-next/graphs/punch-card'
-                            },
-                            legend: {
-                                data: ['图书借阅量'],
-                                right:'20%',
-                            },
+                    function bookind_hourchart() {
+                        var bookind_hour_count = echarts.init(document.getElementById('bookind_hour_count'));
+                        // 异步加载数据
+                        $.get('../../bookLend/ByHourAndBookkinds').done(function (data1) {
+                            console.log(data1)
+                            var hours = data1.academy;
+                            var days = data1.bookkindslist
+                            var data = data1.data
+                            // 填入数据
+                            var bookind_hour_count_option = {
+                                title: {
+                                    text: ' ',
+                                    link: 'https://github.com/pissang/echarts-next/graphs/punch-card'
+                                },
+                                legend: {
+                                    data: ['图书借阅量'],
+                                    right: '20%',
+                                },
 
-                            toolbox:{
-                                right:20,
-                                feature:{
-                                    saveAsImage: {},
-                                    restore: {}
+                                toolbox: {
+                                    right: 20,
+                                    feature: {
+                                        saveAsImage: {},
+                                        restore: {}
 
-                                }
-                            },
-                            tooltip: {
-                                position: 'top',
-                                formatter: function (params) {
-                                    return hours[params.value[0]] + '借阅' + days[params.value[1]]+':'+params.value[2] + '万本' ;
-                                }
-                            },
-                            grid: {
-                                left: 2,
-                                bottom: 10,
-                                right: 10,
-                                containLabel: true
-                            },
-                            xAxis: {
-                                type: 'category',
-                                data: hours,
-                                boundaryGap: false,
-                                splitLine: {
-                                    show: true,
-                                    lineStyle: {
-                                        color: '#ddd',
-                                        type: 'dashed'
                                     }
                                 },
-                                axisLine: {
-                                    show: false
-                                }
-                            },
-                            yAxis: {
-                                type: 'category',
-                                data: days,
-                                axisLine: {
-                                    show: false
-                                }
-                            },
-                            series: [{
-                                name: '图书借阅量',
-                                type: 'scatter',
-                                symbolSize: function (val) {
-                                    return val[2] * 80;
+                                tooltip: {
+                                    position: 'top',
+                                    formatter: function (params) {
+                                        return hours[params.value[0]] + '借阅' + days[params.value[1]] + ':' + params.value[2] + '万本';
+                                    }
                                 },
-                                data: data
-                            }]
-                        };
+                                grid: {
+                                    left: 2,
+                                    bottom: 10,
+                                    right: 10,
+                                    containLabel: true
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    data: hours,
+                                    boundaryGap: false,
+                                    splitLine: {
+                                        show: true,
+                                        lineStyle: {
+                                            color: '#ddd',
+                                            type: 'dashed'
+                                        }
+                                    },
+                                    axisLine: {
+                                        show: false
+                                    }
+                                },
+                                yAxis: {
+                                    type: 'category',
+                                    data: days,
+                                    axisLine: {
+                                        show: false
+                                    }
+                                },
+                                series: [{
+                                    name: '图书借阅量',
+                                    type: 'scatter',
+                                    symbolSize: function (val) {
+                                        return val[2] * 80;
+                                    },
+                                    data: data
+                                }]
+                            };
 
-                        bookind_hour_count.setOption(bookind_hour_count_option);
-                    });
+                            bookind_hour_count.setOption(bookind_hour_count_option);
+                        });
+                    }
                 </script>
             </div>
         </div>

@@ -511,6 +511,8 @@
         var height=left/2-$(".x_title").height()-90;
         $("#year_identity_count").height(height);
         $("#sex_academy_count").height(height);
+        year_identity_countchart();
+        sex_academy_countchart();
 
     });
 </script>
@@ -564,7 +566,7 @@
 
                         </ul>
                     </div>
-                    <div class="menu_section">
+                  <!--  <div class="menu_section">
                         <h3>图书馆资源推荐</h3>
                         <ul class="nav side-menu">
                             <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
@@ -605,7 +607,7 @@
                             </li>
                             <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
                         </ul>
-                    </div>
+                    </div>-->
 
                 </div>
 
@@ -712,7 +714,7 @@
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="clearfix"></div>
-            <div class="row" style="height: 325px;">
+            <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title" style="padding:0px;">
@@ -728,164 +730,171 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="year_identity_count" style="height:240px;"></div>
+                            <div id="year_identity_count" ></div>
                         </div>
                     </div>
                 </div>
                 <script type="text/javascript">
                     // 基于月统计
-                    var year_identity_count = echarts.init(document.getElementById('year_identity_count'));
-                    // 使用刚指定的配置项和数据显示图表。
-                    // 异步加载数据
-                    $.get('../../gctrl/ByIdentity').done(function (resultdata) {
-                        // 填入数据
-                        //console.log(data);
-                        var academy=resultdata.academy;
-                        var yearlist=resultdata.year;
-                        var Undergraduate_times=resultdata.data[0];
-                        var Graduate_times=resultdata.data[1];
-                        var Teacher_times=resultdata.data[2];
-                        var Other_times=resultdata.data[3];
-                        var dataMap = {};
-                        function dataFormatter(academy,yearlist,obj) {
-                            var pList =academy ;
-                            var temp;
-                            for (var k = 0; k <yearlist.length; k++) {
-                                var year=yearlist[k];
-                                var max = 0;
-                                var sum = 0;
-                                temp = obj[year];
-                                //console.log(temp);
-                                for (var i = 0, l = temp.length; i < l; i++) {
-                                    max = Math.max(max, temp[i]);
-                                    sum += temp[i];
-                                    obj[year][i] = {
-                                        name : pList[i],
-                                        value : temp[i]
-                                    }
-                                }
-                                obj[year + 'max'] = Math.floor(max / 100) * 100;
-                                obj[year+ 'sum'] = sum;
-                            }
-                            return obj;
-                        }
-                        dataMap.dataPI = dataFormatter(academy,yearlist,Undergraduate_times);
-                        dataMap.dataSI = dataFormatter(academy,yearlist,Graduate_times);
-                        dataMap.dataTI = dataFormatter(academy,yearlist,Teacher_times);
-                        dataMap.dataGDP = dataFormatter(academy,yearlist,Other_times);
-                        console.log(dataMap);
+                    function year_identity_countchart() {
+                        var year_identity_count = echarts.init(document.getElementById('year_identity_count'));
+                        // 使用刚指定的配置项和数据显示图表。
+                        // 异步加载数据
+                        $.get('../../gctrl/ByIdentity').done(function (resultdata) {
+                            // 填入数据
+                            //console.log(data);
+                            var academy = resultdata.academy;
+                            var yearlist = resultdata.year;
+                            var Undergraduate_times = resultdata.data[0];
+                            var Graduate_times = resultdata.data[1];
+                            var Teacher_times = resultdata.data[2];
+                            var Other_times = resultdata.data[3];
+                            var dataMap = {};
 
-
-                        var options=[];
-                        for(var i=0; i<yearlist.length;i++){
-                            var option={
-                                tooltip: {},
-                                legend: {
-                                    top: 4,
-                                    right: '20%',
-                                    data: ['大学生', '研究生', '教师', '其他']
-
-                                },
-                                toolbox: {
-                                    feature: {
-                                        restore: {},
-                                        saveAsImage: {}
-                                    }
-                                },
-                                calculable : true,
-                                grid: {
-                                    top: 40,
-                                    bottom:100
-                                },
-                                xAxis: [
-                                    {
-                                        'type':'category',
-                                        'axisLabel':{ rotate:20,'interval':0},
-                                        'data':academy,
-                                        splitLine: {show: false}
-                                    }
-                                ],
-                                yAxis: [
-                                    {
-                                        type: 'value',
-                                        name: '人次',
-                                        "axisLabel": {
-                                            "interval": 0,
-                                            formatter: '{value}次',
+                            function dataFormatter(academy, yearlist, obj) {
+                                var pList = academy;
+                                var temp;
+                                for (var k = 0; k < yearlist.length; k++) {
+                                    var year = yearlist[k];
+                                    var max = 0;
+                                    var sum = 0;
+                                    temp = obj[year];
+                                    //console.log(temp);
+                                    for (var i = 0, l = temp.length; i < l; i++) {
+                                        max = Math.max(max, temp[i]);
+                                        sum += temp[i];
+                                        obj[year][i] = {
+                                            name: pList[i],
+                                            value: temp[i]
                                         }
                                     }
-                                ],
-                                series: [
-                                    {name: '大学生',
-                                        type: 'bar',
-                                        data: dataMap.dataPI[yearlist[i]]
-                                    },
-                                    {name: '研究生',
-                                        type: 'bar',
-                                        data: dataMap.dataSI[yearlist[i]]
-                                    },
-                                    {
-                                        name: '教师',
-                                        type: 'bar',
-                                        data: dataMap.dataTI[yearlist[i]]
-                                    },
-                                    {
-                                        name: '其他',
-                                        type: 'bar',
-                                        data: dataMap.dataGDP[yearlist[i]]
-                                    },
-                                    {
-                                        name: '总分布',
-                                        type: 'pie',
-                                        center: ['90%', '35%'],
-                                        radius: '28%',
-                                        data: [
-                                            {name: '大学生', value: dataMap.dataPI[yearlist[i]+'sum']},
-                                            {name: '研究生', value: dataMap.dataSI[yearlist[i]+'sum']},
-                                            {name: '教师', value: dataMap.dataTI[yearlist[i]+'sum']},
-                                            {name: '其他', value: dataMap.dataGDP[yearlist[i]+'sum']}
-                                        ]
-                                    }
-                                ]
+                                    obj[year + 'max'] = Math.floor(max / 100) * 100;
+                                    obj[year + 'sum'] = sum;
+                                }
+                                return obj;
                             }
-                            options.push(option);
-                        }
-                        var year_identity_count_option={
-                            timeline: {
-                                // y: 0,
-                                axisType: 'category',
-                                // realtime: false,
-                                // loop: false,
-                                autoPlay: true,
-                                // currentIndex: 2,
-                                playInterval: 2000,
-                                // controlStyle: {
-                                //     position: 'left'
-                                // },
-                                data:yearlist ,
-                                label: {
-                                    normal: {
-                                        show: true,
-                                        interval: 'auto',
-                                        formatter: '{value}年',
+
+                            dataMap.dataPI = dataFormatter(academy, yearlist, Undergraduate_times);
+                            dataMap.dataSI = dataFormatter(academy, yearlist, Graduate_times);
+                            dataMap.dataTI = dataFormatter(academy, yearlist, Teacher_times);
+                            dataMap.dataGDP = dataFormatter(academy, yearlist, Other_times);
+                            console.log(dataMap);
+
+
+                            var options = [];
+                            for (var i = 0; i < yearlist.length; i++) {
+                                var option = {
+                                    tooltip: {},
+                                    legend: {
+                                        top: 4,
+                                        right: '20%',
+                                        data: ['大学生', '研究生', '教师', '其他']
+
                                     },
-                                },
-                                /* label: {
+                                    toolbox: {
+                                        feature: {
+                                            restore: {},
+                                            saveAsImage: {}
+                                        }
+                                    },
+                                    calculable: true,
+                                    grid: {
+                                        top: 40,
+                                        bottom: 100
+                                    },
+                                    xAxis: [
+                                        {
+                                            'type': 'category',
+                                            'axisLabel': {rotate: 20, 'interval': 0},
+                                            'data': academy,
+                                            splitLine: {show: false}
+                                        }
+                                    ],
+                                    yAxis: [
+                                        {
+                                            type: 'value',
+                                            name: '人次',
+                                            "axisLabel": {
+                                                "interval": 0,
+                                                formatter: '{value}次',
+                                            }
+                                        }
+                                    ],
+                                    series: [
+                                        {
+                                            name: '大学生',
+                                            type: 'bar',
+
+                                            data: dataMap.dataPI[yearlist[i]]
+                                        },
+                                        {
+                                            name: '研究生',
+                                            type: 'bar',
+                                            data: dataMap.dataSI[yearlist[i]]
+                                        },
+                                        {
+                                            name: '教师',
+                                            type: 'bar',
+                                            data: dataMap.dataTI[yearlist[i]]
+                                        },
+                                        {
+                                            name: '其他',
+                                            type: 'bar',
+                                            data: dataMap.dataGDP[yearlist[i]]
+                                        },
+                                        {
+                                            name: '总分布',
+                                            type: 'pie',
+                                            center: ['90%', '35%'],
+                                            radius: '28%',
+                                            data: [
+                                                {name: '大学生', value: dataMap.dataPI[yearlist[i] + 'sum']},
+                                                {name: '研究生', value: dataMap.dataSI[yearlist[i] + 'sum']},
+                                                {name: '教师', value: dataMap.dataTI[yearlist[i] + 'sum']},
+                                                {name: '其他', value: dataMap.dataGDP[yearlist[i] + 'sum']}
+                                            ]
+                                        }
+                                    ]
+                                }
+                                options.push(option);
+                            }
+                            var year_identity_count_option = {
+                                timeline: {
+                                    // y: 0,
+                                    axisType: 'category',
+                                    // realtime: false,
+                                    // loop: false,
+                                    autoPlay: true,
+                                    // currentIndex: 2,
+                                    playInterval: 2000,
+                                    // controlStyle: {
+                                    //     position: 'left'
+                                    // },
+                                    data: yearlist,
+                                    label: {
+                                        normal: {
+                                            show: true,
+                                            interval: 'auto',
+                                            formatter: '{value}年',
+                                        },
+                                    },
+                                    /* label: {
                                  formatter : function(s) {
                                  return (new Date(s)).getFullYear();
                                  }
                                  }*/
                             },
-                            'options':options
+                            'options': options
                         }
 
 
                         year_identity_count.setOption(year_identity_count_option);
                     });
+                        }
                 </script>
             </div>
             <div class="clearfix"></div>
-            <div class="row"  style="height:  340px;" >
+            <div class="row"  >
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title" style="padding:0px;">
@@ -902,74 +911,75 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="sex_academy_count" style="height:250px;"></div>
+                            <div id="sex_academy_count"></div>
                         </div>
                     </div>
                 </div>
                 <script type="text/javascript">
                     //
-                    var sex_academy_count = echarts.init(document.getElementById('sex_academy_count'));
-                    // 异步加载数据
-                    $.get('../../gctrl/BySexAndAcademy').done(function (returndata) {
-                        // 填入数据
+                    function sex_academy_countchart() {
+                        var sex_academy_count = echarts.init(document.getElementById('sex_academy_count'));
+                        // 异步加载数据
+                        $.get('../../gctrl/BySexAndAcademy').done(function (returndata) {
+                            // 填入数据
 
-                        var myData =returndata.academylist;
-                        var databeast = returndata.manAndwoman[0];
-                        var databeauty = returndata.manAndwoman[1];
-                        var timeLineData = returndata.onedaylist;
+                            var myData = returndata.academylist;
+                            var databeast = returndata.manAndwoman[0];
+                            var databeauty = returndata.manAndwoman[1];
+                            var timeLineData = returndata.onedaylist;
 
-                        var option = {
-                            baseOption: {
-                              //  backgroundColor: '#000',
-                                timeline: {
-                                    show: true,
-                                    axisType: 'category',
-                                    tooltip: {
+                            var option = {
+                                baseOption: {
+                                    //  backgroundColor: '#000',
+                                    timeline: {
                                         show: true,
-                                        formatter: function(params) {
-                                           // console.log(params);
-                                            return params.name + '数据统计';
-                                        }
-                                    },
-                                    autoPlay: true,
-                                    currentIndex: 6,
-                                    playInterval: 1000,
-                                    label: {
-                                        normal: {
+                                        axisType: 'category',
+                                        tooltip: {
                                             show: true,
-                                            interval: 'auto',
-                                            formatter: '{value}日',
+                                            formatter: function (params) {
+                                                // console.log(params);
+                                                return params.name + '数据统计';
+                                            }
+                                        },
+                                        autoPlay: true,
+                                        currentIndex: 6,
+                                        playInterval: 1000,
+                                        label: {
+                                            normal: {
+                                                show: true,
+                                                interval: 'auto',
+                                                formatter: '{value}日',
+                                            },
+                                        },
+                                        data: [],
+                                    },
+                                    legend: {
+                                        data: ['男生', '女生'],
+                                        top: 4,
+                                        right: '20%',
+                                        textStyle: {
+                                            // color: '#fff',
                                         },
                                     },
-                                    data: [],
-                                },
-                                legend: {
-                                    data: ['男生', '女生'],
-                                    top: 4,
-                                    right: '20%',
-                                    textStyle: {
-                                       // color: '#fff',
+                                    tooltip: {
+                                        show: true,
+                                        trigger: 'axis',
+                                        formatter: '{b}<br/>{a}: {c}人',
+                                        axisPointer: {
+                                            type: 'shadow',
+                                        }
                                     },
-                                },
-                                tooltip: {
-                                    show: true,
-                                    trigger: 'axis',
-                                    formatter: '{b}<br/>{a}: {c}人',
-                                    axisPointer: {
-                                        type: 'shadow',
-                                    }
-                                },
-                                toolbox:{
-                                    right:20,
-                                    feature:{
-                                        saveAsImage: {},
-                                        restore: {},
-                                       // dataView: {},
-                                        //dataZoom: {},
-                                        /*magicType: {
+                                    toolbox: {
+                                        right: 20,
+                                        feature: {
+                                            saveAsImage: {},
+                                            restore: {},
+                                            // dataView: {},
+                                            //dataZoom: {},
+                                            /*magicType: {
                                             type:['line','bar']
                                         },*/
-                                        // brush: {},
+                                            // brush: {},
                                     }
                                 },
                                 grid: [{
@@ -1119,14 +1129,19 @@
                                     },
                                     data: myData,
                                 }, ],
-                                series: [],
+                                series: []
+
+                                    ,
 
                             },
-                            options: [],
+
+                                options: [],
                         };
 
-                        for (var i = 0; i < timeLineData.length; i++) {
-                            option.baseOption.timeline.data.push(timeLineData[i]);
+                        for (var i = 0; i
+                        < timeLineData.length; i++) {
+                            option.baseOption.timeline.data.push(timeLineData[i
+                                    ]);
                             option.options.push({
                                 series: [{
                                     name: '男生',
@@ -1186,13 +1201,15 @@
                                                 color: '#F94646',
                                             },
                                         },
-                                        data: databeauty[timeLineData[i]],
+                                        data: databeauty[
+                                                timeLineData[i]],
                                     }
                                 ]
                             });
                         }
                         sex_academy_count.setOption(option);
                     });
+                        }
 
                 </script>
             </div>

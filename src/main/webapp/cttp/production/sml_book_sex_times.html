@@ -476,6 +476,8 @@
         $("#SexAndBookkinds_count").height(height);
         $("#BookkindCount").height(height);
 
+        SexAndBookkindschart();
+        BookkindCountchart();
     });
 </script>
 <body class="nav-md">
@@ -528,7 +530,7 @@
 
                         </ul>
                     </div>
-                    <div class="menu_section">
+                   <!-- <div class="menu_section">
                         <h3>图书馆资源推荐</h3>
                         <ul class="nav side-menu">
                             <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
@@ -569,7 +571,7 @@
                             </li>
                             <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
                         </ul>
-                    </div>
+                    </div>-->
 
                 </div>
 
@@ -676,7 +678,7 @@
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="clearfix"></div>
-            <div class="row"  style="height: 665px;" >
+            <div class="row"  >
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title" style="padding:0px;">
@@ -692,277 +694,245 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="SexAndBookkinds_count" style="height:560px;"></div>
+                            <div id="SexAndBookkinds_count"></div>
                         </div>
                     </div>
                 </div>
                 <script type="text/javascript">
                     //
-                    var SexAndBookkinds_count = echarts.init(document.getElementById('SexAndBookkinds_count'));
-                    // 异步加载数据
-                    $.get('../../bookLend/BySexAndBookkinds').done(function (returndata) {
-                        // 填入数据
+                    function SexAndBookkindschart() {
+                        var SexAndBookkinds_count = echarts.init(document.getElementById('SexAndBookkinds_count'));
+                        // 异步加载数据
+                        $.get('../../bookLend/BySexAndBookkinds').done(function (returndata) {
+                            // 填入数据
 
-                        var myData =returndata.bookkindslist;
-                        var databeast = returndata.manAndwoman[0];
-                        var databeauty = returndata.manAndwoman[1];
-                        var timeLineData = returndata.monthlist;
+                            var myData = returndata.bookkindslist;
+                            var databeast = returndata.manAndwoman[0];
+                            var databeauty = returndata.manAndwoman[1];
+                            var timeLineData = returndata.monthlist;
 
-                        var option = {
-                            baseOption: {
-                                //backgroundColor: '#000',
-                                timeline: {
-                                    show: true,
-                                    axisType: 'category',
+                            var option = {
+                                baseOption: {
+                                    //backgroundColor: '#000',
+                                    timeline: {
+                                        show: true,
+                                        axisType: 'category',
+                                        tooltip: {
+                                            show: true,
+                                            formatter: function (params) {
+                                                console.log(params);
+                                                return params.name + '月份数据统计';
+                                            }
+                                        },
+                                        autoPlay: true,
+                                        currentIndex: 6,
+                                        playInterval: 1000,
+                                        label: {
+                                            normal: {
+                                                show: true,
+                                                interval: 'auto',
+                                                formatter: '{value}月',
+                                            },
+                                        },
+                                        data: [],
+                                    },
+                                    legend: {
+                                        data: ['男生', '女生'],
+                                        top: 4,
+                                        right: '20%',
+                                        textStyle: {
+                                            // color: '#fff',
+                                        },
+                                    },
                                     tooltip: {
                                         show: true,
-                                        formatter: function(params) {
-                                            console.log(params);
-                                            return params.name + '月份数据统计';
+                                        trigger: 'axis',
+                                        formatter: '{b}<br/>{a}: {c}本',
+                                        axisPointer: {
+                                            type: 'shadow',
                                         }
                                     },
-                                    autoPlay: true,
-                                    currentIndex: 6,
-                                    playInterval: 1000,
-                                    label: {
-                                        normal: {
-                                            show: true,
-                                            interval: 'auto',
-                                            formatter: '{value}月',
-                                        },
+
+                                    toolbox: {
+                                        right: 20,
+                                        feature: {
+                                            saveAsImage: {},
+                                            restore: {}
+                                        }
                                     },
-                                    data: [],
-                                },
-                                legend: {
-                                    data: ['男生', '女生'],
-                                    top: 4,
-                                    right: '20%',
-                                    textStyle: {
-                                        // color: '#fff',
-                                    },
-                                },
-                                tooltip: {
-                                    show: true,
-                                    trigger: 'axis',
-                                    formatter: '{b}<br/>{a}: {c}本',
-                                    axisPointer: {
-                                        type: 'shadow',
-                                    }
-                                },
 
-                                toolbox:{
-                                    right:20,
-                                    feature:{
-                                        saveAsImage: {},
-                                        restore: {}
-                                    }
-                                },
+                                    grid: [{
+                                        show: false,
+                                        left: '4%',
+                                        top: 60,
+                                        bottom: 60,
+                                        containLabel: true,
+                                        width: '46%',
+                                    }, {
+                                        show: false,
+                                        left: '50.5%',
+                                        top: 80,
+                                        bottom: 60,
+                                        width: '0%',
+                                    }, {
+                                        show: false,
+                                        right: '4%',
+                                        top: 60,
+                                        bottom: 60,
+                                        containLabel: true,
+                                        width: '46%',
+                                    },],
 
-                                grid: [{
-                                    show: false,
-                                    left: '4%',
-                                    top: 60,
-                                    bottom: 60,
-                                    containLabel: true,
-                                    width: '46%',
-                                }, {
-                                    show: false,
-                                    left: '50.5%',
-                                    top: 80,
-                                    bottom: 60,
-                                    width: '0%',
-                                }, {
-                                    show: false,
-                                    right: '4%',
-                                    top: 60,
-                                    bottom: 60,
-                                    containLabel: true,
-                                    width: '46%',
-                                }, ],
-
-                                xAxis: [
-                                    {
-                                        type: 'value',
-                                        inverse: true,
-                                        axisLine: {
+                                    xAxis: [
+                                        {
+                                            type: 'value',
+                                            inverse: true,
+                                            axisLine: {
+                                                show: false,
+                                            },
+                                            axisTick: {
+                                                show: false,
+                                            },
+                                            position: 'top',
+                                            axisLabel: {
+                                                show: true,
+                                                formatter: '{value}本',
+                                                textStyle: {
+                                                    color: '#B2B2B2',
+                                                    fontSize: 12,
+                                                },
+                                            },
+                                            splitLine: {
+                                                show: true,
+                                                lineStyle: {
+                                                    color: '#1F2022',
+                                                    width: 1,
+                                                    type: 'solid',
+                                                },
+                                            },
+                                        }, {
+                                            gridIndex: 1,
                                             show: false,
+                                        }, {
+                                            gridIndex: 2,
+                                            type: 'value',
+                                            axisLine: {
+                                                show: false,
+                                            },
+                                            axisTick: {
+                                                show: false,
+                                            },
+                                            position: 'top',
+                                            axisLabel: {
+                                                show: true,
+                                                formatter: '{value}本',
+                                                textStyle: {
+                                                    color: '#B2B2B2',
+                                                    fontSize: 12,
+                                                },
+                                            },
+                                            splitLine: {
+                                                show: true,
+                                                lineStyle: {
+                                                    color: '#1F2022',
+                                                    width: 1,
+                                                    type: 'solid',
+                                                },
+                                            },
+                                        },],
+                                    yAxis: [{
+                                        type: 'category',
+                                        inverse: true,
+                                        position: 'right',
+                                        axisLine: {
+                                            show: false
                                         },
                                         axisTick: {
-                                            show: false,
+                                            show: false
                                         },
-                                        position: 'top',
                                         axisLabel: {
-                                            show: true,
-                                            formatter: '{value}本',
+                                            show: false,
+                                            margin: 8,
                                             textStyle: {
-                                                color: '#B2B2B2',
+                                                color: '#9D9EA0',
                                                 fontSize: 12,
                                             },
+
                                         },
-                                        splitLine: {
-                                            show: true,
-                                            lineStyle: {
-                                                color: '#1F2022',
-                                                width: 1,
-                                                type: 'solid',
-                                            },
-                                        },
+                                        data: myData,
                                     }, {
                                         gridIndex: 1,
-                                        show: false,
-                                    }, {
-                                        gridIndex: 2,
-                                        type: 'value',
+                                        type: 'category',
+                                        inverse: true,
+                                        position: 'left',
                                         axisLine: {
-                                            show: false,
+                                            show: false
                                         },
                                         axisTick: {
-                                            show: false,
+                                            show: false
                                         },
-                                        position: 'top',
                                         axisLabel: {
                                             show: true,
-                                            formatter: '{value}本',
                                             textStyle: {
-                                                color: '#B2B2B2',
+                                                color: '#9D9EA0',
                                                 fontSize: 12,
                                             },
-                                        },
-                                        splitLine: {
-                                            show: true,
-                                            lineStyle: {
-                                                color: '#1F2022',
-                                                width: 1,
-                                                type: 'solid',
-                                            },
-                                        },
-                                    }, ],
-                                yAxis: [{
-                                    type: 'category',
-                                    inverse: true,
-                                    position: 'right',
-                                    axisLine: {
-                                        show: false
-                                    },
-                                    axisTick: {
-                                        show: false
-                                    },
-                                    axisLabel: {
-                                        show: false,
-                                        margin: 8,
-                                        textStyle: {
-                                            color: '#9D9EA0',
-                                            fontSize: 12,
-                                        },
 
-                                    },
-                                    data: myData,
-                                }, {
-                                    gridIndex: 1,
-                                    type: 'category',
-                                    inverse: true,
-                                    position: 'left',
-                                    axisLine: {
-                                        show: false
-                                    },
-                                    axisTick: {
-                                        show: false
-                                    },
-                                    axisLabel: {
-                                        show: true,
-                                        textStyle: {
-                                            color: '#9D9EA0',
-                                            fontSize: 12,
                                         },
-
-                                    },
-                                    data: myData.map(function(value) {
-                                        return {
-                                            value: value,
-                                            textStyle: {
-                                                align: 'center',
+                                        data: myData.map(function (value) {
+                                            return {
+                                                value: value,
+                                                textStyle: {
+                                                    align: 'center',
+                                                }
                                             }
-                                        }
-                                    }),
-                                }, {
-                                    gridIndex: 2,
-                                    type: 'category',
-                                    inverse: true,
-                                    position: 'left',
-                                    axisLine: {
-                                        show: false
-                                    },
-                                    axisTick: {
-                                        show: false
-                                    },
-                                    axisLabel: {
-                                        show: false,
-                                        textStyle: {
-                                            color: '#9D9EA0',
-                                            fontSize: 12,
+                                        }),
+                                    }, {
+                                        gridIndex: 2,
+                                        type: 'category',
+                                        inverse: true,
+                                        position: 'left',
+                                        axisLine: {
+                                            show: false
                                         },
-
-                                    },
-                                    data: myData,
-                                }, ],
-                                series: [],
-
-                            },
-
-                            options: [],
-
-
-                        };
-
-                        for (var i = 0; i < timeLineData.length; i++) {
-                            //console.log(timeLineData);
-                            option.baseOption.timeline.data.push(timeLineData[i]);
-                            option.options.push({
-                                series: [{
-                                    name: '男生',
-                                    type: 'bar',
-                                    barGap: 20,
-                                    barWidth: 20,
-                                    label: {
-                                        normal: {
+                                        axisTick: {
+                                            show: false
+                                        },
+                                        axisLabel: {
                                             show: false,
-                                        },
-                                        emphasis: {
-                                            show: true,
-                                            position: 'left',
-                                            offset: [0, 0],
                                             textStyle: {
-                                                color: '#fff',
-                                                fontSize: 14,
+                                                color: '#9D9EA0',
+                                                fontSize: 12,
                                             },
+
                                         },
-                                    },
-                                    itemStyle: {
-                                        normal: {
-                                            color: '#659F83',
-                                        },
-                                        emphasis: {
-                                            color: '#08C7AE',
-                                        },
-                                    },
-                                    data: databeast[timeLineData[i]],
+                                        data: myData,
+                                    },],
+                                    series: [],
+
                                 },
 
+                                options: [],
 
-                                    {
-                                        name: '女生',
+
+                            };
+
+                            for (var i = 0; i < timeLineData.length; i++) {
+                                //console.log(timeLineData);
+                                option.baseOption.timeline.data.push(timeLineData[i]);
+                                option.options.push({
+                                    series: [{
+                                        name: '男生',
                                         type: 'bar',
                                         barGap: 20,
                                         barWidth: 20,
-                                        xAxisIndex: 2,
-                                        yAxisIndex: 2,
                                         label: {
                                             normal: {
                                                 show: false,
                                             },
                                             emphasis: {
                                                 show: true,
-                                                position: 'right',
+                                                position: 'left',
                                                 offset: [0, 0],
                                                 textStyle: {
                                                     color: '#fff',
@@ -972,21 +942,54 @@
                                         },
                                         itemStyle: {
                                             normal: {
-                                                color: '#F68989',
+                                                color: '#659F83',
                                             },
                                             emphasis: {
-                                                color: '#F94646',
+                                                color: '#08C7AE',
                                             },
                                         },
-                                        data: databeauty[timeLineData[i]],
-                                    }
-                                ]
-                            });
-                        }
-                        SexAndBookkinds_count.setOption(option);
-                    });
-                </script>
+                                        data: databeast[timeLineData[i]],
+                                    },
 
+
+                                        {
+                                            name: '女生',
+                                            type: 'bar',
+                                            barGap: 20,
+                                            barWidth: 20,
+                                            xAxisIndex: 2,
+                                            yAxisIndex: 2,
+                                            label: {
+                                                normal: {
+                                                    show: false,
+                                                },
+                                                emphasis: {
+                                                    show: true,
+                                                    position: 'right',
+                                                    offset: [0, 0],
+                                                    textStyle: {
+                                                        color: '#fff',
+                                                        fontSize: 14,
+                                                    },
+                                                },
+                                            },
+                                            itemStyle: {
+                                                normal: {
+                                                    color: '#F68989',
+                                                },
+                                                emphasis: {
+                                                    color: '#F94646',
+                                                },
+                                            },
+                                            data: databeauty[timeLineData[i]],
+                                        }
+                                    ]
+                                });
+                            }
+                            SexAndBookkinds_count.setOption(option);
+                        });
+                    }
+                </script>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title" style="padding:0px;">
@@ -1002,129 +1005,130 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="BookkindCount" style="height:560px;"></div>
+                            <div id="BookkindCount" ></div>
                         </div>
                     </div>
                 </div>
                 <script type="text/javascript">
                     //
-                    var BookkindCount = echarts.init(document.getElementById('BookkindCount'));
-                    // 异步加载数据
-                    $.get('../../bookLend/ByBookkind').done(function (returndata) {
-                       console.log(returndata);
-                        var BookkindCountoption = {
-                            //color: ['#3398DB'],
-                            tooltip: {
-                                trigger: 'axis',
-                                backgroundColor:'rgba(255,255,255,0.8)',
-                                extraCssText: 'box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);',
-                                textStyle:{
-                                    color:'#6a717b',
-                                },
-
-                            },
-                            grid: {
-                                left: '3%',
-                                right: '4%',
-                                bottom: '3%',
-                                containLabel: true
-                            },
-                            toolbox:{
-                                right:20,
-                                feature:{
-                                    saveAsImage: {},
-                                    restore: {}
-                                }
-                            },
-                            legend: {
-                                data: ['Top 13'],
-                                top: 4,
-                                right: '20%',
-                                textStyle: {},
-                            },
-                            yAxis: [{
-                                type: 'category',
-                                data: returndata.book_kind,
-
-                                axisTick: {
-                                    alignWithLabel: true,
-
-
-                                },
-                                axisLabel: {
-                                    margin: 10,
+                    function BookkindCountchart() {
+                        var BookkindCount = echarts.init(document.getElementById('BookkindCount'));
+                        // 异步加载数据
+                        $.get('../../bookLend/ByBookkind').done(function (returndata) {
+                            console.log(returndata);
+                            var BookkindCountoption = {
+                                //color: ['#3398DB'],
+                                tooltip: {
+                                    trigger: 'axis',
+                                    backgroundColor: 'rgba(255,255,255,0.8)',
+                                    extraCssText: 'box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);',
                                     textStyle: {
-                                        fontSize: 12,
-                                        color:'#94999f'
+                                        color: '#6a717b',
+                                    },
+
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    right: 20,
+                                    feature: {
+                                        saveAsImage: {},
+                                        restore: {}
                                     }
                                 },
-                                axisLine: {
-                                    lineStyle: {
-                                        color: '#dbe0e6'
-                                    }
+                                legend: {
+                                    data: ['Top 13'],
+                                    top: 4,
+                                    right: '20%',
+                                    textStyle: {},
                                 },
+                                yAxis: [{
+                                    type: 'category',
+                                    data: returndata.book_kind,
 
-                            }],
-                            xAxis: [{
-                                type: 'value',
-                                axisLabel: {
-                                    margin: 10,
-                                    textStyle: {
-                                        fontSize: 12,
-                                        color:'#94999f'
-                                    }
-                                },
-                                axisLine: {
-                                    lineStyle: {
-                                        color: '#fff'
-                                    }
-                                },
-                                splitLine: {
-                                    lineStyle: {
-                                        color: '#dbe0e6'
-                                    }
-                                }
+                                    axisTick: {
+                                        alignWithLabel: true,
 
 
-
-                            }],
-                            backgroundColor: '#ffffff',
-                            series: [{
-                                name: 'Top 13',
-                                type: 'bar',
-                                barWidth:30,
-                                data: returndata.lend_times,
-                                label: {
-                                    normal: {
-                                        show: true,
-                                        position: 'insideRight',
+                                    },
+                                    axisLabel: {
+                                        margin: 10,
                                         textStyle: {
-                                            color: 'white' //color of value
+                                            fontSize: 12,
+                                            color: '#94999f'
+                                        }
+                                    },
+                                    axisLine: {
+                                        lineStyle: {
+                                            color: '#dbe0e6'
+                                        }
+                                    },
+
+                                }],
+                                xAxis: [{
+                                    type: 'value',
+                                    axisLabel: {
+                                        margin: 10,
+                                        textStyle: {
+                                            fontSize: 12,
+                                            color: '#94999f'
+                                        }
+                                    },
+                                    axisLine: {
+                                        lineStyle: {
+                                            color: '#fff'
+                                        }
+                                    },
+                                    splitLine: {
+                                        lineStyle: {
+                                            color: '#dbe0e6'
                                         }
                                     }
-                                },
 
 
-                                itemStyle: {
+                                }],
+                                backgroundColor: '#ffffff',
+                                series: [{
+                                    name: 'Top 13',
+                                    type: 'bar',
+                                    barWidth: 30,
+                                    data: returndata.lend_times,
+                                    label: {
+                                        normal: {
+                                            show: true,
+                                            position: 'insideRight',
+                                            textStyle: {
+                                                color: 'white' //color of value
+                                            }
+                                        }
+                                    },
 
-                                    normal: {
-                                        color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
-                                            offset: 0,
-                                            color: '#64bdc8' // 0% 处的颜色
-                                        }, {
-                                            offset: 1,
-                                            color: '#00c484' // 100% 处的颜色
-                                        }], false),
-                                        barBorderRadius: [0, 15,15, 0],
-                                        shadowColor: 'rgba(0,0,0,0.1)',
-                                        shadowBlur: 3,
-                                        shadowOffsetY: 3
+
+                                    itemStyle: {
+
+                                        normal: {
+                                            color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                                                offset: 0,
+                                                color: '#64bdc8' // 0% 处的颜色
+                                            }, {
+                                                offset: 1,
+                                                color: '#00c484' // 100% 处的颜色
+                                            }], false),
+                                            barBorderRadius: [0, 15, 15, 0],
+                                            shadowColor: 'rgba(0,0,0,0.1)',
+                                            shadowBlur: 3,
+                                            shadowOffsetY: 3
+                                        }
                                     }
-                                }
-                            }]
-                        };
-                        BookkindCount.setOption(BookkindCountoption);
-                    });
+                                }]
+                            };
+                            BookkindCount.setOption(BookkindCountoption);
+                        });
+                    }
                 </script>
             </div>
         </div>

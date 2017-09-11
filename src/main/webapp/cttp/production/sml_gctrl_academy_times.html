@@ -150,6 +150,8 @@
         var height=left-$(".x_title").height()-120;
         $("#academyAndmajor_count").height(height);
 
+        academyAndmajor_countchart();
+
     });
 </script>
 <body class="nav-md">
@@ -202,7 +204,7 @@
 
                         </ul>
                     </div>
-                    <div class="menu_section">
+                  <!--  <div class="menu_section">
                         <h3>图书馆资源推荐</h3>
                         <ul class="nav side-menu">
                             <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
@@ -243,7 +245,7 @@
                             </li>
                             <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
                         </ul>
-                    </div>
+                    </div>-->
 
                 </div>
 
@@ -350,7 +352,7 @@
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="clearfix"></div>
-            <div class="row" style="height: 665px;">
+            <div class="row" >
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title" style="padding:0px;">
@@ -367,103 +369,105 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="academyAndmajor_count" style="height:560px;"></div>
+                            <div id="academyAndmajor_count" ></div>
                         </div>
                     </div>
                 </div>
                 <script type="text/javascript">
                     //
-                    var academyAndmajor_count = echarts.init(document.getElementById('academyAndmajor_count'));
-                    // 异步加载数据
-                    $.get('../../gctrl/ByAcademyAndMajor').done(function (returndata) {
-                       // console.log(returndata)
-                        var  legenddata=[];
-                        var seriesdata=[];
-                        var linkdata=[];
-                        var categoriesdata=[];
-                        seriesdata.push({
-                            "name": returndata[0].school,
-                            "symbolSize": 30,
-                            "draggable": "true"
-                        })
-                        for(var i=0;i<returndata.length;i++) {
-                            legenddata.push(returndata[i].academy);
-                            var oneseriesdata = {
-                                "name": returndata[i].academy,
-                                "symbolSize": returndata[i].all_times,
-                                "category": returndata[i].academy,
-                                "draggable": "true",
-                                "value": returndata[i].all_times
-                            };
-                            seriesdata.push(oneseriesdata);
-                            var onelinkdata = {
-                                "source":  returndata[i].school,
-                                "target":  returndata[i].academy
-                            };
-                            linkdata.push(onelinkdata);
-                            var onecategoriesdata={
-                                'name': returndata[i].academy
-                            };
-                            categoriesdata.push(onecategoriesdata);
-                        }
+                    function academyAndmajor_countchart() {
+                        var academyAndmajor_count = echarts.init(document.getElementById('academyAndmajor_count'));
+                        // 异步加载数据
+                        $.get('../../gctrl/ByAcademyAndMajor').done(function (returndata) {
+                            // console.log(returndata)
+                            var legenddata = [];
+                            var seriesdata = [];
+                            var linkdata = [];
+                            var categoriesdata = [];
+                            seriesdata.push({
+                                "name": returndata[0].school,
+                                "symbolSize": 30,
+                                "draggable": "true"
+                            })
+                            for (var i = 0; i < returndata.length; i++) {
+                                legenddata.push(returndata[i].academy);
+                                var oneseriesdata = {
+                                    "name": returndata[i].academy,
+                                    "symbolSize": returndata[i].all_times,
+                                    "category": returndata[i].academy,
+                                    "draggable": "true",
+                                    "value": returndata[i].all_times
+                                };
+                                seriesdata.push(oneseriesdata);
+                                var onelinkdata = {
+                                    "source": returndata[i].school,
+                                    "target": returndata[i].academy
+                                };
+                                linkdata.push(onelinkdata);
+                                var onecategoriesdata = {
+                                    'name': returndata[i].academy
+                                };
+                                categoriesdata.push(onecategoriesdata);
+                            }
 
-                        var academyAndmajor_count_option = {
-                            tooltip: {},
-                            legend: [{
-                                top:'center',
-                                left :20,
-                                orient :'vertical',
-                                formatter: function (name) {
-                                    return echarts.format.truncateText(name, 40, '14px Microsoft Yahei', '…');
-                                },
-                                tooltip: { show: true },
-                                selectedMode: 'false',
-                               bottom: 20,
-                                data: legenddata
-                            }],
-                            toolbox: {
-                                show : true,
-                                feature : {
-                                    //dataView : {show: true, readOnly: true},
-                                    restore : {show: true},
-                                    saveAsImage : {show: true}
-                                }
-                            },
-                            animationDuration: 3000,
-                            animationEasingUpdate: 'quinticInOut',
-                            series: [{
-                                name: returndata[0].school,
-                                type: 'graph',
-                                layout: 'force',
-
-                                force: {
-                                    repulsion: 150,
-                                    edgeLength :150
-                                },
-                                data: seriesdata,
-                                links: linkdata,
-                                categories:categoriesdata ,
-                                focusNodeAdjacency: true,
-                                roam: true,
-                                label: {
-                                    normal: {
-                                        show: true,
-                                        position: 'top',
-
+                            var academyAndmajor_count_option = {
+                                tooltip: {},
+                                legend: [{
+                                    top: 'center',
+                                    left: 20,
+                                    orient: 'vertical',
+                                    formatter: function (name) {
+                                        return echarts.format.truncateText(name, 40, '14px Microsoft Yahei', '…');
+                                    },
+                                    tooltip: {show: true},
+                                    selectedMode: 'false',
+                                    bottom: 20,
+                                    data: legenddata
+                                }],
+                                toolbox: {
+                                    show: true,
+                                    feature: {
+                                        //dataView : {show: true, readOnly: true},
+                                        restore: {show: true},
+                                        saveAsImage: {show: true}
                                     }
                                 },
-                                lineStyle: {
-                                    normal: {
-                                        color: 'target',
-                                        curveness: 0,
-                                        type: "solid"
-                                    }
-                                }
-                            }]
-                        };
-                        academyAndmajor_count.setOption(academyAndmajor_count_option);
+                                animationDuration: 3000,
+                                animationEasingUpdate: 'quinticInOut',
+                                series: [{
+                                    name: returndata[0].school,
+                                    type: 'graph',
+                                    layout: 'force',
 
-                    });
+                                    force: {
+                                        repulsion: 150,
+                                        edgeLength: 150
+                                    },
+                                    data: seriesdata,
+                                    links: linkdata,
+                                    categories: categoriesdata,
+                                    focusNodeAdjacency: true,
+                                    roam: true,
+                                    label: {
+                                        normal: {
+                                            show: true,
+                                            position: 'top',
+
+                                        }
+                                    },
+                                    lineStyle: {
+                                        normal: {
+                                            color: 'target',
+                                            curveness: 0,
+                                            type: "solid"
+                                        }
+                                    }
+                                }]
+                            };
+                            academyAndmajor_count.setOption(academyAndmajor_count_option);
+
+                        });
+                    }
                 </script>
             </div>
         </div>

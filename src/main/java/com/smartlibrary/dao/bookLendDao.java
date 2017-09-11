@@ -15,4 +15,5 @@ public interface bookLendDao {
     public abstract List<Book_Lend> getBorrowCountByHourAndBookkinds(Book_Lend b);
     public abstract List<Book_Lend> getBorrowCountBySexAndBookkinds(Book_Lend b);
     public abstract List<Book_Lend> getBorrowCountByPublisher(Book_Lend b);
+    public abstract List<Book_Lend> getBookkindCount(Book_Lend b);
 }

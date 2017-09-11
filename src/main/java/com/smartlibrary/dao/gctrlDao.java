@@ -15,5 +15,6 @@ public interface gctrlDao {
     public abstract List<gctrl> getGctrlCountByIdentity(gctrl b);
     public abstract List<gctrl> getGctrlCountBySexAndAcademy(gctrl b);
     public abstract List<gctrl> getGctrlCountByAcademyAndMajor(gctrl b);
+    public abstract List<gctrl> getGctrlCount2ByDay(gctrl b);
 
 }

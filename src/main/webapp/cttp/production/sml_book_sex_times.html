@@ -39,6 +39,7 @@
     function getlarge_SexAndBookkinds(){
         $(".chart_title p").text("性别图书种类分析");
         $(".mask").css("display","block");
+        $("#largeBookkindsCount").css("display","none");
         $("#largeSexAndBookkinds").css("display","block");
         var largeSexAndBookkinds = echarts.init(document.getElementById('largeSexAndBookkinds'));
 
@@ -87,7 +88,7 @@
                     tooltip: {
                         show: true,
                         trigger: 'axis',
-                        formatter: '{b}<br/>{a}: {c}人',
+                        formatter: '{b}<br/>{a}: {c}本',
                         axisPointer: {
                             type: 'shadow',
                         }
@@ -335,6 +336,148 @@
         });
     });
 </script>
+
+<script type="application/javascript">
+    function getlarge_bookkindcount(){
+        $(".chart_title p").text("年-图书种类排名");
+        $(".mask").css("display","block");
+        $("#largeSexAndBookkinds").css("display","none");
+        $("#largeBookkindsCount").css("display","block");
+
+        var largeBookkindsCount = echarts.init(document.getElementById('largeBookkindsCount'));
+
+        // 异步加载数据
+        $.get('../../bookLend/ByBookkind').done(function (returndata) {
+            console.log(returndata);
+            var BookkindCountoption = {
+                //color: ['#3398DB'],
+                tooltip: {
+                    trigger: 'axis',
+                    backgroundColor:'rgba(255,255,255,0.8)',
+                    extraCssText: 'box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);',
+                    textStyle:{
+                        color:'#6a717b',
+                    },
+
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                legend: {
+                    data: ['Top 13'],
+                    top: 4,
+                    right: '20%',
+                    textStyle: {},
+                },
+                toolbox:{
+                    right:20,
+                    feature:{
+                        saveAsImage: {},
+                        restore: {}
+                    }
+                },
+                yAxis: [{
+                    type: 'category',
+                    data: returndata.book_kind,
+
+                    axisTick: {
+                        alignWithLabel: true,
+
+
+                    },
+                    axisLabel: {
+                        margin: 10,
+                        textStyle: {
+                            fontSize: 12,
+                            color:'#94999f'
+                        }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#dbe0e6'
+                        }
+                    },
+
+                }],
+                xAxis: [{
+                    type: 'value',
+                    axisLabel: {
+                        margin: 10,
+                        textStyle: {
+                            fontSize: 12,
+                            color:'#94999f'
+                        }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#fff'
+                        }
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: '#dbe0e6'
+                        }
+                    }
+
+
+
+                }],
+                backgroundColor: '#ffffff',
+                series: [{
+                    name: 'Top 13',
+                    type: 'bar',
+                    barWidth:30,
+                    data: returndata.lend_times,
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight',
+                            textStyle: {
+                                color: 'white' //color of value
+                            }
+                        }
+                    },
+
+
+                    itemStyle: {
+
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                                offset: 0,
+                                color: '#64bdc8' // 0% 处的颜色
+                            }, {
+                                offset: 1,
+                                color: '#00c484' // 100% 处的颜色
+                            }], false),
+                            barBorderRadius: [0, 15,15, 0],
+                            shadowColor: 'rgba(0,0,0,0.1)',
+                            shadowBlur: 3,
+                            shadowOffsetY: 3
+                        }
+                    }
+                }]
+            };
+            largeBookkindsCount.setOption(BookkindCountoption);
+        });
+    }
+
+</script>
+<!--屏幕适配-->
+<script type="application/javascript">
+
+    $(function(){
+        var left=$(".left_col").height();
+        left=left-17;
+        $(".right_col").height(left);
+        var height=left-$(".x_title").height()-120;
+        $("#SexAndBookkinds_count").height(height);
+        $("#BookkindCount").height(height);
+
+    });
+</script>
 <body class="nav-md">
 <div class="container body">
     <div class="main_container">
@@ -534,7 +677,7 @@
         <div class="right_col" role="main">
             <div class="clearfix"></div>
             <div class="row"  style="height: 665px;" >
-                <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title" style="padding:0px;">
                             <h2>性别-图书种类分析</h2>
@@ -601,7 +744,7 @@
                                 tooltip: {
                                     show: true,
                                     trigger: 'axis',
-                                    formatter: '{b}<br/>{a}: {c}人',
+                                    formatter: '{b}<br/>{a}: {c}本',
                                     axisPointer: {
                                         type: 'shadow',
                                     }
@@ -843,6 +986,146 @@
                         SexAndBookkinds_count.setOption(option);
                     });
                 </script>
+
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title" style="padding:0px;">
+                            <h2>年-图书种类排名</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="" href="javascript:getlarge_bookkindcount()"><i class="fa icon-resize-full"></i></a>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div id="BookkindCount" style="height:560px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    //
+                    var BookkindCount = echarts.init(document.getElementById('BookkindCount'));
+                    // 异步加载数据
+                    $.get('../../bookLend/ByBookkind').done(function (returndata) {
+                       console.log(returndata);
+                        var BookkindCountoption = {
+                            //color: ['#3398DB'],
+                            tooltip: {
+                                trigger: 'axis',
+                                backgroundColor:'rgba(255,255,255,0.8)',
+                                extraCssText: 'box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);',
+                                textStyle:{
+                                    color:'#6a717b',
+                                },
+
+                            },
+                            grid: {
+                                left: '3%',
+                                right: '4%',
+                                bottom: '3%',
+                                containLabel: true
+                            },
+                            toolbox:{
+                                right:20,
+                                feature:{
+                                    saveAsImage: {},
+                                    restore: {}
+                                }
+                            },
+                            legend: {
+                                data: ['Top 13'],
+                                top: 4,
+                                right: '20%',
+                                textStyle: {},
+                            },
+                            yAxis: [{
+                                type: 'category',
+                                data: returndata.book_kind,
+
+                                axisTick: {
+                                    alignWithLabel: true,
+
+
+                                },
+                                axisLabel: {
+                                    margin: 10,
+                                    textStyle: {
+                                        fontSize: 12,
+                                        color:'#94999f'
+                                    }
+                                },
+                                axisLine: {
+                                    lineStyle: {
+                                        color: '#dbe0e6'
+                                    }
+                                },
+
+                            }],
+                            xAxis: [{
+                                type: 'value',
+                                axisLabel: {
+                                    margin: 10,
+                                    textStyle: {
+                                        fontSize: 12,
+                                        color:'#94999f'
+                                    }
+                                },
+                                axisLine: {
+                                    lineStyle: {
+                                        color: '#fff'
+                                    }
+                                },
+                                splitLine: {
+                                    lineStyle: {
+                                        color: '#dbe0e6'
+                                    }
+                                }
+
+
+
+                            }],
+                            backgroundColor: '#ffffff',
+                            series: [{
+                                name: 'Top 13',
+                                type: 'bar',
+                                barWidth:30,
+                                data: returndata.lend_times,
+                                label: {
+                                    normal: {
+                                        show: true,
+                                        position: 'insideRight',
+                                        textStyle: {
+                                            color: 'white' //color of value
+                                        }
+                                    }
+                                },
+
+
+                                itemStyle: {
+
+                                    normal: {
+                                        color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                                            offset: 0,
+                                            color: '#64bdc8' // 0% 处的颜色
+                                        }, {
+                                            offset: 1,
+                                            color: '#00c484' // 100% 处的颜色
+                                        }], false),
+                                        barBorderRadius: [0, 15,15, 0],
+                                        shadowColor: 'rgba(0,0,0,0.1)',
+                                        shadowBlur: 3,
+                                        shadowOffsetY: 3
+                                    }
+                                }
+                            }]
+                        };
+                        BookkindCount.setOption(BookkindCountoption);
+                    });
+                </script>
             </div>
         </div>
     </div>
@@ -856,6 +1139,7 @@
             <p></p>
         </div>
         <div id="largeSexAndBookkinds" class="large_chart"  style="display: none"></div>
+        <div id="largeBookkindsCount" class="large_chart"  style="display: none"></div>
 
     </div>
 </div>

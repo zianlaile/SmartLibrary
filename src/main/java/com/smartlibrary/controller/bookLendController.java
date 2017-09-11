@@ -67,6 +67,13 @@ public class bookLendController {
     public  Map<Integer ,Map>  getBorrowCountByPublisher(HttpServletRequest request){
         Book_Lend b=new Book_Lend();
         return booklendservice.getBorrowCountByPublisher(b);
-    };
+    }
+
+    @RequestMapping(method = { RequestMethod.GET },value = "ByBookkind")
+    @ResponseBody
+    public  Map<String,List>  getBookkindCount(HttpServletRequest request){
+        Book_Lend b=new Book_Lend();
+        return booklendservice.getBookkindCount(b);
+    }
 
 }

@@ -202,4 +202,18 @@ public class gctrlService {
     public  List<gctrl> getGctrlCountByAcademyAndMajor(gctrl b){
         return gctrldao.getGctrlCountByAcademyAndMajor(b);
     }
+
+    public Map<String,List> getBookkindCount(gctrl b) {
+        List<gctrl> count2Byday= gctrldao.getGctrlCount2ByDay(b);
+        ArrayList<Integer> gctrl_times=new  ArrayList<Integer>();
+        ArrayList<String> time=new  ArrayList<String>();
+        Map<String ,List> data=new HashMap<String ,List>();
+        for(int i=0;i<count2Byday.size();i++){
+            gctrl_times.add(count2Byday.get(i).getGctrl_times());
+            time.add(count2Byday.get(i).getTime());
+        }
+        data.put("gctrl_times",gctrl_times);
+        data.put("time",time);
+        return data;
+    }
 }

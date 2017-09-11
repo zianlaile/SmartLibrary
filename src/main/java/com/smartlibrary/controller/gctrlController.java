@@ -68,4 +68,11 @@ public class gctrlController {
         return gctrlservice.getGctrlCountByAcademyAndMajor(b);
     }
 
+    @RequestMapping(method = { RequestMethod.GET },value = "ByDay_count2")
+    @ResponseBody
+    public  Map<String,List>  getBookkindCount(HttpServletRequest request){
+        gctrl b=new gctrl();
+        return gctrlservice.getBookkindCount(b);
+    }
+
 }

@@ -500,6 +500,20 @@
 </script>
 
 
+
+<!--屏幕适配-->
+<script type="application/javascript">
+
+    $(function(){
+        var left=$(".left_col").height();
+        left=left-17;
+        $(".right_col").height(left);
+        var height=left/2-$(".x_title").height()-90;
+        $("#year_identity_count").height(height);
+        $("#sex_academy_count").height(height);
+
+    });
+</script>
 <body class="nav-md">
 <div class="container body">
     <div class="main_container">
@@ -774,14 +788,13 @@
                                 },
                                 toolbox: {
                                     feature: {
-
                                         restore: {},
                                         saveAsImage: {}
                                     }
                                 },
                                 calculable : true,
                                 grid: {
-                                    top: 80,
+                                    top: 40,
                                     bottom:100
                                 },
                                 xAxis: [
@@ -946,7 +959,6 @@
                                         type: 'shadow',
                                     }
                                 },
-
                                 toolbox:{
                                     right:20,
                                     feature:{
@@ -960,24 +972,23 @@
                                         // brush: {},
                                     }
                                 },
-
                                 grid: [{
                                     show: false,
                                     left: '4%',
-                                    top: 60,
+                                    top: 30,
                                     bottom: 60,
                                     containLabel: true,
                                     width: '46%',
                                 }, {
                                     show: false,
                                     left: '50.5%',
-                                    top: 80,
+                                    top: 50,
                                     bottom: 60,
                                     width: '0%',
                                 }, {
                                     show: false,
                                     right: '4%',
-                                    top: 60,
+                                    top: 30,
                                     bottom: 60,
                                     containLabel: true,
                                     width: '46%',
@@ -1111,10 +1122,7 @@
                                 series: [],
 
                             },
-
                             options: [],
-
-
                         };
 
                         for (var i = 0; i < timeLineData.length; i++) {
@@ -1149,8 +1157,6 @@
                                     },
                                     data: databeast[timeLineData[i]],
                                 },
-
-
                                     {
                                         name: '女生',
                                         type: 'bar',

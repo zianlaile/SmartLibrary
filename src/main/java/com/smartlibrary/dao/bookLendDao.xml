@@ -66,4 +66,14 @@
         on a1.year=b1.year and a1.times=b1.times
         order by a1.year,a1.times desc
     </select>
+
+    <!--CURDATE() -->
+    <select id="getBookkindCount" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
+        SELECT a.book_kind,sum(a.book_lend_times) as book_lend_times
+        FROM `zz_book_year_academy_bookkinds` a
+        WHERE   a.`year`= DATE_FORMAT('2014-01-12', '%Y')
+        GROUP BY a.book_kind
+        ORDER BY book_lend_times DESC
+        limit 13
+    </select>
 </mapper>

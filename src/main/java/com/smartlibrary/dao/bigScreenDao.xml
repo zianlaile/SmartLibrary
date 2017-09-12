@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smartlibrary.dao.bigScreenDao">
+    <select id="getnumber" resultType="BigScreen">
+        select `name`,count from zz_bigscreen_num
+    </select>
+    <select id="getlend" resultType="BigScreen">
+        SELECT `hour`,lend FROM zz_bigscreen_hour ORDER BY `hour`
+    </select>
+    <select id="getresource" resultType="BigScreen">
+        SELECT `hour`,lend,gctrl,print,seats,crooms,ereads
+        FROM `zz_bigscreen_hour`
+        ORDER BY `hour`;
+    </select>
+</mapper>

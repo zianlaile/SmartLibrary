@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script src="../../js/echarts.min.js"></script>
+    <script src="../vendors/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/bigscreen.css" />
+    <title></title>
+</head>
+<style type="text/css">
+</style>
+<script type="application/javascript">
+    function putnumber() {
+        $.ajax({
+            type:"get",
+            contentType: 'application/json',
+            url:"../../bigscreen/number",
+            async:false,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                $("#all_gctrl").text(data.all_gctrl);
+                $("#seatnumber").text(data.all_seats-data.now_seats);
+                $("#croomnumber").text(data.all_crooms-data.now_crooms);
+                $("#all_lend").text(data.all_lend);
+                $("#all_print").text(data.all_print);
+                $("#all_book").text(data.all_book);
+            }
+        });
+    }
+    function puticpremonth() {
+        $.ajax({
+            type:"get",
+            contentType: 'application/json',
+            url:"../../bigscreen/icpremonth",
+            async:false,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                var myChart = echarts.init(document.getElementById("c"));
+                var myChart_option={
+                    title: {
+                        text: 'IC空间',
+                        x: 'center',
+                        y: 'center',
+                        textStyle: {
+                            fontWeight: 'normal',
+                            fontSize: 22,
+                            color:'#00ccfe'
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: function(params, ticket, callback) {
+                            var res = params.seriesName;
+                            res += '<br/>' + params.name + ' : ' + params.percent + '%';
+                            return res;
+                        }
+                    },
+                    /*legend: {
+                     orient: 'vertical',
+                     right: '0%',
+                     bottom: '0%',
+                     data: ['食堂', '超市', '刷卡', '交通'],
+                     itemWidth: 20,
+                     itemHeight: 10
+                     },*/
+                    series: [{
+                        name: 'IC空间',
+                        type: 'pie',
+                        selectedMode: 'single',
+                        radius: ['50%', '90%'],
+                        label: {
+                            normal: {
+                                position: 'inner',
+                                textStyle: {
+                                    color: '#fff',
+                                    fontSize: 14
+                                }
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                show: false
+                            }
+                        },
+                        data: [{
+                            value: data.premonth_seats,
+                            name: '座位'
+                        }, {
+                            value: data.premonth_crooms,
+                            name: '研修间'
+                        }, {
+                            value: data.premonth_ereads,
+                            name: '电子阅览室'
+                        }]
+                    }]
+                };
+                myChart.setOption(myChart_option);
+            }
+        });
+    }
+    function putprintpremonth(){
+        $.ajax({
+            type:"get",
+            contentType: 'application/json',
+            url:"../../bigscreen/printpremonth",
+            async:false,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                var myChart = echarts.init(document.getElementById("d"));
+                var myChart_option = {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{b}: {c} ({d}%)'
+                    },
+                    legend: {
+                        show : true,
+                        orient: 'vertical',
+                        x: 'left',
+                        y:'center',
+                        textStyle:{
+                            color:'#00ccfe',
+                        },
+                        data:['打印','复印','扫描']
+                    },
+                    series: [
+                        {
+                            name: '文印',
+                            type: 'pie',
+                            clockWise: true,
+                            hoverAnimation: false,
+                            radius: ['72%', '73%'],
+                            label: {
+                                normal: {
+                                    position: 'center'
+                                }
+                            },
+                            data: [{
+                                value: 1,
+                                label: {
+                                    normal: {
+                                        formatter: '文印',
+                                        textStyle: {
+                                            color: '#00ccfe',
+                                            fontSize: 22
+                                        }
+                                    }
+                                },
+                                itemStyle: {
+                                    normal: {
+                                        color: '#00ccfe',
+                                        borderColor: '#00ccfe',
+                                        borderWidth: 2
+                                    }
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(0,0,0,0)',
+                                    textStyle: {
+                                        color: 'rgba(0,0,0,0)'
+                                    }
+                                }
+                            }]
+                        },
+                        {
+                            name:'文印',
+                            type:'pie',
+                            radius: ['78%', '90%'],
+                            avoidLabelOverlap: false,
+                            label: {
+                                normal: {
+                                    show:false,
+                                    formatter : '{b} {d}%',
+                                    textStyle: {
+                                        fontSize: 22,
+                                        color: '#00ccfe'
+                                    }
+                                },
+                                emphasis: {
+                                    show: false
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show:false,
+                                    lineStyle: {
+                                        color: '#00ccfe'
+                                    }
+                                }
+                            },
+                            data:[
+                                {value:data.premonth_print_p, name:'打印'},
+                                {value:data.premonth_print_c, name:'复印'},
+                                {value:data.premonth_print_s, name:'扫描'},
+                            ]
+                        }
+                    ],
+                    color : ['#3db5f5','#db8776','#FF6A6A']
+                };
+                myChart.setOption(myChart_option);
+            }
+        });
+    }
+    function rating(chartid,rating){
+        var number = rating * 266 / 360
+        var number_ = 100-number;
+        var myChart = echarts.init(document.getElementById(chartid));
+        var myChart_option = {
+            title: {
+                show:false,
+                "text": 'PUE',
+                "x": '50%',
+                "y": '80%',
+                "textAlign": "center",
+                "textStyle": {
+                    "fontWeight": 'normal',
+                    "fontSize": 24,
+                    "color": "#bcbfff",
+                },
+                // "subtextStyle": {
+                //     "fontWeight": 'bold',
+                //     "fontSize": 32,
+                //     "color": '#3ea1ff'
+                // }
+            },
+            series: [{
+                "name": ' ',
+                "type": 'pie',
+                "radius": ['98%', '100%'],
+                "avoidLabelOverlap": false,
+                "startAngle": 225,
+                "color": ["#fff", "transparent"],
+                "hoverAnimation": false,
+                "legendHoverLink": false,
+                "label": {
+                    "normal": {
+                        "show": false,
+                        "position": 'center'
+                    },
+                    "emphasis": {
+                        "show": true,
+                        "textStyle": {
+                            "fontSize": '30',
+                            "fontWeight": 'bold'
+                        }
+                    }
+                },
+                "labelLine": {
+                    "normal": {
+                        "show": false
+                    }
+                },
+                "data": [{
+                    "value": 100,
+                    "name": '',
+                    "itemStyle": {
+                        "normal": {
+                            "color": new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
+                                "offset": 0,
+                                "color": '#f125ff'
+                            }, {
+                                "offset": 1,
+                                "color": '#2dcbff'
+                            }]),
+                        }
+                    }
+                }, {
+                    "value": 25,
+                    "name": '',
+                    "itemStyle": {
+                        "normal": {
+                            color: 'rgba(0,0,0,0)'
+                        }
+                    }
+                }]
+            }, {
+                "name": '',
+                "type": 'pie',
+                "radius": ['80%', '98.1%'],
+                "avoidLabelOverlap": false,
+                "startAngle": 225,
+                "color": ["#fff", "transparent"],
+                "hoverAnimation": false,
+                "legendHoverLink": false,
+                "z": 10,
+                "label": {
+                    "normal": {
+                        "show": false,
+                        "position": 'center'
+                    },
+                    "emphasis": {
+                        "show": true,
+                        "textStyle": {
+                            "fontSize": '30',
+                            "fontWeight": 'bold'
+                        }
+                    }
+                },
+                "labelLine": {
+                    "normal": {
+                        "show": false
+                    }
+                },
+                "data": [{
+                    "name": rating,
+                    "value": number,
+                    "label": {
+                        "normal": {
+                            "show": true,
+                            "formatter": '{b} %',
+                            "textStyle": {
+                                "fontSize": 28,
+                                "fontWeight": "bold",
+                                "color": "#5886f0",
+                            },
+                            "position": "center"
+                        }
+                    },
+                    "itemStyle": {
+                        "normal": {
+                            "color": new echarts.graphic.LinearGradient(1, 0, 0, 1, [{
+                                "offset": 0,
+                                "color": '#f125ff'
+                            }, {
+                                "offset": 1,
+                                "color": '#2dcbff'
+                            }]),
+                        }
+                    }
+                }, {
+                    "name": '',
+                    "value": number_,
+                    "itemStyle": {
+                        "normal": {
+                            color: 'rgba(0,0,0,0)'
+                        }
+                    }
+                }]
+            }
+
+            ]
+        };
+        myChart.setOption(myChart_option);
+    }
+    function putrating(){
+        $.ajax({
+            type:"get",
+            contentType: 'application/json',
+            url:"../../bigscreen/rating",
+            async:false,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                var seatrating=parseInt(parseInt(data.now_seats)/parseInt(data.all_seats)*100);
+                var croomrating=parseInt(parseInt(data.now_crooms)/parseInt(data.all_crooms)*100);
+                var ereadrating=parseInt(parseInt(data.now_ereads)/parseInt(data.all_ereads)*100);
+                rating("f",seatrating);
+                rating("g",croomrating);
+                rating("h",ereadrating);
+            }
+        });
+    }
+    function putlend(){
+        $.ajax({
+            type:"get",
+            contentType: 'application/json',
+            url:"../../bigscreen/lend",
+            async:false,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                var lend = data.lend;
+                var lenddata = [];
+                for(var i=0;i<24;i++){
+                    lenddata.push({name:i+'~'+(i+1),value:lend[i]});
+                }
+                var myChart = echarts.init(document.getElementById("a"));
+                var myChart_option={
+                    tooltip: {
+                        trigger: 'item',
+                        position: ['48.5%', '49.2%'],
+                        backgroundColor: 'rgba(50,50,50,0)',
+                        textStyle : {
+                            color: 'yellow',
+                            fontWeight: 'bold'
+                        },
+                        formatter: "{d}%"
+                    },
+                    series : [
+                        {
+                            name: '上网时间',
+                            type: 'pie',
+                            radius : ['5%', '85%'],
+                            roseType: 'area',
+                            color:['#3fa7dc'],
+                            data:lenddata,
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            label: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            itemStyle: {
+                                normal: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                },
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        },
+                        {
+                            name: '',
+                            type: 'gauge',
+                            min: 0,
+                            max: 24,
+                            startAngle: 90,
+                            endAngle: 449.9,
+                            radius: '97%',
+                            splitNumber: 24,
+                            clockwise: false,
+                            animation: false,
+                            detail: {
+                                formatter: '{value}',
+                                textStyle: {
+                                    color: '#63869e'
+                                }
+                            },
+                            detail:{
+                                show: false
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: [
+                                        [0.25, '#63869e'],
+                                        [0.75, '#ffffff'],
+                                        [1, '#63869e']
+                                    ],
+                                    width: '40%',
+                                    shadowColor: '#0d4b81', //默认透明
+                                    shadowBlur: 40,
+                                    opacity: 1
+                                }
+                            },
+                            splitLine: {
+                                length: 5,
+                                lineStyle: {
+                                    color: '#ffffff',
+                                    width: 2
+                                }
+                            },
+                            axisLabel: {
+                                formatter: function(v){
+                                    return v?v:'';
+                                },
+                                textStyle: {
+                                    color: "red",
+                                    fontWeight: 700
+                                }
+                            },
+                            itemStyle: {
+                                normal: {
+                                    color: 'green',
+                                    width: 2
+                                }
+                            }
+                        },
+                        {
+                            name: '',
+                            type: 'gauge',
+                            min: 0,
+                            max: 24,
+                            startAngle: 90,
+                            endAngle: 449.9,
+                            radius: '87%',
+                            splitNumber: 24,
+                            clockwise: false,
+                            animation: false,
+                            detail: {
+                                formatter: '{value}',
+                                textStyle: {
+                                    color: '#63869e'
+                                }
+                            },
+                            detail:{
+                                show: false
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: [
+                                        [1, '#E8E8E8']
+                                    ],
+                                    width: '10%',
+                                    opacity:0.8
+                                }
+                            },
+                            splitLine: {
+                                show:true,
+                                length: '100%',
+                                lineStyle: {
+                                    color: 'grey',
+                                    width: '1'
+                                }
+                            },
+                            axisLabel: {
+                                show:false,
+                                formatter: function(v){
+                                    return v?v:'';
+                                },
+                                textStyle: {
+                                    color: "#fb5310",
+                                    fontWeight: 700
+                                }
+                            },
+                            itemStyle: {
+                                normal: {
+                                    color: 'green',
+                                    width: 2,
+                                    borderWidth: 3,
+                                }
+                            }
+                        }
+                    ]
+                };
+                myChart.setOption(myChart_option);
+            }
+        });
+    }
+    function putresource(){
+        $.ajax({
+            type:"get",
+            contentType: 'application/json',
+            url:"../../bigscreen/resource",
+            async:false,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                var myChart = echarts.init(document.getElementById("e"));
+                var myChart_option = {
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        }
+                    },
+                    legend: {
+                        icon: 'roundRect',
+                        itemGap: 13,
+                        data: ['进馆人数', '借阅', '打印', '座位', '研修间', '电子阅览室'],
+                        textStyle: {
+                            fontSize: 12,
+                            color: '#FFFFFF'
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: [{
+                        type: 'category',
+                        boundaryGap: false,
+                        axisLine: {
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        },
+                        data: data.hour
+                    }],
+                    yAxis: [{
+                        type: 'value',
+                        name: '人次',
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        },
+                        axisLabel: {
+                            margin: 10,
+                            textStyle: {
+                                fontSize: 14
+                            }
+                        },
+                        splitLine: {
+                            show:false,
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        }
+                    }],
+                    series: [{
+                        name: '进馆人数',
+                        type: 'line',
+                        smooth: true,
+                        symbol: 'circle',
+                        symbolSize: 5,
+                        showSymbol: false,
+                        lineStyle: {
+                            normal: {
+                                width: 3
+                            }
+                        },
+                        areaStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: 'rgba(137, 189, 27, 0.8)'
+                                }, {
+                                    offset: 0.8,
+                                    color: 'rgba(137, 189, 27, 0.2)'
+                                }], false),
+                                shadowColor: 'rgba(0, 0, 0, 0.1)',
+                                shadowBlur: 10
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: 'rgb(137,189,27)',
+                                borderColor: 'rgba(137,189,2,0.27)',
+                                borderWidth: 12
+
+                            }
+                        },
+                        data: data.gctrl
+                    }, {
+                        name: '借阅',
+                        type: 'line',
+                        smooth: true,
+                        symbol: 'circle',
+                        symbolSize: 5,
+                        showSymbol: false,
+                        lineStyle: {
+                            normal: {
+                                width: 3
+                            }
+                        },
+                        areaStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: 'rgba(0, 136, 212, 0.8)'
+                                }, {
+                                    offset: 0.8,
+                                    color: 'rgba(0, 136, 212, 0.2)'
+                                }], false),
+                                shadowColor: 'rgba(0, 0, 0, 0.1)',
+                                shadowBlur: 10
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: 'rgb(0,136,212)',
+                                borderColor: 'rgba(0,136,212,0.2)',
+                                borderWidth: 12
+
+                            }
+                        },
+                        data: data.lend
+                    }, {
+                        name: '打印',
+                        type: 'line',
+                        smooth: true,
+                        symbol: 'circle',
+                        symbolSize: 5,
+                        showSymbol: false,
+                        lineStyle: {
+                            normal: {
+                                width: 3
+                            }
+                        },
+                        areaStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: 'rgba(219, 50, 51, 0.8)'
+                                }, {
+                                    offset: 0.8,
+                                    color: 'rgba(219, 50, 51, 0.2)'
+                                }], false),
+                                shadowColor: 'rgba(0, 0, 0, 0.1)',
+                                shadowBlur: 10
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+
+                                color: 'rgb(219,50,51)',
+                                borderColor: 'rgba(219,50,51,0.2)',
+                                borderWidth: 12
+                            }
+                        },
+                        data: data.print
+                    },{
+                        name: '座位',
+                        type: 'line',
+                        smooth: true,
+                        symbol: 'circle',
+                        symbolSize: 5,
+                        showSymbol: false,
+                        lineStyle: {
+                            normal: {
+                                width: 3
+                            }
+                        },
+                        areaStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: 'rgba(255, 106, 106, 0.8)'
+                                }, {
+                                    offset: 0.8,
+                                    color: 'rgba(255, 106, 106, 0.2)'
+                                }], false),
+                                shadowColor: 'rgba(0, 0, 0, 0.1)',
+                                shadowBlur: 10
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+
+                                color: 'rgb(255,106,106)',
+                                borderColor: 'rgba(255,106,106,0.2)',
+                                borderWidth: 12
+                            }
+                        },
+                        data: data.seats
+                    },{
+                        name: '研修间',
+                        type: 'line',
+                        smooth: true,
+                        symbol: 'circle',
+                        symbolSize: 5,
+                        showSymbol: false,
+                        lineStyle: {
+                            normal: {
+                                width: 3
+                            }
+                        },
+                        areaStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: 'rgba(255, 130, 71, 0.8)'
+                                }, {
+                                    offset: 0.8,
+                                    color: 'rgba(255, 130, 71, 0.2)'
+                                }], false),
+                                shadowColor: 'rgba(0, 0, 0, 0.1)',
+                                shadowBlur: 10
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+
+                                color: 'rgb(255,130,71)',
+                                borderColor: 'rgba(255,130,71,0.2)',
+                                borderWidth: 12
+                            }
+                        },
+                        data: data.crooms
+                    },{
+                        name: '电子阅览室',
+                        type: 'line',
+                        smooth: true,
+                        symbol: 'circle',
+                        symbolSize: 5,
+                        showSymbol: false,
+                        lineStyle: {
+                            normal: {
+                                width: 3
+                            }
+                        },
+                        areaStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: 'rgba(0, 206, 209, 0.8)'
+                                }, {
+                                    offset: 0.8,
+                                    color: 'rgba(0, 206, 209, 0.2)'
+                                }], false),
+                                shadowColor: 'rgba(0, 0, 0, 0.1)',
+                                shadowBlur: 10
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+
+                                color: 'rgb(0,206,209)',
+                                borderColor: 'rgba(0,206,209,0.2)',
+                                borderWidth: 12
+                            }
+                        },
+                        data: data.ereads
+                    }, ]
+                }
+                myChart.setOption(myChart_option);
+            }
+        });
+    }
+    $(function(){
+        putnumber();
+        puticpremonth();
+        putprintpremonth();
+        putrating();
+        putlend();
+        putresource();
+        var a = "↑10%";
+        var b = "↓10%";
+        var c = "持平";
+        var green = "#006000";
+        var red = "#CE0000";
+        var isGrow = [1, 0, 2, 1, 0, 1, 1];
+        var myChart1 = echarts.init(document.getElementById("b"));
+        var myChart_option5={
+            /*legend: {
+             orient: 'horizontal',
+             right: 0,
+             bottom: 0,
+             selectedMode: false,
+             itemGap: 10,
+             itemWidth: 12,
+             itemHeight: 12,
+             data: ['民警', '辅警']
+             },*/
+            grid: {
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.01]
+            },
+            yAxis: {
+                type: 'category',
+                data: ['NO.10', 'NO.9', 'NO.8', 'NO.7', 'NO.6', 'NO.5', 'NO.4', 'NO.3', 'NO.2', 'NO.1']
+            },
+            series: [{
+                name: '民警',
+                type: 'bar',
+                barGap: 0,
+                silent: true,
+                stack: 1,
+                data: [80, 90, 120, 150, 180, 250, 280, 330, 380, 450],
+                itemStyle: {
+                    normal: {
+                        barBorderRadius: [0, 5, 5, 0]
+                    }
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'insideRight'
+                    }
+                }
+            }, {
+                name: '辅警',
+                type: 'bar',
+                barGap: 0,
+                silent: true,
+                stack: 2,
+                data: [60, 70, 100, 130, 160, 230, 260, 310, 360, 430],
+                itemStyle: {
+                    normal: {
+                        barBorderRadius: [0, 5, 5, 0]
+                    }
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'insideRight'
+                    }
+                }
+            }, {
+                name: '民警',
+                type: 'bar',
+                barGap: 0,
+                stack: 2,
+                silent: true,
+                data: [0, 0, 0, 0, 0, 0, 0],
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'right',
+                        formatter: function(params) {
+                            if (isGrow[params.dataIndex] == 1) {
+                                return '    ' + a;
+                            } else {
+                                return '';
+                            }
+                        },
+                        textStyle: {
+                            fontWeight: 'bolder',
+                            color: red
+                        }
+                    }
+                }
+            }, {
+                name: '民警',
+                type: 'bar',
+                barGap: 0,
+                stack: 2,
+                silent: true,
+                data: [0, 0, 0, 0, 0, 0, 0],
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'right',
+                        formatter: function(params) {
+                            if (isGrow[params.dataIndex] == 0) {
+                                return "    " + b;
+                            } else {
+                                return '';
+                            }
+                        },
+                        textStyle: {
+                            fontWeight: 'bolder',
+                            color: green
+                        }
+                    }
+                }
+            }, {
+                name: '民警',
+                type: 'bar',
+                barGap: 0,
+                stack: 2,
+                silent: true,
+                data: [0, 0, 0, 0, 0, 0, 0],
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'right',
+                        formatter: function(params) {
+                            if (isGrow[params.dataIndex] == 2) {
+                                return "    " + c;
+                            } else {
+                                return '';
+                            }
+                        },
+                        textStyle: {
+                            fontWeight: 'bolder',
+                            color: green
+                        }
+                    }
+                }
+            }]
+        };
+        myChart1.setOption(myChart_option5);
+    });
+</script>
+<body background="img/back.png">
+<div class="title">浙 江 理 工 大 学</div>
+<div class="top_div">
+    <div class="top_div_number">
+        <p class="top_div_number_first">累计进馆人次</p>
+        <p class="top_div_number_last" id="all_gctrl">0</p>
+    </div>
+    <div class="top_div_number">
+        <p class="top_div_number_first">剩余座位数</p>
+        <p class="top_div_number_last" id="seatnumber">0</p>
+    </div>
+    <div class="top_div_number">
+        <p class="top_div_number_first">剩余研修间数量</p>
+        <p class="top_div_number_last" id="croomnumber">0</p>
+    </div>
+    <div class="top_div_number">
+        <p class="top_div_number_first">累计借阅次数</p>
+        <p class="top_div_number_last" id="all_lend">0</p>
+    </div>
+    <div class="top_div_number">
+        <p class="top_div_number_first">累计打印次数</p>
+        <p class="top_div_number_last" id="all_print">0</p>
+    </div>
+    <div class="top_div_number">
+        <p class="top_div_number_first">图书馆藏书数量</p>
+        <p class="top_div_number_last" id="all_book">0</p>
+    </div>
+</div>
+<div class="middle_div">
+    <div class="middle_div_left">
+        <div class="lend_yesterday">
+            <div class="div_title half">昨日借阅分析</div>
+            <div class="chart_div">
+                <div id="a" class="chart"></div>
+            </div>
+
+        </div>
+        <div class="lend_yesterday">
+            <div class="div_title half">本月进馆排名</div>
+            <div class="chart_div">
+                <div id="b" class="chart"></div>
+            </div>
+        </div>
+    </div>
+    <div class="middle_div_middle">
+        <div class="div_title">昨日图书馆资源使用分析</div>
+        <div class="chart_div" style="height: 90%;">
+            <div id="e" class="chart"></div>
+        </div>
+    </div>
+    <div class="middle_div_left">
+        <div class="lend_yesterday">
+            <div class="div_title half">本月IC空间使用分析</div>
+            <div class="chart_div">
+                <div id="c" class="chart"></div>
+            </div>
+        </div>
+        <div class="lend_yesterday">
+            <div class="div_title half">昨日打印使用分析</div>
+            <div class="chart_div">
+                <div id="d" class="chart"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bottom_div">
+    <div style="height: 100%;width: 33%;float: left;margin-right: 1%;">
+        <div class="div_title half">近15天借阅人次学院-身份</div>
+        <div class="chart_div">
+            <div id="tt" class="chart"></div>
+        </div>
+    </div>
+    <div class="rating_div">
+        <div class="div_title half">当前座位使用率</div>
+        <div class="chart_div">
+            <div id="f" class="chart"></div>
+        </div>
+    </div>
+    <div class="rating_div">
+        <div class="div_title half">当前电子阅览室使用率</div>
+        <div class="chart_div">
+            <div id="g" class="chart"></div>
+        </div>
+    </div>
+    <div class="rating_div">
+        <div class="div_title half">当前研修间使用率</div>
+        <div class="chart_div">
+            <div id="h" class="chart"></div>
+        </div>
+    </div>
+    <div style="height: 100%;width: 33%;float: left;">
+        <div class="div_title half">近15天闸机进馆人次学院-性别 </div>
+        <div class="chart_div">
+            <div id="" class="chart"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

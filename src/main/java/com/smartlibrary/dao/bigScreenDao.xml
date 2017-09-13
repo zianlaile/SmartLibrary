@@ -10,7 +10,23 @@
     </select>
     <select id="getresource" resultType="BigScreen">
         SELECT `hour`,lend,gctrl,print,seats,crooms,ereads
-        FROM `zz_bigscreen_hour`
-        ORDER BY `hour`;
+        FROM zz_bigscreen_hour
+        ORDER BY `hour`
+    </select>
+    <select id="getgctrl" resultType="BigScreen">
+        SELECT `month`,academy,all_times
+        FROM zz_gctrl_month_academy_identity
+        WHERE `month`=DATE_FORMAT(NOW(),'%m') AND `year`='2015'
+        ORDER BY all_times desc
+    </select>
+    <select id="getlend_academy" parameterType="BigScreen" resultType="BigScreen">
+        SELECT ymddate,academy,student,teacher,graduate,other
+        FROM zz_book_day_academy_identity
+        WHERE ymddate BETWEEN #{firstday} AND #{lastday} ORDER BY ymddate,academy;
+    </select>
+    <select id="getgctrl_academy" parameterType="BigScreen" resultType="BigScreen">
+        SELECT ymddate,academy,f_times,m_times
+        FROM zz_gctrl_day_academy_gender
+        WHERE ymddate BETWEEN #{firstday} AND #{lastday} ORDER BY ymddate,academy;
     </select>
 </mapper>

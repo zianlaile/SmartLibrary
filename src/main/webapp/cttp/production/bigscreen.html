@@ -55,14 +55,17 @@
                             return res;
                         }
                     },
-                    /*legend: {
+                    legend: {
                      orient: 'vertical',
-                     right: '0%',
-                     bottom: '0%',
-                     data: ['食堂', '超市', '刷卡', '交通'],
+                        x: 'left',
+                        y:'center',
+                        textStyle:{
+                            color:'#00ccfe',
+                        },
+                     data: ['座位', '研修间', '电子阅览室'],
                      itemWidth: 20,
                      itemHeight: 10
-                     },*/
+                     },
                     series: [{
                         name: 'IC空间',
                         type: 'pie',
@@ -70,6 +73,7 @@
                         radius: ['50%', '90%'],
                         label: {
                             normal: {
+                                show:false,
                                 position: 'inner',
                                 textStyle: {
                                     color: '#fff',
@@ -92,7 +96,8 @@
                             value: data.premonth_ereads,
                             name: '电子阅览室'
                         }]
-                    }]
+                    }],
+                    color : ['#3db5f5','#db8776','#FF6A6A']
                 };
                 myChart.setOption(myChart_option);
             }
@@ -813,6 +818,306 @@
             }
         });
     }
+    function putgctrl(){
+        $.ajax({
+            type:"get",
+            contentType: 'application/json',
+            url:"../../bigscreen/gctrl",
+            async:false,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                var myChart = echarts.init(document.getElementById("b"));
+                var myChart_option={
+                    grid: {
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        bottom:1,
+                        containLabel: true
+                    },
+                    xAxis: {
+                        show:false,
+                        type: 'value',
+                        boundaryGap: [0, 0.01]
+                    },
+                    yAxis: {
+                        type: 'category',
+                        axisLine: {
+                            lineStyle: {
+                                color: '#00ccfe'
+                            }
+                        },
+                        data: data.academy
+                    },
+                    series: [{
+                        name: '',
+                        type: 'bar',
+                        barGap: 0,
+                        silent: true,
+                        stack: 1,
+                        data: data.all_times,
+                        itemStyle: {
+                            normal: {
+                                barBorderRadius: [0, 5, 5, 0],
+                                color:'#db8776'
+                            },
+                        },
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'insideRight'
+                            }
+                        }
+                    }]
+                };
+                myChart.setOption(myChart_option);
+            }
+        });
+    }
+    function putlend_academy(){
+        $.ajax({
+            type:"get",
+            contentType: 'application/json',
+            url:"../../bigscreen/lend_academy",
+            async:false,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                var optiondata=[];
+                var myChart = echarts.init(document.getElementById("tt"));
+                for(var i=0;i<data.ymdate.length;i++){
+                    var other=new Array;
+                    var teacher=new Array;
+                    var student=new Array;
+                    var graduate=new Array;
+                    for(var j=0;j<data.academy.length;j++){
+                        other.push(data.other[data.academy.length*i+j]);
+                        teacher.push(data.teacher[data.academy.length*i+j]);
+                        student.push(data.student[data.academy.length*i+j]);
+                        graduate.push(data.graduate[data.academy.length*i+j]);
+                    }
+                    optiondata.push({
+                        'series':[{
+                            name:'本科生',
+                            type:'bar',
+                            data:student
+                        },{
+                            name:'研究生',
+                            type:'bar',
+                            data:graduate
+                        },{
+                            name:'老师',
+                            type:'bar',
+                            data:teacher
+                        },{
+                                name:'其他',
+                                type:'bar',
+                                data:other
+                            }
+                        ]
+                    });
+                }
+                var myChart_option = {
+                    baseOption:{
+                        timeline: {
+                            left:'10%',
+                            right:'10%',
+                            data:data.ymdate,
+                            axisType: 'category',
+                            show: true,
+                            autoPlay: true,
+                            label: {
+                                normal: {
+                                    textStyle: {
+                                        color: '#00ccfe',
+                                        fontSize: 15
+                                    }
+                                }
+                            },
+                            controlStyle:{
+                                show:false,
+                            },
+                            lineStyle:{
+                                color:'#00ccfe',
+                            },
+                            playInterval: 1000
+                        },
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                                type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                            }
+                        },
+                        legend: {
+                            data: ['本科生', '研究生', '老师','其他'],
+                            align: 'right',
+                            textStyle:{
+                                color:'#00ccfe',
+                            },
+                            right:10
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '35%',
+                            top:'15%',
+                            containLabel: true
+                        },
+                        xAxis: [{
+                            type: 'category',
+                            splitLine:{
+                                show:false
+                            },
+                            'axisLabel': {
+                                rotate: 20,
+                                'interval': 0
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: '#00ccfe'
+                                }
+                            },
+                            data: data.academy
+                        }],
+                        yAxis: [{
+                            type: 'value',
+                            name:'人次',
+                            splitLine:{
+                                show:false
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: '#00ccfe'
+                                }
+                            },
+                            /*axisLabel: {
+                                formatter: '{value}'
+                            }*/
+                        }],
+                    },
+                    options:optiondata,
+                };
+                myChart_option.options=optiondata;
+                myChart.setOption(myChart_option);
+            }
+
+        });
+    }
+    function putgctrl_academy(){
+        $.ajax({
+            type:"get",
+            contentType: 'application/json',
+            url:"../../bigscreen/gctrl_academy",
+            async:false,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                var optiondata=[];
+                var myChart = echarts.init(document.getElementById("l"));
+                for(var i=0;i<data.ymdate.length;i++){
+                    var f_times=new Array;
+                    var m_times=new Array;
+                    for(var j=0;j<data.academy.length;j++){
+                        f_times.push(data.f_times[data.academy.length*i+j]);
+                        m_times.push(data.m_times[data.academy.length*i+j]);
+                    }
+                    optiondata.push({
+                        'series':[{
+                            name:'男',
+                            type:'bar',
+                            data:m_times
+                        },{
+                            name:'女',
+                            type:'bar',
+                            data:f_times
+                        }
+                        ]
+                    });
+                }
+                var myChart_option = {
+                    baseOption:{
+                        timeline: {
+                            left:'10%',
+                            right:'10%',
+                            data:data.ymdate,
+                            axisType: 'category',
+                            show: true,
+                            autoPlay: true,
+                            label: {
+                                normal: {
+                                    textStyle: {
+                                        color: '#00ccfe',
+                                        fontSize: 15
+                                    }
+                                }
+                            },
+                            controlStyle:{
+                                show:false,
+                            },
+                            lineStyle:{
+                                color:'#fff',
+                            },
+                            playInterval: 1000
+                        },
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                                type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                            }
+                        },
+                        legend: {
+                            data: ['男', '女'],
+                            align: 'right',
+                            textStyle:{
+                                color:'#00ccfe',
+                            },
+                            right:10
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '35%',
+                            top:'15%',
+                            containLabel: true
+                        },
+                        xAxis: [{
+                            type: 'category',
+                            splitLine:{
+                                show:false
+                            },
+                            'axisLabel': {
+                                rotate: 20,
+                                'interval': 0
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: '#00ccfe'
+                                }
+                            },
+                            data: data.academy
+                        }],
+                        yAxis: [{
+                            type: 'value',
+                            name:'人次',
+                            splitLine:{
+                                show:false
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: '#00ccfe'
+                                }
+                            },
+                            /*axisLabel: {
+                             formatter: '{value}'
+                             }*/
+                        }],
+                    },
+                    options:optiondata,
+                };
+                myChart_option.options=optiondata;
+                myChart.setOption(myChart_option);
+            }
+
+        });
+    }
     $(function(){
         putnumber();
         puticpremonth();
@@ -820,7 +1125,10 @@
         putrating();
         putlend();
         putresource();
-        var a = "↑10%";
+        putgctrl();
+        putlend_academy();
+        putgctrl_academy();
+        /*var a = "↑10%";
         var b = "↓10%";
         var c = "持平";
         var green = "#006000";
@@ -828,7 +1136,7 @@
         var isGrow = [1, 0, 2, 1, 0, 1, 1];
         var myChart1 = echarts.init(document.getElementById("b"));
         var myChart_option5={
-            /*legend: {
+            /!*legend: {
              orient: 'horizontal',
              right: 0,
              bottom: 0,
@@ -837,7 +1145,7 @@
              itemWidth: 12,
              itemHeight: 12,
              data: ['民警', '辅警']
-             },*/
+             },*!/
             grid: {
                 left: 0,
                 right: 0,
@@ -964,7 +1272,7 @@
                 }
             }]
         };
-        myChart1.setOption(myChart_option5);
+        myChart1.setOption(myChart_option5);*/
     });
 </script>
 <body background="img/back.png">
@@ -1025,7 +1333,7 @@
             </div>
         </div>
         <div class="lend_yesterday">
-            <div class="div_title half">昨日打印使用分析</div>
+            <div class="div_title half">本月打印使用分析</div>
             <div class="chart_div">
                 <div id="d" class="chart"></div>
             </div>
@@ -1060,7 +1368,7 @@
     <div style="height: 100%;width: 33%;float: left;">
         <div class="div_title half">近15天闸机进馆人次学院-性别 </div>
         <div class="chart_div">
-            <div id="" class="chart"></div>
+            <div id="l" class="chart"></div>
         </div>
     </div>
 </div>

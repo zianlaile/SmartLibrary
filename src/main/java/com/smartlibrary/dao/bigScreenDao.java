@@ -11,4 +11,7 @@ public interface bigScreenDao {
     public abstract List<BigScreen> getnumber();
     public abstract List<BigScreen> getlend();
     public abstract List<BigScreen> getresource();
+    public abstract List<BigScreen> getgctrl();
+    public abstract List<BigScreen> getlend_academy(BigScreen bigscreen);
+    public abstract List<BigScreen> getgctrl_academy(BigScreen bigscreen);
 }

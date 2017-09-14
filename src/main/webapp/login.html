@@ -25,6 +25,7 @@
     <script type="text/javascript" src="cttp/vendors/jquery/dist/jquery.min.js"></script>
   </head>
   <script type="text/javascript">
+
       //服务器校验
       function severCheck() {
           if (check()) {
@@ -86,6 +87,11 @@
       $(document).ready(function() {
           changeCode1();
           $("#codeImg").bind("click", changeCode1);
+      });
+      $(document).keyup(function(event) {
+          if (event.keyCode == 13) {
+              $("#to-recover").trigger("click");
+          }
       });
       function genTimestamp() {
           var time = new Date();
@@ -172,7 +178,7 @@
 
                 <div>
                   <h1><i class="fa fa-paw"></i> 浙江理工大学</h1>
-                  <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+                  <!--<p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>-->
                 </div>
               </div>
             </form>

@@ -20,6 +20,12 @@ import java.util.Map;
 public class sysController {
     private static final Logger logger = Logger.getLogger(sysController.class);
 
+    @RequestMapping(value="/logout_logout" ,produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public void logout_logout(HttpSession httpSession){
+        httpSession.removeAttribute("SESSION_USER");
+    }
+
 
     @RequestMapping(value="/login_login" ,produces="application/json;charset=UTF-8")
     @ResponseBody

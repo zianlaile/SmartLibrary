@@ -42,7 +42,19 @@
         });
     });
 </script>
-
+<!--注销-->
+<script type="application/javascript">
+    function sys_logout(){
+        $.ajax({
+            type: "GET",
+            url: 'sys/logout_logout',
+            cache: false,
+            success: function(data){
+                window.location='../../login.html';
+            }
+        });
+    }
+</script>
 <script type="application/javascript">
     function getlarge_day(){
         $(".chart_title p").text("每日进馆人数统计");
@@ -434,8 +446,8 @@
 
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
-                            <a href="login.html" class="user-profile dropdown-toggle">
-                                <img src="images/img.jpg" alt="">注销 <i class="fa fa-sign-out"></i>
+                            <a href="javascript:sys_logout()" class="user-profile dropdown-toggle">
+                                <img src="images/imgs.jpg" alt="">注销 <i class="fa fa-sign-out"></i>
                             </a>
                         </li>
                     </ul>

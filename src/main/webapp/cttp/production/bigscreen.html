@@ -10,6 +10,32 @@
 <style type="text/css">
 </style>
 <script type="application/javascript">
+    var page=1;
+    var changediv=1;
+    function change(){
+        if(page==1){
+            page++;
+            $("#main_charts").css("display","none");
+            $("#tz").css("display","block");
+        }
+        else if(page==2){
+            page--;
+            $("#main_charts").css("display","block");
+            $("#tz").css("display","none");
+        }
+    }
+    function change1(){
+        if(changediv==1){
+            changediv++;
+            $("#e").css("display","block");
+            $("#ee").css("display","none")
+        }
+        else if(changediv==2){
+            changediv--;
+            $("#e").css("display","none");
+            $("#ee").css("display","block")
+        }
+    }
     function putnumber() {
         $.ajax({
             type:"get",
@@ -1276,103 +1302,114 @@
         myChart1.setOption(myChart_option5);*/
     });
     window.setInterval(putnumber,60000);
+    window.setInterval(change,4000);
+    window.setInterval(change1,1000);
 </script>
 <body background="img/back.png">
-<div class="title">浙 江 理 工 大 学 智 慧 图 书 馆</div>
-<div class="top_div">
-    <div class="top_div_number">
-        <p class="top_div_number_first">累计进馆人次</p>
-        <p class="top_div_number_last" id="all_gctrl">0</p>
-    </div>
-    <div class="top_div_number">
-        <p class="top_div_number_first">剩余座位数</p>
-        <p class="top_div_number_last" id="seatnumber">0</p>
-    </div>
-    <div class="top_div_number">
-        <p class="top_div_number_first">剩余研修间数量</p>
-        <p class="top_div_number_last" id="croomnumber">0</p>
-    </div>
-    <div class="top_div_number">
-        <p class="top_div_number_first">累计借阅次数</p>
-        <p class="top_div_number_last" id="all_lend">0</p>
-    </div>
-    <div class="top_div_number">
-        <p class="top_div_number_first">累计打印次数</p>
-        <p class="top_div_number_last" id="all_print">0</p>
-    </div>
-    <div class="top_div_number">
-        <p class="top_div_number_first">图书馆藏书数量</p>
-        <p class="top_div_number_last" id="all_book">0</p>
-    </div>
-</div>
-<div class="middle_div">
-    <div class="middle_div_left">
-        <div class="lend_yesterday">
-            <div class="div_title half">昨日借阅分析</div>
-            <div class="chart_div">
-                <div id="a" class="chart"></div>
+<div id="slide" style="height: 100%;width:100%;overflow: hidden">
+    <div style="height: 100%;width: 100%" id="main_charts">
+        <div class="title">智 慧 图 书 馆</div>
+        <div class="top_div">
+            <div class="top_div_number">
+                <p class="top_div_number_first">累计进馆人次</p>
+                <p class="top_div_number_last" id="all_gctrl">0</p>
             </div>
+            <div class="top_div_number">
+                <p class="top_div_number_first">剩余座位数</p>
+                <p class="top_div_number_last" id="seatnumber">0</p>
+            </div>
+            <div class="top_div_number">
+                <p class="top_div_number_first">剩余研修间数量</p>
+                <p class="top_div_number_last" id="croomnumber">0</p>
+            </div>
+            <div class="top_div_number">
+                <p class="top_div_number_first">累计借阅次数</p>
+                <p class="top_div_number_last" id="all_lend">0</p>
+            </div>
+            <div class="top_div_number">
+                <p class="top_div_number_first">累计打印次数</p>
+                <p class="top_div_number_last" id="all_print">0</p>
+            </div>
+            <div class="top_div_number">
+                <p class="top_div_number_first">图书馆藏书数量</p>
+                <p class="top_div_number_last" id="all_book">0</p>
+            </div>
+        </div>
+        <div class="middle_div">
+            <div class="middle_div_left">
+                <div class="lend_yesterday">
+                    <div class="div_title half">昨日借阅分析</div>
+                    <div class="chart_div">
+                        <div id="a" class="chart"></div>
+                    </div>
 
+                </div>
+                <div class="lend_yesterday">
+                    <div class="div_title half">本月进馆排名</div>
+                    <div class="chart_div">
+                        <div id="b" class="chart"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="middle_div_middle">
+                <div class="div_title">昨日图书馆资源使用分析</div>
+                <div class="chart_div" style="height: 90%;" id="sliders">
+                    <div id="e" class="chart"></div>
+                    <div id="ee" class="chart" style="display: none"></div>
+                </div>
+            </div>
+            <div class="middle_div_left">
+                <div class="lend_yesterday">
+                    <div class="div_title half">本月IC空间使用分析</div>
+                    <div class="chart_div">
+                        <div id="c" class="chart"></div>
+                    </div>
+                </div>
+                <div class="lend_yesterday">
+                    <div class="div_title half">本月打印使用分析</div>
+                    <div class="chart_div">
+                        <div id="d" class="chart"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="lend_yesterday">
-            <div class="div_title half">本月进馆排名</div>
-            <div class="chart_div">
-                <div id="b" class="chart"></div>
+        <div class="bottom_div">
+            <div style="height: 100%;width: 33%;float: left;margin-right: 1%;">
+                <div class="div_title half" style="line-height: 5vh">近15天借阅人次学院-身份</div>
+                <div class="chart_div">
+                    <div id="tt" class="chart"></div>
+                </div>
+            </div>
+            <div class="rating_div">
+                <div class="div_title half" style="line-height: 5vh">当前座位使用率</div>
+                <div class="chart_div">
+                    <div id="f" class="chart"></div>
+                </div>
+            </div>
+            <div class="rating_div">
+                <div class="div_title half" style="line-height: 5vh">当前电子阅览室使用率</div>
+                <div class="chart_div">
+                    <div id="g" class="chart"></div>
+                </div>
+            </div>
+            <div class="rating_div">
+                <div class="div_title half" style="line-height: 5vh">当前研修间使用率</div>
+                <div class="chart_div">
+                    <div id="h" class="chart"></div>
+                </div>
+            </div>
+            <div style="height: 100%;width: 33%;float: left;">
+                <div class="div_title half" style="line-height: 5vh">近15天闸机进馆人次学院-性别 </div>
+                <div class="chart_div">
+                    <div id="l" class="chart"></div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="middle_div_middle">
-        <div class="div_title">昨日图书馆资源使用分析</div>
-        <div class="chart_div" style="height: 90%;">
-            <div id="e" class="chart"></div>
-        </div>
-    </div>
-    <div class="middle_div_left">
-        <div class="lend_yesterday">
-            <div class="div_title half">本月IC空间使用分析</div>
-            <div class="chart_div">
-                <div id="c" class="chart"></div>
-            </div>
-        </div>
-        <div class="lend_yesterday">
-            <div class="div_title half">本月打印使用分析</div>
-            <div class="chart_div">
-                <div id="d" class="chart"></div>
-            </div>
-        </div>
+    <div style="height: 100%;width: 100%" id="tz">
+        <div class="title" >智 慧 图 书 馆</div>
     </div>
 </div>
-<div class="bottom_div">
-    <div style="height: 100%;width: 33%;float: left;margin-right: 1%;">
-        <div class="div_title half" style="line-height: 5vh">近15天借阅人次学院-身份</div>
-        <div class="chart_div">
-            <div id="tt" class="chart"></div>
-        </div>
-    </div>
-    <div class="rating_div">
-        <div class="div_title half" style="line-height: 5vh">当前座位使用率</div>
-        <div class="chart_div">
-            <div id="f" class="chart"></div>
-        </div>
-    </div>
-    <div class="rating_div">
-        <div class="div_title half" style="line-height: 5vh">当前电子阅览室使用率</div>
-        <div class="chart_div">
-            <div id="g" class="chart"></div>
-        </div>
-    </div>
-    <div class="rating_div">
-        <div class="div_title half" style="line-height: 5vh">当前研修间使用率</div>
-        <div class="chart_div">
-            <div id="h" class="chart"></div>
-        </div>
-    </div>
-    <div style="height: 100%;width: 33%;float: left;">
-        <div class="div_title half" style="line-height: 5vh">近15天闸机进馆人次学院-性别 </div>
-        <div class="chart_div">
-            <div id="l" class="chart"></div>
-        </div>
-    </div>
-</div>
+
 </body>
 </html>

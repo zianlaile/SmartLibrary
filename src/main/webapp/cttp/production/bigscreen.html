@@ -27,13 +27,57 @@
     function change1(){
         if(changediv==1){
             changediv++;
-            $("#e").css("display","block");
-            $("#ee").css("display","none")
+            $("#lend").css("display","block");
+            $("#seat").css("display","none");
+            $("#gctrl").css("display","none");
+            $("#eread").css("display","none");
+            $("#print").css("display","none");
+            $("#croom").css("display","none");
         }
         else if(changediv==2){
-            changediv--;
-            $("#e").css("display","none");
-            $("#ee").css("display","block")
+            changediv++;
+            $("#lend").css("display","none");
+            $("#seat").css("display","block");
+            $("#gctrl").css("display","none");
+            $("#eread").css("display","none");
+            $("#print").css("display","none");
+            $("#croom").css("display","none");
+        }
+        else if(changediv==3){
+            changediv++;
+            $("#lend").css("display","none");
+            $("#seat").css("display","none");
+            $("#gctrl").css("display","block");
+            $("#eread").css("display","none");
+            $("#print").css("display","none");
+            $("#croom").css("display","none");
+        }
+        else if(changediv==4){
+            changediv++;
+            $("#lend").css("display","none");
+            $("#seat").css("display","none");
+            $("#gctrl").css("display","none");
+            $("#eread").css("display","block");
+            $("#print").css("display","none");
+            $("#croom").css("display","none");
+        }
+        else if(changediv==5){
+            changediv++;
+            $("#lend").css("display","none");
+            $("#seat").css("display","none");
+            $("#gctrl").css("display","none");
+            $("#eread").css("display","none");
+            $("#print").css("display","block");
+            $("#croom").css("display","none");
+        }
+        else if(changediv==6){
+            changediv=1;
+            $("#lend").css("display","none");
+            $("#seat").css("display","none");
+            $("#gctrl").css("display","none");
+            $("#eread").css("display","none");
+            $("#print").css("display","none");
+            $("#croom").css("display","block");
         }
     }
     function putnumber() {
@@ -575,7 +619,12 @@
             async:false,
             dataType: 'json',
             success: function(data, textStatus, jqXHR){
-                var myChart = echarts.init(document.getElementById("e"));
+                var myChart = echarts.init(document.getElementById("lend"));
+                var myChart1 = echarts.init(document.getElementById("seat"));
+                var myChart2 = echarts.init(document.getElementById("gctrl"));
+                var myChart3 = echarts.init(document.getElementById("eread"));
+                var myChart4 = echarts.init(document.getElementById("print"));
+                var myChart5 = echarts.init(document.getElementById("croom"));
                 var myChart_option = {
                     tooltip: {
                         trigger: 'axis',
@@ -588,7 +637,197 @@
                     legend: {
                         icon: 'roundRect',
                         itemGap: 13,
-                        data: ['进馆人数', '借阅', '打印', '座位', '研修间', '电子阅览室'],
+                        data: [ '借阅'],
+                        textStyle: {
+                            fontSize: 12,
+                            color: '#FFFFFF'
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: [{
+                        type: 'category',
+                        name:'时',
+                        boundaryGap: false,
+                        axisLine: {
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        },
+                        data: data.hour
+                    }],
+                    yAxis: [{
+                        type: 'value',
+                        name: '人次',
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        },
+                        axisLabel: {
+                            margin: 10,
+                            textStyle: {
+                                fontSize: 14
+                            }
+                        },
+                        splitLine: {
+                            show:false,
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        }
+                    }],
+                    series: [{
+                        name: '借阅',
+                        type: 'line',
+                        smooth: true,
+                        symbol: 'circle',
+                        symbolSize: 5,
+                        showSymbol: false,
+                        lineStyle: {
+                            normal: {
+                                width: 3
+                            }
+                        },
+                        areaStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: 'rgba(0, 136, 212, 0.8)'
+                                }, {
+                                    offset: 0.8,
+                                    color: 'rgba(0, 136, 212, 0.2)'
+                                }], false),
+                                shadowColor: 'rgba(0, 0, 0, 0.1)',
+                                shadowBlur: 10
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: 'rgb(0,136,212)',
+                                borderColor: 'rgba(0,136,212,0.2)',
+                                borderWidth: 12
+
+                            }
+                        },
+                        data: data.lend
+                    }]
+                }
+                var myChart_option1 = {
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        }
+                    },
+                    legend: {
+                        icon: 'roundRect',
+                        itemGap: 13,
+                        data: ['座位'],
+                        textStyle: {
+                            fontSize: 12,
+                            color: '#FFFFFF'
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: [{
+                        type: 'category',
+                        name:'时',
+                        boundaryGap: false,
+                        axisLine: {
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        },
+                        data: data.hour
+                    }],
+                    yAxis: [{
+                        type: 'value',
+                        name: '人次',
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        },
+                        axisLabel: {
+                            margin: 10,
+                            textStyle: {
+                                fontSize: 14
+                            }
+                        },
+                        splitLine: {
+                            show:false,
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        }
+                    }],
+                    series: [{
+                        name: '座位',
+                        type: 'line',
+                        smooth: true,
+                        symbol: 'circle',
+                        symbolSize: 5,
+                        showSymbol: false,
+                        lineStyle: {
+                            normal: {
+                                width: 3
+                            }
+                        },
+                        areaStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: 'rgba(255, 106, 106, 0.8)'
+                                }, {
+                                    offset: 0.8,
+                                    color: 'rgba(255, 106, 106, 0.2)'
+                                }], false),
+                                shadowColor: 'rgba(0, 0, 0, 0.1)',
+                                shadowBlur: 10
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+
+                                color: 'rgb(255,106,106)',
+                                borderColor: 'rgba(255,106,106,0.2)',
+                                borderWidth: 12
+                            }
+                        },
+                        data: data.seats
+                    } ]
+                }
+                var myChart_option2 = {
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        }
+                    },
+                    legend: {
+                        icon: 'roundRect',
+                        itemGap: 13,
+                        data: ['进馆人数'],
                         textStyle: {
                             fontSize: 12,
                             color: '#FFFFFF'
@@ -669,143 +908,68 @@
                             }
                         },
                         data: data.gctrl
-                    }, {
-                        name: '借阅',
-                        type: 'line',
-                        smooth: true,
-                        symbol: 'circle',
-                        symbolSize: 5,
-                        showSymbol: false,
-                        lineStyle: {
-                            normal: {
-                                width: 3
+                    } ]
+                }
+                var myChart_option3 = {
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        }
+                    },
+                    legend: {
+                        icon: 'roundRect',
+                        itemGap: 13,
+                        data: ['电子阅览室'],
+                        textStyle: {
+                            fontSize: 12,
+                            color: '#FFFFFF'
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: [{
+                        type: 'category',
+                        name:'时',
+                        boundaryGap: false,
+                        axisLine: {
+                            lineStyle: {
+                                color: '#FFFFFF'
                             }
                         },
-                        areaStyle: {
-                            normal: {
-                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                    offset: 0,
-                                    color: 'rgba(0, 136, 212, 0.8)'
-                                }, {
-                                    offset: 0.8,
-                                    color: 'rgba(0, 136, 212, 0.2)'
-                                }], false),
-                                shadowColor: 'rgba(0, 0, 0, 0.1)',
-                                shadowBlur: 10
+                        data: data.hour
+                    }],
+                    yAxis: [{
+                        type: 'value',
+                        name: '人次',
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#FFFFFF'
                             }
                         },
-                        itemStyle: {
-                            normal: {
-                                color: 'rgb(0,136,212)',
-                                borderColor: 'rgba(0,136,212,0.2)',
-                                borderWidth: 12
-
+                        axisLabel: {
+                            margin: 10,
+                            textStyle: {
+                                fontSize: 14
                             }
                         },
-                        data: data.lend
-                    }, {
-                        name: '打印',
-                        type: 'line',
-                        smooth: true,
-                        symbol: 'circle',
-                        symbolSize: 5,
-                        showSymbol: false,
-                        lineStyle: {
-                            normal: {
-                                width: 3
+                        splitLine: {
+                            show:false,
+                            lineStyle: {
+                                color: '#FFFFFF'
                             }
-                        },
-                        areaStyle: {
-                            normal: {
-                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                    offset: 0,
-                                    color: 'rgba(219, 50, 51, 0.8)'
-                                }, {
-                                    offset: 0.8,
-                                    color: 'rgba(219, 50, 51, 0.2)'
-                                }], false),
-                                shadowColor: 'rgba(0, 0, 0, 0.1)',
-                                shadowBlur: 10
-                            }
-                        },
-                        itemStyle: {
-                            normal: {
-
-                                color: 'rgb(219,50,51)',
-                                borderColor: 'rgba(219,50,51,0.2)',
-                                borderWidth: 12
-                            }
-                        },
-                        data: data.print
-                    },{
-                        name: '座位',
-                        type: 'line',
-                        smooth: true,
-                        symbol: 'circle',
-                        symbolSize: 5,
-                        showSymbol: false,
-                        lineStyle: {
-                            normal: {
-                                width: 3
-                            }
-                        },
-                        areaStyle: {
-                            normal: {
-                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                    offset: 0,
-                                    color: 'rgba(255, 106, 106, 0.8)'
-                                }, {
-                                    offset: 0.8,
-                                    color: 'rgba(255, 106, 106, 0.2)'
-                                }], false),
-                                shadowColor: 'rgba(0, 0, 0, 0.1)',
-                                shadowBlur: 10
-                            }
-                        },
-                        itemStyle: {
-                            normal: {
-
-                                color: 'rgb(255,106,106)',
-                                borderColor: 'rgba(255,106,106,0.2)',
-                                borderWidth: 12
-                            }
-                        },
-                        data: data.seats
-                    },{
-                        name: '研修间',
-                        type: 'line',
-                        smooth: true,
-                        symbol: 'circle',
-                        symbolSize: 5,
-                        showSymbol: false,
-                        lineStyle: {
-                            normal: {
-                                width: 3
-                            }
-                        },
-                        areaStyle: {
-                            normal: {
-                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                    offset: 0,
-                                    color: 'rgba(255, 130, 71, 0.8)'
-                                }, {
-                                    offset: 0.8,
-                                    color: 'rgba(255, 130, 71, 0.2)'
-                                }], false),
-                                shadowColor: 'rgba(0, 0, 0, 0.1)',
-                                shadowBlur: 10
-                            }
-                        },
-                        itemStyle: {
-                            normal: {
-
-                                color: 'rgb(255,130,71)',
-                                borderColor: 'rgba(255,130,71,0.2)',
-                                borderWidth: 12
-                            }
-                        },
-                        data: data.crooms
-                    },{
+                        }
+                    }],
+                    series: [{
                         name: '电子阅览室',
                         type: 'line',
                         smooth: true,
@@ -841,7 +1005,202 @@
                         data: data.ereads
                     }, ]
                 }
+                var myChart_option4 = {
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        }
+                    },
+                    legend: {
+                        icon: 'roundRect',
+                        itemGap: 13,
+                        data: ['打印'],
+                        textStyle: {
+                            fontSize: 12,
+                            color: '#FFFFFF'
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: [{
+                        type: 'category',
+                        name:'时',
+                        boundaryGap: false,
+                        axisLine: {
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        },
+                        data: data.hour
+                    }],
+                    yAxis: [{
+                        type: 'value',
+                        name: '人次',
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        },
+                        axisLabel: {
+                            margin: 10,
+                            textStyle: {
+                                fontSize: 14
+                            }
+                        },
+                        splitLine: {
+                            show:false,
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        }
+                    }],
+                    series: [{
+                        name: '打印',
+                        type: 'line',
+                        smooth: true,
+                        symbol: 'circle',
+                        symbolSize: 5,
+                        showSymbol: false,
+                        lineStyle: {
+                            normal: {
+                                width: 3
+                            }
+                        },
+                        areaStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: 'rgba(219, 50, 51, 0.8)'
+                                }, {
+                                    offset: 0.8,
+                                    color: 'rgba(219, 50, 51, 0.2)'
+                                }], false),
+                                shadowColor: 'rgba(0, 0, 0, 0.1)',
+                                shadowBlur: 10
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+
+                                color: 'rgb(219,50,51)',
+                                borderColor: 'rgba(219,50,51,0.2)',
+                                borderWidth: 12
+                            }
+                        },
+                        data: data.print
+                    }]
+                }
+                var myChart_option5 = {
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        }
+                    },
+                    legend: {
+                        icon: 'roundRect',
+                        itemGap: 13,
+                        data: ['研修间'],
+                        textStyle: {
+                            fontSize: 12,
+                            color: '#FFFFFF'
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: [{
+                        type: 'category',
+                        name:'时',
+                        boundaryGap: false,
+                        axisLine: {
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        },
+                        data: data.hour
+                    }],
+                    yAxis: [{
+                        type: 'value',
+                        name: '人次',
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        },
+                        axisLabel: {
+                            margin: 10,
+                            textStyle: {
+                                fontSize: 14
+                            }
+                        },
+                        splitLine: {
+                            show:false,
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        }
+                    }],
+                    series: [{
+                        name: '研修间',
+                        type: 'line',
+                        smooth: true,
+                        symbol: 'circle',
+                        symbolSize: 5,
+                        showSymbol: false,
+                        lineStyle: {
+                            normal: {
+                                width: 3
+                            }
+                        },
+                        areaStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: 'rgba(255, 130, 71, 0.8)'
+                                }, {
+                                    offset: 0.8,
+                                    color: 'rgba(255, 130, 71, 0.2)'
+                                }], false),
+                                shadowColor: 'rgba(0, 0, 0, 0.1)',
+                                shadowBlur: 10
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+
+                                color: 'rgb(255,130,71)',
+                                borderColor: 'rgba(255,130,71,0.2)',
+                                borderWidth: 12
+                            }
+                        },
+                        data: data.crooms
+                    } ]
+                }
                 myChart.setOption(myChart_option);
+                myChart1.setOption(myChart_option1);
+                myChart2.setOption(myChart_option2);
+                myChart3.setOption(myChart_option3);
+                myChart4.setOption(myChart_option4);
+                myChart5.setOption(myChart_option5);
             }
         });
     }
@@ -1302,7 +1661,7 @@
         myChart1.setOption(myChart_option5);*/
     });
     window.setInterval(putnumber,60000);
-    window.setInterval(change,4000);
+    window.setInterval(change,4000000);
     window.setInterval(change1,1000);
 </script>
 <body background="img/back.png">
@@ -1353,9 +1712,13 @@
             </div>
             <div class="middle_div_middle">
                 <div class="div_title">昨日图书馆资源使用分析</div>
-                <div class="chart_div" style="height: 90%;" id="sliders">
-                    <div id="e" class="chart"></div>
-                    <div id="ee" class="chart" style="display: none"></div>
+                <div class="chart_div" style="height: 90%; overflow: hidden" id="sliders">
+                    <div id="lend" class="chart"></div>
+                    <div id="seat" class="chart" style="display: none"></div>
+                    <div id="gctrl" class="chart" style="display: none"></div>
+                    <div id="eread" class="chart" style="display: none"></div>
+                    <div id="print" class="chart" style="display: none"></div>
+                    <div id="croom" class="chart" style="display: none"></div>
                 </div>
             </div>
             <div class="middle_div_left">

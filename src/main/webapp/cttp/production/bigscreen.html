@@ -1504,6 +1504,170 @@
 
         });
     }
+    function putlend_academy_new(){
+        $.ajax({
+            type:"get",
+            contentType: 'application/json',
+            url:"../../bigscreen/lend_academy_new",
+            async:false,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                var myChart = echarts.init(document.getElementById("tt"));
+                var myChart_option = {
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                        }
+                    },
+                    legend: {
+                        data: ['本科生', '研究生', '教师', '其他'],
+                        align: 'right',
+                        textStyle:{
+                            color:'#00ccfe',
+                        },
+                        right: 10
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        top: '5%',
+                        bottom:'20%',
+                        containLabel: true
+                    },
+                    xAxis: [{
+                        type: 'category',
+                        splitLine:{
+                            show:false
+                        },
+                        'axisLabel': {
+                            rotate: 20,
+                            'interval': 0
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#00ccfe'
+                            }
+                        },
+                        data: data.academy
+                    }],
+                    yAxis: [{
+                        type: 'value',
+                        name:'人次',
+                        splitLine:{
+                            show:false
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#00ccfe'
+                            }
+                        },
+                        /*axisLabel: {
+                         formatter: '{value}'
+                         }*/
+                    }],
+                    series: [{
+                        name: '本科生',
+                        type: 'bar',
+                        data: data.student
+                    }, {
+                        name: '研究生',
+                        type: 'bar',
+                        data: data.graduate
+                    }, {
+                        name: '教师',
+                        type: 'bar',
+                        data: data.teacher
+                    }, {
+                        name: '其他',
+                        type: 'bar',
+                        data: data.other
+                    }]
+
+                };
+                myChart.setOption(myChart_option);
+            }
+
+        });
+    }
+    function putgctrl_academy_new(){
+        $.ajax({
+            type:"get",
+            contentType: 'application/json',
+            url:"../../bigscreen/gctrl_academy_new",
+            async:false,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                var myChart = echarts.init(document.getElementById("l"));
+                var myChart_option = {
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                        }
+                    },
+                    legend: {
+                        data: ['男', '女'],
+                        align: 'right',
+                        textStyle:{
+                            color:'#00ccfe',
+                        },
+                        right: 10
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        top: '5%',
+                        bottom:'20%',
+                        containLabel: true
+                    },
+                    xAxis: [{
+                        type: 'category',
+                        splitLine:{
+                            show:false
+                        },
+                        'axisLabel': {
+                            rotate: 20,
+                            'interval': 0
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#00ccfe'
+                            }
+                        },
+                        data: data.academy
+                    }],
+                    yAxis: [{
+                        type: 'value',
+                        name:'人次',
+                        splitLine:{
+                            show:false
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#00ccfe'
+                            }
+                        },
+                        /*axisLabel: {
+                         formatter: '{value}'
+                         }*/
+                    }],
+                    series: [{
+                        name: '男',
+                        type: 'bar',
+                        data: data.m_times
+                    }, {
+                        name: '女',
+                        type: 'bar',
+                        data: data.f_times
+                    }]
+
+                };
+                myChart.setOption(myChart_option);
+            }
+
+        });
+    }
     $(function(){
         putnumber();
         puticpremonth();
@@ -1512,8 +1676,8 @@
         putlend();
         putresource();
         putgctrl();
-        putlend_academy();
-        putgctrl_academy();
+        putlend_academy_new();
+        putgctrl_academy_new();
         /*var a = "↑10%";
         var b = "↓10%";
         var c = "持平";
@@ -1661,12 +1825,12 @@
         myChart1.setOption(myChart_option5);*/
     });
     window.setInterval(putnumber,60000);
-    window.setInterval(change,60000);
-    window.setInterval(change1,3000);
+ /*   window.setInterval(change,60000);
+    window.setInterval(change1,3000);*/
 </script>
 <body background="img/back.png">
 <div id="slide" style="height: 100%;width:100%;overflow: hidden">
-    <div style="height: 100%;width: 100%" id="main_charts">
+    <div style="height: 100%;width: 100%;display: none" id="main_charts">
         <div class="title">智 慧 图 书 馆</div>
         <div class="top_div">
             <div class="top_div_number">
@@ -1738,7 +1902,7 @@
         </div>
         <div class="bottom_div">
             <div style="height: 100%;width: 33%;float: left;margin-right: 1%;">
-                <div class="div_title half" style="line-height: 5vh">近15天借阅人次学院-身份</div>
+                <div class="div_title half" style="line-height: 5vh">昨日借阅人次TOP10学院-身份</div>
                 <div class="chart_div">
                     <div id="tt" class="chart"></div>
                 </div>
@@ -1762,7 +1926,7 @@
                 </div>
             </div>
             <div style="height: 100%;width: 33%;float: left;">
-                <div class="div_title half" style="line-height: 5vh">近15天闸机进馆人次学院-性别 </div>
+                <div class="div_title half" style="line-height: 5vh">昨日闸机进馆人次TOP10学院-性别 </div>
                 <div class="chart_div">
                     <div id="l" class="chart"></div>
                 </div>
@@ -1771,6 +1935,9 @@
     </div>
     <div style="height: 100%;width: 100%" id="tz">
         <div class="title" >智 慧 图 书 馆</div>
+        <div style="height: 94%;width: 100%;">
+
+        </div>
     </div>
 </div>
 

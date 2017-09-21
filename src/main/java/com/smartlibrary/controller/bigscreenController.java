@@ -63,5 +63,14 @@ public class bigscreenController {
     public Map<String,List> Getgctrl_academy(){
         return bigscreenservice.getGctrl_academy();
     }
-
+    @RequestMapping(method = { RequestMethod.GET },value = "/lend_academy_new")
+    @ResponseBody
+    public Map<String,List> Getlend_academy_new(){
+        return bigscreenservice.getLend_academy_new();
+    }
+    @RequestMapping(method = { RequestMethod.GET },value = "/gctrl_academy_new")
+    @ResponseBody
+    public Map<String,List> Getgctrl_academy_new(){
+        return bigscreenservice.getGctrl_academy_new();
+    }
 }

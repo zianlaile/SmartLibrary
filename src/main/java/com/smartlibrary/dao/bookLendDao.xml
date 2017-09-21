@@ -20,19 +20,17 @@
         GROUP BY zztdc.`year`,zztdc.`month`,zztdc.`day`
         ORDER BY zztdc.`year`,zztdc.`month`,zztdc.`day`
     </select>
-    <!--CURDATE()-->
     <select id="getBorrowCountByHourAndAcademy" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
         SELECT zzbhalb.`hour`,zzbhalb.academy ,zzbhalb.book_lend_times ,zzbhalb.book_back_times
         FROM zz_book_hour_academy_lend_back  zzbhalb
-        WHERE zzbhalb.ymdhdate  &gt;  DATE_SUB('2015-01-21',INTERVAL 2 DAY) AND zzbhalb.ymdhdate &lt; '2015-01-21'
+        WHERE zzbhalb.ymdhdate  &gt;  DATE_SUB(CURDATE(),INTERVAL 2 DAY) AND zzbhalb.ymdhdate &lt;CURDATE()
         GROUP BY zzbhalb.hour ,zzbhalb.academy
         ORDER BY zzbhalb.hour ,zzbhalb.academy
     </select>
-    <!--CURDATE()-->
     <select id="getBorrowCountByHourAndBookkinds" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
         SELECT a.book_kind,a.academy,a.book_lend_times/10000 as book_lend_w
         FROM `zz_book_year_academy_bookkinds` a
-        WHERE   a.`year`= DATE_FORMAT('2014-01-12', '%Y') and a.book_kind
+        WHERE   a.`year`= DATE_FORMAT(CURDATE(), '%Y') and a.book_kind
         IN(
         SELECT book_kind FROM (
         select *,SUM(book_lend_times)  a FROM zz_book_year_academy_bookkinds
@@ -48,12 +46,11 @@
     <select id="getBorrowCountBySexAndBookkinds" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
         SELECT zzbmbg.`month`,zzbmbg.book_kind,zzbmbg.m_book_lend_times,zzbmbg.f_book_lend_times
         FROM zz_book_month_bookkinds_gender  zzbmbg
-        WHERE zzbmbg.`year`= DATE_FORMAT('2014-01-12', '%Y')
+        WHERE zzbmbg.`year`= DATE_FORMAT(CURDATE(), '%Y')
         GROUP BY zzbmbg.`month`,zzbmbg.book_kind
         ORDER BY zzbmbg.`month`,zzbmbg.book_kind
     </select>
 
-    <!--CURDATE() -->
     <select id="getBorrowCountByPublisher" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
         select a1.year,a1.times as book_lend_times ,a1.publisher
         from zz_book_year_publisher a1
@@ -71,7 +68,7 @@
     <select id="getBookkindCount" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
         SELECT a.book_kind,sum(a.book_lend_times) as book_lend_times
         FROM `zz_book_year_academy_bookkinds` a
-        WHERE   a.`year`= DATE_FORMAT('2014-01-12', '%Y')
+        WHERE   a.`year`= DATE_FORMAT(CURDATE() , '%Y')
         GROUP BY a.book_kind
         ORDER BY book_lend_times DESC
         limit 13

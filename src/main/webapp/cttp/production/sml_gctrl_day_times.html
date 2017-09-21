@@ -68,6 +68,10 @@
             var gctrl_times=resultdata.gctrl_times;
             var times=resultdata.times;
             var year=resultdata.year[0];
+            if(typeof(year)=="undefined"){
+                var date=new Date;
+                year=year=date.getFullYear();
+            }
             $(".chart_title p").text(year+"每日进馆人数统计");
             var data=[];
             for(var i=0;i<times.length;i++){
@@ -489,7 +493,10 @@
                             var gctrl_times = resultdata.gctrl_times;
                             var times = resultdata.times;
                             var year = resultdata.year[0];
-
+                            if(typeof(year)=="undefined"){
+                                var date=new Date;
+                                year=year=date.getFullYear();
+                            }
                             var data = [];
                             for (var i = 0; i < times.length; i++) {
                                 var onedata = [];

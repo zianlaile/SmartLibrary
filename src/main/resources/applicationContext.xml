@@ -75,6 +75,7 @@ http://www.springframework.org/schema/jms ">
     <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.smartlibrary.dao"/>
+        <property name = "sqlSessionFactoryBeanName" value = "sqlSessionFactory"/>
         <!-- <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property> -->
     </bean>
 
@@ -82,6 +83,68 @@ http://www.springframework.org/schema/jms ">
     <bean id="transactionManager"
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+
+
+
+
+<!--数据源2-->
+
+    <bean id="dataSource2" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="${driver}" />
+        <property name="url" value="${url2}" />
+        <property name="username" value="${username2}" />
+        <property name="password" value="${password2}" />
+        <!-- 初始化连接大小 -->
+        <property name="initialSize" value="${initialSize}"></property>
+        <!-- 连接池最大数量 -->
+        <property name="maxActive" value="${maxActive}"></property>
+        <!-- 连接池最大空闲 -->
+        <property name="maxIdle" value="${maxIdle}"></property>
+        <!-- 连接池最小空闲 -->
+        <property name="minIdle" value="${minIdle}"></property>
+        <!-- 获取连接最大等待时间 -->
+        <property name="maxWait" value="${maxWait}"></property>
+        <property name="testOnBorrow">
+            <value>true</value>
+        </property>
+        <property name="testOnReturn">
+            <value>true</value>
+        </property>
+        <property name="testWhileIdle">
+            <value>true</value>
+        </property>
+        <property name="validationQuery">
+            <value>select 1</value>
+        </property>
+    </bean>
+
+    <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+    <bean id="sqlSessionFactory2" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource2"/>
+        <!-- 自动扫描mapping.xml文件 -->
+        <property name="typeAliasesPackage" value="com.smartlibrary.domain2"></property>
+        <property name="configurationProperties">
+            <props>
+                <prop key="cacheEnabled">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.smartlibrary.dao2"/>
+        <property name = "sqlSessionFactoryBeanName" value = "sqlSessionFactory2"/>
+        <!-- <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property> -->
+    </bean>
+
+    <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+    <bean id="transactionManager2"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource2"/>
     </bean>
 
 </beans>

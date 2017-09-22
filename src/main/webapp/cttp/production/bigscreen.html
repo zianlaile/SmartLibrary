@@ -1682,14 +1682,23 @@
             async:false,
             dataType: 'json',
             success: function(data, textStatus, jqXHR){
-                var seatrating=parseInt(parseInt(data.uSeatTotal-data.uSeatIdel)/parseInt(data.uSeatTotal)*100);
-                var croomrating=parseInt(parseInt(data.uRoomTotal-data.uRoomIdle)/parseInt(data.uRoomTotal)*100);
-                var ereadrating=parseInt(parseInt(data.uPCTotal-data.uPCIdel)/parseInt(data.uPCTotal)*100);
+                var seatrating=0;
+                var croomrating=0;
+                var ereadrating=0;
+                if(parseInt(data.uSeatTotal)!=0){
+                    seatrating = parseInt(parseInt(data.uSeatTotal-data.uSeatIdel)/parseInt(data.uSeatTotal)*100);
+                }
+                if(parseInt(data.uRoomTotal)!=0){
+                    croomrating = parseInt(parseInt(data.uRoomTotal-data.uRoomIdle)/parseInt(data.uRoomTotal)*100);
+                }
+                if(parseInt(data.uPCTotal)!=0){
+                    ereadrating = parseInt(parseInt(data.uPCTotal-data.uPCIdel)/parseInt(data.uPCTotal)*100);
+                }
+                $("#seatnumber").text(data.uSeatIdel);
+                $("#croomnumber").text(data.uRoomIdle);
                 rating("f",seatrating);
                 rating("g",croomrating);
                 rating("h",ereadrating);
-                $("#seatnumber").text(data.uSeatIdel);
-                $("#croomnumber").text(data.uRoomIdle);
             }
         });
     }
@@ -1850,8 +1859,8 @@
         };
         myChart1.setOption(myChart_option5);*/
     });
-    window.setInterval(putnumber,60000);
-    window.setInterval(putdata_sysfxx,60000);
+    window.setInterval(putnumber,6000);
+    window.setInterval(putdata_sysfxx,6000);
     /*window.setInterval(change,60000);*/
     window.setInterval(change1,3000);
 </script>

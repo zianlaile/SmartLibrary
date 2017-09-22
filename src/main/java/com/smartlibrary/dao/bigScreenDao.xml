@@ -16,7 +16,7 @@
     <select id="getgctrl" resultType="BigScreen">
         SELECT `month`,academy,all_times
         FROM zz_gctrl_month_academy_identity
-        WHERE `month`=DATE_FORMAT(NOW(),'%m') AND `year`='2015'
+        WHERE `month`=DATE_FORMAT(NOW(),'%m') AND `year`=DATE_FORMAT(NOW(),'%Y')
         ORDER BY all_times desc
     </select>
     <select id="getlend_academy" parameterType="BigScreen" resultType="BigScreen">

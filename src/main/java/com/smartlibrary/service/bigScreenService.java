@@ -170,12 +170,12 @@ public class bigScreenService {
         c.add(Calendar.DATE, - 1);
         d = c.getTime();
         String lastday = format.format(d);
-        StringBuilder sb = new StringBuilder(firstday);
+       /* StringBuilder sb = new StringBuilder(firstday);
         StringBuilder sb1 = new StringBuilder(lastday);
         sb.replace(0, 4, "2015");
         sb1.replace(0, 4, "2015");
         firstday = sb.toString();
-        lastday = sb1.toString();
+        lastday = sb1.toString();*/
         BigScreen bs = new BigScreen();
         bs.setFirstday(firstday);
         bs.setLastday(lastday);
@@ -218,12 +218,12 @@ public class bigScreenService {
         c.add(Calendar.DATE, - 1);
         d = c.getTime();
         String lastday = format.format(d);
-        StringBuilder sb = new StringBuilder(firstday);
+        /*StringBuilder sb = new StringBuilder(firstday);
         StringBuilder sb1 = new StringBuilder(lastday);
         sb.replace(0, 4, "2015");
         sb1.replace(0, 4, "2015");
         firstday = sb.toString();
-        lastday = sb1.toString();
+        lastday = sb1.toString();*/
         BigScreen bs = new BigScreen();
         bs.setFirstday(firstday);
         bs.setLastday(lastday);
@@ -256,9 +256,9 @@ public class bigScreenService {
         c.add(Calendar.DATE, - 1);
         Date d = c.getTime();
         String yesterday = format.format(d);
-        StringBuilder sb = new StringBuilder(yesterday);
+        /*StringBuilder sb = new StringBuilder(yesterday);
         sb.replace(0, 4, "2015");
-        yesterday = sb.toString();
+        yesterday = sb.toString();*/
         Map<String,List> lend_academydata = new HashMap<String,List>();
         List<BigScreen> bigScreenList= bigscreendao.getlend_academy_new(yesterday);
         int length=10;
@@ -293,9 +293,9 @@ public class bigScreenService {
         c.add(Calendar.DATE, - 15);
         Date d = c.getTime();
         String yesterday = format.format(d);
-        StringBuilder sb = new StringBuilder(yesterday);
+        /*StringBuilder sb = new StringBuilder(yesterday);
         sb.replace(0, 4, "2015");
-        yesterday = sb.toString();
+        yesterday = sb.toString();*/
         Map<String,List> lend_academydata = new HashMap<String,List>();
         List<BigScreen> bigScreenList= bigscreendao.getgctrl_academy_new(yesterday);
         int length=10;

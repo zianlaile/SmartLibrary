@@ -95,8 +95,8 @@
             dataType: 'json',
             success: function(data, textStatus, jqXHR){
                 $("#all_gctrl").text(data.all_gctrl);
-                $("#seatnumber").text(data.all_seats-data.now_seats);
-                $("#croomnumber").text(data.all_crooms-data.now_crooms);
+                /*$("#seatnumber").text(data.all_seats-data.now_seats);
+                $("#croomnumber").text(data.all_crooms-data.now_crooms);*/
                 $("#all_lend").text(data.all_lend);
                 $("#all_print").text(data.all_print);
                 $("#all_book").text(data.all_book);
@@ -1851,6 +1851,7 @@
         myChart1.setOption(myChart_option5);*/
     });
     window.setInterval(putnumber,60000);
+    window.setInterval(putdata_sysfxx,60000);
     /*window.setInterval(change,60000);*/
     window.setInterval(change1,3000);
 </script>

@@ -94,3 +94,38 @@ body{
 	float: left;
 	margin-right: 1%;
 }
+.tz_title{
+	width: 100%;
+	height: 20%;
+	position: relative
+}
+.tz_title_content{
+	height: 50%;
+	margin: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	color: white;
+	text-align: center;
+	border-bottom: 3px solid;
+	font-size: 3vw;
+	font-family: "微软雅黑";
+}
+.tz_content{
+	width: 100%;
+	height: 80%;
+	position: relative
+}
+.tz_content_content{
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 7vw;
+	bottom: 0;
+	right: 7vw;
+	color: white;
+	font-size: 4vh;
+	font-family: "微软雅黑";
+}

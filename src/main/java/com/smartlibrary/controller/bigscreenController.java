@@ -73,4 +73,9 @@ public class bigscreenController {
     public Map<String,List> Getgctrl_academy_new(){
         return bigscreenservice.getGctrl_academy_new();
     }
+    @RequestMapping(method = { RequestMethod.GET },value = "/sysfxx")
+    @ResponseBody
+    public Map<String,String> Getsysfxx(){
+        return bigscreenservice.getSysfxx();
+    }
 }

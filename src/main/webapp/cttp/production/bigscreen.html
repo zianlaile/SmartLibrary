@@ -12,6 +12,12 @@
 <script type="application/javascript">
     var page=1;
     var changediv=1;
+    var croomtotal=0;
+    var sycroon=0;
+    var seattotal=0;
+    var syseat=0;
+    var ereadtotal=0;
+    var syeread=0;
     function change(){
         if(page==1){
             page++;
@@ -275,8 +281,9 @@
         });
     }
     function rating(chartid,rating){
-        var number = rating * 266 / 360
+        var number = rating * 266 / 360;
         var number_ = 100-number;
+        rating = rating.toString();
         var myChart = echarts.init(document.getElementById(chartid));
         var myChart_option = {
             title: {
@@ -1668,16 +1675,35 @@
 
         });
     }
+    function putdata_sysfxx(){
+        $.ajax({
+            type:"get",
+            url:"../../bigscreen/sysfxx",
+            async:false,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                var seatrating=parseInt(parseInt(data.uSeatTotal-data.uSeatIdel)/parseInt(data.uSeatTotal)*100);
+                var croomrating=parseInt(parseInt(data.uRoomTotal-data.uRoomIdle)/parseInt(data.uRoomTotal)*100);
+                var ereadrating=parseInt(parseInt(data.uPCTotal-data.uPCIdel)/parseInt(data.uPCTotal)*100);
+                rating("f",seatrating);
+                rating("g",croomrating);
+                rating("h",ereadrating);
+                $("#seatnumber").text(data.uSeatIdel);
+                $("#croomnumber").text(data.uRoomIdle);
+            }
+        });
+    }
     $(function(){
         putnumber();
         puticpremonth();
         putprintpremonth();
-        putrating();
+        /*putrating();*/
         putlend();
         putresource();
         putgctrl();
         putlend_academy_new();
         putgctrl_academy_new();
+        putdata_sysfxx();
         /*var a = "↑10%";
         var b = "↓10%";
         var c = "持平";
@@ -1902,7 +1928,7 @@
         </div>
         <div class="bottom_div">
             <div style="height: 100%;width: 33%;float: left;margin-right: 1%;">
-                <div class="div_title half" style="line-height: 5vh">昨日借阅人次TOP10学院-身份</div>
+                <div class="div_title half" style="line-height: 5vh">昨日借阅人次TOP5学院-身份</div>
                 <div class="chart_div">
                     <div id="tt" class="chart"></div>
                 </div>
@@ -1926,7 +1952,7 @@
                 </div>
             </div>
             <div style="height: 100%;width: 33%;float: left;">
-                <div class="div_title half" style="line-height: 5vh">昨日闸机进馆人次TOP10学院-性别 </div>
+                <div class="div_title half" style="line-height: 5vh">昨日闸机进馆人次TOP5学院-性别 </div>
                 <div class="chart_div">
                     <div id="l" class="chart"></div>
                 </div>
@@ -1936,7 +1962,12 @@
     <div style="height: 100%;width: 100%" id="tz">
         <div class="title" >智 慧 图 书 馆</div>
         <div style="height: 94%;width: 100%;">
-
+            <div id="tz_title" class="tz_title">
+                <h1 class="tz_title_content">沈阳师范大学测试</h1>
+            </div>
+            <div id="tz_content" class="tz_content">
+                <p id="tz_content_content" class="tz_content_content">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;沈阳师范大学测试沈阳师范大学测试沈阳师范大学测试沈阳师范大学测试沈阳师范大学测试沈阳师范大学测试沈阳师范大学测试沈阳师范大学测试沈阳师范大学测试沈阳师范大学测试沈阳师范大学测试</p>
+            </div>
         </div>
     </div>
 </div>

@@ -1,10 +1,18 @@
 package com.smartlibrary.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.smartlibrary.dao.bigScreenDao;
 import com.smartlibrary.domain.BigScreen;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 
+import javax.json.JsonObject;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -261,8 +269,8 @@ public class bigScreenService {
         yesterday = sb.toString();*/
         Map<String,List> lend_academydata = new HashMap<String,List>();
         List<BigScreen> bigScreenList= bigscreendao.getlend_academy_new(yesterday);
-        int length=10;
-        if(bigScreenList.size()<10){
+        int length=5;
+        if(bigScreenList.size()<5){
             length=bigScreenList.size();
         }
         List<String> academy = new ArrayList<String>();
@@ -298,8 +306,8 @@ public class bigScreenService {
         yesterday = sb.toString();*/
         Map<String,List> lend_academydata = new HashMap<String,List>();
         List<BigScreen> bigScreenList= bigscreendao.getgctrl_academy_new(yesterday);
-        int length=10;
-        if(bigScreenList.size()<10){
+        int length=5;
+        if(bigScreenList.size()<5){
             length=bigScreenList.size();
         }
         List<String> academy = new ArrayList<String>();
@@ -316,5 +324,44 @@ public class bigScreenService {
         lend_academydata.put("f_times",f_times);
         lend_academydata.put("m_times",m_times);
         return lend_academydata;
+    }
+    public Map<String,String> getSysfxx(){
+        Map data = new HashMap<String,String>();
+        String result = "";
+        String urlName = "http://ic.unifound.net/appInterface/RoomTotalInfo.aspx";
+        try {
+            URL realURL = new URL(urlName);
+            URLConnection conn = realURL.openConnection();
+            conn.setRequestProperty("accept", "*/*");
+            conn.setRequestProperty("connection", "Keep-Alive");
+            conn.setRequestProperty("user-agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36");
+            conn.connect();
+            Map<String, List<String>> map = conn.getHeaderFields();
+            for (String s : map.keySet()) {
+                System.out.println(s + "-->" + map.get(s));
+            }
+            BufferedReader in = null;
+            try {
+                in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String line;
+            while ((line = in.readLine()) != null) {
+                result += "\n" + line;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        JSONObject js = JSONObject.parseObject(result);
+        js = js.getJSONObject("objInfo");
+        System.out.println(js);
+        data.put("uSeatIdel",js.getString("uSeatIdel"));
+        data.put("uSeatTotal",js.getString("uSeatTotal"));
+        data.put("uRoomIdle",js.getString("uRoomIdle"));
+        data.put("uRoomTotal",js.getString("uRoomTotal"));
+        data.put("uPCIdel",js.getString("uPCIdel"));
+        data.put("uPCTotal",js.getString("uPCTotal"));
+        return data;
     }
 }

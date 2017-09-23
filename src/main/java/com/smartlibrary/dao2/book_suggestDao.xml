@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smartlibrary.dao2.book_suggestDao">
+    <select id="count" resultType="Integer" parameterType="com.smartlibrary.domain2.app_book_suggest">
+        select count(1)
+        from app_book_suggest
+    </select>
+    <select id="showList" parameterType="com.smartlibrary.domain2.app_book_suggest" resultType="com.smartlibrary.domain2.app_book_suggest">
+      select id ,pub_people, book ,publisher,time
+      from app_book_suggest
+      limit #{offset},#{pageSize}
+    </select>
+    <insert id="addbs" parameterType="com.smartlibrary.domain2.app_book_suggest">
+         insert into app_book_suggest(book, auther,publisher,pub_people,introduction,time)  values(#{book}, #{auther},#{publisher}, #{pub_people},#{introduction}, #{time})
+    </insert>
+    <!-- 批量删除 -->
+    <delete id="deletebyids" parameterType="java.util.List">
+        delete from app_book_suggest where id in
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="getbsbyid" parameterType="Integer" resultType="com.smartlibrary.domain2.app_book_suggest">
+        select *
+        from app_book_suggest
+        where id=#{id}
+    </select>
+    <update id="updatebs" parameterType="com.smartlibrary.domain2.app_book_suggest">
+        update app_book_suggest
+        <set>
+            <if test="book != null">book=#{book},</if>
+            <if test="auther != null">auther=#{auther},</if>
+            <if test="publisher != null">publisher=#{publisher},</if>
+            <if test="pub_people != null">pub_people=#{pub_people},</if>
+            <if test="introduction != null">introduction=#{introduction}</if>
+        </set>
+        where id=#{id}
+    </update>
+</mapper>

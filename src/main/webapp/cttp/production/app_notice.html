@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>图书馆通知管理</title>
+
+    <!-- Bootstrap -->
+    <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+
+    <!-- bootstrap-progressbar -->
+    <link href="../vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <!-- JQVMap -->
+    <link href="../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
+    <!-- bootstrap-daterangepicker -->
+    <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="../build/css/custom.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/font-awesome-ie7.min.css" rel="stylesheet">
+    <link href="css/large-chart.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="../vendors/jquery/dist/jquery.min.js"></script>
+    <!-- 引入 ECharts 文件 -->
+    <script src="../../js/echarts.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- 引入 table文件-->
+    <link href="app/table/bootstrap-table.min.css" rel="stylesheet">
+    <script src="app/table/bootstrap-table.js" ></script>
+    <script src="app/table/bootstrap-table-zh-CN.js"></script>
+
+    <!-- 弹出框 -->
+    <link href="app/dialog/bootstrap-dialog.min.css" rel="stylesheet">
+    <script type="text/javascript" src="app/dialog/bootstrap-dialog.js"></script>
+
+
+    <!-- 文件上传 -->
+    <link href="app/file/fileinput.min.css" rel="stylesheet">
+    <script type="text/javascript" src="app/file/fileinput.min.js"></script>
+    <script type="text/javascript" src="app/file/zh.js"></script>
+</head>
+
+<!--屏幕适配-->
+<script type="application/javascript">
+
+    $(function(){
+        var left=$(".left_col").height();
+        left=left-17;
+        $(".right_col").height(left);
+        var height=left-$(".x_title").height()-120;
+        $("#notice").height(height);
+
+    });
+</script>
+
+<!--注销-->
+<script type="application/javascript">
+    function sys_logout(){
+        $.ajax({
+            type: "GET",
+            url: 'sys/logout_logout',
+            cache: false,
+            success: function(data){
+                window.location='../../login.html';
+            }
+        });
+    }
+</script>
+
+<body class="nav-md">
+<div class="container body">
+    <div class="main_container">
+        <div class="col-md-3 left_col">
+            <div class="left_col scroll-view">
+                <div class="navbar nav_title" style="border: 0;">
+                    <a href="index.html" class="site_title"><span>智慧图书馆</span></a>
+                </div>
+                <div class="clearfix"></div>
+                <br />
+
+                <!-- sidebar menu -->
+                <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                    <div class="menu_section">
+                        <h3>图书馆管理后台</h3>
+                        <ul class="nav side-menu">
+                            <li><a><div style="width:26px;float: left;"><img src="img/lend.png" style="width:18px"\></div>通知<span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="app_notice_leading.html">通知发布</a></li>
+                                    <li><a href="app_notice.html">通知管理</a></li>
+                                </ul>
+                            </li>
+                            <li><a><div style="width:26px;float: left;"><img src="img/gctrl.png" style="width:18px"\></div>荐购<span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="app_book_suggest_leading.html">荐购图书导入</a></li>
+                                    <li><a href="app_book_suggest.html">荐购图书管理</a></li>
+                                </ul>
+                            </li>
+                            <li><a><div style="width:26px;float: left;"><img src="img/IC.png" style="width:18px"\></div>资源<span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="app_basic_info.html">基础信息管理</a></li>
+                                    <li><a href="app_resources_leading.html">图书馆资源导入</a></li>
+                                    <li><a href="app_resources.html">图书馆资源管理</a></li>
+                                    <li><a href="app_employee_leading.html">员工信息导入</a></li>
+                                    <li><a href="app_employee.html">员工信息管理</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--   <div class="menu_section">
+                           <h3>图书馆资源推荐</h3>
+                           <ul class="nav side-menu">
+                               <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
+                                   <ul class="nav child_menu">
+                                       <li><a href="e_commerce.html">E-commerce</a></li>
+                                       <li><a href="projects.html">Projects</a></li>
+                                       <li><a href="project_detail.html">Project Detail</a></li>
+                                       <li><a href="contacts.html">Contacts</a></li>
+                                       <li><a href="profile.html">Profile</a></li>
+                                   </ul>
+                               </li>
+                               <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
+                                   <ul class="nav child_menu">
+                                       <li><a href="page_403.html">403 Error</a></li>
+                                       <li><a href="page_404.html">404 Error</a></li>
+                                       <li><a href="page_500.html">500 Error</a></li>
+                                       <li><a href="plain_page.html">Plain Page</a></li>
+                                       <li><a href="login.html">Login Page</a></li>
+                                       <li><a href="pricing_tables.html">Pricing Tables</a></li>
+                                   </ul>
+                               </li>
+                               <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span class="fa fa-chevron-down"></span></a>
+                                   <ul class="nav child_menu">
+                                       <li><a href="#level1_1">Level One</a>
+                                       <li><a>Level One<span class="fa fa-chevron-down"></span></a>
+                                           <ul class="nav child_menu">
+                                               <li class="sub_menu"><a href="level2.html">Level Two</a>
+                                               </li>
+                                               <li><a href="#level2_1">Level Two</a>
+                                               </li>
+                                               <li><a href="#level2_2">Level Two</a>
+                                               </li>
+                                           </ul>
+                                       </li>
+                                       <li><a href="#level1_2">Level One</a>
+                                       </li>
+                                   </ul>
+                               </li>
+                               <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
+                           </ul>
+                       </div>-->
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+            <div class="nav_menu">
+                <nav>
+                    <div class="nav toggle">
+                        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                    </div>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="">
+                            <a href="javascript:sys_logout()" class="user-profile dropdown-toggle">
+                                <img src="images/img.jpg" alt="">注销 <i class="fa fa-sign-out"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title" >
+                            <h2>图书馆通知管理</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li> <button id="btn-add" type="button"  class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;增加</button>
+                                </li>
+                                <li> <button id="btn_delete" type="button"  onclick="showdeleten();"class="btn btn-default btn-xs">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;删除</button>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content"  >
+                            <div id="notice" >
+                                <table id="table-list">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    通知管理
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <input type="hidden" value=0 name="nid" id="nid" />
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">标题</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="title" type="text"  placeholder="输入图书名称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">内容</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control"  id="content" rows="3" placeholder="输入图书内容简介"></textarea>
+                        </div>
+                    </div>
+                    <!--<div class="form-group">
+                        <label class="col-sm-2 control-label">图片</label>
+                        <div class="col-sm-10">
+                            <input id="pic_url" name="pic_url" type="file" class="file-loading" data-show-preview="false">
+                        </div>
+                    </div>-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">状态</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="status">
+                                <option value="0">禁用</option>
+                                <option value="1">启用</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">发布人</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="pub_people" type="text"  placeholder="输入发布人">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="addorupdaten();" class="btn btn-default btn-sm btn-block" data-dismiss="modal" style="width: 90%;margin: auto;">
+                    提交
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="fileModalLabel">
+                    通知图片上传
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <input type="hidden" value=10000 name="fnid" id="fnid" />
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">请选择图片</label>
+                        <div class="col-sm-10">
+                            <input id="pic_url" name="pic_url" type="file" class="file-loading" data-show-preview="false">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- FastClick -->
+<script src="../vendors/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="../vendors/nprogress/nprogress.js"></script>
+<!-- Chart.js -->
+<script src="../vendors/Chart.js/dist/Chart.min.js"></script>
+<!-- gauge.js -->
+<script src="../vendors/gauge.js/dist/gauge.min.js"></script>
+<!-- bootstrap-progressbar -->
+<script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<!-- iCheck -->
+<script src="../vendors/iCheck/icheck.min.js"></script>
+<!-- Skycons -->
+<script src="../vendors/skycons/skycons.js"></script>
+<!-- Flot -->
+<script src="../vendors/Flot/jquery.flot.js"></script>
+<script src="../vendors/Flot/jquery.flot.pie.js"></script>
+<script src="../vendors/Flot/jquery.flot.time.js"></script>
+<script src="../vendors/Flot/jquery.flot.stack.js"></script>
+<script src="../vendors/Flot/jquery.flot.resize.js"></script>
+<!-- Flot plugins -->
+<script src="../vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+<script src="../vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+<script src="../vendors/flot.curvedlines/curvedLines.js"></script>
+<!-- DateJS -->
+<script src="../vendors/DateJS/build/date.js"></script>
+<!-- JQVMap -->
+<script src="../vendors/jqvmap/dist/jquery.vmap.js"></script>
+<script src="../vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+<script src="../vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+<!-- bootstrap-daterangepicker -->
+<script src="../vendors/moment/min/moment.min.js"></script>
+<script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+<script src="../build/js/custom.min.js"></script>
+</body>
+<!--table初始化-->
+<script type="text/javascript">
+    //通过bootstrap Table方法refresh重新加载数据
+    function showData() {
+        $('#table-list').bootstrapTable('refresh');
+    }
+    //官方使用方法的语法：<code>$('#table').bootstrapTable('method', parameter)</code>
+    $('#table-list').bootstrapTable({
+        columns: [
+            {
+                field: '勾选',
+                checkbox: true,
+                align: 'center',
+                valign: 'middle',
+            },{
+                field: 'id',
+                title: '序号',
+                align : 'center',
+                valign : 'middle',
+                //sortable : true
+            }, {
+                field: 'title',
+                title: '标题',
+                align : 'center',
+                valign : 'middle'
+            }, {
+                field: 'content',
+                title: '内容',
+                align : 'center',
+                valign : 'middle'
+            }, {
+                field: 'pic',
+                title: '图片',
+                align: 'center',
+                valign: 'middle',
+                //events: operateEvents,
+                //formatter: operateFormatter
+                formatter: function (value, row, index) {
+                    var u = "<img class='img-thumbnail'width='80' height='40' src='https://gss0.bdstatic.com/70cFsjip0QIZ8tyhnq/img/logo-zhidao.gif' alt=''>";
+                    return u;
+                }
+            },
+            {
+                field: 'status',
+                title: '状态',
+                align : 'center',
+                valign : 'middle'
+            },{
+                field: 'pub_people',
+                title: '发布人',
+                align : 'center',
+                valign : 'middle'
+            },{
+                field: 'time',
+                title: '发布时间',
+                align : 'center',
+                valign : 'middle'
+            },{
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                valign : 'middle',
+                //events: operateEvents,
+                //formatter: operateFormatter
+                formatter:function(value,row,index){
+                    var u = '<button type="button" class=" btn btn-default  btn-xs" style="margin-right:5px;"  onclick=" getupadten(\''+ row.id +'\') " data-toggle="modal" data-target="#myModal">编辑/查看</button> ';
+                    var f = '<button type="button" class=" btn btn-default  btn-xs" style="margin-right:5px;"  onclick="  upfile(\''+ row.id +'\')   " data-toggle="modal" data-target="#fileModal">通知图片</button> ';
+                    return u+f;
+                }
+            }
+        ],//页面需要展示的列，后端交互对象的属性
+        rowStyle: function (row, index) {
+            //这里有5个取值代表5中颜色['active', 'success', 'info', 'warning', 'danger'];
+            return {};
+            /*  var strclass = "";
+             //console.log(row);
+             if (row.color == 1) {
+             strclass = 'success';//还有一个active
+             }
+             else if (row.color == -1) {
+             strclass = 'danger';
+             }
+             else {
+             return {classes: 'active' };
+             }
+             return { classes: strclass } */
+        },
+        onClickRow: function (row, $element, field) {
+            /* setTimeout(function(){
+             var map_detail = $('#map_detail');
+             var map_detail_remove = $('#map_detail_remove');
+             map_detail.animate({
+             right: '5px'
+             }, 500);
+             map_detail_remove.animate({
+             display:'block !important'
+             }, 500);
+             creat_map(row.xcoordinate,row.ycoordinate,row);
+             }, 400);*/
+        },
+        pagination: true,  //开启分页
+        sidePagination: 'server',//服务器端分页
+        pageNumber: 1,//默认加载页
+        pageSize: 10,//每页数据
+        pageList: [10, 25, 50, 100],//可选的每页数据
+        method: 'post',                      //请求方式（*）
+        toolbar: '#toolbar',                //工具按钮用哪个容器
+        striped: false,                      //是否显示行间隔色
+        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+        sortable: true,                     //是否启用排序
+        sortOrder: "asc",                   //排序方式
+        height: $(window).height() - 160,//行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+        width:$(window).width(),
+        showColumns:false,
+        minimumCountColumns:2,
+        strictSearch: false,
+        clickToSelect: false,                //是否启用点击选中行
+        uniqueId: "id",                     //每一行的唯一标识，一般为主键列
+        cardView: false,                    //是否显示详细视图
+        showRefresh: false,                  //是否显示刷新按钮
+        showExport: false,                    //是否显示导出
+        exportDataType: "basic",              //basic', 'all', 'selected'.
+        queryParams: function (params) {
+            return {
+                pageSize: params.limit,   //页面大小
+                offset: params.offset  ///页码
+            }
+        },//请求服务器数据时的参数
+        url: '../../notice/ShowList' //服务器数据的加载地址
+    });
+    function doQuery(params){
+        $('#table-list').bootstrapTable('refresh');    //刷新表格
+    }
+</script>
+<!--增删改查初始化-->
+<script type="text/javascript">
+    $(function () { $('#myModal').modal('hide')});
+    $(function () { $('#myModal').on('hide.bs.modal', function () {
+        $("#nid").val(0);
+        $("#title").val("");
+        $("#content").val("");
+        /*$("#pic_url").val("");*/
+        $("#status").val("");
+        $("#pub_people").val("");
+    })
+    });
+    function addorupdaten() {
+        var adddate={
+            id:$("#nid").val(),
+            title:$("#title").val(),
+          /*  pic_url:$("#pic_url").val(),*/
+            status:$("#status").val(),
+            pub_people:$("#pub_people").val(),
+            content:$("#content").val()
+        };
+        $.ajax({
+            url : "../../notice/addorupdaten",
+            type : "POST",
+            contentType : "application/json; charset=UTF-8",
+            data : JSON.stringify(adddate),
+            dataType : "json",
+            success : function(data) {
+                if (data) {
+                    $('#table-list').bootstrapTable('refresh');
+                } else {
+                    alert("操作失败");
+                }
+            },
+            error : function() {
+                alert("操作失败");
+            }
+        });
+    }
+    function showdeleten() {
+        var rows =$('#table-list').bootstrapTable('getAllSelections');
+        if(rows.length<1){
+            alert("请选择一行删除");
+        }else{
+            var ids=[];
+            for(var i=0;i<rows.length;i++){
+                var row=rows[i];
+                ids.push(row.id);
+            }
+            BootstrapDialog.show({
+                type : BootstrapDialog.TYPE_DEFAULT,
+                title : "操作信息",
+                message: '确定删除所选信息吗？',
+                buttons : [ {
+                    label : "确定",
+                    cssClass: 'btn-default',
+                    action : function(dialogItself) {
+                        dialogItself.close();
+                        deleten(ids);
+                    }
+                }]
+            });
+
+        }
+    }
+    function deleten(ids) {
+        $.ajax({
+            url : "../../notice/deleteByids",
+            type : "POST",
+            contentType : "application/json; charset=UTF-8",
+            data : JSON.stringify(ids),
+            dataType : "json",
+            success : function(clientdata) {
+                if (clientdata) {
+                    $('#table-list').bootstrapTable('refresh');
+                } else {
+                    alert("修改失败");
+                }
+            },
+            error : function() {
+                alert("修改失败");
+            }
+        });
+
+    }
+    function getupadten(id) {
+        $.ajax({
+            url : "../../notice/getnbyid",
+            type : "POST",
+            contentType : "application/json; charset=UTF-8",
+            data : JSON.stringify(id),
+            dataType : "json",
+            success : function(data) {
+                if (data) {
+                    $("#nid").val(data.id);
+                    $("#title").val(data.title);
+                   /* $("#pic_url").val(data.pic_url);*/
+                    $("#status").val(data.status);
+                    $("#pub_people").val(data.pub_people);
+                    $("#content").val(data.content);
+                    addorupdaten();
+                } else {
+                    alert("数据出错，无法修改");
+                }
+            },
+            error : function() {
+                alert("数据出错，无法修改");
+            }
+        });
+    }
+
+</script>
+<!--fileinput初始化-->
+<script type="text/javascript">
+    function upfile(id){
+        $('#fnid').val(id);
+        $("#pic_url").fileinput('clear')
+    }
+    $(document).on('ready',function() {
+        $("#pic_url").fileinput({
+            language : 'zh',
+            uploadUrl : '../../notice/uploadpic',
+            showCaption : true,//是否显示标题
+            browseClass : "btn btn-primary", //按钮样式
+            maxFileCount : 1, //表示允许同时上传的最大文件个数
+            enctype : 'multipart/form-data',
+            previewFileIcon : "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany : "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            allowedFileExtensions : [ ],
+            uploadExtraData:function(){
+                return {id :$('#fnid').val()};
+            }
+        }).on("fileuploaded", function(e, data) {
+          console.log(data);
+        });
+    });
+</script>
+</html>

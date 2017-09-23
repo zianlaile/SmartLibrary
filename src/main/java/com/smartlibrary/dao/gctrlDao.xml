@@ -54,17 +54,11 @@
 
 
     <select id="getGctrlCount2ByDay" parameterType="com.smartlibrary.domain.gctrl" resultType="com.smartlibrary.domain.gctrl">
-       SELECT
-	  a.ymdchar AS time,
-	  gctrl_times
-      FROM
-	  zz_time_day_count a
-      WHERE
-	  a.`year` = DATE_FORMAT(CURDATE(), '%Y')
-      GROUP BY
-	  a.ymdchar
-      ORDER BY
-	  gctrl_times DESC
-      LIMIT 12
+       SELECT a.ymdchar AS time,gctrl_times
+       FROM  zz_time_day_count a
+       WHERE a.`year` = DATE_FORMAT(CURDATE(), '%Y')
+       GROUP BY a.ymdchar
+       ORDER BY gctrl_times DESC
+       LIMIT 12
     </select>
 </mapper>

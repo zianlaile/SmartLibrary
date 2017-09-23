@@ -83,5 +83,4 @@
             <bean class="com.smartlibrary.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
-
 </beans>

@@ -1,6 +1,10 @@
 package com.smartlibrary.controller;
 
+import com.smartlibrary.domain2.Account;
+import com.smartlibrary.service.AccountService;
+import com.smartlibrary.tools.SHAencrypt;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +22,8 @@ import java.util.Map;
 @Controller
 @RequestMapping(value={"/sys","/cttp/production/sys"})
 public class sysController {
+    @Autowired
+    private AccountService accountService;
     private static final Logger logger = Logger.getLogger(sysController.class);
 
     @RequestMapping(value="/logout_logout" ,produces="application/json;charset=UTF-8")
@@ -32,7 +38,11 @@ public class sysController {
     public Map login_login(HttpSession httpSession,@RequestParam String loginname,
                            @RequestParam String password,@RequestParam String code){
         Map rMap = new HashMap();
+        Account account = new Account();
+        Account account1 = new Account();
         String errInfo = "";
+        String loginnm = "";
+        String passwd = "";
         if (null != loginname && null !=password && null != code){
 
             String session_code = (String)httpSession.getAttribute("SESSION_CODE");
@@ -41,21 +51,38 @@ public class sysController {
             }else{
                 if(notEmpty(session_code) && session_code.equalsIgnoreCase(code)) {        //判断登录验证码
                     // String passwd = new SimpleHash("SHA-1", loginname, password).toString();	//密码加密
-                    //pd.put("PASSWORD", passwd);
-                    //  pd = userService.getUserByNameAndPwd(pd);	//根据用户名和密码去读取用户信息
-                    //if("" != null){
-                    if(loginname.equals("admin")&&password.equals("smartlib123")){
-                        httpSession.setAttribute("SESSION_USER", loginname);			//把用户信息放session中
-                        httpSession.removeAttribute("SESSION_CODE");	//清除登录验证码的session
 
-                    }else{
-                        errInfo = "usererror"; 				//用户名或密码有误
-                        logger.info("amdin".equals(loginname));
-                        logger.info(loginname == "admin");
-                        logger.info(loginname.equals("admin"));
-                       // logBefore(logger, USERNAME+"登录系统密码或用户名错误");
-                       // FHLOG.save(USERNAME, "登录系统密码或用户名错误");
+                    try {
+                        passwd = SHAencrypt.encryptSHA(password);   //密码加密
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+                    if (loginname.equals("admin") && passwd.equals("01e56eeec696129f8f5fef2a30666ce8b56de6ad")) {
+                        account1.setAccount(loginname);
+                    } else {
+                        account.setAccount(loginname);
+                        account.setPassword(passwd);
+
+                        account1 = accountService.getAccount(account);
+                    }
+                        //pd.put("PASSWORD", passwd);
+                        //  pd = userService.getUserByNameAndPwd(pd);	//根据用户名和密码去读取用户信息
+                        //if("" != null){
+                        //if (loginname.equals(loginnm) && passwd.equals("01e56eeec696129f8f5fef2a30666ce8b56de6ad")) {
+                        if (account1 != null) {
+                            rMap.put("accountType", account1.getType());
+                            httpSession.setAttribute("SESSION_USER", loginname);            //把用户信息放session中
+                            httpSession.removeAttribute("SESSION_CODE");    //清除登录验证码的session
+
+                        } else {
+                            errInfo = "usererror";                //用户名或密码有误
+                            logger.info("amdin".equals(loginname));
+                            logger.info(loginname == "admin");
+                            logger.info(loginname.equals("admin"));
+                            // logBefore(logger, USERNAME+"登录系统密码或用户名错误");
+                            // FHLOG.save(USERNAME, "登录系统密码或用户名错误");
+                        }
+
                 }else {
                     errInfo = "codeerror";				 	//验证码输入有误
                 }

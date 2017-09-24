@@ -43,7 +43,11 @@
                   success: function(data){
                       if("success" == data.result){
 //                          saveCookie();
-                          window.location='cttp/production/index.html';
+                          if(2 == data.accountType){
+                              window.location='cttp/production/app_notice.html';
+                          }else{
+                              window.location='cttp/production/index.html';
+                          }
                       }else if("usererror" == data.result){
                           $("#loginname").tips({
                               side : 1,

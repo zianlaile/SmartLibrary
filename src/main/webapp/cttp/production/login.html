@@ -41,8 +41,11 @@
                 cache: false,
                 success: function(data){
                     if("success" == data.result){
-//                          saveCookie();
-                        window.location='index.html';
+                        if(2 == data.accountType){
+                            window.location='app_notice.html';
+                        }else{
+                            window.location='index.html';
+                        }
                     }else if("usererror" == data.result){
                         $("#loginname").tips({
                             side : 1,

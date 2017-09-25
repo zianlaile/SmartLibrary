@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smartlibrary.dao2.app_employeeDao">
+    <select id="count" resultType="Integer" parameterType="com.smartlibrary.domain2.app_employee">
+        select count(1)
+        from app_employee
+    </select>
+    <select id="showList" parameterType="com.smartlibrary.domain2.app_employee" resultType="com.smartlibrary.domain2.app_employee">
+        select *
+        from app_employee
+        limit #{offset},#{pageSize}
+    </select>
+    <insert id="add" parameterType="com.smartlibrary.domain2.app_employee">
+        insert into app_employee(szPID,szTrueName,dwSex,dwJobTitle,dwInlandUduTime)  values(#{szPID}, #{szTrueName},#{dwSex}, #{dwJobTitle},#{dwInlandUduTime})
+    </insert>
+    <!-- 批量删除 -->
+    <delete id="deletebyids" parameterType="java.util.List">
+        delete from app_employee where dwAccNo in
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="getbyid" parameterType="Integer" resultType="com.smartlibrary.domain2.app_employee">
+        select *
+        from app_employee
+        where dwAccNo=#{dwAccNo}
+    </select>
+    <update id="update" parameterType="com.smartlibrary.domain2.app_employee">
+        update app_employee
+        <set>
+            <if test="szPID != null">szPID=#{szPID},</if>
+            <if test="szTrueName != null">szTrueName=#{szTrueName},</if>
+            <if test="dwSex != null">dwSex=#{dwSex},</if>
+            <if test="dwJobTitle != null">dwJobTitle=#{dwJobTitle},</if>
+            <if test="dwInlandUduTime != null">dwInlandUduTime=#{dwInlandUduTime}</if>
+        </set>
+        where dwAccNo=#{dwAccNo}
+    </update>
+</mapper>

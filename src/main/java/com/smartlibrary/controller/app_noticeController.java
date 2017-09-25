@@ -70,7 +70,6 @@ public class app_noticeController {
     @ResponseBody
     public Map<String, Object> uploadpic(HttpServletRequest request, HttpServletResponse response, @RequestParam("pic_url") MultipartFile File,@RequestParam("id") int id) throws UnsupportedEncodingException {
         Map<String, Object> json = new HashMap<String, Object>();//上传后的返回信息
-        System.out.println(id);
         MultipartFile myFile=File;
             try {
                 //1
@@ -90,6 +89,11 @@ public class app_noticeController {
                     file.mkdirs();//创建文件夹
                 }
                 myFile.transferTo(new File(url));
+                String url2 = "smartlib_app/"+name+"."+ext;
+                app_notice n=new  app_notice();
+                n.setId(id);
+                n.setPic_url(url2);
+                noticeservice.updaten_picurl(n);
                 json.put("success", ""+myFile.getOriginalFilename());
             } catch (Exception e) {
                 e.printStackTrace();

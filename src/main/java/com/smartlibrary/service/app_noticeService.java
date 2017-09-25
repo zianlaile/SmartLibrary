@@ -40,4 +40,7 @@ public class app_noticeService {
     public void updaten(app_notice data){
         app_noticedao.updaten(data);
     }
+    public void updaten_picurl(app_notice data){
+        app_noticedao.updaten_picurl(data);
+    }
 }

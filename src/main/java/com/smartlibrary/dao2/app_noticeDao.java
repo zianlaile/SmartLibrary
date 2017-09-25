@@ -14,5 +14,6 @@ public interface app_noticeDao {
     void deletebyids(List ids);
     app_notice getnbyid(int id);
     void updaten(app_notice data);
+    void updaten_picurl(app_notice data);
 
 }

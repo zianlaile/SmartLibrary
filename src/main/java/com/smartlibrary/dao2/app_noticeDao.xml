@@ -31,9 +31,16 @@
         <set>
             <if test="title != null">title=#{title},</if>
             <if test="content != null">content=#{content},</if>
-            <if test="pic_url != null">pic_url=#{pic_url},</if>
             <if test="status != null">status=#{status},</if>
             <if test="pub_people != null">pub_people=#{pub_people}</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <update id="updaten_picurl" parameterType="com.smartlibrary.domain2.app_notice">
+        update app_notice
+        <set>
+            <if test="pic_url != null">pic_url=#{pic_url}</if>
         </set>
         where id=#{id}
     </update>

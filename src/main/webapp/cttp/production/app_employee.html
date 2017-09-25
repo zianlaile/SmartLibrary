@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>图书馆通知管理</title>
+    <title>图书馆员工管理</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -44,12 +44,6 @@
     <!-- 弹出框 -->
     <link href="app/dialog/bootstrap-dialog.min.css" rel="stylesheet">
     <script type="text/javascript" src="app/dialog/bootstrap-dialog.js"></script>
-
-
-    <!-- 文件上传 -->
-    <link href="app/file/fileinput.min.css" rel="stylesheet">
-    <script type="text/javascript" src="app/file/fileinput.min.js"></script>
-    <script type="text/javascript" src="app/file/zh.js"></script>
 </head>
 
 <!--屏幕适配-->
@@ -60,7 +54,7 @@
         left=left-17;
         $(".right_col").height(left);
         var height=left-$(".x_title").height()-120;
-        $("#notice").height(height);
+        $("#app_employee").height(height);
 
     });
 </script>
@@ -193,23 +187,26 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title" >
-                            <h2>图书馆通知管理</h2>
+                            <h2>图书馆员工信息管理</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li> <button id="btn-add" type="button"  class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal">
                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;增加</button>
                                 </li>
-                                <li> <button id="btn_delete" type="button"  onclick="showdeleten();"class="btn btn-default btn-xs">
+                                <li> <button id="btn_delete" type="button"  onclick="showdelete();"class="btn btn-default btn-xs">
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;删除</button>
                                 </li>
                             </ul>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content"  >
-                            <div id="notice" >
+                            <div id="app_employee" >
                                 <table id="table-list">
                                 </table>
                             </div>
                         </div>
+                        <script type="application/javascript">
+
+                        </script>
                     </div>
                 </div>
             </div>
@@ -225,84 +222,56 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    通知管理
+                    图书馆员工信息管理
                 </h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
-                    <input type="hidden" value=0 name="nid" id="nid" />
+                    <input type="hidden" value=0 name="dwAccNo" id="dwAccNo" />
+
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">标题</label>
+                        <label class="col-sm-2 control-label">员工编号</label>
                         <div class="col-sm-10">
-                            <input class="form-control" id="title" type="text"  placeholder="输入图书名称">
+                            <input class="form-control" id="szPID" type="text"  placeholder="输入员工编号">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">内容</label>
+                        <label class="col-sm-2 control-label">姓名</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control"  id="content" rows="3" placeholder="输入图书内容简介"></textarea>
+                            <input class="form-control" id="szTrueName" type="text"  placeholder="输入姓名">
                         </div>
                     </div>
-                    <!--<div class="form-group">
-                        <label class="col-sm-2 control-label">图片</label>
-                        <div class="col-sm-10">
-                            <input id="pic_url" name="pic_url" type="file" class="file-loading" data-show-preview="false">
-                        </div>
-                    </div>-->
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">状态</label>
+                        <label class="col-sm-2 control-label">性别</label>
                         <div class="col-sm-10">
-                            <select class="form-control" id="status">
-                                <option value="0">禁用</option>
-                                <option value="1">启用</option>
+                            <select class="form-control" id="dwSex">
+                                <option value="0">男</option>
+                                <option value="1">女</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">发布人</label>
+                        <label class="col-sm-2 control-label">职称</label>
                         <div class="col-sm-10">
-                            <input class="form-control" id="pub_people" type="text"  placeholder="输入发布人">
+                            <input class="form-control" id="dwJobTitle" type="text"  placeholder="输入职称">
                         </div>
                     </div>
-
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">入职时间</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="dwInlandUduTime" type="text"  placeholder="输入入职时间">
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="addorupdaten();" class="btn btn-default btn-sm btn-block" data-dismiss="modal" style="width: 90%;margin: auto;">
+                <button type="button" onclick="addorupdate();" class="btn btn-default btn-sm btn-block" data-dismiss="modal" style="width: 90%;margin: auto;">
                     提交
                 </button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-<!-- 模态框（Modal） -->
-<div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
-                </button>
-                <h4 class="modal-title" id="fileModalLabel">
-                    通知图片上传
-                </h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" role="form">
-                    <input type="hidden" value=10000 name="fnid" id="fnid" />
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">请选择图片</label>
-                        <div class="col-sm-10">
-                            <input id="pic_url" name="pic_url" type="file" class="file-loading" data-show-preview="false">
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-
 <!-- FastClick -->
 <script src="../vendors/fastclick/lib/fastclick.js"></script>
 <!-- NProgress -->
@@ -339,7 +308,6 @@
 
 <script src="../build/js/custom.min.js"></script>
 </body>
-<!--table初始化-->
 <script type="text/javascript">
     //通过bootstrap Table方法refresh重新加载数据
     function showData() {
@@ -354,49 +322,24 @@
                 align: 'center',
                 valign: 'middle',
             },{
-                field: 'id',
-                title: '序号',
+                field: 'szPID',
+                title: '员工编号',
                 align : 'center',
                 valign : 'middle',
                 //sortable : true
             }, {
-                field: 'title',
-                title: '标题',
+                field: 'szTrueName',
+                title: '姓名',
                 align : 'center',
                 valign : 'middle'
             }, {
-                field: 'content',
-                title: '内容',
-                align : 'center',
-                valign : 'middle'
-            }, {
-                field: 'pic',
-                title: '图片',
-                align: 'center',
-                valign: 'middle',
-                //events: operateEvents,
-                //formatter: operateFormatter
-                formatter: function (value, row, index) {
-                    /*var u = "<img class='img-thumbnail'width='80' height='40' src='https://gss0.bdstatic.com/70cFsjip0QIZ8tyhnq/img/logo-zhidao.gif' alt=''>";
-                     var u = "<img class='img-thumbnail'width='80' height='30' src='/smartlib_app/1.jpg' alt=''>";
-                   */
-                    var u = "<img class='img-thumbnail'width='80' height='30' src='/"+row.pic_url+"' alt=''>";
-                    return u;
-                }
-            },
-            {
-                field: 'status',
-                title: '状态',
+                field: 'dwSex',
+                title: '性别',
                 align : 'center',
                 valign : 'middle'
             },{
-                field: 'pub_people',
-                title: '发布人',
-                align : 'center',
-                valign : 'middle'
-            },{
-                field: 'time',
-                title: '发布时间',
+                field: 'dwJobTitle',
+                title: '职称',
                 align : 'center',
                 valign : 'middle'
             },{
@@ -407,9 +350,9 @@
                 //events: operateEvents,
                 //formatter: operateFormatter
                 formatter:function(value,row,index){
-                    var u = '<button type="button" class=" btn btn-default  btn-xs" style="margin-right:5px;"  onclick=" getupadten(\''+ row.id +'\') " data-toggle="modal" data-target="#myModal">编辑/查看</button> ';
-                    var f = '<button type="button" class=" btn btn-default  btn-xs" style="margin-right:5px;"  onclick="  upfile(\''+ row.id +'\')   " data-toggle="modal" data-target="#fileModal">通知图片</button> ';
-                    return u+f;
+                    var e = '<button type="button" class=" btn btn-default  btn-xs" style="margin-right:5px;"  onclick=" getupadte(\''+ row.dwAccNo +'\') " data-toggle="modal" data-target="#myModal">编辑/查看</button> ';
+                    /* var f = '<button type="button" class=" btn btn-default  btn-sm" style="margin-right:5px;"  onclick="  alert(\''+ row.id +'\')   ">文件列表</button> ';
+                     */return e;
                 }
             }
         ],//页面需要展示的列，后端交互对象的属性
@@ -470,39 +413,35 @@
                 offset: params.offset  ///页码
             }
         },//请求服务器数据时的参数
-        url: '../../notice/ShowList' //服务器数据的加载地址
+        url: '../../employee/ShowList' //服务器数据的加载地址
     });
     function doQuery(params){
         $('#table-list').bootstrapTable('refresh');    //刷新表格
     }
 </script>
-<!--增删改查初始化-->
 <script type="text/javascript">
     $(function () { $('#myModal').modal('hide')});
     $(function () { $('#myModal').on('hide.bs.modal', function () {
-        $("#nid").val(0);
-        $("#title").val("");
-        $("#content").val("");
-        /*$("#pic_url").val("");*/
-        $("#status").val("");
-        $("#pub_people").val("");
+        $("#dwAccNo").val(0);
+        $("#szPID").val("");
+        $("#szTrueName").val("");
+        $("#dwSex").val("");
+        $("#dwJobTitle").val("");
+        $("#dwInlandUduTime").val("");
     })
     });
-    /*$(function () { $('#fileModal').on('hide.bs.modal', function () {
-        $('#table-list').bootstrapTable('refresh');
-    })
-    });*/
-    function addorupdaten() {
+    function addorupdate() {
         var adddate={
-            id:$("#nid").val(),
-            title:$("#title").val(),
-          /*  pic_url:$("#pic_url").val(),*/
-            status:$("#status").val(),
-            pub_people:$("#pub_people").val(),
-            content:$("#content").val()
+            dwAccNo:$("#dwAccNo").val(),
+            szPID:$("#szPID").val(),
+            szTrueName:$("#szTrueName").val(),
+            dwSex:$("#dwSex").val(),
+            dwJobTitle:$("#dwJobTitle").val(),
+            dwInlandUduTime:$("#dwInlandUduTime").val()
         };
+       // console.log(adddate)
         $.ajax({
-            url : "../../notice/addorupdaten",
+            url : "../../employee/addorupdate",
             type : "POST",
             contentType : "application/json; charset=UTF-8",
             data : JSON.stringify(adddate),
@@ -519,7 +458,7 @@
             }
         });
     }
-    function showdeleten() {
+    function showdelete() {
         var rows =$('#table-list').bootstrapTable('getAllSelections');
         if(rows.length<1){
             alert("请选择一行删除");
@@ -527,7 +466,7 @@
             var ids=[];
             for(var i=0;i<rows.length;i++){
                 var row=rows[i];
-                ids.push(row.id);
+                ids.push(row.dwAccNo);
             }
             BootstrapDialog.show({
                 type : BootstrapDialog.TYPE_DEFAULT,
@@ -538,16 +477,16 @@
                     cssClass: 'btn-default',
                     action : function(dialogItself) {
                         dialogItself.close();
-                        deleten(ids);
+                        deleter(ids);
                     }
                 }]
             });
 
         }
     }
-    function deleten(ids) {
+    function deleter(ids) {
         $.ajax({
-            url : "../../notice/deleteByids",
+            url : "../../employee/deleteByids",
             type : "POST",
             contentType : "application/json; charset=UTF-8",
             data : JSON.stringify(ids),
@@ -565,22 +504,22 @@
         });
 
     }
-    function getupadten(id) {
+    function getupadte(id) {
         $.ajax({
-            url : "../../notice/getnbyid",
+            url : "../../employee/getbyid",
             type : "POST",
             contentType : "application/json; charset=UTF-8",
             data : JSON.stringify(id),
             dataType : "json",
             success : function(data) {
                 if (data) {
-                    $("#nid").val(data.id);
-                    $("#title").val(data.title);
-                   /* $("#pic_url").val(data.pic_url);*/
-                    $("#status").val(data.status);
-                    $("#pub_people").val(data.pub_people);
-                    $("#content").val(data.content);
-                    addorupdaten();
+                    $("#dwAccNo").val(data.dwAccNo);
+                    $("#szPID").val(data.szPID);
+                    $("#szTrueName").val(data.szTrueName);
+                    $("#dwSex").val(data.dwSex);
+                    $("#dwJobTitle").val(data.dwJobTitle);
+                    $("#dwInlandUduTime").val(data.dwInlandUduTime);
+                   // addorupdate();
                 } else {
                     alert("数据出错，无法修改");
                 }
@@ -591,30 +530,5 @@
         });
     }
 
-</script>
-<!--fileinput初始化-->
-<script type="text/javascript">
-    function upfile(id){
-        $('#fnid').val(id);
-        $("#pic_url").fileinput('clear')
-    }
-    $(document).on('ready',function() {
-        $("#pic_url").fileinput({
-            language : 'zh',
-            uploadUrl : '../../notice/uploadpic',
-            showCaption : true,//是否显示标题
-            browseClass : "btn btn-primary", //按钮样式
-            maxFileCount : 1, //表示允许同时上传的最大文件个数
-            enctype : 'multipart/form-data',
-            previewFileIcon : "<i class='glyphicon glyphicon-king'></i>",
-            msgFilesTooMany : "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
-            allowedFileExtensions : [ ],
-            uploadExtraData:function(){
-                return {id :$('#fnid').val()};
-            }
-        }).on("fileuploaded", function(e, data) {
-            $('#table-list').bootstrapTable('refresh');
-        });
-    });
 </script>
 </html>

@@ -94,6 +94,7 @@
             async:false,
             dataType: 'json',
             success: function(data, textStatus, jqXHR){
+                $("#today_gctrl").text(data.now_gctrl);
                 $("#all_gctrl").text(data.all_gctrl);
                 /*$("#seatnumber").text(data.all_seats-data.now_seats);
                 $("#croomnumber").text(data.all_crooms-data.now_crooms);*/
@@ -1867,8 +1868,12 @@
 <body background="img/back.png">
 <div id="slide" style="height: 100%;width:100%;overflow: hidden">
     <div style="height: 100%;width: 100%;" id="main_charts">
-        <div class="title">智 慧 图 书 馆</div>
+        <div class="title">沈阳师范大学智慧图书馆</div>
         <div class="top_div">
+            <div class="top_div_number">
+                <p class="top_div_number_first">当日进馆人次</p>
+                <p class="top_div_number_last" id="today_gctrl">0</p>
+            </div>
             <div class="top_div_number">
                 <p class="top_div_number_first">累计进馆人次</p>
                 <p class="top_div_number_last" id="all_gctrl">0</p>
@@ -1944,19 +1949,19 @@
                 </div>
             </div>
             <div class="rating_div">
-                <div class="div_title half" style="line-height: 5vh">当前座位使用率</div>
+                <div class="div_title half" style="line-height: 5vh">座位使用率</div>
                 <div class="chart_div">
                     <div id="f" class="chart"></div>
                 </div>
             </div>
             <div class="rating_div">
-                <div class="div_title half" style="line-height: 5vh">当前电子阅览室使用率</div>
+                <div class="div_title half" style="line-height: 5vh">电子阅览室使用率</div>
                 <div class="chart_div">
                     <div id="g" class="chart"></div>
                 </div>
             </div>
             <div class="rating_div">
-                <div class="div_title half" style="line-height: 5vh">当前研修间使用率</div>
+                <div class="div_title half" style="line-height: 5vh">研修间使用率</div>
                 <div class="chart_div">
                     <div id="h" class="chart"></div>
                 </div>
@@ -1969,7 +1974,7 @@
             </div>
         </div>
     </div>
-    <div style="height: 100%;width: 100%" id="tz">
+    <div style="height: 100%;width: 100%;display: none" id="tz">
         <div class="title" >智 慧 图 书 馆</div>
         <div style="height: 94%;width: 100%;">
             <div id="tz_title" class="tz_title">

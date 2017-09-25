@@ -51,6 +51,9 @@ public class bigScreenService {
             else if (bigScreenList.get(i).getName().equals("now_crooms")){
                 number.put("now_crooms",bigScreenList.get(i).getCount());
             }
+            else if (bigScreenList.get(i).getName().equals("now_gctrl")){
+                number.put("now_gctrl",bigScreenList.get(i).getCount());
+            }
         }
         return number;
     }

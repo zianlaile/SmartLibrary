@@ -78,4 +78,9 @@ public class bigscreenController {
     public Map<String,String> Getsysfxx(){
         return bigscreenservice.getSysfxx();
     }
+    @RequestMapping(method = { RequestMethod.GET },value = "/today_resource")
+    @ResponseBody
+    public Map<String,List> GetResource_Today(){
+        return bigscreenservice.getResource_Today();
+    }
 }

@@ -41,4 +41,9 @@
         WHERE ymddate = #{yesterday}
         ORDER BY (m_times+f_times) DESC
     </select>
+    <select id="getresource_today" resultType="BigScreen">
+        SELECT `hour`,lend,gctrl,print,seats,crooms,ereads
+        FROM zz_bigscreen_hour_now
+        ORDER BY `hour`
+    </select>
 </mapper>

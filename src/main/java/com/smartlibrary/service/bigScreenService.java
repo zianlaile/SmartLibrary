@@ -367,4 +367,32 @@ public class bigScreenService {
         data.put("uPCTotal",js.getString("uPCTotal"));
         return data;
     }
+    public Map<String, List> getResource_Today(){
+        Map<String,List> resourcedata = new HashMap<String,List>();
+        List<BigScreen> bigScreenList= bigscreendao.getresource_today();
+        List<String> hour = new ArrayList<String>();
+        List<String> lend = new ArrayList<String>();
+        List<String> gctrl = new ArrayList<String>();
+        List<String> print = new ArrayList<String>();
+        List<String> seats = new ArrayList<String>();
+        List<String> crooms = new ArrayList<String>();
+        List<String> ereads = new ArrayList<String>();
+        for(int i=6;i<bigScreenList.size()-2;i++){
+            hour.add(bigScreenList.get(i).getHour());
+            lend.add(bigScreenList.get(i).getLend());
+            gctrl.add(bigScreenList.get(i).getGctrl());
+            print.add(bigScreenList.get(i).getPrint());
+            seats.add(bigScreenList.get(i).getSeats());
+            crooms.add(bigScreenList.get(i).getCrooms());
+            ereads.add(bigScreenList.get(i).getEreads());
+        }
+        resourcedata.put("hour",hour);
+        resourcedata.put("lend",lend);
+        resourcedata.put("gctrl",gctrl);
+        resourcedata.put("print",print);
+        resourcedata.put("seats",seats);
+        resourcedata.put("crooms",crooms);
+        resourcedata.put("ereads",ereads);
+        return resourcedata;
+    }
 }

@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>文印类型统计</title>
+    <title>图书馆资产统计</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -48,299 +48,179 @@
         });
     }
 </script>
-<!--//getlarge_year-->
 <script type="application/javascript">
-    var typectimes=[];
-    var typeptimes=[];
-    var typestimes=[];
-    var typeccounts=[];
-    var typepcounts=[];
-    var typescounts=[];
-    var daylist=[];
-    var monthlist=[];
-    var monthcountlist=[];
-    function putchart(chartid){
-        var cellSize = [66, 66];
-        var pieRadius = 24;
-        var optiondata=[];
-        if(chartid=="largecount"||chartid=="largetimes"){
-            cellSize = [70, 70];
-            pieRadius = 26;
-        }
-        function getcountsPieSeries(scatterData, chart,i) {
-            return echarts.util.map(scatterData, function(item, index) {
-                var center = chart.convertToPixel('calendar', item);
-                return {
-                    id: index + 'pie',
-                    type: 'pie',
-                    center: center,
-                    label: {
-                        normal: {
-                            show:true,
-                            formatter: '{c}',
-                            position: 'inside'
-                        }
-                    },
-                    radius: pieRadius,
-                    data: [{
-                        name: '打印',
-                        value: typepcounts[i][index]
-                    }, {
-                        name: '复印',
-                        value: typeccounts[i][index]
-                    }, {
-                        name: '扫描',
-                        value: typescounts[i][index]
-                    }]
-                };
-            });
-        }
-        function gettimesPieSeries(scatterData, chart,i) {
-            return echarts.util.map(scatterData, function(item, index) {
-                var center = chart.convertToPixel('calendar', item);
-                return {
-                    id: index + 'pie',
-                    type: 'pie',
-                    center: center,
-                    label: {
-                        normal: {
-                            show:true,
-                            formatter: '{c}',
-                            position: 'inside'
-                        }
-                    },
-                    radius: pieRadius,
-                    data: [{
-                        name: '打印',
-                        value: typeptimes[i][index]
-                    }, {
-                        name: '复印',
-                        value: typectimes[i][index]
-                    }, {
-                        name: '扫描',
-                        value: typestimes[i][index]
-                    }]
-                };
-            });
-        }
-        function getPieSeries2() {
-            var a=[];
-            for(var i=0;i<31;i++){
-                a.push({
-                    id: i + 'pie',
-                    type: 'pie',
-                    label: {
-                        normal: {
-                            show:false,
-                            formatter: '{c}',
-                            position: 'inside'
-                        }
-                    },
-                    radius: 0,
-                });
-            }
-            return a;
-        }
-        var myChart = echarts.init(document.getElementById(chartid));
-        var  option = {
-            baseOption: {
+    function getlarge_asset_year(){
+        $(".chart_title p").text("设备-购买年份统计");
+        $("#large_asset_floor").css("display","none");
+        $(".mask").css("display","block");
+        $("#large_asset_year_count").css("display","block");
+        var asset_year_count = echarts.init(document.getElementById('large_asset_year_count'));
+        // 异步加载数据
+        $.get('../../personasset/ByPurchaseDateCount').done(function (data) {
+            // 填入数据
+            console.log(data);
+
+            var day_count1_option = {
+                title: {
+                    text: ''
+                },
                 tooltip: {},
                 legend: {
-                    data: ['打印', '复印', '扫描'],
-                    top: 0
+                    data:['数量']
                 },
-                calendar: [{
-                    top: 'middle',
-                    left: 'center',
-                    orient: 'vertical',
-                    cellSize: cellSize,
-                    yearLabel: {
-                        show: false,
-                        textStyle: {
-                            fontSize: 30
-                        }
+                toolbox: {
+                    right: 20,
+                    feature: {
+                        saveAsImage: {},
+                        restore: {}
+
+                    }
+                },
+                xAxis: {
+                    name:'年份',
+                    data: data.ayear
+                },
+                yAxis: [ {
+                    "axisLabel": {
+                        "interval": 0,
+                        formatter: '{value}台',
                     },
-                    dayLabel: {
-                        margin: 20,
-                        firstDay: 1,
-                        nameMap: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
-                    },
-                    monthLabel: {
-                        show: false
-                    },
+                    axisTick: {
+                        alignWithLabel: true
+                    }
                 }],
-                series: [{
-                    type: 'effectScatter',
-                    coordinateSystem: 'calendar',
-                    label: {
-                        normal: {
-                            show: true,
-                            formatter: function(params) {
-                                return echarts.format.formatTime('dd', params.value[0]);
-                            },
-                            offset: [-cellSize[0] / 2 + 10, -cellSize[1] / 2 + 10],
-                            textStyle: {
-                                color: '#000',
-                                fontSize: 14
-                            }
+                series: [
+                    {
+                        name: '数量',
+                        type: 'bar',
+                        barWidth: '45%',
+                        data:data.acount,
+                        markPoint: {
+                            data: [
+                                {type: 'max', name: '最大值'},
+                                {type: 'min', name: '最小值'}
+                            ]
+                        },
+                        markLine: {
+                            data: [
+                                {type: 'average', name: '平均值'}
+                            ]
                         }
                     },
-                }],
-                timeline: {
-                    x: 0,
-                    axisType: 'category',
-                    orient: 'horizontal',
-                    autoPlay: true,
-                    playInterval: 2000,
-                    left: 0,
-                    right: null,
-                    bottom: 0,
-                    inverse: false,
-                    lineStyle: {
-                        color: '#555'
-                    },
-                    label: {
-                        formatter: function(s) {
-                            return s;
-                        },
-                        normal: {
-                            textStyle: {
-                                color: '#000',
-                            },
-                        },
-                        emphasis: {
-                            textStyle: {
-                                color: '#000',
-                            },
-                        }
-                    },
-                    controlStyle: {
-                        normal: {
-                            color: '#000',
-                            borderColor: '#000'
-                        },
-                        emphasis: {
-                            color: '#000',
-                            borderColor: '#000'
-                        } //高亮时显示颜色
-                    },
-                    data: monthlist
+
+                ],
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        formatter: '{c}'
+                    }
                 }
-            },
-            options:optiondata,
-        };
-        for(var i=0;i<monthlist.length;i++){
-            optiondata.push({
-                calendar: [{
-                    range: monthlist[i]
-                }],
-                series: {
-                    symbolSize: 1,
-                    data: daylist[i]
-                },
-            });
-        }
-        option.options = optiondata;
-        myChart.setOption(option);
-        if(chartid=="count_chart"||chartid=="largecount"){
-            myChart.setOption({
-                series: getcountsPieSeries(daylist[0], myChart,0)
-            });
-            myChart.on('timelinechanged',function(timeLineIndex) {
-                myChart.setOption({
-                    series: getPieSeries2()
-                });
-                myChart.setOption({
-                    series: getcountsPieSeries(daylist[timeLineIndex.currentIndex], myChart,timeLineIndex.currentIndex)
-                });
-            });
-        }
-        else if(chartid=="times_chart"||chartid=="largetimes"){
-            myChart.setOption({
-                series: gettimesPieSeries(daylist[0], myChart,0)
-            });
-            myChart.on('timelinechanged',function(timeLineIndex) {
-                myChart.setOption({
-                    series: getPieSeries2()
-                });
-                myChart.setOption({
-                    series: gettimesPieSeries(daylist[timeLineIndex.currentIndex], myChart,timeLineIndex.currentIndex)
-                });
-            });
-        }
-        if(chartid=="largetimes"||chartid=="largecount"){
-            myChart.setOption({
-                timeline: {
-                    bottom: '8%',
-                },
-            });
-        }
-    }
-    function getlarge_count(){
-        $(".chart_title p").text("文印类型-数量统计");
-        $(".mask").css("display","block");
-        $("#largecount").css("display","block");
-        $("#largetimes").css("display","none");
-        putchart("largecount");
-    }
-    function getlarge_times(){
-        $(".chart_title p").text("文印类型-人次统计");
-        $(".mask").css("display","block");
-        $("#largecount").css("display","none");
-        $("#largetimes").css("display","block");
-        putchart("largetimes");
+            };
+            asset_year_count.setOption(day_count1_option);
+        });
+
     }
     $(function(){
-        var left=$(".left_col").height();
-        left=left-17;
-        $(".right_col").height(left);
-        var height=left-$(".x_title").height()-130;
-        $("#count_chart").height(height);
-        $("#times_chart").height(height);
-        $.ajax({
-            type:"get",
-            contentType: 'application/json',
-            url:"../../printtimes/byprinttype",
-            async:false,
-            dataType: 'json',
-            success: function(data, textStatus, jqXHR){
-                var typectimes1=data.typectimes;
-                var typeptimes1=data.typeptimes;
-                var typestimes1=data.typestimes;
-                var typeccounts1=data.typeccounts;
-                var typepcounts1=data.typepcounts;
-                var typescounts1=data.typescounts;
-                var daylist1=data.daylist;
-                var daylist2 = [];
-                for(var j=0;j<daylist1.length;j++){
-                    daylist2.push([
-                        daylist1[j],
-                        Math.floor(Math.random() * 10000)
-                    ]);
-                }
-                monthlist=data.monthlist;
-                monthcountlist=data.monthcountlist;
-                var num=0;
-                for(var i=0;i<data.monthlist.length;i++){
-                    typectimes.push(typectimes1.slice(num,num+monthcountlist[i]));
-                    typeptimes.push(typeptimes1.slice(num,num+monthcountlist[i]));
-                    typestimes.push(typestimes1.slice(num,num+monthcountlist[i]));
-                    typeccounts.push(typeccounts1.slice(num,num+monthcountlist[i]));
-                    typepcounts.push(typepcounts1.slice(num,num+monthcountlist[i]));
-                    typescounts.push(typescounts1.slice(num,num+monthcountlist[i]));
-                    daylist.push(daylist2.slice(num,num+monthcountlist[i]));
-                    num=num+monthcountlist[i];
-                }
-            }
+        $(".remove").click(function(){
+            $(".mask").css("display","none");
         });
-        putchart("count_chart");
-        putchart("times_chart");
+    });
+</script>
+<script type="application/javascript">
+    function getlarge_employee_pie(){
+        $(".chart_title p").text("设备-楼层统计");
+        $("#large_asset_floor").css("display","block");
+        $(".mask").css("display","block");
+        $("#large_asset_year_count").css("display","none");
+        var day_count2 = echarts.init(document.getElementById('large_asset_floor'));
+            // 异步加载数据
+        $.get('../../personasset/ByFloorCount').done(function (pdata) {
+            // 填入数据
+            console.log(pdata);
+
+            var aresult = [];
+            for(var z =0;z<pdata.acount.length;z++){
+                var b = {};
+                b.value = pdata.acount[z];
+                b.name = pdata.afloor[z];
+                aresult.push(b);
+            }
+            console.info(aresult);
+
+            var day_count2_option = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b}: {c}台"
+                },
+                legend: {
+
+                    data:pdata.afloor
+                },
+                toolbox: {
+                    right: 20,
+                    feature: {
+                        saveAsImage: {},
+                        restore: {}
+
+                    }
+                },
+                series: [
+                    {
+                        name:'楼层数量',
+                        type:'pie',
+                        radius: ['50%', '70%'],
+                        avoidLabelOverlap: false,
+                        label: {
+                            normal: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                show: true,
+                                textStyle: {
+                                    fontSize: '30',
+                                    fontWeight: 'bold'
+                                }
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                show: false
+                            }
+                        },
+                        data:aresult
+                    }
+                ]
+            };
+            day_count2.setOption(day_count2_option);
+        });
+
+
+    }
+    $(function(){
         $(".remove").click(function(){
             $(".mask").css("display","none");
         });
     });
 </script>
 
+
+<!--屏幕适配-->
+<script type="application/javascript">
+
+    $(function(){
+        var left=$(".left_col").height();
+        left=left-17;
+        $(".right_col").height(left);
+        var height=left-$(".x_title").height()-120;
+        $("#employee_year_number").height(height);
+        $("#employee_year_sex").height(height);
+        person_countchart();
+        person_count2chart();
+
+    });
+</script>
 <body class="nav-md">
 <div class="container body">
     <div class="main_container">
@@ -388,15 +268,17 @@
                                     <!-- <li><a href="sml_printcs_location_times.html">文印地点统计</a></li> -->
                                 </ul>
                             </li>
+                            <!--<li><a><div style="width:26px;float: left;"><img src="img/print.png" style="width:18px"></div>人员资产统计<span class="fa fa-chevron-down"></span></a>-->
                             <li><a><i class="fa fa-sitemap"></i>人员资产统计 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="sml_person_count.html">图书馆人员统计</a></li>
                                     <li><a href="sml_asset_count.html">图书馆资产统计</a></li>
+
                                 </ul>
                             </li>
                         </ul>
                     </div>
-                    <!--<div class="menu_section">
+                  <!--  <div class="menu_section">
                         <h3>图书馆资源推荐</h3>
                         <ul class="nav side-menu">
                             <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
@@ -467,15 +349,15 @@
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="clearfix"></div>
-            <div class="row">
+            <div class="row"  >
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="x_panel">
-                        <div class="x_title">
-                            <h2>文印类型-数量统计</h2>
+                        <div class="x_title" style="padding:0px;">
+                            <h2>设备-购买年份统计</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
-                                <li><a class="" href="javascript:getlarge_count()"><i class="fa icon-resize-full"></i></a>
+                                <li><a class="" href="javascript:getlarge_asset_year()"><i class="fa icon-resize-full"></i></a>
                                 </li>
                                 <li><a class="close-link"><i class="fa fa-close"></i></a>
                                 </li>
@@ -483,40 +365,167 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="count_chart"></div>
+                            <div id="employee_year_number"></div>
+                            <!--<div id="publisher_count"></div>-->
                         </div>
                     </div>
                 </div>
+                <script type="text/javascript">
+                    function person_countchart() {
+                        var employee_year_number = echarts.init(document.getElementById('employee_year_number'));
+                        // 异步加载数据
+                        $.get('../../personasset/ByPurchaseDateCount').done(function (data) {
+                            // 填入数据
+                            console.log(data);
+
+                            var day_count1_option = {
+                                title: {
+                                    text: ''
+                                },
+                                tooltip: {},
+                                legend: {
+                                    data:['数量']
+                                },
+                                toolbox: {
+                                    right: 20,
+                                    feature: {
+                                        saveAsImage: {},
+                                        restore: {}
+
+                                    }
+                                },
+                                xAxis: {
+                                    name:'年份',
+                                    data: data.ayear
+                                },
+                               yAxis: [ {
+                                   "axisLabel": {
+                                       "interval": 0,
+                                       formatter: '{value}台',
+                                   },
+                                   axisTick: {
+                                       alignWithLabel: true
+                                   }
+                               }],
+                                series: [
+                                    {
+                                        name: '数量',
+                                        type: 'bar',
+                                        barWidth: '45%',
+                                        data:data.acount,
+                                        markPoint: {
+                                            data: [
+                                                {type: 'max', name: '最大值'},
+                                                {type: 'min', name: '最小值'}
+                                            ]
+                                        },
+                                        markLine: {
+                                            data: [
+                                                {type: 'average', name: '平均值'}
+                                            ]
+                                        }
+                                    },
+
+                                ],
+                                label: {
+                                    normal: {
+                                        show: true,
+                                        position: 'top',
+                                        formatter: '{c}'
+                                    }
+                                }
+                            };
+                            employee_year_number.setOption(day_count1_option);
+                        });
+                    }
+                </script>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="x_panel">
-                        <div class="x_title">
-                            <h2>文印类型-人次统计</h2>
+                        <div class="x_title" style="padding:0px;">
+                            <h2>设备-楼层统计</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
-                                <li><a class="" href="javascript:getlarge_times()"><i class="fa icon-resize-full"></i></a>
+                                <!--<li><a class="" href="javascript:getlarge_employee_sex()"><i class="fa icon-resize-full"></i></a>-->
+                                <li><a class="" href="javascript:getlarge_employee_pie()"><i class="fa icon-resize-full"></i></a>
                                 </li>
-                                <!--<li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Settings 1</a>
-                                        </li>
-                                        <li><a href="#">Settings 2</a>
-                                        </li>
-                                    </ul>
-                                </li>-->
                                 <li><a class="close-link"><i class="fa fa-close"></i></a>
                                 </li>
                             </ul>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="times_chart"></div>
+                            <div id="employee_year_sex" ></div>
                         </div>
                     </div>
                 </div>
+                <script type="text/javascript">
+                    function person_count2chart() {
+                        var day_count2 = echarts.init(document.getElementById('employee_year_sex'));
+                        // 异步加载数据
+                        $.get('../../personasset/ByFloorCount').done(function (pdata) {
+                            // 填入数据
+                            console.log(pdata);
+
+                           var aresult = [];
+                           for(var z =0;z<pdata.acount.length;z++){
+                               var b = {};
+                               b.value = pdata.acount[z];
+                               b.name = pdata.afloor[z];
+                               aresult.push(b);
+                           }
+                           console.info(aresult);
+
+                            var day_count2_option = {
+                                tooltip: {
+                                    trigger: 'item',
+                                    formatter: "{a} <br/>{b}: {c}台"
+                                },
+                                legend: {
+
+                                    data:pdata.afloor
+                                },
+                                toolbox: {
+                                    right: 20,
+                                    feature: {
+                                        saveAsImage: {},
+                                        restore: {}
+
+                                    }
+                                },
+                                series: [
+                                    {
+                                        name:'楼层数量',
+                                        type:'pie',
+                                        radius: ['50%', '70%'],
+                                        avoidLabelOverlap: false,
+                                        label: {
+                                            normal: {
+                                                show: false,
+                                                position: 'center'
+                                            },
+                                            emphasis: {
+                                                show: true,
+                                                textStyle: {
+                                                    fontSize: '30',
+                                                    fontWeight: 'bold'
+                                                }
+                                            }
+                                        },
+                                        labelLine: {
+                                            normal: {
+                                                show: false
+                                            }
+                                        },
+                                        data:aresult
+                                    }
+                                ]
+                            };
+                            day_count2.setOption(day_count2_option);
+                        });
+                    }
+                </script>
             </div>
-            <div class="clearfix"></div>
         </div>
     </div>
 </div>
@@ -528,8 +537,9 @@
         <div class="chart_title">
             <p></p>
         </div>
-        <div id="largecount" class="large_chart"  style="display: none"></div>
-        <div id="largetimes" class="large_chart"  style="display: none"></div>
+        <div id="large_asset_year_count" class="large_chart"  style="display: none"></div>
+        <div id="large_asset_floor" class="large_chart"  style="display: none"></div>
+
     </div>
 </div>
 <!-- Bootstrap -->

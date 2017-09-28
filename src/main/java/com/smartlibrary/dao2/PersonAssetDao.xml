@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smartlibrary.dao2.PersonAssetDao">
+    <select id="getCountsBySex"  resultType="com.smartlibrary.domain2.Counts">
+        SELECT
+            dwSex name,
+            COUNT(1) counts
+        FROM
+            `app_employee`
+        GROUP BY
+            dwSex
+    </select>
+
+    <select id="getCountsByYear"  resultType="com.smartlibrary.domain2.Counts">
+        SELECT
+            DATE_FORMAT(dwBirthDate, "%Y") iname,
+            COUNT(1) counts
+        FROM
+            `app_employee`
+        GROUP BY
+            iname
+        ORDER BY
+          iname
+    </select>
+
+    <select id="getAssetByYear"  resultType="com.smartlibrary.domain2.Counts">
+        SELECT
+            DATE_FORMAT(dwPurchaseDate, '%Y') iname,
+            COUNT(1) counts
+        FROM
+            `app_library_asset`
+        GROUP BY
+            iname
+        ORDER BY
+          iname
+
+    </select>
+
+    <select id ="getAssetByFloor" resultType="com.smartlibrary.domain2.Counts">
+       SELECT
+            szFloorNo sname,
+            COUNT(1) counts
+        FROM
+            `app_library_asset`
+        GROUP BY
+            sname
+        ORDER BY
+            sname
+    </select>
+
+
+</mapper>

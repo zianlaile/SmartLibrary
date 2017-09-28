@@ -49,82 +49,75 @@
     }
 </script>
 <script type="application/javascript">
-    function getlarge_publisher(){
-        $(".chart_title p").text("年-出版社借阅总数排名");
-        $("#largepublisherpie").css("display","none");
+    function getlarge_employee_year(){
+        $(".chart_title p").text("员工-出生年份统计");
+        $("#large_employee_year_sex").css("display","none");
         $(".mask").css("display","block");
-        $("#largepublisher").css("display","block");
-        var publisher_count = echarts.init(document.getElementById('largepublisher'));
+        $("#large_employee_year_number").css("display","block");
+        var employee_year_number = echarts.init(document.getElementById('large_employee_year_number'));
         // 异步加载数据
-        $.get('../../bookLend/ByPublisher').done(function (returndata) {
-            var timeline=[];
-            var options=[];
-            for(var key in returndata){
-                timeline.push(key);
-                var option={
-                    tooltip: {
-                        trigger: 'axis',
-                        axisPointer: {
-                            type: 'shadow'
-                        },
-                        formatter: "{a} <br/>{b} : {c}次"
-                    },
-                    legend: {
-                        data: ['借阅出版社排名']
-                    },
-                    toolbox:{
-                        right:20,
-                        feature:{
-                            saveAsImage: {},
-                            restore: {}
+        $.get('../../personasset/ByYearCount').done(function (ppdata) {
+            // 填入数据
+            console.log(ppdata);
 
-                        }
-                    },
-                    grid: {
-                        left: '3%',
-                        right: '4%',
-                        bottom:'20%',
-                        containLabel: true
-                    },
-                    xAxis: {
-                        type: 'value',
-                        boundaryGap: [0, 0.01],
-                        "axisLabel": {
-                            "interval": 0,
-                            formatter: '{value}次',
-                        }
-                    },
-                    yAxis: {
-                        type: 'category',
-                        data: returndata[key].publisher
-                    },
-                    series: [{
-                        name: '借阅出版社排名',
-                        type: 'bar',
-                        data: returndata[key].times
-                    }]
-                };
-                options.push(option);
-            }
-            var publisher_option={
-                'timeline':{
-                    data:timeline,
-                    bottom:'10%',
-                    label: {
-                        normal: {
-                            show: true,
-                            interval: 'auto',
-                            formatter: '{value}年',
-                        },
-                    },
-                    axisType: 'category',
-                    show: true,
-                    autoPlay: true,
-                    playInterval: 2000
+            var day_count1_option = {
+                title: {
+                    text: ''
                 },
-                'options':options
+                tooltip: {},
+                legend: {
+                    data:['人数']
+                },
+                toolbox: {
+                    right: 20,
+                    feature: {
+                        saveAsImage: {},
+                        restore: {}
+
+                    }
+                },
+                xAxis: {
+                    name:'年份',
+                    data: ppdata.pyear
+                },
+                yAxis: [ {
+                    "axisLabel": {
+                        "interval": 0,
+                        formatter: '{value}人',
+                    },
+                    axisTick: {
+                        alignWithLabel: true
+                    }
+                }],
+                series: [
+                    {
+                        name: '人数',
+                        type: 'bar',
+                        barWidth: '45%',
+                        data:ppdata.pcount,
+                        markPoint: {
+                            data: [
+                                {type: 'max', name: '最大值'},
+                                {type: 'min', name: '最小值'}
+                            ]
+                        },
+                        markLine: {
+                            data: [
+                                {type: 'average', name: '平均值'}
+                            ]
+                        }
+                    },
+
+                ],
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        formatter: '{c}'
+                    }
+                }
             };
-            publisher_count.setOption(publisher_option)
+            employee_year_number.setOption(day_count1_option);
         });
 
     }
@@ -135,88 +128,57 @@
     });
 </script>
 <script type="application/javascript">
-    function getlarge_publisherpie(){
-        $(".chart_title p").text("年-出版社借阅总数排名");
+    function getlarge_employee_pie(){
+        $(".chart_title p").text("员工-性别统计");
+        $("#large_employee_year_sex").css("display","block");
         $(".mask").css("display","block");
-        $("#largepublisher").css("display","none");
-        $("#largepublisherpie").css("display","block");
-        var publisherpie_count = echarts.init(document.getElementById('largepublisherpie'));
+        $("#large_employee_year_number").css("display","none");
+        var day_count2 = echarts.init(document.getElementById('large_employee_year_sex'));
             // 异步加载数据
-            $.get('../../bookLend/ByPublisher').done(function (returndata) {
-                // 填入数据
-                var timeline=[];
-                var options=[];
+        $.get('../../personasset/BySexCount').done(function (pdata) {
+            // 填入数据
+            console.log(pdata);
 
-                for(var key in returndata){
-                    timeline.push(key);
+            var day_count2_option = {
+                title : {
+                    text: '',
+                    subtext: '',
+                    x:'center'
+                },
+                tooltip : {},
+                legend: {
+                    data: ['女','男']
+                },
+                toolbox: {
+                    right: 20,
+                    feature: {
+                        saveAsImage: {},
+                        restore: {}
 
-                    var piedatalist=[];
-                    for (var k=0;k<returndata[key].publisher.length;k++){
-                        var piedata={};
-                        piedata.value=returndata[key].times[k];
-                        piedata.name=returndata[key].publisher[k];
-                        piedatalist.push(piedata);
                     }
-                    var option={
-                        tooltip : {
-                            trigger: 'item',
-                            formatter: "借阅量<br/>{b} : {c} ({d}%)"
-                        },
-                        legend: {
-                            type: 'scroll',
-                            top:'center',
-                            left :20,
-                            orient :'vertical',
-                            bottom: 20,
-                            data:returndata[key].publisher
-                        },
-                        grid: {
-                            left: '3%',
-                            right: '4%',
-                            bottom:'20%',
-                            containLabel: true
-                        },
-                        toolbox: {
-                            show : true,
-                            feature : {
-                                restore : {},
-                                saveAsImage : {}
+                },
+                series : [
+                    {
+                        name: '员工性别',
+                        type: 'pie',
+                        radius : '55%',
+                        center: ['50%', '50%'],
+                        data:[
+                            {value:pdata.female, name:'女'},
+                            {value:pdata.man, name:'男'}
+                        ],
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
                             }
-                        },
-                        calculable : true,
-                        series : [
-                            {
-                                name:'面积模式',
-                                type:'pie',
-                                radius : [30, 130],
-                                center : ['50%', '50%'],
-                                roseType : 'area',
-                                data:piedatalist
-                            }
-                        ]
-                    };
-                    options.push(option);
-                }
-                var publisher_option2={
-                    'timeline':{
-                        data:timeline,
-                        bottom:'10%',
-                        label: {
-                            normal: {
-                                show: true,
-                                interval: 'auto',
-                                formatter: '{value}年',
-                            },
-                        },
-                        axisType: 'category',
-                        show: true,
-                        autoPlay: true,
-                        playInterval: 2000
-                    },
-                    'options':options
-                };
-                publisherpie_count.setOption(publisher_option2)
-            });
+                        }
+                    }
+                ]
+            };
+            day_count2.setOption(day_count2_option);
+        });
 
 
     }
@@ -236,10 +198,10 @@
         left=left-17;
         $(".right_col").height(left);
         var height=left-$(".x_title").height()-120;
-        $("#publisher_count").height(height);
-        $("#publisher_count2").height(height);
-        publisher_countchart();
-        publisher_count2chart();
+        $("#employee_year_number").height(height);
+        $("#employee_year_sex").height(height);
+        person_countchart();
+        person_count2chart();
 
     });
 </script>
@@ -291,7 +253,7 @@
                                 </ul>
                             </li>
                             <!--<li><a><div style="width:26px;float: left;"><img src="img/print.png" style="width:18px"></div>人员资产统计<span class="fa fa-chevron-down"></span></a>-->
-                            <li><a><i class="fa fa-sitemap"></i> 人员资产统计 <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-sitemap"></i>人员资产统计 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="sml_person_count.html">图书馆人员统计</a></li>
                                     <li><a href="sml_asset_count.html">图书馆资产统计</a></li>
@@ -375,11 +337,11 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title" style="padding:0px;">
-                            <h2>年-出版社借阅总数排名</h2>
+                            <h2>员工-出生年份统计</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
-                                <li><a class="" href="javascript:getlarge_publisher()"><i class="fa icon-resize-full"></i></a>
+                                <li><a class="" href="javascript:getlarge_employee_year()"><i class="fa icon-resize-full"></i></a>
                                 </li>
                                 <li><a class="close-link"><i class="fa fa-close"></i></a>
                                 </li>
@@ -387,94 +349,89 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="publisher_count"></div>
+                            <div id="employee_year_number"></div>
+                            <!--<div id="publisher_count"></div>-->
                         </div>
                     </div>
                 </div>
                 <script type="text/javascript">
-                    //
-                    function publisher_countchart() {
-                        var publisher_count = echarts.init(document.getElementById('publisher_count'));
+                    function person_countchart() {
+                        var employee_year_number = echarts.init(document.getElementById('employee_year_number'));
                         // 异步加载数据
-                        $.get('../../bookLend/ByPublisher').done(function (returndata) {
+                        $.get('../../personasset/ByYearCount').done(function (ppdata) {
                             // 填入数据
-                            var timeline = [];
-                            var options = [];
-                            for (var key in returndata) {
-                                timeline.push(key);
-                                var option = {
-                                    tooltip: {
-                                        trigger: 'axis',
-                                        axisPointer: {
-                                            type: 'shadow'
-                                        },
-                                        formatter: "{a} <br/>{b} : {c}次"
-                                    },
-                                    legend: {
-                                        data: ['借阅出版社排名']
-                                    },
-                                    toolbox: {
-                                        right: 20,
-                                        feature: {
-                                            saveAsImage: {},
-                                            restore: {}
+                            console.log(ppdata);
 
-                                        }
-                                    },
-                                    grid: {
-                                        left: '3%',
-                                        right: '4%',
-                                        containLabel: true
-                                    },
-                                    xAxis: {
-                                        type: 'value',
-                                        boundaryGap: [0, 0.01],
-                                        "axisLabel": {
-                                            "interval": 0,
-                                            formatter: '{value}次',
-                                        }
-                                    },
-                                    yAxis: {
-                                        type: 'category',
-                                        data: returndata[key].publisher
-                                    },
-                                    series: [{
-                                        name: '借阅出版社排名',
-                                        type: 'bar',
-                                        data: returndata[key].times
-                                    }]
-                                };
-                                options.push(option);
-                            }
-                            var publisher_option = {
-                                'timeline': {
-                                    data: timeline,
-                                    label: {
-                                        normal: {
-                                            show: true,
-                                            interval: 'auto',
-                                            formatter: '{value}年',
-                                        },
-                                    },
-                                    axisType: 'category',
-                                    show: true,
-                                    autoPlay: true,
-                                    playInterval: 2000
+                            var day_count1_option = {
+                                title: {
+                                    text: ''
                                 },
-                                'options': options
+                                tooltip: {},
+                                legend: {
+                                    data:['人数']
+                                },
+                                toolbox: {
+                                    right: 20,
+                                    feature: {
+                                        saveAsImage: {},
+                                        restore: {}
+
+                                    }
+                                },
+                                xAxis: {
+                                    name:'年份',
+                                    data: ppdata.pyear
+                                },
+                                yAxis: [ {
+                                    "axisLabel": {
+                                        "interval": 0,
+                                        formatter: '{value}人',
+                                    },
+                                    axisTick: {
+                                        alignWithLabel: true
+                                    }
+                                }],
+                                series: [
+                                    {
+                                        name: '人数',
+                                        type: 'bar',
+                                        barWidth: '45%',
+                                        data:ppdata.pcount,
+                                        markPoint: {
+                                            data: [
+                                                {type: 'max', name: '最大值'},
+                                                {type: 'min', name: '最小值'}
+                                            ]
+                                        },
+                                        markLine: {
+                                            data: [
+                                                {type: 'average', name: '平均值'}
+                                            ]
+                                        }
+                                    },
+
+                                ],
+                                label: {
+                                    normal: {
+                                        show: true,
+                                        position: 'top',
+                                        formatter: '{c}'
+                                    }
+                                }
                             };
-                            publisher_count.setOption(publisher_option)
+                            employee_year_number.setOption(day_count1_option);
                         });
                     }
                 </script>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title" style="padding:0px;">
-                            <h2>年-出版社借阅比例图</h2>
+                            <h2>员工-性别统计</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
-                                <li><a class="" href="javascript:getlarge_publisherpie()"><i class="fa icon-resize-full"></i></a>
+                                <!--<li><a class="" href="javascript:getlarge_employee_sex()"><i class="fa icon-resize-full"></i></a>-->
+                                <li><a class="" href="javascript:getlarge_employee_pie()"><i class="fa icon-resize-full"></i></a>
                                 </li>
                                 <li><a class="close-link"><i class="fa fa-close"></i></a>
                                 </li>
@@ -482,99 +439,57 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="publisher_count2" ></div>
+                            <div id="employee_year_sex" ></div>
                         </div>
                     </div>
                 </div>
                 <script type="text/javascript">
-                    //
-                    function publisher_count2chart() {
-                        var publisher_count2 = echarts.init(document.getElementById('publisher_count2'));
+                    function person_count2chart() {
+                        var day_count2 = echarts.init(document.getElementById('employee_year_sex'));
                         // 异步加载数据
-                        $.get('../../bookLend/ByPublisher').done(function (returndata) {
+                        $.get('../../personasset/BySexCount').done(function (pdata) {
                             // 填入数据
-                            var timeline = [];
-                            var options = [];
+                            console.log(pdata);
 
-                            for (var key in returndata) {
-                                timeline.push(key);
-
-                                var piedatalist = [];
-                                for (var k = 0; k < returndata[key].publisher.length; k++) {
-                                    var piedata = {};
-                                    piedata.value = returndata[key].times[k];
-                                    piedata.name = returndata[key].publisher[k];
-                                    piedatalist.push(piedata);
-                                }
-                                console.log(piedatalist);
-                                var option = {
-                                    tooltip: {
-                                        trigger: 'item',
-                                        formatter: "借阅量<br/>{b} : {c} ({d}%)"
-                                    },
-                                    legend: {
-                                        type: 'scroll',
-                                        top: 'center',
-                                        left: 20,
-                                        orient: 'vertical',
-                                        bottom: 20,
-                                        data: returndata[key].publisher
-                                    },
-                                    toolbox: {
-                                        show: true,
-                                        feature: {
-                                            restore: {},
-                                            saveAsImage: {}
-                                        }
-                                    },
-                                    calculable: true,
-                                    series: [
-                                        {
-                                            name: '面积模式',
-                                            type: 'pie',
-                                            radius: [30, 130],
-                                            center: ['50%', '50%'],
-                                            roseType: 'area',
-                                            label: {
-                                                normal: {
-                                                    show: false
-                                                },
-                                                emphasis: {
-                                                    show: true
-                                                }
-                                            },
-                                            lableLine: {
-                                                normal: {
-                                                    show: false
-                                                },
-                                                emphasis: {
-                                                    show: true
-                                                }
-                                            },
-                                            data: piedatalist
-                                        }
-                                    ]
-                                };
-                                options.push(option);
-                            }
-                            var publisher_option2 = {
-                                'timeline': {
-                                    data: timeline,
-                                    label: {
-                                        normal: {
-                                            show: true,
-                                            interval: 'auto',
-                                            formatter: '{value}年',
-                                        },
-                                    },
-                                    axisType: 'category',
-                                    show: true,
-                                    autoPlay: true,
-                                    playInterval: 2000
+                            var day_count2_option = {
+                                title : {
+                                    text: '',
+                                    subtext: '',
+                                    x:'center'
                                 },
-                                'options': options
+                                tooltip : {},
+                                legend: {
+                                    data: ['女','男']
+                                },
+                                toolbox: {
+                                    right: 20,
+                                    feature: {
+                                        saveAsImage: {},
+                                        restore: {}
+
+                                    }
+                                },
+                                series : [
+                                    {
+                                        name: '员工性别',
+                                        type: 'pie',
+                                        radius : '55%',
+                                        center: ['50%', '50%'],
+                                        data:[
+                                            {value:pdata.female, name:'女'},
+                                            {value:pdata.man, name:'男'}
+                                        ],
+                                        itemStyle: {
+                                            emphasis: {
+                                                shadowBlur: 10,
+                                                shadowOffsetX: 0,
+                                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                            }
+                                        }
+                                    }
+                                ]
                             };
-                            publisher_count2.setOption(publisher_option2)
+                            day_count2.setOption(day_count2_option);
                         });
                     }
                 </script>
@@ -590,8 +505,8 @@
         <div class="chart_title">
             <p></p>
         </div>
-        <div id="largepublisher" class="large_chart"  style="display: none"></div>
-        <div id="largepublisherpie" class="large_chart"  style="display: none"></div>
+        <div id="large_employee_year_number" class="large_chart"  style="display: none"></div>
+        <div id="large_employee_year_sex" class="large_chart"  style="display: none"></div>
 
     </div>
 </div>

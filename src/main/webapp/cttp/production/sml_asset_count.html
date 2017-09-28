@@ -61,6 +61,7 @@
             console.log(data);
 
             var day_count1_option = {
+               // color: ['#3398DB'],
                 title: {
                     text: ''
                 },
@@ -75,6 +76,10 @@
                         restore: {}
 
                     }
+                },
+                grid: {
+                    bottom: '10%',
+                    containLabel: true
                 },
                 xAxis: {
                     name:'年份',
@@ -114,6 +119,20 @@
                         show: true,
                         position: 'top',
                         formatter: '{c}'
+                    }
+                },
+                itemStyle: {
+                    normal: {
+
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgba(17, 168,171, 1)'
+                        }, {
+                            offset: 1,
+                            color: 'rgba(17, 168,171, 0.1)'
+                        }]),
+                        shadowColor: 'rgba(0, 0, 0, 0.1)',
+                        shadowBlur: 10
                     }
                 }
             };
@@ -432,6 +451,20 @@
                                         show: true,
                                         position: 'top',
                                         formatter: '{c}'
+                                    }
+                                },
+                                itemStyle: {
+                                    normal: {
+
+                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                            offset: 0,
+                                            color: 'rgba(17, 168,171, 1)'
+                                        }, {
+                                            offset: 1,
+                                            color: 'rgba(17, 168,171, 0.1)'
+                                        }]),
+                                        shadowColor: 'rgba(0, 0, 0, 0.1)',
+                                        shadowBlur: 10
                                     }
                                 }
                             };

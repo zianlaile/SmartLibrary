@@ -1,7 +1,7 @@
 package com.smartlibrary.service;
 
-import com.smartlibrary.dao2.app_employeeDao;
-import com.smartlibrary.domain2.app_employee;
+import com.smartlibrary.dao.app_employeeDao;
+import com.smartlibrary.domain.app_employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
-package com.smartlibrary.dao2;
+package com.smartlibrary.dao;
 
-import com.smartlibrary.domain2.app_employee;
+import com.smartlibrary.domain.app_employee;
 
 import java.util.List;
 

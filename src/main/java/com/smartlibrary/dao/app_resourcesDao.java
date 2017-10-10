@@ -1,6 +1,6 @@
-package com.smartlibrary.dao2;
+package com.smartlibrary.dao;
 
-import com.smartlibrary.domain2.app_resources;
+import com.smartlibrary.domain.app_resources;
 
 import java.util.List;
 

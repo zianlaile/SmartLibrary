@@ -1,7 +1,7 @@
 package com.smartlibrary.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.smartlibrary.domain2.app_resources;
+import com.smartlibrary.domain.app_resources;
 import com.smartlibrary.service.app_resourcesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smartlibrary.dao.app_baseinfoDao">
+    <select id="count" resultType="Integer" parameterType="com.smartlibrary.domain.app_baseinfo">
+        select count(1)
+        from app_baseinfo
+    </select>
+    <select id="showList" parameterType="com.smartlibrary.domain.app_baseinfo" resultType="com.smartlibrary.domain.app_baseinfo">
+        select *
+        from app_baseinfo
+        limit #{offset},#{pageSize}
+    </select>
+    <insert id="add" parameterType="com.smartlibrary.domain.app_baseinfo">
+        insert into app_baseinfo(dwDevID,szDevName,dwUnitPrice,dwPurchaseDate,szRoomNo,szFloorNo,szKeeperName,szKeeperTel,szProducerName,szServiceTel,szMemo)
+         values(#{dwDevID}, #{szDevName},#{dwUnitPrice}, #{dwPurchaseDate},#{szRoomNo}, #{szFloorNo},#{szKeeperName}, #{szKeeperTel},#{szProducerName}, #{szServiceTel},#{szMemo})
+    </insert>
+    <!-- 批量删除 -->
+    <delete id="deletebyids" parameterType="java.util.List">
+        delete from app_baseinfo where id in
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="getbyid" parameterType="Integer" resultType="com.smartlibrary.domain.app_baseinfo">
+        select *
+        from app_baseinfo
+        where id=#{id}
+    </select>
+    <update id="update" parameterType="com.smartlibrary.domain.app_baseinfo">
+        update app_baseinfo
+        <set>
+            <if test="dwDevID != null">dwDevID=#{dwDevID},</if>
+            <if test="szDevName != null">szDevName=#{szDevName},</if>
+            <if test="dwUnitPrice != null">dwUnitPrice=#{dwUnitPrice},</if>
+            <if test="dwPurchaseDate != null">dwPurchaseDate=#{dwPurchaseDate},</if>
+            <if test="szRoomNo != null">szRoomNo=#{szRoomNo},</if>
+            <if test="szFloorNo != null">szFloorNo=#{szFloorNo},</if>
+            <if test="szKeeperName != null">szKeeperName=#{szKeeperName},</if>
+            <if test="szKeeperTel != null">szKeeperTel=#{szKeeperTel},</if>
+            <if test="szProducerName != null">szProducerName=#{szProducerName},</if>
+            <if test="szServiceTel != null">szServiceTel=#{szServiceTel},</if>
+            <if test="szMemo != null">szMemo=#{szMemo}</if>
+        </set>
+        where id=#{id}
+    </update>
+</mapper>

@@ -1,4 +1,4 @@
-package com.smartlibrary.domain2;
+package com.smartlibrary.domain;
 
 /**
  * Created by tt on 2017/9/25.

@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>图书馆图书荐购</title>
+    <title>基础信息管理</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -44,6 +44,11 @@
     <!-- 弹出框 -->
     <link href="app/dialog/bootstrap-dialog.min.css" rel="stylesheet">
     <script type="text/javascript" src="app/dialog/bootstrap-dialog.js"></script>
+
+    <!-- 时间-->
+    <link href="app/datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script type="text/javascript" src="app/datetimepicker/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="app/datetimepicker/bootstrap-datetimepicker.zh-CN.js"></script>
 </head>
 
 <!--屏幕适配-->
@@ -54,8 +59,7 @@
         left=left-17;
         $(".right_col").height(left);
         var height=left-$(".x_title").height()-120;
-        $("#book_suggest").height(height);
-        book_suggest();
+        $("#baseinfo").height(height);
 
     });
 </script>
@@ -188,26 +192,25 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title" >
-                            <h2>图书馆图书荐购</h2>
+                            <h2>基础信息管理</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li> <button id="btn-add" type="button"  class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal">
                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;增加</button>
                                 </li>
-                                <li> <button id="btn_delete" type="button"  onclick="showdeletebs();"class="btn btn-default btn-xs">
+                                <li> <button id="btn_delete" type="button"  onclick="showdelete();"class="btn btn-default btn-xs">
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;删除</button>
                                 </li>
                             </ul>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content"  >
-                            <div id="book_suggest" >
+                            <div id="baseinfo" >
                                 <table id="table-list">
                                 </table>
                             </div>
                         </div>
                         <script type="application/javascript">
-                            function book_suggest(){
-                            }
+
                         </script>
                     </div>
                 </div>
@@ -224,46 +227,83 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    图书荐购
+                    基础信息管理
                 </h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
-                    <input type="hidden" value=0 name="bsid" id="bsid" />
+                    <input type="hidden" value=0 name="rid" id="rid" />
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">书名</label>
+                        <label class="col-sm-2 control-label">设备ID</label>
                         <div class="col-sm-10">
-                            <input class="form-control" id="book" type="text"  placeholder="输入图书名称">
+                            <input class="form-control" id="dwDevID" type="text"  placeholder="输入设备ID">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">作者</label>
+                        <label class="col-sm-2 control-label">设备名称</label>
                         <div class="col-sm-10">
-                            <input class="form-control" id="auther" type="text"  placeholder="输入图书作者">
+                            <input class="form-control" id="szDevName" type="text"  placeholder="输入设备名称">
+                        </div>
+                    </div><div class="form-group">
+                    <label class="col-sm-2 control-label">设备单价</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" id="dwUnitPrice" type="text"  placeholder="设备设备单价">
+                    </div>
+                    </div><div class="form-group">
+                    <label class="col-sm-2 control-label">采购日期</label>
+                    <div class="col-sm-10">
+                        <div  id="dwPurchaseDate"  class="input-group date form_datetime" data-date="2017-01-01T00:00:00Z" data-date-format="yyyy-mm-dd hh:ii:ss" data-link-field="dwPurchaseDate_input">
+                            <input class="form-control"  type="text" value="" readonly>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                        </div>
+                        <input type="hidden" id="dwPurchaseDate_input" />
+                    </div>
+                  </div><div class="form-group">
+                    <label class="col-sm-2 control-label">房间号</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" id="szRoomNo" type="text"  placeholder="输入房间号">
+                    </div>
+                </div>
+                    <div class="form-group">
+                    <label class="col-sm-2 control-label">所在楼层</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" id="szFloorNo" type="text"  placeholder="输入所在楼层">
+                    </div>
+                </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">责任人姓名</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="szKeeperName" type="text"  placeholder="输入责任人姓名">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">出版社</label>
+                        <label class="col-sm-2 control-label">责任人电话</label>
                         <div class="col-sm-10">
-                            <input class="form-control" id="publisher" type="text"  placeholder="输入图书出版社">
+                            <input class="form-control" id="szKeeperTel" type="text"  placeholder="输入责任人电话">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">发布人</label>
+                        <label class="col-sm-2 control-label">生产商名称</label>
                         <div class="col-sm-10">
-                            <input class="form-control" id="pub_people" type="text"  placeholder="输入发布人">
+                            <input class="form-control" id="szProducerName" type="text"  placeholder="输入生产商名称">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">图书简介</label>
+                        <label class="col-sm-2 control-label">维保电话</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control"  id="introduction" rows="3"></textarea>
+                            <input class="form-control" id="szServiceTel" type="text"  placeholder="输入维保电话">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">说明信息</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control"  id="szMemo" rows="3" placeholder="输入说明信息"></textarea>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="addorupdatebs();" class="btn btn-default btn-sm btn-block" data-dismiss="modal" style="width: 90%;margin: auto;">
+                <button type="button" onclick="addorupdate();" class="btn btn-default btn-sm btn-block" data-dismiss="modal" style="width: 90%;margin: auto;">
                     提交
                 </button>
             </div>
@@ -306,6 +346,20 @@
 
 <script src="../build/js/custom.min.js"></script>
 </body>
+<!--时间插件初始化-->
+<script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        language:  'zh-CN',
+        minView: "month", //选择日期后，不会再跳转去选择时分秒
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+    });
+</script>
 <script type="text/javascript">
     //通过bootstrap Table方法refresh重新加载数据
     function showData() {
@@ -326,23 +380,60 @@
                 valign : 'middle',
                 //sortable : true
             }, {
-                field: 'book',
-                title: '书名',
+                field: 'dwDevID',
+                title: '设备ID',
                 align : 'center',
                 valign : 'middle'
             }, {
-                field: 'publisher',
-                title: '出版社',
+                field: 'szDevName',
+                title: '实验设备名称',
                 align : 'center',
                 valign : 'middle'
             },{
-                field: 'pub_people',
-                title: '发布人',
+                field: 'dwUnitPrice',
+                title: '设备单价',
                 align : 'center',
                 valign : 'middle'
             },{
-                field: 'time',
-                title: '发布时间',
+                field: 'dwPurchaseDate',
+                title: '采购日期',
+                align : 'center',
+                valign : 'middle',
+                //sortable : true
+            }, {
+                field: 'szRoomNo',
+                title: '房间号',
+                align : 'center',
+                valign : 'middle'
+            }, {
+                field: 'szFloorNo',
+                title: '所在楼层',
+                align : 'center',
+                valign : 'middle'
+            },{
+                field: 'szKeeperName',
+                title: '责任人姓名',
+                align : 'center',
+                valign : 'middle'
+            },{
+                field: 'szKeeperTel',
+                title: '责任人电话',
+                align : 'center',
+                valign : 'middle',
+                //sortable : true
+            }, {
+                field: 'szProducerName',
+                title: '生产商名称',
+                align : 'center',
+                valign : 'middle'
+            }, {
+                field: 'szServiceTel',
+                title: '维保电话',
+                align : 'center',
+                valign : 'middle'
+            },{
+                field: 'szMemo',
+                title: '说明信息',
                 align : 'center',
                 valign : 'middle'
             },{
@@ -353,9 +444,8 @@
                 //events: operateEvents,
                 //formatter: operateFormatter
                 formatter:function(value,row,index){
-                    var e = '<button type="button" class=" btn btn-default  btn-xs" style="margin-right:5px;"  onclick=" getupadtebs(\''+ row.id +'\') " data-toggle="modal" data-target="#myModal">编辑/查看</button> ';
-                    /* var f = '<button type="button" class=" btn btn-default  btn-sm" style="margin-right:5px;"  onclick="  alert(\''+ row.id +'\')   ">文件列表</button> ';
-                     */return e;
+                    var e = '<button type="button" class=" btn btn-default  btn-xs" style="margin-right:5px;"  onclick=" getupadte(\''+ row.id +'\') " data-toggle="modal" data-target="#myModal">编辑/查看</button> ';
+                    return e;
                 }
             }
         ],//页面需要展示的列，后端交互对象的属性
@@ -412,13 +502,11 @@
         exportDataType: "basic",              //basic', 'all', 'selected'.
         queryParams: function (params) {
             return {
-                governancetype : $("#governancetype").val(),
-                selectname : $("#userName").val(),
                 pageSize: params.limit,   //页面大小
                 offset: params.offset  ///页码
             }
         },//请求服务器数据时的参数
-        url: '../../booksuggest/ShowList' //服务器数据的加载地址
+        url: '../../baseinfo/ShowList' //服务器数据的加载地址
     });
     function doQuery(params){
         $('#table-list').bootstrapTable('refresh');    //刷新表格
@@ -427,25 +515,38 @@
 <script type="text/javascript">
     $(function () { $('#myModal').modal('hide')});
     $(function () { $('#myModal').on('hide.bs.modal', function () {
-        $("#bsid").val(0);
-        $("#book").val("");
-        $("#auther").val("");
-        $("#publisher").val("");
-        $("#pub_people").val("");
-        $("#introduction").val("");
+        $("#rid").val(0);
+        $("#dwDevID").val("");
+        $("#szDevName").val("");
+        $("#dwUnitPrice").val("");
+        $("#dwPurchaseDate").val("");
+       /* $("#dwPurchaseDate_input").val("");*/
+        $("#szRoomNo").val("");
+        $("#szFloorNo").val("");
+        $("#szKeeperName").val("");
+        $("#szKeeperTel").val("");
+        $("#szProducerName").val("");
+        $("#szServiceTel").val("");
+        $("#szMemo").val("");
     })
     });
-    function addorupdatebs() {
+    function addorupdate() {
         var adddate={
-            id:$("#bsid").val(),
-            book:$("#book").val(),
-            auther:$("#auther").val(),
-            publisher:$("#publisher").val(),
-            pub_people:$("#pub_people").val(),
-            introduction:$("#introduction").val()
+            id:$("#rid").val(),
+            dwDevID: $("#dwDevID").val(),
+            szDevName: $("#szDevName").val(),
+            dwUnitPrice: $("#dwUnitPrice").val(),
+            dwPurchaseDate: $("#dwPurchaseDate_input").val(),
+            szRoomNo: $("#szRoomNo").val(),
+            szFloorNo : $("#szFloorNo").val(),
+            szKeeperName :  $("#szKeeperName").val(),
+            szKeeperTel  : $("#szKeeperTel").val(),
+            szProducerName   :   $("#szProducerName").val(),
+            szServiceTel   :  $("#szServiceTel").val(),
+            szMemo :  $("#szMemo").val()
         };
         $.ajax({
-            url : "../../booksuggest/addorupdatebs",
+            url : "../../baseinfo/addorupdate",
             type : "POST",
             contentType : "application/json; charset=UTF-8",
             data : JSON.stringify(adddate),
@@ -462,7 +563,7 @@
             }
         });
     }
-    function showdeletebs() {
+    function showdelete() {
         var rows =$('#table-list').bootstrapTable('getAllSelections');
         if(rows.length<1){
             alert("请选择一行删除");
@@ -481,16 +582,16 @@
                     cssClass: 'btn-default',
                     action : function(dialogItself) {
                         dialogItself.close();
-                        deletebs(ids);
+                        deleter(ids);
                     }
                 }]
             });
 
         }
     }
-    function deletebs(ids) {
+    function deleter(ids) {
         $.ajax({
-            url : "../../booksuggest/deleteByids",
+            url : "../../baseinfo/deleteByids",
             type : "POST",
             contentType : "application/json; charset=UTF-8",
             data : JSON.stringify(ids),
@@ -508,22 +609,28 @@
         });
 
     }
-    function getupadtebs(id) {
+    function getupadte(id) {
         $.ajax({
-            url : "../../booksuggest/getbsbyid",
+            url : "../../baseinfo/getbyid",
             type : "POST",
             contentType : "application/json; charset=UTF-8",
             data : JSON.stringify(id),
             dataType : "json",
             success : function(data) {
                 if (data) {
-                    $("#bsid").val(data.id);
-                    $("#book").val(data.book);
-                    $("#auther").val(data.auther);
-                    $("#publisher").val(data.publisher);
-                    $("#pub_people").val(data.pub_people);
-                    $("#introduction").val(data.introduction);
-                    addorupdatebs();
+                    $("#rid").val(data.id);
+                    $("#dwDevID").val(data.dwDevID);
+                    $("#szDevName").val(data.szDevName);
+                    $("#dwUnitPrice").val(data.dwUnitPrice);
+                    $("#dwPurchaseDate").val(data.dwPurchaseDate),
+                    $("#dwPurchaseDate_input").val(data.dwPurchaseDate),
+                    $("#szRoomNo").val(data.szRoomNo);
+                    $("#szFloorNo").val(data.szFloorNo);
+                    $("#szKeeperName").val(data.szKeeperName);
+                    $("#szKeeperTel").val(data.szKeeperTel);
+                    $("#szProducerName").val(data.szProducerName);
+                    $("#szServiceTel").val(data.szServiceTel);
+                    $("#szMemo").val(data.szMemo);
                 } else {
                     alert("数据出错，无法修改");
                 }

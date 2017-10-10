@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.smartlibrary.dao2.app_resourcesDao">
-    <select id="count" resultType="Integer" parameterType="com.smartlibrary.domain2.app_resources">
+<mapper namespace="com.smartlibrary.dao.app_resourcesDao">
+    <select id="count" resultType="Integer" parameterType="com.smartlibrary.domain.app_resources">
         select count(1)
         from app_resources
     </select>
-    <select id="showList" parameterType="com.smartlibrary.domain2.app_resources" resultType="com.smartlibrary.domain2.app_resources">
+    <select id="showList" parameterType="com.smartlibrary.domain.app_resources" resultType="com.smartlibrary.domain.app_resources">
         select *
         from app_resources
         limit #{offset},#{pageSize}
     </select>
-    <insert id="add" parameterType="com.smartlibrary.domain2.app_resources">
+    <insert id="add" parameterType="com.smartlibrary.domain.app_resources">
         insert into app_resources(type,year,count)  values(#{type}, #{year},#{count})
     </insert>
     <!-- 批量删除 -->
@@ -21,12 +21,12 @@
             #{id}
         </foreach>
     </delete>
-    <select id="getbyid" parameterType="Integer" resultType="com.smartlibrary.domain2.app_resources">
+    <select id="getbyid" parameterType="Integer" resultType="com.smartlibrary.domain.app_resources">
         select *
         from app_resources
         where id=#{id}
     </select>
-    <update id="update" parameterType="com.smartlibrary.domain2.app_resources">
+    <update id="update" parameterType="com.smartlibrary.domain.app_resources">
         update app_resources
         <set>
             <if test="type != null">type=#{type},</if>

@@ -1,7 +1,7 @@
 package com.smartlibrary.service;
 
-import com.smartlibrary.dao2.app_resourcesDao;
-import com.smartlibrary.domain2.app_resources;
+import com.smartlibrary.dao.app_resourcesDao;
+import com.smartlibrary.domain.app_resources;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

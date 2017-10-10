@@ -194,7 +194,7 @@
                         <div class="x_title" >
                             <h2>基础信息管理</h2>
                             <ul class="nav navbar-right panel_toolbox">
-                                <li> <button id="btn-add" type="button"  class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal">
+                                <li> <button id="btn-add" type="button"  class="btn btn-default btn-xs" data-toggle="modal" data-target="#addorupdataModal">
                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;增加</button>
                                 </li>
                                 <li> <button id="btn_delete" type="button"  onclick="showdelete();"class="btn btn-default btn-xs">
@@ -220,7 +220,7 @@
 </div>
 
 <!-- 模态框（Modal） -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="addorupdataModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -253,7 +253,7 @@
                     <label class="col-sm-2 control-label">采购日期</label>
                     <div class="col-sm-10">
                         <div  id="dwPurchaseDate"  class="input-group date form_datetime" data-date="2017-01-01T00:00:00Z" data-date-format="yyyy-mm-dd hh:ii:ss" data-link-field="dwPurchaseDate_input">
-                            <input class="form-control"  type="text" value="" readonly>
+                            <input id="dwPurchaseDatedata"class="form-control"  type="text"  >
                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                         </div>
                         <input type="hidden" id="dwPurchaseDate_input" />
@@ -310,6 +310,8 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
 <!-- FastClick -->
 <script src="../vendors/fastclick/lib/fastclick.js"></script>
 <!-- NProgress -->
@@ -444,7 +446,7 @@
                 //events: operateEvents,
                 //formatter: operateFormatter
                 formatter:function(value,row,index){
-                    var e = '<button type="button" class=" btn btn-default  btn-xs" style="margin-right:5px;"  onclick=" getupadte(\''+ row.id +'\') " data-toggle="modal" data-target="#myModal">编辑/查看</button> ';
+                    var e = '<button type="button" class=" btn btn-default  btn-xs" style="margin-right:5px;"  onclick=" getupadte(\''+ row.id +'\') " data-toggle="modal" data-target="#addorupdataModal">编辑/查看</button> ';
                     return e;
                 }
             }
@@ -513,14 +515,14 @@
     }
 </script>
 <script type="text/javascript">
-    $(function () { $('#myModal').modal('hide')});
-    $(function () { $('#myModal').on('hide.bs.modal', function () {
-        $("#rid").val(0);
+    $(function () { $('#addorupdataModal').modal('hide')});
+  /*  $(function () { $('#addorupdataModal').on('hide.bs.modal', function () {
+       $("#rid").val(0);
         $("#dwDevID").val("");
         $("#szDevName").val("");
         $("#dwUnitPrice").val("");
-        $("#dwPurchaseDate").val("");
-       /* $("#dwPurchaseDate_input").val("");*/
+        /!*$("#dwPurchaseDatedata").val("");*!/
+       /!* $("#dwPurchaseDate_input").val("");*!/
         $("#szRoomNo").val("");
         $("#szFloorNo").val("");
         $("#szKeeperName").val("");
@@ -529,7 +531,7 @@
         $("#szServiceTel").val("");
         $("#szMemo").val("");
     })
-    });
+    });*/
     function addorupdate() {
         var adddate={
             id:$("#rid").val(),
@@ -553,6 +555,17 @@
             dataType : "json",
             success : function(data) {
                 if (data) {
+                    $("#rid").val(0);
+                    $("#dwDevID").val("");
+                    $("#szDevName").val("");
+                    $("#dwUnitPrice").val("");
+                    $("#szRoomNo").val("");
+                    $("#szFloorNo").val("");
+                    $("#szKeeperName").val("");
+                    $("#szKeeperTel").val("");
+                    $("#szProducerName").val("");
+                    $("#szServiceTel").val("");
+                    $("#szMemo").val("");
                     $('#table-list').bootstrapTable('refresh');
                 } else {
                     alert("操作失败");
@@ -622,8 +635,8 @@
                     $("#dwDevID").val(data.dwDevID);
                     $("#szDevName").val(data.szDevName);
                     $("#dwUnitPrice").val(data.dwUnitPrice);
-                    $("#dwPurchaseDate").val(data.dwPurchaseDate),
-                    $("#dwPurchaseDate_input").val(data.dwPurchaseDate),
+                    $("#dwPurchaseDatedata").val(data.dwPurchaseDate),
+                 /*   $("#dwPurchaseDate_input").val(data.dwPurchaseDate),*/
                     $("#szRoomNo").val(data.szRoomNo);
                     $("#szFloorNo").val(data.szFloorNo);
                     $("#szKeeperName").val(data.szKeeperName);

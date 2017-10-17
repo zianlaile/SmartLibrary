@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smartlibrary.dao.schoolReportDao">
+    <select id="getResourceCountBy_year" parameterType="com.smartlibrary.domain.app_resources" resultType="com.smartlibrary.domain.app_resources">
+      select year ,count
+      from app_resources
+      WHERE `year`= DATE_FORMAT('2016-01-01', '%Y')
+      ORDER BY year
+    </select>
+    <select id="getGctrlsCountBy_year" parameterType="com.smartlibrary.domain.real_year_counts" resultType="com.smartlibrary.domain.real_year_counts">
+        select year ,gctrls
+        from real_year_counts
+        WHERE `year`= DATE_FORMAT('2016-01-01', '%Y')
+        ORDER BY year
+    </select>
+    <select id="getGctrlsCountBy_month" parameterType="com.smartlibrary.domain.gctrl" resultType="com.smartlibrary.domain.gctrl">
+        select ymdate as time,gctrl_times
+        from zz_time_month_count
+        WHERE `year`= DATE_FORMAT('2016-01-01', '%Y')
+        ORDER BY ymdate
+    </select>
+    <select id="getBook_LendCountBy_year" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
+        select ymdate as time,book_lend_times,book_return_times
+        from zz_time_month_count
+         WHERE `year`= DATE_FORMAT('2016-01-01', '%Y')
+        ORDER BY ymdate
+    </select>
+    <select id="getBook_LendCountBy_academyAndyear" parameterType="com.smartlibrary.domain.library_report_academy" resultType="com.smartlibrary.domain.library_report_academy">
+        select academy,lend,back
+        from library_report_academy
+        WHERE `year`= DATE_FORMAT('2016-01-01', '%Y')
+        GROUP BY  academy
+    </select>
+    <select id="getLendTop3By_academyAndyear" parameterType="com.smartlibrary.domain.library_report_academy" resultType="com.smartlibrary.domain.library_report_academy">
+        select academy,lend
+        from library_report_academy
+        WHERE `year`= DATE_FORMAT('2016-01-01', '%Y')
+        GROUP BY  academy
+        ORDER BY lend DESC
+        LIMIT 3
+    </select>
+    <select id="getpreLendTop3By_academyAndyear" parameterType="com.smartlibrary.domain.library_report_academy" resultType="com.smartlibrary.domain.library_report_academy">
+      	select academy,lend/people_counts as prelend
+        from library_report_academy
+        WHERE `year`= DATE_FORMAT('2016-01-01', '%Y')
+        GROUP BY  academy
+        ORDER BY prelend DESC
+        LIMIT 3
+    </select>
+    <select id="getLendratioBy_academyAndyear" parameterType="com.smartlibrary.domain.library_report_academy" resultType="com.smartlibrary.domain.library_report_academy">
+        select academy,lend/people_counts as prelend
+        from library_report_academy
+        WHERE `year`= DATE_FORMAT('2016-01-01', '%Y')
+    </select>
+    <select id="getop20bookBy_year" parameterType="com.smartlibrary.domain.library_report_ranking_book" resultType="com.smartlibrary.domain.library_report_ranking_book">
+		select book_name,author,book_pubyear,lend_times
+        from library_report_ranking_book
+        WHERE `year`= DATE_FORMAT('2015-01-01', '%Y')
+		ORDER BY lend_times DESC
+		limit 20
+    </select>
+    <select id="getop20authorBy_year" parameterType="com.smartlibrary.domain.library_report_ranking_author" resultType="com.smartlibrary.domain.library_report_ranking_author">
+        select book_name,author,book_pubyear,lend_times
+        from library_report_ranking_author
+        WHERE `year`= DATE_FORMAT('2015-01-01', '%Y')
+        ORDER BY lend_times DESC
+        limit 20
+    </select>
+    <select id="geICdurationBy_year" parameterType="com.smartlibrary.domain.library_report_IC_duration" resultType="com.smartlibrary.domain.library_report_IC_duration">
+		select *
+        from library_report_IC_duration
+        WHERE `year`= DATE_FORMAT('2015-01-01', '%Y') and ic_type=8
+    </select>
+    <select id="geICdurationCountBy_year" parameterType="com.smartlibrary.domain.IC_Times" resultType="com.smartlibrary.domain.IC_Times">
+		select ymdate ,eread_times
+        from zz_time_month_count
+        WHERE `year`= DATE_FORMAT('2016-01-01', '%Y')
+    </select>
+</mapper>

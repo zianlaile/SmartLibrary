@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>图书馆图书荐购</title>
+    <title>图书馆大屏通知管理</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -54,8 +54,7 @@
         left=left-17;
         $(".right_col").height(left);
         var height=left-$(".x_title").height()-120;
-        $("#book_suggest").height(height);
-        book_suggest();
+        $("#bigscreennotice").height(height);
 
     });
 </script>
@@ -189,26 +188,25 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title" >
-                            <h2>图书馆图书荐购</h2>
+                            <h2>图书馆大屏通知管理</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li> <button id="btn-add" type="button"  class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal">
                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;增加</button>
                                 </li>
-                                <li> <button id="btn_delete" type="button"  onclick="showdeletebs();"class="btn btn-default btn-xs">
+                                <li> <button id="btn_delete" type="button"  onclick="showdelete();"class="btn btn-default btn-xs">
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;删除</button>
                                 </li>
                             </ul>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content"  >
-                            <div id="book_suggest" >
+                            <div id="bigscreennotice" >
                                 <table id="table-list">
                                 </table>
                             </div>
                         </div>
                         <script type="application/javascript">
-                            function book_suggest(){
-                            }
+
                         </script>
                     </div>
                 </div>
@@ -225,46 +223,38 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    图书荐购
+                    图书馆大屏通知管理
                 </h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
-                    <input type="hidden" value=0 name="bsid" id="bsid" />
+                    <input type="hidden" value=0 name="rid" id="rid" />
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">书名</label>
+                        <label class="col-sm-2 control-label">状态</label>
                         <div class="col-sm-10">
-                            <input class="form-control" id="book" type="text"  placeholder="输入图书名称">
+                            <select class="form-control" id="status">
+                                <option value="1">可用</option>
+                                <option value="0">不可用</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">作者</label>
+                        <label class="col-sm-2 control-label">标题</label>
                         <div class="col-sm-10">
-                            <input class="form-control" id="auther" type="text"  placeholder="输入图书作者">
+                            <input class="form-control" id="title" type="text"  placeholder="输入标题">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">出版社</label>
+                        <label class="col-sm-2 control-label">内容</label>
                         <div class="col-sm-10">
-                            <input class="form-control" id="publisher" type="text"  placeholder="输入图书出版社">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">发布人</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" id="pub_people" type="text"  placeholder="输入发布人">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">图书简介</label>
-                        <div class="col-sm-10">
-                            <textarea class="form-control"  id="introduction" rows="3"></textarea>
+                            <textarea class="form-control"  id="content" rows="3" placeholder="输入内容"></textarea>
+
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="addorupdatebs();" class="btn btn-default btn-sm btn-block" data-dismiss="modal" style="width: 90%;margin: auto;">
+                <button type="button" onclick="addorupdate();" class="btn btn-default btn-sm btn-block" data-dismiss="modal" style="width: 90%;margin: auto;">
                     提交
                 </button>
             </div>
@@ -327,23 +317,28 @@
                 valign : 'middle',
                 //sortable : true
             }, {
-                field: 'book',
-                title: '书名',
+                field: 'status',
+                title: '状态',
                 align : 'center',
-                valign : 'middle'
+                valign : 'middle',
+                formatter:function(value,row,index){
+                    if( row.status==0){ return "不可用";}
+                    else if( row.status==1) {
+                        {
+                            return "可用";
+                        }
+                        return "未知";
+                    }
+                }
+
             }, {
-                field: 'publisher',
-                title: '出版社',
+                field: 'title',
+                title: '标题',
                 align : 'center',
                 valign : 'middle'
             },{
-                field: 'pub_people',
-                title: '发布人',
-                align : 'center',
-                valign : 'middle'
-            },{
-                field: 'time',
-                title: '发布时间',
+                field: 'content',
+                title: '内容',
                 align : 'center',
                 valign : 'middle'
             },{
@@ -354,7 +349,7 @@
                 //events: operateEvents,
                 //formatter: operateFormatter
                 formatter:function(value,row,index){
-                    var e = '<button type="button" class=" btn btn-default  btn-xs" style="margin-right:5px;"  onclick=" getupadtebs(\''+ row.id +'\') " data-toggle="modal" data-target="#myModal">编辑/查看</button> ';
+                    var e = '<button type="button" class=" btn btn-default  btn-xs" style="margin-right:5px;"  onclick=" getupadte(\''+ row.id +'\') " data-toggle="modal" data-target="#myModal">编辑/查看</button> ';
                     /* var f = '<button type="button" class=" btn btn-default  btn-sm" style="margin-right:5px;"  onclick="  alert(\''+ row.id +'\')   ">文件列表</button> ';
                      */return e;
                 }
@@ -377,17 +372,17 @@
              return { classes: strclass } */
         },
         onClickRow: function (row, $element, field) {
-           /* setTimeout(function(){
-                var map_detail = $('#map_detail');
-                var map_detail_remove = $('#map_detail_remove');
-                map_detail.animate({
-                    right: '5px'
-                }, 500);
-                map_detail_remove.animate({
-                    display:'block !important'
-                }, 500);
-                creat_map(row.xcoordinate,row.ycoordinate,row);
-            }, 400);*/
+            /* setTimeout(function(){
+             var map_detail = $('#map_detail');
+             var map_detail_remove = $('#map_detail_remove');
+             map_detail.animate({
+             right: '5px'
+             }, 500);
+             map_detail_remove.animate({
+             display:'block !important'
+             }, 500);
+             creat_map(row.xcoordinate,row.ycoordinate,row);
+             }, 400);*/
         },
         pagination: true,  //开启分页
         sidePagination: 'server',//服务器端分页
@@ -413,13 +408,11 @@
         exportDataType: "basic",              //basic', 'all', 'selected'.
         queryParams: function (params) {
             return {
-                governancetype : $("#governancetype").val(),
-                selectname : $("#userName").val(),
                 pageSize: params.limit,   //页面大小
                 offset: params.offset  ///页码
             }
         },//请求服务器数据时的参数
-        url: '../../booksuggest/ShowList' //服务器数据的加载地址
+        url: '../../bigscreennotice/ShowList' //服务器数据的加载地址
     });
     function doQuery(params){
         $('#table-list').bootstrapTable('refresh');    //刷新表格
@@ -428,25 +421,22 @@
 <script type="text/javascript">
     $(function () { $('#myModal').modal('hide')});
     $(function () { $('#myModal').on('hide.bs.modal', function () {
-        $("#bsid").val(0);
-        $("#book").val("");
-        $("#auther").val("");
-        $("#publisher").val("");
-        $("#pub_people").val("");
-        $("#introduction").val("");
-         })
+        $("#rid").val(0);
+        $("#status").val("");
+        $("#title").val("");
+        $("#content").val("");
+    })
     });
-    function addorupdatebs() {
+    function addorupdate() {
         var adddate={
-            id:$("#bsid").val(),
-            book:$("#book").val(),
-            auther:$("#auther").val(),
-            publisher:$("#publisher").val(),
-            pub_people:$("#pub_people").val(),
-            introduction:$("#introduction").val()
+            id:$("#rid").val(),
+            status:$("#status").val(),
+            title:$("#title").val(),
+            content:$("#content").val()
         };
+        console.log(adddate)
         $.ajax({
-            url : "../../booksuggest/addorupdatebs",
+            url : "../../bigscreennotice/addorupdate",
             type : "POST",
             contentType : "application/json; charset=UTF-8",
             data : JSON.stringify(adddate),
@@ -463,7 +453,7 @@
             }
         });
     }
-    function showdeletebs() {
+    function showdelete() {
         var rows =$('#table-list').bootstrapTable('getAllSelections');
         if(rows.length<1){
             alert("请选择一行删除");
@@ -482,16 +472,16 @@
                     cssClass: 'btn-default',
                     action : function(dialogItself) {
                         dialogItself.close();
-                        deletebs(ids);
+                        deleter(ids);
                     }
                 }]
             });
 
         }
     }
-    function deletebs(ids) {
+    function deleter(ids) {
         $.ajax({
-            url : "../../booksuggest/deleteByids",
+            url : "../../bigscreennotice/deleteByids",
             type : "POST",
             contentType : "application/json; charset=UTF-8",
             data : JSON.stringify(ids),
@@ -509,22 +499,19 @@
         });
 
     }
-    function getupadtebs(id) {
+    function getupadte(id) {
         $.ajax({
-            url : "../../booksuggest/getbsbyid",
+            url : "../../bigscreennotice/getbyid",
             type : "POST",
             contentType : "application/json; charset=UTF-8",
             data : JSON.stringify(id),
             dataType : "json",
             success : function(data) {
                 if (data) {
-                    $("#bsid").val(data.id);
-                    $("#book").val(data.book);
-                    $("#auther").val(data.auther);
-                    $("#publisher").val(data.publisher);
-                    $("#pub_people").val(data.pub_people);
-                    $("#introduction").val(data.introduction);
-                    addorupdatebs();
+                    $("#rid").val(data.id);
+                    $("#status").val(data.status);
+                    $("#title").val(data.title);
+                    $("#content").val(data.content);
                 } else {
                     alert("数据出错，无法修改");
                 }

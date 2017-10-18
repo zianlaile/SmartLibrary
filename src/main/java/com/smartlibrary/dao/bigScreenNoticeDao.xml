@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smartlibrary.dao.bigScreenNoticeDao">
+    <select id="count" resultType="Integer" parameterType="com.smartlibrary.domain2.app_notice">
+        select count(1)
+        from zz_bigscreen_notice
+    </select>
+    <select id="showList" parameterType="com.smartlibrary.domain2.app_notice" resultType="com.smartlibrary.domain2.app_notice">
+        select *
+        from zz_bigscreen_notice
+        limit #{offset},#{pageSize}
+    </select>
+    <insert id="add" parameterType="com.smartlibrary.domain2.app_notice">
+        insert into zz_bigscreen_notice(title,content,status,time)  values(#{title}, #{content},#{status},#{time})
+    </insert>
+    <!-- 批量删除 -->
+    <delete id="deletebyids" parameterType="java.util.List">
+        delete from zz_bigscreen_notice where id in
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="getbyid" parameterType="Integer" resultType="com.smartlibrary.domain2.app_notice">
+        select *
+        from zz_bigscreen_notice
+        where id=#{id}
+    </select>
+    <update id="update" parameterType="com.smartlibrary.domain2.app_notice">
+        update zz_bigscreen_notice
+        <set>
+            <if test="title != null">title=#{title},</if>
+            <if test="content != null">content=#{content},</if>
+            <if test="status != null">status=#{status}</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="getnew"  resultType="com.smartlibrary.domain2.app_notice">
+        select * from zz_bigscreen_notice as a
+        where  status=1 and time=(select max(b.time)
+        from zz_bigscreen_notice as b
+         where a.id = b.id
+        );
+    </select>
+</mapper>

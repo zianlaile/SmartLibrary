@@ -99,6 +99,7 @@
                                 <ul class="nav child_menu">
                                     <!--<li><a href="app_notice_leading.html">通知发布</a></li>-->
                                     <li><a href="app_notice.html">通知管理</a></li>
+                                    <li><a href="big_screen_notice.html">大屏通知管理</a></li>
                                 </ul>
                             </li>
                             <li><a><div style="width:26px;float: left;"><img src="img/gctrl.png" style="width:18px"\></div>荐购<span class="fa fa-chevron-down"></span></a>
@@ -388,7 +389,16 @@
                 field: 'status',
                 title: '状态',
                 align : 'center',
-                valign : 'middle'
+                valign : 'middle',
+                formatter:function(value,row,index){
+                    if( row.status==0){ return "不可用";}
+                    else if( row.status==1) {
+                        {
+                            return "可用";
+                        }
+                        return "未知";
+                    }
+                }
             },{
                 field: 'pub_people',
                 title: '发布人',

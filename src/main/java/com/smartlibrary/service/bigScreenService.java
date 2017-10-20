@@ -331,7 +331,7 @@ public class bigScreenService {
     public Map<String,String> getSysfxx(){
         Map data = new HashMap<String,String>();
         String result = "";
-        String urlName = "http://58.154.49.191/appInterface/RoomTotalInfo.aspx";
+        String urlName = "http://ic.unifound.net/appInterface/RoomTotalInfo.aspx";
         try {
             URL realURL = new URL(urlName);
             URLConnection conn = realURL.openConnection();

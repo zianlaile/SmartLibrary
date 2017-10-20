@@ -49,6 +49,10 @@
     <link href="app/file/fileinput.min.css" rel="stylesheet">
     <script type="text/javascript" src="app/file/fileinput.min.js"></script>
     <script type="text/javascript" src="app/file/zh.js"></script>
+
+    <!--ckeditor-->
+    <script type="text/javascript" src="app/ckeditor/ckeditor.js"></script>
+
 </head>
 
 <!--屏幕适配-->
@@ -77,6 +81,13 @@
         });
     }
 </script>
+
+<!--<script>-->
+<!--$().ready(function () {-->
+<!--var editor = CKEDITOR.replace('content');-->
+<!--$('#content').val(CKEDITOR.instances['content'].getData());-->
+<!--})-->
+<!--</script>-->
 
 <body class="nav-md">
 <div class="container body">
@@ -252,8 +263,8 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">内容</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control"  id="content" rows="3" placeholder="输入内容"></textarea>
-
+                            <textarea name="content" class="form-control"  id="content" rows="3" placeholder="输入内容"></textarea>
+                            <script type="text/javascript">var editor = CKEDITOR.replace('content');</script>
                         </div>
                     </div>
                 </form>
@@ -476,14 +487,20 @@
         $("#content").val("");
     })
     });
+
+
     function addorupdate() {
+
         var adddate={
             id:$("#rid").val(),
             status:$("#status").val(),
             title:$("#title").val(),
-            content:$("#content").val()
+            content:CKEDITOR.instances.content.getData()
+            //content:$("#content").val()
         };
         console.log(adddate)
+
+
         $.ajax({
             url : "../../bigscreennotice/addorupdate",
             type : "POST",
@@ -549,6 +566,7 @@
 
     }
     function getupadte(id) {
+
         $.ajax({
             url : "../../bigscreennotice/getbyid",
             type : "POST",
@@ -556,11 +574,14 @@
             data : JSON.stringify(id),
             dataType : "json",
             success : function(data) {
+
                 if (data) {
                     $("#rid").val(data.id);
                     $("#status").val(data.status);
                     $("#title").val(data.title);
                     $("#content").val(data.content);
+                    CKEDITOR.instances.content.setData(data.content);
+
                 } else {
                     alert("数据出错，无法修改");
                 }

@@ -15,4 +15,5 @@ public interface bigScreenNoticeDao {
     app_notice getbyid(int id);
     void update(app_notice data);
     app_notice getnew() ;
+    void updaten_picurl(app_notice data);
 }

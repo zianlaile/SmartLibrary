@@ -39,5 +39,8 @@ public class bigScreenNoticeService {
         app_notice result=bigScreenNoticedao.getnew();
         return result;
     }
+    public void updaten_picurl(app_notice data){
+        bigScreenNoticedao.updaten_picurl(data);
+    }
 }
 

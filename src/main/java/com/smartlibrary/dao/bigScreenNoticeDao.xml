@@ -43,4 +43,12 @@
          where a.id = b.id
         );
     </select>
+
+    <update id="updaten_picurl" parameterType="com.smartlibrary.domain2.app_notice">
+        update zz_bigscreen_notice
+        <set>
+            <if test="pic_url != null">pic_url=#{pic_url}</if>
+        </set>
+        where id=#{id}
+    </update>
 </mapper>

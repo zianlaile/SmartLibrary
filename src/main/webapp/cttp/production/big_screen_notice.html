@@ -44,6 +44,11 @@
     <!-- 弹出框 -->
     <link href="app/dialog/bootstrap-dialog.min.css" rel="stylesheet">
     <script type="text/javascript" src="app/dialog/bootstrap-dialog.js"></script>
+
+    <!-- 文件上传 -->
+    <link href="app/file/fileinput.min.css" rel="stylesheet">
+    <script type="text/javascript" src="app/file/fileinput.min.js"></script>
+    <script type="text/javascript" src="app/file/zh.js"></script>
 </head>
 
 <!--屏幕适配-->
@@ -239,9 +244,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">标题</label>
+                        <label class="col-sm-2 control-label">切换时间</label>
                         <div class="col-sm-10">
-                            <input class="form-control" id="title" type="text"  placeholder="输入标题">
+                            <input class="form-control" id="title" type="text"  placeholder="输入切换时间">
                         </div>
                     </div>
                     <div class="form-group">
@@ -261,6 +266,36 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="fileModalLabel">
+                    通知图片上传
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <input type="hidden" value=10000 name="fnid" id="fnid" />
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">请选择图片</label>
+                        <div class="col-sm-10">
+                            <input id="pic_url" name="pic_url" type="file" class="file-loading" data-show-preview="false">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
 <!-- FastClick -->
 <script src="../vendors/fastclick/lib/fastclick.js"></script>
 <!-- NProgress -->
@@ -333,7 +368,7 @@
 
             }, {
                 field: 'title',
-                title: '标题',
+                title: '切换时间',
                 align : 'center',
                 valign : 'middle'
             },{
@@ -341,6 +376,20 @@
                 title: '内容',
                 align : 'center',
                 valign : 'middle'
+            }, {
+                field: 'pic',
+                title: '图片',
+                align: 'center',
+                valign: 'middle',
+                //events: operateEvents,
+                //formatter: operateFormatter
+                formatter: function (value, row, index) {
+                    /*var u = "<img class='img-thumbnail'width='80' height='40' src='https://gss0.bdstatic.com/70cFsjip0QIZ8tyhnq/img/logo-zhidao.gif' alt=''>";
+                     var u = "<img class='img-thumbnail'width='80' height='30' src='/smartlib_app/1.jpg' alt=''>";
+                     */
+                    var u = "<img class='img-thumbnail'width='80' height='30' src='/"+row.pic_url+"' alt=''>";
+                    return u;
+                }
             },{
                 field: 'operate',
                 title: '操作',
@@ -350,8 +399,8 @@
                 //formatter: operateFormatter
                 formatter:function(value,row,index){
                     var e = '<button type="button" class=" btn btn-default  btn-xs" style="margin-right:5px;"  onclick=" getupadte(\''+ row.id +'\') " data-toggle="modal" data-target="#myModal">编辑/查看</button> ';
-                    /* var f = '<button type="button" class=" btn btn-default  btn-sm" style="margin-right:5px;"  onclick="  alert(\''+ row.id +'\')   ">文件列表</button> ';
-                     */return e;
+                    var f = '<button type="button" class=" btn btn-default  btn-xs" style="margin-right:5px;"  onclick="  upfile(\''+ row.id +'\')   " data-toggle="modal" data-target="#fileModal">通知图片</button> ';
+                    return e+f;
                 }
             }
         ],//页面需要展示的列，后端交互对象的属性
@@ -522,5 +571,31 @@
         });
     }
 
+</script>
+
+<!--fileinput初始化-->
+<script type="text/javascript">
+    function upfile(id){
+        $('#fnid').val(id);
+        $("#pic_url").fileinput('clear')
+    }
+    $(document).on('ready',function() {
+        $("#pic_url").fileinput({
+            language : 'zh',
+            uploadUrl : '../../bigscreennotice/uploadpic',
+            showCaption : true,//是否显示标题
+            browseClass : "btn btn-primary", //按钮样式
+            maxFileCount : 1, //表示允许同时上传的最大文件个数
+            enctype : 'multipart/form-data',
+            previewFileIcon : "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany : "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            allowedFileExtensions : [ ],
+            uploadExtraData:function(){
+                return {id :$('#fnid').val()};
+            }
+        }).on("fileuploaded", function(e, data) {
+            $('#table-list').bootstrapTable('refresh');
+        });
+    });
 </script>
 </html>

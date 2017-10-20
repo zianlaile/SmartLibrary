@@ -3,14 +3,17 @@ package com.smartlibrary.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.smartlibrary.domain2.app_notice;
 import com.smartlibrary.service.bigScreenNoticeService;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -71,5 +74,40 @@ public class bigScreenNoticeController {
     app_notice getnew(HttpServletRequest request, @RequestBody int id) {
         app_notice result=bigscreennoticeservice.getnew();
         return result;
+    }
+
+    @RequestMapping(value = "/uploadpic")
+    @ResponseBody
+    public Map<String, Object> uploadpic(HttpServletRequest request, HttpServletResponse response, @RequestParam("pic_url") MultipartFile File, @RequestParam("id") int id) throws UnsupportedEncodingException {
+        Map<String, Object> json = new HashMap<String, Object>();//上传后的返回信息
+        MultipartFile myFile=File;
+        try {
+            //1
+            //输出文件名称
+            String ext = FilenameUtils.getExtension(myFile.getOriginalFilename());
+            //2
+            //图片存储名称名称
+            DateFormat df = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+            String name = df.format(new Date());
+            Random r = new Random();
+            for(int i = 0 ;i<3 ;i++){
+                name += r.nextInt(10);//10以内随机数
+            }
+            String url = "c:/smartlib_app/notice/"+name+"."+ext;
+            java.io.File file = new File(url);
+            if(!file.exists()){
+                file.mkdirs();//创建文件夹
+            }
+            myFile.transferTo(new File(url));
+            String url2 = "smartlib_app/"+name+"."+ext;
+            app_notice n=new  app_notice();
+            n.setId(id);
+            n.setPic_url(url2);
+            bigscreennoticeservice.updaten_picurl(n);
+            json.put("success", ""+myFile.getOriginalFilename());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return json ;
     }
 }

@@ -37,11 +37,22 @@
     </update>
 
     <select id="getnew"  resultType="com.smartlibrary.domain2.app_notice">
-        select * from zz_bigscreen_notice as a
+        /*select * from zz_bigscreen_notice as a
         where  status=1 and time=(select max(b.time)
         from zz_bigscreen_notice as b
          where b.status=1
-        )
+        )*/
+        SELECT
+            *
+        FROM
+            zz_bigscreen_notice AS a
+        WHERE
+            a.time = (
+                SELECT
+                    max(b.time)
+                FROM
+                    zz_bigscreen_notice AS b
+            )
     </select>
 
     <update id="updaten_picurl" parameterType="com.smartlibrary.domain2.app_notice">

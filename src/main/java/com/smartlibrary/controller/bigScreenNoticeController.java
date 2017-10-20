@@ -69,11 +69,16 @@ public class bigScreenNoticeController {
         return result;
     }
 //获取最新一条可用
-    @RequestMapping(value = "/getnew", method = RequestMethod.POST)
-    public @ResponseBody
-    app_notice getnew(HttpServletRequest request, @RequestBody int id) {
+    @RequestMapping(value = "/getnew", method = RequestMethod.GET)
+    @ResponseBody
+    public Map getnew() {
+        Map res = new HashMap();
         app_notice result=bigscreennoticeservice.getnew();
-        return result;
+        res.put("picurl",result.getPic_url());
+        res.put("content",result.getContent());
+        res.put("changtime",result.getTitle());
+        res.put("status",result.getStatus());
+        return res;
     }
 
     @RequestMapping(value = "/uploadpic")

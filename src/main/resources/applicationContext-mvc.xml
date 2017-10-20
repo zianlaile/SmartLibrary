@@ -80,6 +80,8 @@
             <mvc:exclude-mapping path="/js/**"/>
             <mvc:exclude-mapping path="/login.html"/>
             <mvc:exclude-mapping path="/bigscreen/**"/>
+            <mvc:exclude-mapping path="/robot/**"/>
+            <mvc:exclude-mapping path="/bigscreennotice/getnew"/>
             <bean class="com.smartlibrary.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

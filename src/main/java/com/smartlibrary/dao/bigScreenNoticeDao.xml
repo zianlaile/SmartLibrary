@@ -40,8 +40,8 @@
         select * from zz_bigscreen_notice as a
         where  status=1 and time=(select max(b.time)
         from zz_bigscreen_notice as b
-         where a.id = b.id
-        );
+         where b.status=1
+        )
     </select>
 
     <update id="updaten_picurl" parameterType="com.smartlibrary.domain2.app_notice">

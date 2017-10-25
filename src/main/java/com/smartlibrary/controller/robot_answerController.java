@@ -29,16 +29,14 @@ public class robot_answerController {
     @RequestMapping(method = RequestMethod.GET,value = "/crooms", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String getCrooms(){
-        Map result = new HashMap<String,String>();
-        result = bigScreenService.getSysfxx();
-        System.out.println(result);
+        Map result = bigScreenService.getSysfxx();
         return "图书馆共有研修间"+result.get("uRoomTotal")+"间，剩余"+result.get("uRoomIdle")+"间";
     }
     @RequestMapping(method = RequestMethod.GET,value = "/ereads", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String getEreads(){
         Map result = bigScreenService.getSysfxx();
-        return "图书馆共有电子阅览室"+result.get("uPCTotal")+"间，剩余"+result.get("uPCIdel")+"间";
+        return "图书馆共有电子阅览室"+result.get("uPCTotal")+"个，剩余"+result.get("uPCIdel")+"个";
     }
     @RequestMapping(method = RequestMethod.GET,value = "/gctrl", produces = "text/plain;charset=UTF-8")
     @ResponseBody

@@ -26,7 +26,10 @@ public class bigScreenService {
     public Map<String, String> getNumber(){
         Map<String,String> number = new HashMap<String,String>();
         List<BigScreen> bigScreenList= bigscreendao.getnumber();
-        for(int i=0;i<bigScreenList.size();i++){
+        for(BigScreen b:bigScreenList){
+            number.put(b.getName(),b.getCount());
+        }
+        /*for(int i=0;i<bigScreenList.size();i++){
             if (bigScreenList.get(i).getName().equals("all_gctrl")){
                 number.put("all_gctrl",bigScreenList.get(i).getCount());
             }
@@ -54,7 +57,7 @@ public class bigScreenService {
             else if (bigScreenList.get(i).getName().equals("now_gctrl")){
                 number.put("now_gctrl",bigScreenList.get(i).getCount());
             }
-        }
+        }*/
         return number;
     }
     public Map<String, String> getIcpremonth(){
@@ -301,7 +304,7 @@ public class bigScreenService {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
-        c.add(Calendar.DATE, - 15);
+        c.add(Calendar.DATE, - 1);
         Date d = c.getTime();
         String yesterday = format.format(d);
         /*StringBuilder sb = new StringBuilder(yesterday);
@@ -331,7 +334,7 @@ public class bigScreenService {
     public Map<String,String> getSysfxx(){
         Map data = new HashMap<String,String>();
         String result = "";
-        String urlName = "http://ic.unifound.net/appInterface/RoomTotalInfo.aspx";
+        String urlName = "http://10.11.35.69/appinterface/RoomTotalInfo.aspx";
         try {
             URL realURL = new URL(urlName);
             URLConnection conn = realURL.openConnection();

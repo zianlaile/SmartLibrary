@@ -82,6 +82,9 @@
             <mvc:exclude-mapping path="/bigscreen/**"/>
             <mvc:exclude-mapping path="/robot/**"/>
             <mvc:exclude-mapping path="/bigscreennotice/getnew"/>
+            <mvc:exclude-mapping path="/schoolReport/**"/>
+            <mvc:exclude-mapping path="/real_year_counts/**"/>
+            <mvc:exclude-mapping path="/real_numbers/**"/>
             <bean class="com.smartlibrary.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

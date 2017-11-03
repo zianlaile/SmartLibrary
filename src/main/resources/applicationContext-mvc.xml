@@ -85,6 +85,7 @@
             <mvc:exclude-mapping path="/schoolReport/**"/>
             <mvc:exclude-mapping path="/real_year_counts/**"/>
             <mvc:exclude-mapping path="/real_numbers/**"/>
+            <mvc:exclude-mapping path="/ictimes/byyear"/>
             <bean class="com.smartlibrary.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

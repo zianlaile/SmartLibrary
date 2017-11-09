@@ -88,5 +88,30 @@
             <mvc:exclude-mapping path="/ictimes/byyear"/>
             <bean class="com.smartlibrary.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/sys/login_login"/>
+            <mvc:exclude-mapping path="/cttp/production/sys/login_login"/>
+            <mvc:exclude-mapping path="/cttp/production/bigscreen.html"/>
+            <mvc:exclude-mapping path="/code"/>
+            <mvc:exclude-mapping path="/cttp/production/code"/>
+            <mvc:exclude-mapping path="/cttp/vendors/**"/>
+            <mvc:exclude-mapping path="/cttp/production/css/**"/>
+            <mvc:exclude-mapping path="/cttp/production/img/**"/>
+            <mvc:exclude-mapping path="/cttp/production/images/**"/>
+            <mvc:exclude-mapping path="/cttp/build/**"/>
+            <mvc:exclude-mapping path="/js/**"/>
+            <mvc:exclude-mapping path="/login.html"/>
+            <mvc:exclude-mapping path="/bigscreen/**"/>
+            <mvc:exclude-mapping path="/rebot/**"/>
+            <mvc:exclude-mapping path="/bigscreennotice/getnew"/>
+            <mvc:exclude-mapping path="/schoolReport/**"/>
+            <mvc:exclude-mapping path="/real_year_counts/**"/>
+            <mvc:exclude-mapping path="/real_numbers/**"/>
+            <mvc:exclude-mapping path="/ictimes/byyear"/>
+            <mvc:exclude-mapping path="/cttp/production/index.html"/>
+            <mvc:exclude-mapping path="/bookLend/**"/>
+            <bean class="com.smartlibrary.interceptor.PermessionInterceptor"/>
+        </mvc:interceptor>
     </mvc:interceptors>
 </beans>

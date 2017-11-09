@@ -18,7 +18,7 @@ public class reportService {
         path = path.substring(0,path.indexOf("WEB-INF"))+"report/";
         System.out.println(path);
         String picpath = path + "reportpic";
-        String wordpath = path + "1.docx";
+        String wordpath = path + "图书馆报告模板.docx";
         String towordpath = path + "2.docx";
         picpath = URLDecoder.decode(picpath);
         File f = new File(picpath);
@@ -43,10 +43,9 @@ public class reportService {
             throw new RuntimeException();
         }
         Map<String, Object> param = new HashMap<String, Object>();
-        param.put("${name}", "二楼");
         Map<String,Object> header = new HashMap<String, Object>();
-        header.put("width", 600);
-        header.put("height", 400);
+        header.put("width", 400);
+        header.put("height", 200);
         header.put("type", "JPG");
         try {
             header.put("content", WordUtil.inputStream2ByteArray(new FileInputStream(picpath), true));
@@ -55,6 +54,7 @@ public class reportService {
             e.printStackTrace();
         }
         param.put("${header}",header);
+        param.put("${name}", "二楼");
         CustomXWPFDocument doc = WordUtil.generateWord(param, wordpath);
         FileOutputStream fopts = null;
         try {

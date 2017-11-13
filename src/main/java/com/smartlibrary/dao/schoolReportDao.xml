@@ -11,7 +11,6 @@
     <select id="getGctrlsCountBy_year" parameterType="com.smartlibrary.domain.real_year_counts" resultType="com.smartlibrary.domain.real_year_counts">
         select year ,gctrls
         from real_year_counts
-        WHERE `year`= DATE_FORMAT('2016-01-01', '%Y')
         ORDER BY year
     </select>
     <select id="getGctrlsCountBy_month" parameterType="com.smartlibrary.domain.gctrl" resultType="com.smartlibrary.domain.gctrl">
@@ -77,4 +76,67 @@
         from zz_time_month_count
         WHERE `year`= DATE_FORMAT('2016-01-01', '%Y')
     </select>
+
+    <!--今年读者总借阅次数排名前10（包括学号、读者姓名、所属学院、总借阅次数）（表格）新表-学号-年份-->
+    <select id="getReder_booklendCount_Byyear" parameterType="com.smartlibrary.domain.reader_report" resultType="com.smartlibrary.domain.reader_report">
+        SELECT account,`name`,academy,all_lend_times,all_lend_rank
+        from reader_report
+        where all_lend_rank &gt;0 and all_lend_rank &lt; 11
+        ORDER BY all_lend_rank
+    </select>
+    <!--年度设备平均使用次数统计-->
+    <select id="getDeviceCount_Byhour" parameterType="com.smartlibrary.domain.library_report_hour" resultType="com.smartlibrary.domain.library_report_hour">
+        SELECT *
+        from library_report_hour
+    </select>
+
+    <!-- 年度各时段图书平均借出册数及人数（如8:00-9:00借出39册，21人借阅）（折线）-->
+    <select id="getbooklendPeopleAndCount_Byhour" parameterType="com.smartlibrary.domain.library_report_hour" resultType="com.smartlibrary.domain.library_report_hour">
+        SELECT `year`,`month`,`hour`,lend_people,lend
+        from library_report_hour
+    </select>
+
+    <!--年度全校读者借阅分类统计-->
+    <select id="getBookkindAllCount_Byyear" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
+        SELECT ymchar as time,book_kind,m_book_lend_times+f_book_lend_times as book_lend_times
+        from zz_book_month_bookkinds_gender
+    </select>
+
+
+    <!--2011年-2017年教职工借阅人数统计（包括：<10册, 11-20册, 21-30册, 31-50册, 51-100册, 101-200册, 201-300册, >300册）（表格）
+      做起来麻烦点 ，循环一下，lend，back 借用一下做大小值-->
+    <select id="getTeacherCount_BycountAndyear" parameterType="com.smartlibrary.domain.library_report_month_mankinds" resultType="com.smartlibrary.domain.library_report_month_mankinds">
+        SELECT `year`,count(1)
+        from library_report_month_teacher
+        where lend  &gt; #{lend} and lend  &lt; #{back}
+        GROUP BY `year`
+    </select>
+
+    <!--  ?历年各大类图书借书比例趋势图（2011-2017年，包括：I文学、O数理化、F经济、TP计算机、K历史地理、B哲学宗教、D政治法律、H语言文字、其他）（折线图）（top5的类别数据）-->
+    <select id="getTop5bookkind_Byyear" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
+        SELECT a.book_kind,a.`year`,sum(a.book_lend_times) as book_lend_times
+        FROM `zz_book_year_academy_bookkinds` a
+        WHERE a.book_kind
+        IN(
+        SELECT book_kind FROM (
+        select *,SUM(book_lend_times)  a FROM zz_book_year_academy_bookkinds
+        GROUP BY book_kind
+        ORDER BY a DESC
+        limit 5
+        ) b
+        )
+        GROUP BY a.`year`,a.book_kind
+        ORDER BY a.`year`,a.book_kind
+    </select>
+
+    <!--  6. 年度图书馆进馆读者类型比例（包括本科生、硕士生、教职工、其他）（饼图）
+    7. 2011-2017年进馆读者类型比例趋势（包括本科生、硕士生、教职工、其他）
+    8. 年度各类型读者借书比例（包括本科生、硕士生、教职工、其他）（柱状图）
+    9. 年度各类型读者续借比例（包括本科生、硕士生、教职工、其他）（柱状图）-->
+    <select id="getmankindCount_Byyear" parameterType="com.smartlibrary.domain.library_report_month_mankinds" resultType="com.smartlibrary.domain.library_report_month_mankinds">
+      select `year` ,man_kind,sum(gctrl) as gctrl,SUM(lend) as lend,SUM(renew) as renew from library_report_month_mankinds GROUP BY `year`,man_kind
+    </select>
+
+
+
 </mapper>

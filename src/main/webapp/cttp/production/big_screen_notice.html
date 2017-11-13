@@ -280,7 +280,7 @@
 
 
 
-<!-- 模态框（Modal） -->
+<!-- 模态框（fileModal） -->
 <div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -343,6 +343,7 @@
 
 <script src="../build/js/custom.min.js"></script>
 </body>
+<!--table初始化-->
 <script type="text/javascript">
     //通过bootstrap Table方法refresh重新加载数据
     function showData() {
@@ -478,6 +479,7 @@
         $('#table-list').bootstrapTable('refresh');    //刷新表格
     }
 </script>
+<!--增删改查初始化-->
 <script type="text/javascript">
     $(function () { $('#myModal').modal('hide')});
     $(function () { $('#myModal').on('hide.bs.modal', function () {
@@ -593,7 +595,6 @@
     }
 
 </script>
-
 <!--fileinput初始化-->
 <script type="text/javascript">
     function upfile(id){

@@ -5,7 +5,9 @@ import com.smartlibrary.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by tt on 2017/10/17.
@@ -64,4 +66,61 @@ public class schoolReportService {
     public  List<IC_Times> geICdurationCountBy_year(IC_Times n){
         return schoolReportdao.geICdurationCountBy_year(n);
     };
+
+
+
+    //<!--今年读者总借阅次数排名前10（包括学号、读者姓名、所属学院、总借阅次数）（表格）新表-学号-年份-->
+    public List<reader_report> getReder_booklendCount_Byyear(reader_report n){
+        return schoolReportdao.getReder_booklendCount_Byyear(n);
+    };
+    //<!--年度设备平均使用次数统计-->
+    public  List<library_report_hour> getDeviceCount_Byhour(library_report_hour n){
+        return schoolReportdao.getDeviceCount_Byhour(n);
+    };
+    //<!-- 年度各时段图书平均借出册数及人数（如8:00-9:00借出39册，21人借阅）（折线）-->
+    public  List<library_report_hour> getbooklendPeopleAndCount_Byhour(library_report_hour n){
+        return schoolReportdao.getbooklendPeopleAndCount_Byhour(n);
+    };
+    // <!--年度全校读者借阅分类统计-->
+    public  List<Book_Lend> getBookkindAllCount_Byyear(Book_Lend n){
+        return schoolReportdao.getBookkindAllCount_Byyear(n);
+    };
+    //<!--2011年-2017年教职工借阅人数统计（包括：<10册, 11-20册, 21-30册, 31-50册, 51-100册, 101-200册, 201-300册, >300册）（表格）
+    // 做起来麻烦点 ，循环一下，lend，back 借用一下做大小值-->
+    public Map<String, Object> getTeacherCount_BycountAndyear(library_report_month_mankinds n){
+        Map<String, Object> map = new HashMap<String, Object>();
+        String str="";
+        for(int i=1;i<9;i++)
+        {
+            switch(i){
+                case 1: n.setLend(0);n.setBack(11); str="<10册";break;
+                case 2:n.setLend(10);n.setBack(21); str="11-20册";break;
+                case 3:n.setLend(20);n.setBack(31); str="21-30册";break;
+                case 4:n.setLend(30);n.setBack(51); str="31-50册";break;
+                case 5:n.setLend(50);n.setBack(101); str="51-100册";break;
+                case 6:n.setLend(100);n.setBack(201);str="101-200册"; break;
+                case 7:n.setLend(200);n.setBack(301); str="201-300册";break;
+                case 8:n.setLend(300);n.setBack(9999991);str=">300册"; break;
+            }
+            map.put(str,schoolReportdao.getTeacherCount_BycountAndyear(n));
+        }
+        return map;
+    };
+    // <!--  ?历年各大类图书借书比例趋势图（2011-2017年，包括：I文学、O数理化、F经济、TP计算机、K历史地理、B哲学宗教、D政治法律、H语言文字、其他）（折线图）（top5的类别数据）-->
+    public   List<Book_Lend> getTop5bookkind_Byyear(Book_Lend n){
+        return schoolReportdao.getTop5bookkind_Byyear(n);
+    };
+    /*<!--  6. 年度图书馆进馆读者类型比例（包括本科生、硕士生、教职工、其他）（饼图）
+    7. 2011-2017年进馆读者类型比例趋势（包括本科生、硕士生、教职工、其他）
+    8. 年度各类型读者借书比例（包括本科生、硕士生、教职工、其他）（柱状图）
+    9. 年度各类型读者续借比例（包括本科生、硕士生、教职工、其他）（柱状图）-->*/
+    public   List<library_report_month_mankinds> getmankindCount_Byyear(library_report_month_mankinds n){
+        return schoolReportdao.getmankindCount_Byyear(n);
+    };
+
+
+
+
+
+
 }

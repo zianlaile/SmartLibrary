@@ -72,7 +72,7 @@
         WHERE `year`= DATE_FORMAT('2015-01-01', '%Y') and ic_type=8
     </select>
     <select id="geICdurationCountBy_year" parameterType="com.smartlibrary.domain.IC_Times" resultType="com.smartlibrary.domain.IC_Times">
-		select ymdate ,eread_times
+		select year,ymdate ,eread_times
         from zz_time_month_count
         WHERE `year`= DATE_FORMAT('2016-01-01', '%Y')
     </select>
@@ -98,7 +98,7 @@
 
     <!--年度全校读者借阅分类统计-->
     <select id="getBookkindAllCount_Byyear" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
-        SELECT ymchar as time,book_kind,m_book_lend_times+f_book_lend_times as book_lend_times
+        SELECT year,month,ymchar as time,book_kind,m_book_lend_times+f_book_lend_times as book_lend_times
         from zz_book_month_bookkinds_gender
     </select>
 

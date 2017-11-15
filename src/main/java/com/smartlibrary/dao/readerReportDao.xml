@@ -24,22 +24,14 @@
 
 
     <!-- 借书最多的书籍类别及借阅该类别书籍的总量（如：文学类，共借阅212本），借阅图书最多的月份及该月借阅数量，借阅各类别图书所占百分比（如：经济42%，外语7%…）-->
-    <select id="getReaderMaxBookLendInfo" parameterType="com.smartlibrary.domain.reader_report" resultType="com.smartlibrary.domain.reader_report">
-        /*select a.`year` ,a.account,a.A,a.B,a.C,a.D,a.E,a.F,a.G,b.H,b.I,b.J,b.K,b.N,b.O,b.P,b.H,c.Q,c.Q,c.R,c.S,c.T,c.U,c.V,c.X,c.Z,r.max_book_month,r.max_book_month_count
-        from reader_report r,reader_report_type1 a,reader_report_type2 b ,reader_report_type3 c
-        where r.account=a.account and a.account=b.account and a.account=c.account
-        and  r.`max_book_year`= DATE_FORMAT('2015-05-05', '%Y')
-        and  a.`year`= DATE_FORMAT('2015-05-05', '%Y')
-        and  b.`year`= DATE_FORMAT('2015-05-05', '%Y')
-        and  c.`year`= DATE_FORMAT('2015-05-05', '%Y')
-        where account=#{account}*/
-        SELECT a.school,a.account,b.max_book_month,b.max_book_month_count,SUM(A),SUM(B),SUM(C),SUM(D),SUM(E),SUM(F),SUM(G),SUM(H),SUM(I),SUM(J),SUM(K),SUM(N),SUM(O),SUM(P),SUM(Q),SUM(R),SUM(S),SUM(T),SUM(U),SUM(V),SUM(X),SUM(Z) FROM
+    <select id="getReaderMaxBookLendInfo" parameterType="com.smartlibrary.domain.reader_report" resultType="com.smartlibrary.domain.reader_report2">
+        SELECT a.school,a.account,b.max_book_month,b.max_book_month_count,SUM(A) as A,SUM(B)as B,SUM(C) as C,SUM(D) as D,SUM(E) as E,SUM(F) as F,SUM(G) as G,SUM(H) as H,SUM(I) as I,SUM(J) as J,SUM(K) as K,SUM(N) as N,SUM(O)as O,SUM(P)as P,SUM(Q)as Q,SUM(R) as R,SUM(S) as S,SUM(T) as T,SUM(U)as U,SUM(V)as V,SUM(X) as X,SUM(Z) as Z FROM
         (
-        SELECT school,account,SUM(A) A,SUM(B) B,SUM(C) C,SUM(D) D,SUM(E) E,SUM(F) F,SUM(G) G,0 H,0 I,0 J,0 K,0 N,0 O,0 P,0 Q,0 R,0 S,0 T,0 U,0 V,0 X,0 Z FROM `reader_report_type1` WHERE account = #{account
+        SELECT school,account,SUM(A) A,SUM(B) B,SUM(C) C,SUM(D) D,SUM(E) E,SUM(F) F,SUM(G) G,0 H,0 I,0 J,0 K,0 N,0 O,0 P,0 Q,0 R,0 S,0 T,0 U,0 V,0 X,0 Z FROM `reader_report_type1` WHERE account = #{account}
         UNION
-        SELECT school,account,0 A,0 B,0 C,0 D,0 E,0 F,0 G,SUM(H) H,SUM(I) I,SUM(J) J,SUM(K) K,SUM(N) N,O,P,0 Q,0 R,0 S,0 T,0 U,0 V,0 X,0 Z FROM `reader_report_type2` WHERE account = #{account
+        SELECT school,account,0 A,0 B,0 C,0 D,0 E,0 F,0 G,SUM(H) H,SUM(I) I,SUM(J) J,SUM(K) K,SUM(N) N,O,P,0 Q,0 R,0 S,0 T,0 U,0 V,0 X,0 Z FROM `reader_report_type2` WHERE account = #{account}
         UNION
-        SELECT school,account,0 A,0 B,0 C,0 D,0 E,0 F,0 G,0 H,0 I,0 J,0 K,0 N,0 O,0 P,SUM(Q) Q,SUM(R) R,SUM(S) S,SUM(T) T,SUM(U) U,SUM(V) V,SUM(X) X,SUM(Z) Z FROM `reader_report_type3` WHERE account = #{account
+        SELECT school,account,0 A,0 B,0 C,0 D,0 E,0 F,0 G,0 H,0 I,0 J,0 K,0 N,0 O,0 P,SUM(Q) Q,SUM(R) R,SUM(S) S,SUM(T) T,SUM(U) U,SUM(V) V,SUM(X) X,SUM(Z) Z FROM `reader_report_type3` WHERE account = #{account}
         ) a,reader_report b WHERE a.account = b.account
     </select>
 
@@ -57,7 +49,7 @@
         select  ic.`year` ,r.account, r.all_seat_hours, r.all_croom_hours, r.all_eread_hours,ic.lend
         from reader_report r,reader_report_ic_lend ic
         where r.account=ic.account and
-         account=#{account}
+         r.account=#{account}
     </select>
 
 
@@ -65,7 +57,7 @@
     <select id="getReaderEreadHourInfo" parameterType="com.smartlibrary.domain.reader_report" resultType="com.smartlibrary.domain.reader_report">
         select r.account,r.longgest_eread_date,r.longgest_eread_hours,r.all_eread_times,r.all_eread_hours
         from reader_report r
-        where account=#{account}
+        where r.account=#{account}
     </select>
 
 

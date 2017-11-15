@@ -3,7 +3,7 @@ package com.smartlibrary.domain;
 /**
  * Created by tt on 2017/11/13.
  */
-public class reader_report {
+public class reader_report{
     int id;//id
     String account;//账户
     String name;//名字
@@ -55,6 +55,8 @@ public class reader_report {
 
 
     double per_gctrl_times;//进馆百分比
+
+
 
     public double getPer_gctrl_times() {
         return per_gctrl_times;

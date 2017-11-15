@@ -5,7 +5,7 @@
     <select id="getResourceCountBy_year" parameterType="com.smartlibrary.domain.app_resources" resultType="com.smartlibrary.domain.app_resources">
       select year ,count
       from app_resources
-      WHERE `year`= DATE_FORMAT('2016-01-01', '%Y')
+      WHERE  type='馆藏书数量'
       ORDER BY year
     </select>
     <select id="getGctrlsCountBy_year" parameterType="com.smartlibrary.domain.real_year_counts" resultType="com.smartlibrary.domain.real_year_counts">
@@ -14,13 +14,13 @@
         ORDER BY year
     </select>
     <select id="getGctrlsCountBy_month" parameterType="com.smartlibrary.domain.gctrl" resultType="com.smartlibrary.domain.gctrl">
-        select ymdate as time,gctrl_times
+        select ymdate as time,year,month,gctrl_times
         from zz_time_month_count
         WHERE `year`= DATE_FORMAT('2016-01-01', '%Y')
         ORDER BY ymdate
     </select>
     <select id="getBook_LendCountBy_year" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
-        select ymdate as time,book_lend_times,book_return_times
+        select ymdate as time,year,book_lend_times,book_return_times
         from zz_time_month_count
          WHERE `year`= DATE_FORMAT('2016-01-01', '%Y')
         ORDER BY ymdate

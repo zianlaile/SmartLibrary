@@ -90,8 +90,8 @@ public class schoolReportService {
         return schoolReportdao.getTeacherLendCount(n);
     };
     // < <!--教职工读者共借阅图书册数-->
-    public List<Book_Lend> getTeacherLendCount_Byyeat(Book_Lend n){
-        return schoolReportdao.getTeacherLendCount_Byyeat(n);
+    public List<Book_Lend> getTeacherLendCount_Byyear(Book_Lend n){
+        return schoolReportdao.getTeacherLendCount_Byyear(n);
     };
 
     //<!--2011年-2017年教职工借阅人数统计（包括：<10册, 11-20册, 21-30册, 31-50册, 51-100册, 101-200册, 201-300册, >300册）（表格）

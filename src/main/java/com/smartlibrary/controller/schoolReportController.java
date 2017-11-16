@@ -122,9 +122,9 @@ public class schoolReportController {
         return schoolReportservice.getTeacherLendCount(n);
     };
     // < <!--教职工读者共借阅图书册数-->
-    @RequestMapping(value = "/getTeacherLendCount_Byyeat", method = RequestMethod.GET)
-    List<Book_Lend> getTeacherLendCount_Byyeat(Book_Lend n){
-        return schoolReportservice.getTeacherLendCount_Byyeat(n);
+    @RequestMapping(value = "/getTeacherLendCount_Byyear", method = RequestMethod.GET)
+    List<Book_Lend> getTeacherLendCount_Byyear(Book_Lend n){
+        return schoolReportservice.getTeacherLendCount_Byyear(n);
     };
     //<!--2011年-2017年教职工借阅人数统计（包括：<10册, 11-20册, 21-30册, 31-50册, 51-100册, 101-200册, 201-300册, >300册）（表格）
     // 做起来麻烦点 ，循环一下，lend，back 借用一下做大小值-->

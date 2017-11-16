@@ -117,7 +117,7 @@
     </select>
 
     <!--教职工读者共借阅图书册数-->
-    <select id="getTeacherLendCount_Byyeat" parameterType="com.smartlibrary.domain.library_report_month_mankinds" resultType="com.smartlibrary.domain.library_report_month_mankinds">
+    <select id="getTeacherLendCount_Byyear" parameterType="com.smartlibrary.domain.library_report_month_mankinds" resultType="com.smartlibrary.domain.library_report_month_mankinds">
         select `year`  ,lend
         from library_report_month_mankinds
         where man_kind='教职工'

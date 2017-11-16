@@ -6,4 +6,15 @@
 		select school_id as school_id,
 			   name as name from school where school_id=#{school_id}
 	</select>
+
+	<select id="getGctrl"  resultType="TestGctrl">
+		SELECT
+		*
+		FROM
+		`z_gctrl_ctrl_sys`
+		WHERE
+		id &lt; 150000
+	</select>
+
 </mapper>
+

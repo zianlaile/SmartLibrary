@@ -53,14 +53,14 @@
         WHERE `year`= DATE_FORMAT('2016-01-01', '%Y')
     </select>
     <select id="getop20bookBy_year" parameterType="com.smartlibrary.domain.library_report_ranking_book" resultType="com.smartlibrary.domain.library_report_ranking_book">
-		select book_name,author,book_pubyear,lend_times
+		select book_name,author,book_pubyear,lend_times,id
         from library_report_ranking_book
         WHERE `year`= DATE_FORMAT('2015-01-01', '%Y')
 		ORDER BY lend_times DESC
 		limit 20
     </select>
     <select id="getop20authorBy_year" parameterType="com.smartlibrary.domain.library_report_ranking_author" resultType="com.smartlibrary.domain.library_report_ranking_author">
-        select book_name,author,book_pubyear,lend_times
+        select book_name,author,book_pubyear,lend_times,id
         from library_report_ranking_author
         WHERE `year`= DATE_FORMAT('2015-01-01', '%Y')
         ORDER BY lend_times DESC
@@ -72,7 +72,7 @@
         WHERE `year`= DATE_FORMAT('2015-01-01', '%Y') and ic_type=8
     </select>
     <select id="geICdurationCountBy_year" parameterType="com.smartlibrary.domain.IC_Times" resultType="com.smartlibrary.domain.IC_Times">
-		select year,ymdate ,eread_times
+		select year,month,ymdate as time ,eread_times
         from zz_time_month_count
         WHERE `year`= DATE_FORMAT('2016-01-01', '%Y')
     </select>
@@ -86,27 +86,35 @@
     </select>
     <!--年度设备平均使用次数统计-->
     <select id="getDeviceCount_Byhour" parameterType="com.smartlibrary.domain.library_report_hour" resultType="com.smartlibrary.domain.library_report_hour">
-        SELECT *
+        SELECT year ,hour ,sum(prints) as prints  ,sum(ereads) as ereads
         from library_report_hour
+        where `year`=2015
+        GROUP BY `hour`
+
+
     </select>
 
     <!-- 年度各时段图书平均借出册数及人数（如8:00-9:00借出39册，21人借阅）（折线）-->
     <select id="getbooklendPeopleAndCount_Byhour" parameterType="com.smartlibrary.domain.library_report_hour" resultType="com.smartlibrary.domain.library_report_hour">
-        SELECT `year`,`month`,`hour`,lend_people,lend
+        SELECT year ,hour ,sum(lend_people) as lend_people  ,sum(lend) as lend
         from library_report_hour
+        where `year`=2015
+        GROUP BY `hour`
     </select>
 
     <!--年度全校读者借阅分类统计-->
     <select id="getBookkindAllCount_Byyear" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
-        SELECT year,month,ymchar as time,book_kind,m_book_lend_times+f_book_lend_times as book_lend_times
+        SELECT year,book_kind,sum(m_book_lend_times+f_book_lend_times) as book_lend_times
         from zz_book_month_bookkinds_gender
+        where `year`=2015
+        GROUP BY `book_kind`
     </select>
 
 
     <!--2011年-2017年教职工借阅人数统计（包括：<10册, 11-20册, 21-30册, 31-50册, 51-100册, 101-200册, 201-300册, >300册）（表格）
       做起来麻烦点 ，循环一下，lend，back 借用一下做大小值-->
     <select id="getTeacherCount_BycountAndyear" parameterType="com.smartlibrary.domain.library_report_month_mankinds" resultType="com.smartlibrary.domain.library_report_month_mankinds">
-        SELECT `year`,count(1)
+        SELECT `year`,count(1) as lend
         from library_report_month_teacher
         where lend  &gt; #{lend} and lend  &lt; #{back}
         GROUP BY `year`

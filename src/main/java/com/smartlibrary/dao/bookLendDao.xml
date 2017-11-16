@@ -24,13 +24,14 @@
         SELECT zzbhalb.`hour`,zzbhalb.academy ,zzbhalb.book_lend_times ,zzbhalb.book_back_times
         FROM zz_book_hour_academy_lend_back  zzbhalb
         WHERE zzbhalb.ymdhdate  &gt;  DATE_SUB(CURDATE(),INTERVAL 2 DAY) AND zzbhalb.ymdhdate &lt;CURDATE()
+
         GROUP BY zzbhalb.hour ,zzbhalb.academy
         ORDER BY zzbhalb.hour ,zzbhalb.academy
     </select>
     <select id="getBorrowCountByHourAndBookkinds" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
         SELECT a.book_kind,a.academy,a.book_lend_times/10000 as book_lend_w
         FROM `zz_book_year_academy_bookkinds` a
-        WHERE   a.`year`= DATE_FORMAT(CURDATE(), '%Y') and a.book_kind
+         WHERE   a.`year`= DATE_FORMAT(CURDATE(), '%Y') and a.book_kind
         IN(
         SELECT book_kind FROM (
         select *,SUM(book_lend_times)  a FROM zz_book_year_academy_bookkinds

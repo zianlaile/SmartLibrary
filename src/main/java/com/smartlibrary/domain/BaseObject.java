@@ -13,15 +13,18 @@ public class BaseObject implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -3535551432420770249L;
+	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this,
 				ToStringStyle.MULTI_LINE_STYLE);
 	}
 
+	@Override
 	public boolean equals(Object o) {
 		return EqualsBuilder.reflectionEquals(this, o);
 	}
 
+	@Override
 	public int hashCode() {
 		return HashCodeBuilder.reflectionHashCode(this);
 	}

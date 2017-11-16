@@ -106,7 +106,8 @@
             <mvc:exclude-mapping path="/bigscreen/**"/>
             <mvc:exclude-mapping path="/rebot/**"/>
             <mvc:exclude-mapping path="/bigscreennotice/getnew"/>
-            <mvc:exclude-mapping path="/schoolReport/**"/>
+            <mvc:exclude-mapping path="/schoolReport/**"/>  <!--图书馆报告接口-->
+            <mvc:exclude-mapping path="/readerReport/**"/>  <!--读者报告接口-->
             <mvc:exclude-mapping path="/real_year_counts/**"/>
             <mvc:exclude-mapping path="/real_numbers/**"/>
             <mvc:exclude-mapping path="/ictimes/byyear"/>

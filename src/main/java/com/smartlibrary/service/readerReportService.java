@@ -37,10 +37,15 @@ public class readerReportService {
         return readerReportdao.getReaderprintInfo(n);
 
     };
-    //<!-- 座位使用时间最长时长及日期（如：2015年9月16日使用座位4小时）、座位使用总次数、研修间使用总时长、每年座位及研修间使用总时长
-    //新表-学号-学年-座位总时长-研修间总时长-电子阅览室总时长-借阅次数-->
+    //<!-- 座位使用时间最长时长及日期（如：2015年9月16日使用座位4小时）、座位使用总次数、研修间使用总时长-->
     public List<reader_report> getReaderDeviceHourInfo(reader_report n){
         return readerReportdao.getReaderDeviceHourInfo(n);
+
+    };
+
+    // <!-- 每年座位及研修间使用总时长-->
+    public List<reader_report> getReaderSeatandcroomInfo(reader_report n){
+        return readerReportdao.getReaderSeatandcroomInfo(n);
 
     };
     // <!-- 电子阅览室使用时间最长时长及日期、电子阅览室使用总次数、使用总时长-->

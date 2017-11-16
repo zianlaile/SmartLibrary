@@ -18,9 +18,10 @@ public interface readerReportDao {
     List<reader_report> getReaderMaxBookLendInfo(reader_report n);
     // <!-- 打印页数最多文件的页数及日期、累计文印总量、文印总量排名百分比、文印各类别数量-->
     List<reader_report> getReaderprintInfo(reader_report n);
-    //<!-- 座位使用时间最长时长及日期（如：2015年9月16日使用座位4小时）、座位使用总次数、研修间使用总时长、每年座位及研修间使用总时长
-    //新表-学号-学年-座位总时长-研修间总时长-电子阅览室总时长-借阅次数-->
+    //<!-- 座位使用时间最长时长及日期（如：2015年9月16日使用座位4小时）、座位使用总次数、研修间使用总时长-->
     List<reader_report> getReaderDeviceHourInfo(reader_report n);
+    // <!-- 每年座位及研修间使用总时长-->
+    List<reader_report> getReaderSeatandcroomInfo(reader_report n);
     // <!-- 电子阅览室使用时间最长时长及日期、电子阅览室使用总次数、使用总时长-->
     List<reader_report> getReaderEreadHourInfo(reader_report n);
 }

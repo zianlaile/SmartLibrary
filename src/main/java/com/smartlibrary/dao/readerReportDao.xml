@@ -43,13 +43,18 @@
         where account=#{account}
     </select>
 
-    <!-- 座位使用时间最长时长及日期（如：2015年9月16日使用座位4小时）、座位使用总次数、研修间使用总时长、每年座位及研修间使用总时长
-            新表-学号-学年-座位总时长-研修间总时长-电子阅览室总时长-借阅次数-->
+    <!-- 座位使用时间最长时长及日期（如：2015年9月16日使用座位4小时）、座位使用总次数、研修间使用总时长-->
     <select id="getReaderDeviceHourInfo" parameterType="com.smartlibrary.domain.reader_report" resultType="com.smartlibrary.domain.reader_report">
-        select  ic.`year` ,r.account, r.all_seat_hours, r.all_croom_hours, r.all_eread_hours,ic.lend
-        from reader_report r,reader_report_ic_lend ic
-        where r.account=ic.account and
-         r.account=#{account}
+      select r.account, r.longgset_seat_date,r.all_seat_hours,r.all_seat_times, r.all_croom_hours
+      from reader_report r
+      where  r.account=#{account}
+    </select>
+
+    <!-- 每年座位及研修间使用总时长-->
+    <select id="getReaderSeatandcroomInfo" parameterType="com.smartlibrary.domain.reader_report" resultType="com.smartlibrary.domain.reader_report">
+        select *
+        from reader_report_ic_lend
+        where  account=#{account}
     </select>
 
 

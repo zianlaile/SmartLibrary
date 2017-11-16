@@ -110,6 +110,26 @@
         GROUP BY `book_kind`
     </select>
 
+    <!--3. 有借阅记录的教职工读者人数-->
+    <select id="getTeacherLendCount" parameterType="com.smartlibrary.domain.library_report_month_mankinds" resultType="com.smartlibrary.domain.library_report_month_mankinds">
+        select count(DISTINCT(account)) as lend
+        from library_report_month_teacher
+    </select>
+
+    <!--教职工读者共借阅图书册数-->
+    <select id="getTeacherLendCount_Byyeat" parameterType="com.smartlibrary.domain.library_report_month_mankinds" resultType="com.smartlibrary.domain.library_report_month_mankinds">
+        select `year`  ,lend
+        from library_report_month_mankinds
+        where man_kind='教职工'
+        GROUP BY `year`
+    </select>
+
+
+
+
+
+
+
 
     <!--2011年-2017年教职工借阅人数统计（包括：<10册, 11-20册, 21-30册, 31-50册, 51-100册, 101-200册, 201-300册, >300册）（表格）
       做起来麻烦点 ，循环一下，lend，back 借用一下做大小值-->

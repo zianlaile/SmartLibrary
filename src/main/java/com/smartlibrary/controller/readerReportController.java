@@ -61,6 +61,7 @@ public class readerReportController {
     // <!-- 每年座位及研修间使用总时长-->
     @RequestMapping(value = "/getReaderSeatandcroomInfo", method = RequestMethod.GET)
     public List<reader_report> getReaderSeatandcroomInfo(reader_report n){
+        n.setAccount("20092476");
         return readerReportservice.getReaderSeatandcroomInfo(n);
 
     };

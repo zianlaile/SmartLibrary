@@ -1,4 +1,4 @@
-package com.smartlibrary.service;
+package com.smartlibrary.common;
 
 import org.apache.poi.POIXMLDocument;
 import org.apache.poi.openxml4j.opc.OPCPackage;
@@ -61,6 +61,7 @@ public class WordUtil {
                 List<XWPFRun> runs = paragraph.getRuns();
                 for (XWPFRun run : runs) {
                     String text = run.getText(0);
+                    System.out.println(text);
                     if(text != null){
                         boolean isSetText = false;
                         for (Map.Entry<String, Object> entry : param.entrySet()) {

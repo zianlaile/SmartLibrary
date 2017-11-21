@@ -9,6 +9,7 @@ import sun.misc.BASE64Decoder;
 
 import java.io.*;
 import java.net.URLDecoder;
+import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -29,6 +30,7 @@ public class reportService {
         param.put("${school}", "浙江工业");
         JSONArray section1_2_1 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getGctrlsCountBy_year");
         JSONArray section1_2_2 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getGctrlsCountBy_month");
+        JSONArray section1_2_3 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getmankindCount_Byoneyear");
         JSONArray section2_1 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getBook_LendCountBy_year");
         JSONArray section2_2_1 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getBookkindAllCount_Byyear");
         JSONArray section2_3 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getReder_booklendCount_Byyear");
@@ -70,6 +72,29 @@ public class reportService {
         param.put("${gctrl_month_amount}",String.valueOf(sum_section1_2_2));
         param.put("${gctrl_month_month3}",section1_2_2.getJSONObject(max_section1_2_2).getString("month"));
         param.put("${img_title_year}",section1_2_2.getJSONObject(0).getString("year"));
+        param.put("${gctrl_type_year1}",section1_2_3.getJSONObject(0).getString("year"));
+        param.put("${student_borrow_year}",section1_2_3.getJSONObject(0).getString("year"));
+        param.put("${img_borrow_year1}",section1_2_3.getJSONObject(0).getString("year"));
+        param.put("${img_borrow_year2}",section1_2_3.getJSONObject(0).getString("year"));
+        List arr1_2_3 = new ArrayList();
+        List arr_2_8_2 = new ArrayList();
+        int sum1_2_3 = 0;
+        int sum_2_8_2 = 0;
+        for(int i=0;i<section1_2_3.size();i++){
+            arr1_2_3.add(section1_2_3.getJSONObject(i).getInteger("gctrl"));
+            sum1_2_3+=section1_2_3.getJSONObject(i).getInteger("gctrl");
+            arr_2_8_2.add(section1_2_3.getJSONObject(i).getInteger("lend"));
+            sum_2_8_2+=section1_2_3.getJSONObject(i).getInteger("lend");
+        }
+        float percent1_2_3 = (float)Integer.valueOf(Collections.max(arr1_2_3).toString())/sum1_2_3*100;
+        float percent2_8_2 = (float)Integer.valueOf(Collections.max(arr_2_8_2).toString())/sum_2_8_2*100;
+        DecimalFormat df = new DecimalFormat("0.00");//格式化小数
+        //String s = df.format(percent1_2_3);//返回的是String类型
+        //percent1_2_3 = (float)(Math.round(percent1_2_3*100)/100);
+        param.put("${gctrl_type_student}",section1_2_3.getJSONObject(arr1_2_3.indexOf(Collections.max(arr1_2_3))).getString("man_kind"));
+        param.put("${gctrl_type_percent}",df.format(percent1_2_3));
+        param.put("${student_borrow_type}",section1_2_3.getJSONObject(arr_2_8_2.indexOf(Collections.max(arr_2_8_2))).getString("man_kind"));
+        param.put("${student_borrow_percent}",df.format(percent2_8_2));
         ArrayList<Integer> array2_1 = new ArrayList<Integer>();
         for(int i=0;i<section2_1.size();i++){
             array2_1.add(section2_1.getJSONObject(i).getInteger("book_lend_times"));
@@ -78,8 +103,6 @@ public class reportService {
         Collections.sort(array2_1_sort);
         int max2_1 = Collections.max(array2_1);
         int secondmax2_1 = array2_1_sort.get(array2_1_sort.size()-2);
-        System.out.println(array2_1.indexOf(max2_1));
-        System.out.println(array2_1);
         param.put("${lend_top1_year}",section2_1.getJSONObject(array2_1.indexOf(max2_1)).getString("year"));
         param.put("${lend_top1_amount}",String.valueOf(max2_1));
         param.put("${lend_top2_year}",section2_1.getJSONObject(array2_1.indexOf(secondmax2_1)).getString("year"));

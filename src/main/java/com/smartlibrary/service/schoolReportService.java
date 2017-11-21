@@ -127,6 +127,9 @@ public class schoolReportService {
         return schoolReportdao.getmankindCount_Byyear(n);
     };
 
+    public   List<library_report_month_mankinds> getmankindCount_Byoneyear(library_report_month_mankinds n){
+        return schoolReportdao.getmankindCount_Byoneyear(n);
+    };
 
 
 

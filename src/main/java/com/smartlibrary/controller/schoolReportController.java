@@ -144,6 +144,11 @@ public class schoolReportController {
     @RequestMapping(value = "/getmankindCount_Byyear", method = RequestMethod.GET)
     public   List<library_report_month_mankinds> getmankindCount_Byyear(library_report_month_mankinds n){
         return schoolReportservice.getmankindCount_Byyear(n);
+    }
+
+    @RequestMapping(value = "/getmankindCount_Byoneyear", method = RequestMethod.GET)
+    public   List<library_report_month_mankinds> getmankindCount_Byoneyear(library_report_month_mankinds n){
+        return schoolReportservice.getmankindCount_Byoneyear(n);
     };
 
 

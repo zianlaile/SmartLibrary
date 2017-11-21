@@ -59,5 +59,6 @@ public interface schoolReportDao {
     8. 年度各类型读者借书比例（包括本科生、硕士生、教职工、其他）（柱状图）
     9. 年度各类型读者续借比例（包括本科生、硕士生、教职工、其他）（柱状图）-->*/
     List<library_report_month_mankinds> getmankindCount_Byyear(library_report_month_mankinds n);
+    List<library_report_month_mankinds> getmankindCount_Byoneyear(library_report_month_mankinds n);
 
 }

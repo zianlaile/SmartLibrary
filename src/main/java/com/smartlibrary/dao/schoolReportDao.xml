@@ -26,7 +26,7 @@
         GROUP BY `year`
     </select>
     <select id="getBook_LendCountBy_academyAndyear" parameterType="com.smartlibrary.domain.library_report_academy" resultType="com.smartlibrary.domain.library_report_academy">
-        select academy,lend,back
+        select year,academy,lend,back
         from library_report_academy
         WHERE `year`= DATE_FORMAT('2016-01-01', '%Y')
         GROUP BY  academy
@@ -53,14 +53,14 @@
         WHERE `year`= DATE_FORMAT('2016-01-01', '%Y')
     </select>
     <select id="getop20bookBy_year" parameterType="com.smartlibrary.domain.library_report_ranking_book" resultType="com.smartlibrary.domain.library_report_ranking_book">
-		select book_name,author,book_pubyear,lend_times,id
+		select year,book_name,author,book_pubyear,lend_times,id
         from library_report_ranking_book
         WHERE `year`= DATE_FORMAT('2015-01-01', '%Y')
 		ORDER BY lend_times DESC
 		limit 20
     </select>
     <select id="getop20authorBy_year" parameterType="com.smartlibrary.domain.library_report_ranking_author" resultType="com.smartlibrary.domain.library_report_ranking_author">
-        select book_name,author,book_pubyear,lend_times,id
+        select year,book_name,author,book_pubyear,lend_times,id
         from library_report_ranking_author
         WHERE `year`= DATE_FORMAT('2015-01-01', '%Y')
         ORDER BY lend_times DESC

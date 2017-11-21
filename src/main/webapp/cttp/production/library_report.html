@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>图书馆报告</title>
+    <!-- Bootstrap -->
+    <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="../vendors/animate.css/animate.min.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="../build/css/custom.min.css" rel="stylesheet">
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="../vendors/jquery/dist/jquery.min.js"></script>
+    <!-- 引入 ECharts 文件 -->
+    <script src="../../js/echarts.min.js"></script>
+</head>
+<script type="application/javascript">
+    function getResourceCountBy_year() {
+        $.ajax({
+            type:'get',
+            url:'../../schoolReport/getResourceCountBy_year',
+            contentType: 'application/json',
+            async:false,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                var year = [];
+                var count = [];
+                var count1 = [];
+                for(var i=0;i<data.length;i++){
+                    year.push(data[i].year);
+                    count.push({
+                        value:data[i].count,
+                        itemStyle:{
+                            normal:{
+                                color:'orange'
+
+                            }
+                        }
+                    });
+                    count1.push(data[i].count)
+                }
+                var getResourceCountBy_year = echarts.init(document.getElementById('getResourceCountBy_year'));
+                var option = {
+                    backgroundColor:'white',
+                    xAxis: [
+                        {
+                            type: 'category',
+                            show:true,
+                            data: year,
+                            axisPointer: {
+                                type: 'shadow'
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                        }
+                    ],
+
+                    yAxis: [
+                        {
+                            type: 'value',
+                            name: '保障率',
+                            /*min: 0,
+                            max:100,
+                            interval: 20,*/
+                            axisLabel: {
+                                formatter: '{value}'
+                            },
+                            axisTick: {
+                                show: false
+                            }
+                        },
+
+                    ],
+                    series: [
+                        {
+                            name:'保障率',
+                            type:'bar',
+                            barWidth: '30%',
+                            data:count
+                        },
+
+                        {
+
+
+                            type:'line',
+                            name:'占比',
+                            data:count1
+                        }
+                    ]
+                };
+                getResourceCountBy_year.setOption(option);
+            }
+        });
+    }
+    $(function () {
+        getResourceCountBy_year();
+    });
+</script>
+<body>
+<div style="width: 100%;height: 100%;">
+    <div style="height: 300px; left: 25%;width: 50%;position: absolute;" id="getResourceCountBy_year"></div>
+</div>
+</body>
+</html>

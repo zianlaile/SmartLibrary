@@ -30,6 +30,7 @@
         from library_report_academy
         WHERE `year`= DATE_FORMAT('2016-01-01', '%Y')
         GROUP BY  academy
+        ORDER BY lend DESC
     </select>
     <select id="getLendTop3By_academyAndyear" parameterType="com.smartlibrary.domain.library_report_academy" resultType="com.smartlibrary.domain.library_report_academy">
         select academy,lend

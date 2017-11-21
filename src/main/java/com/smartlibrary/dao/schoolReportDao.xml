@@ -20,10 +20,10 @@
         ORDER BY ymdate
     </select>
     <select id="getBook_LendCountBy_year" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
-        select ymdate as time,year,book_lend_times,book_return_times
+        select year,SUM(book_lend_times) book_lend_times,SUM(book_return_times) book_return_times
         from zz_time_month_count
-         WHERE `year`= DATE_FORMAT('2016-01-01', '%Y')
-        ORDER BY ymdate
+
+        GROUP BY `year`
     </select>
     <select id="getBook_LendCountBy_academyAndyear" parameterType="com.smartlibrary.domain.library_report_academy" resultType="com.smartlibrary.domain.library_report_academy">
         select academy,lend,back

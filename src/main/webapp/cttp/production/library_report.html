@@ -289,7 +289,7 @@
                         {
                             name:data[0].year+'年',
                             type:'pie',
-                            radius : [30, 110],
+                            radius : [50, 150],
                             center : ['50%', '50%'],
                             roseType : 'radius',
                             data:gctrldata
@@ -525,6 +525,439 @@
             }
         })
     }
+    function getBook_LendCountBy_academyAndyear() {
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../schoolReport/getBook_LendCountBy_academyAndyear',
+            dataType:'json',
+            async:false,
+            success:function (data) {
+                var academy = [];
+                var academylend = [];
+                for(var i=0;i<data.length;i++){
+                    academy.push(data[i].academy);
+                    academylend.push(data[i].lend);
+                }
+                var getBook_LendCountBy_academyAndyear = echarts.init(document.getElementById('getBook_LendCountBy_academyAndyear'));
+                var getBook_LendCountBy_academyAndyearoption = {
+                    backgroundColor:'white',
+                    color: ['#3398DB'],
+                    tooltip : {
+                        trigger: 'axis',
+                        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '13%',
+                        containLabel: true
+                    },
+                    xAxis : [
+                        {
+                            name:'学院',
+                            type : 'category',
+                            data : academy,
+                            axisTick: {
+                                alignWithLabel: true
+                            },
+                            "axisLabel": {
+                                "interval": 0,
+                                "rotate": 30,
+                                "show": true,
+                                "splitNumber": 15,
+                                "textStyle": {
+                                    "fontFamily": "微软雅黑",
+                                    "fontSize": 12
+                                }
+                            }
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            // type : 'category',
+                            // data : ['10','20','30','40'],
+                            name:'册',
+                            axisTick: {
+                                alignWithLabel: true
+                            }
+                        }
+                    ],
+                    series : [
+                        {
+                            name:'借阅',
+                            type:'bar',
+                            barWidth: '40%',
+                            data:academylend
+                        },
+
+                    ],
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{c}'
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(17, 168,171, 1)'
+                            }, {
+                                offset: 1,
+                                color: 'rgba(17, 168,171, 0.1)'
+                            }]),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    }
+                };
+                getBook_LendCountBy_academyAndyear.setOption(getBook_LendCountBy_academyAndyearoption);
+            }
+
+        })
+        
+    }
+    function getbooklendPeopleAndCount_Byhour() {
+      $.ajax({
+          type:'get',
+          contentType:'application/json',
+          url:'../../schoolReport/getbooklendPeopleAndCount_Byhour',
+          dataType:'json',
+          async:false,
+          success:function (data) {
+              var booklendhour = [];
+              var lendpeople = [];
+              var lendbookdata = [];
+              for(var i=0;i<data.length;i++){
+                  booklendhour.push(data[i].hour+"点");
+                  lendpeople.push(data[i].lend_people);
+                  lendbookdata.push(data[i].lend);
+              }
+              var getbooklendPeopleAndCount_Byhour = echarts.init(document.getElementById('getbooklendPeopleAndCount_Byhour'));
+              var getbooklendPeopleAndCount_Byhouroption = {
+                  backgroundColor: 'white',
+                  tooltip: {
+                      trigger: 'axis',
+                      axisPointer: {
+                          lineStyle: {
+                              color: '#57617B'
+                          }
+                      }
+                  },
+                  legend: {
+                      icon: 'rect',
+                      itemWidth: 14,
+                      itemHeight: 5,
+                      itemGap: 13,
+                      data: ['借出册数', '借出人数'],
+                      right: '4%',
+                  },
+                  grid: {
+                      left: '3%',
+                      right: '4%',
+                      bottom: '3%',
+                      containLabel: true
+                  },
+                  xAxis: [{
+                      name:'小时',
+                      type: 'category',
+                      boundaryGap: false,
+                      axisLine: {
+                          lineStyle: {
+                              color: '#57617B'
+                          }
+                      },
+                      data: booklendhour
+                  }],
+                  yAxis: [{
+                      type: 'value',
+                      axisTick: {
+                          show: false
+                      },
+                      axisLine: {
+                          lineStyle: {
+                              color: '#57617B'
+                          }
+                      },
+                      axisLabel: {
+                          margin: 10,
+                          textStyle: {
+                              fontSize: 14
+                          }
+                      },
+                      splitLine: {
+                          lineStyle: {
+                              color: '#57617B'
+                          },
+                          show:false,
+                      }
+                  }],
+                  series: [{
+                      name: '借出册数',
+                      type: 'line',
+                      smooth: true,
+                      lineStyle: {
+                          normal: {
+                              width: 1
+                          }
+                      },
+                      areaStyle: {
+                          normal: {
+                              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                  offset: 0,
+                                  color: 'rgba(17, 168, 171, 1)'
+                              }, {
+                                  offset: 0.8,
+                                  color: 'rgba(17, 168, 171, 0.3)'
+                              }], false),
+                              shadowColor: 'rgba(0, 0, 0, 0.1)',
+                              shadowBlur: 10
+                          }
+                      },
+                      itemStyle: {
+                          normal: {
+                              color: 'rgb(17, 168, 171)',
+                              borderColor: 'rgba(17,168,171,0.27)',
+                              borderWidth: 6
+                          }
+                      },
+                      data: lendbookdata
+                  }, {
+                      name: '借出人数',
+                      type: 'line',
+                      smooth: true,
+                      lineStyle: {
+                          normal: {
+                              width: 1
+                          }
+                      },
+                      areaStyle: {
+                          normal: {
+                              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                  offset: 0,
+                                  color: 'rgba(255, 69, 0, 1)'
+                              }, {
+                                  offset: 0.8,
+                                  color: 'rgba(255, 69, 0, 0.3)'
+                              }], false),
+                              shadowColor: 'rgba(0, 0, 0, 0.1)',
+                              shadowBlur: 10
+                          }
+                      },
+                      itemStyle: {
+                          normal: {
+                              color: 'rgb(255,69,0)',
+                              borderColor: 'rgba(255,69,0,0.2)',
+                              borderWidth: 6
+
+                          }
+                      },
+                      data: lendpeople
+                  } ]
+              };
+              getbooklendPeopleAndCount_Byhour.setOption(getbooklendPeopleAndCount_Byhouroption);
+          }
+      })
+    }
+    function getlend_student_type(){
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../schoolReport/getmankindCount_Byyear',
+            async:false,
+            dataType:'json',
+            success:function (data) {
+                var colorList = [
+                    '#59c5a7', '#51b8fe', '#fa827d','#FFCC67'
+                ];
+
+                // 总和
+                var total = {
+                    name: '总借阅数',
+                    value: data[0].lend+data[1].lend+data[2].lend+data[3].lend
+                }
+
+                var originalData = [{
+                    value: data[0].lend,
+                    name: '其他：'+data[0].lend
+                }, {
+                    value: data[1].lend,
+                    name: '教职工：'+data[1].lend
+                }, {
+                    value: data[2].lend,
+                    name: "本科生："+data[2].lend
+                }, {
+                    value: data[3].lend,
+                    name: "研究生："+data[3].lend
+                },
+                ];
+                echarts.util.each(originalData, function(item, index) {
+                    item.itemStyle = {
+                        normal: {
+                            color: colorList[index]
+                        }
+                    };
+                });
+                var getlend_student_typeoption = {
+                    backgroundColor:'white',
+                    title: [{
+                        text: total.name,
+                        left: '49%',
+                        top: '46%',
+                        textAlign: 'center',
+                        textBaseline: 'middle',
+                        textStyle: {
+                            color: '#999',
+                            fontWeight: 'normal',
+                            fontSize: 20
+                        }
+                    }, {
+                        text: total.value,
+                        left: '49%',
+                        top: '51%',
+                        textAlign: 'center',
+                        textBaseline: 'middle',
+                        textStyle: {
+                            color: '#666',
+                            fontWeight: 'normal',
+                            fontSize: 40
+                        }
+                    }],
+                    series: [{
+                        hoverAnimation: false, //设置饼图默认的展开样式
+                        radius: [100, 190],
+                        name: 'pie',
+                        type: 'pie',
+                        selectedMode: 'single',
+                        selectedOffset: 16, //选中是扇区偏移量
+                        clockwise: true,
+                        startAngle: 90,
+                        label: {
+                            normal: {
+                                textStyle: {
+                                    fontSize: 18,
+                                    color: '#999'
+                                }
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                lineStyle: {
+                                    color: '#999',
+
+                                }
+                            }
+                        },
+                        data: originalData
+                    }]
+                };
+                var getlend_student_type = echarts.init(document.getElementById('getlend_student_type'));
+                getlend_student_type.setOption(getlend_student_typeoption);
+            }
+        })
+    }
+    function getlendrenew_student_type(){
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../schoolReport/getmankindCount_Byyear',
+            async:false,
+            dataType:'json',
+            success:function (data) {
+                var colorList = [
+                    '#59c5a7', '#51b8fe', '#fa827d','#FFCC67'
+                ];
+
+                // 总和
+                var total = {
+                    name: '总续借数',
+                    value: data[0].renew+data[1].renew+data[2].renew+data[3].renew
+                }
+
+                var originalData = [{
+                    value: data[0].renew,
+                    name: '其他：'+data[0].renew
+                }, {
+                    value: data[1].renew,
+                    name: '教职工：'+data[1].renew
+                }, {
+                    value: data[2].renew,
+                    name: "本科生："+data[2].renew
+                }, {
+                    value: data[3].renew,
+                    name: "研究生："+data[3].renew
+                },
+                ];
+                echarts.util.each(originalData, function(item, index) {
+                    item.itemStyle = {
+                        normal: {
+                            color: colorList[index]
+                        }
+                    };
+                });
+                var getlendrenew_student_typeoption = {
+                    backgroundColor:'white',
+                    title: [{
+                        text: total.name,
+                        left: '49%',
+                        top: '46%',
+                        textAlign: 'center',
+                        textBaseline: 'middle',
+                        textStyle: {
+                            color: '#999',
+                            fontWeight: 'normal',
+                            fontSize: 20
+                        }
+                    }, {
+                        text: total.value,
+                        left: '49%',
+                        top: '51%',
+                        textAlign: 'center',
+                        textBaseline: 'middle',
+                        textStyle: {
+                            color: '#666',
+                            fontWeight: 'normal',
+                            fontSize: 40
+                        }
+                    }],
+                    series: [{
+                        hoverAnimation: false, //设置饼图默认的展开样式
+                        radius: [100, 190],
+                        name: 'pie',
+                        type: 'pie',
+                        selectedMode: 'single',
+                        selectedOffset: 16, //选中是扇区偏移量
+                        clockwise: true,
+                        startAngle: 90,
+                        label: {
+                            normal: {
+                                textStyle: {
+                                    fontSize: 18,
+                                    color: '#999'
+                                }
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                lineStyle: {
+                                    color: '#999',
+
+                                }
+                            }
+                        },
+                        data: originalData
+                    }]
+                };
+                var getlendrenew_student_type = echarts.init(document.getElementById('getlendrenew_student_type'));
+                getlendrenew_student_type.setOption(getlendrenew_student_typeoption);
+            }
+        })
+    }
     $(function () {
         getResourceCountBy_year();
         getGctrlsCountBy_year();
@@ -533,6 +966,10 @@
         getmankindCount_Byyear();
         getBook_LendCountBy_year();
         getBookkindAllCount_Byyear();
+        getBook_LendCountBy_academyAndyear();
+        getbooklendPeopleAndCount_Byhour();
+        getlend_student_type();
+        getlendrenew_student_type();
         var picBase64Info1 =echarts.init(document.getElementById("getResourceCountBy_year")).getDataURL();
         var picBase64Info2 =echarts.init(document.getElementById("getGctrlsCountBy_year")).getDataURL();
         var picBase64Info3 =echarts.init(document.getElementById("getGctrlsCountBy_month")).getDataURL();
@@ -540,7 +977,7 @@
         var picBase64Info5 =echarts.init(document.getElementById("getmankindCount_Byyear")).getDataURL();
         var picBase64Info6 =echarts.init(document.getElementById("getBook_LendCountBy_year")).getDataURL();
         var picBase64Info7 =echarts.init(document.getElementById("getBookkindAllCount_Byyear")).getDataURL();
-        var postdata = {
+        /*var postdata = {
             "picBase64Info1" :picBase64Info1,
             "picBase64Info2" :picBase64Info2,
             "picBase64Info3" :picBase64Info3,
@@ -565,18 +1002,22 @@
 
                 }
             }
-        });
+        });*/
     });
 </script>
 <body>
 <div style="width: 100%;height: 100%;">
-    <div style="height: 300px; left: 20%;width: 60%;position: relative;" id="getResourceCountBy_year"></div>
-    <div style="height: 300px; left: 20%;width: 60%;position: relative;" id="getGctrlsCountBy_year"></div>
-    <div style="height: 300px; left: 20%;width: 60%;position: relative;" id="getGctrlsCountBy_month"></div>
-    <div style="height: 300px; left: 20%;width: 60%;position: relative;" id="getmankindGctrl_Byoneyear"></div>
-    <div style="height: 300px; left: 20%;width: 60%;position: relative;" id="getmankindCount_Byyear"></div>
-    <div style="height: 300px; left: 20%;width: 60%;position: relative;" id="getBook_LendCountBy_year"></div>
+    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getResourceCountBy_year"></div>
+    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getGctrlsCountBy_year"></div>
+    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getGctrlsCountBy_month"></div>
+    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getmankindGctrl_Byoneyear"></div>
+    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getmankindCount_Byyear"></div>
+    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getBook_LendCountBy_year"></div>
     <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getBookkindAllCount_Byyear"></div>
+    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getBook_LendCountBy_academyAndyear"></div>
+    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getbooklendPeopleAndCount_Byhour"></div>
+    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getlend_student_type"></div>
+    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getlendrenew_student_type"></div>
 </div>
 </body>
 </html>

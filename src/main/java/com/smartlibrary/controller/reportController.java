@@ -1,5 +1,6 @@
 package com.smartlibrary.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.smartlibrary.service.reportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,8 @@ public class reportController {
     @RequestMapping(method = { RequestMethod.POST },value = "/getreport")
     @ResponseBody
     public String getReport(@RequestBody String picBase64Info){
-        picBase64Info = picBase64Info.replaceAll(" ", "+");
+        //picBase64Info = picBase64Info.replaceAll(" ", "+");
+        System.out.println(picBase64Info);
         return reportService.getReport(picBase64Info);
     }
 }

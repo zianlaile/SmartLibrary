@@ -52,8 +52,10 @@
                 var getResourceCountBy_year = echarts.init(document.getElementById('getResourceCountBy_year'));
                 var option = {
                     backgroundColor:'white',
+                    animation:false,
                     xAxis: [
                         {
+                            name:'年',
                             type: 'category',
                             show:true,
                             data: year,
@@ -69,7 +71,7 @@
                     yAxis: [
                         {
                             type: 'value',
-                            name: '保障率',
+                            /*name: '保障率',*/
                             /*min: 0,
                             max:100,
                             interval: 20,*/
@@ -84,32 +86,497 @@
                     ],
                     series: [
                         {
-                            name:'保障率',
+                            /*name:'保障率',*/
                             type:'bar',
                             barWidth: '30%',
-                            data:count
+                            data:count,
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'top',
+                                    formatter: '{c}'
+                                }
+                            },
                         },
 
                         {
-
-
                             type:'line',
                             name:'占比',
                             data:count1
                         }
-                    ]
+                    ],
                 };
                 getResourceCountBy_year.setOption(option);
             }
         });
     }
+    function getGctrlsCountBy_year() {
+        $.ajax({
+            type:'get',
+            url:'../../schoolReport/getGctrlsCountBy_year',
+            contentType:'application/json',
+            async:false,
+            dataType:'json',
+            success:function (data) {
+                var year = [];
+                var gctrl = []
+                for(var i=0;i<data.length;i++){
+                    year.push(data[i].year);
+                    gctrl.push(data[i].gctrls);
+                }
+                var getgetGctrlsCountBy_year = echarts.init(document.getElementById('getGctrlsCountBy_year'));
+                var GctrlsCountBy_yearoption = {
+                    animation:false,
+                    backgroundColor:'white',
+                    color: ['#3398DB'],
+                    tooltip : {
+                        trigger: 'axis',
+                        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis : [
+                        {
+                            name:'年',
+                            type : 'category',
+                            data : year,
+                            axisTick: {
+                                alignWithLabel: true
+                            }
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            // type : 'category',
+                            // data : ['10','20','30','40'],
+                            name:"人次",
+                            axisTick: {
+                                alignWithLabel: true
+                            }
+                        }
+                    ],
+                    series : [
+                        {
+                            name:'进馆人次',
+                            type:'bar',
+                            barWidth: '40%',
+                            data:gctrl
+                        },
+
+                    ],
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{c}'
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(17, 168,171, 1)'
+                            }, {
+                                offset: 1,
+                                color: 'rgba(17, 168,171, 0.1)'
+                            }]),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    }
+                };
+                getgetGctrlsCountBy_year.setOption(GctrlsCountBy_yearoption);
+            }
+        });
+
+    }
+    function getGctrlsCountBy_month() {
+        $.ajax({
+           type:'get',
+            contentType:'application/json',
+            url:'../../schoolReport/getGctrlsCountBy_month',
+            dataType:'json',
+            async:false,
+            success:function (data) {
+                var month = [];
+                var gctrl_times = [];
+                for(var i=0;i<data.length;i++){
+                    month.push(data[i].month+'月');
+                    gctrl_times.push(data[i].gctrl_times);
+                }
+                var getGctrlsCountBy_month = echarts.init(document.getElementById('getGctrlsCountBy_month'));
+                var getGctrlsCountBy_monthoption = {
+                    animation:false,
+                    backgroundColor:'white',
+                    tooltip : {
+                        trigger: 'axis'
+                    },
+                    calculable : true,
+                    xAxis : [
+                        {
+                            name:'月',
+                            type : 'category',
+                            data : month
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            name:'人次',
+                            type : 'value'
+                        }
+                    ],
+                    series : [
+                        {
+                            name:'进馆人次',
+                            type:'bar',
+                            data:gctrl_times,
+                            itemStyle: {
+                                normal: {
+                                    color: function(params) {
+                                        // build a color map as your need.
+                                        var colorList = [
+                                            '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
+                                            '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
+                                            '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
+                                        ];
+                                        return colorList[params.dataIndex]
+                                    },label: {
+                                        show: true,
+                                        position: 'top',
+                                        formatter: '{b}\n{c}'
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                };
+                getGctrlsCountBy_month.setOption(getGctrlsCountBy_monthoption);
+            }
+        });
+    }
+    function getmankindGctrl_Byoneyear() {
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../schoolReport/getmankindCount_Byoneyear',
+            async:false,
+            dataType:'json',
+            success:function(data){
+                var gctrldata = [];
+                for(var i=0;i<data.length;i++){
+                    gctrldata.push({
+                        value:data[i].gctrl,
+                        name:data[i].man_kind
+                    });
+                }
+                var getmankindGctrl_Byoneyear = echarts.init(document.getElementById('getmankindGctrl_Byoneyear'));
+                var getmankindGctrl_Byoneyearoption = {
+                    animation:false,
+                    backgroundColor:'white',
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    calculable : true,
+                    series : [
+                        {
+                            name:data[0].year+'年',
+                            type:'pie',
+                            radius : [30, 110],
+                            center : ['50%', '50%'],
+                            roseType : 'radius',
+                            data:gctrldata
+                        }
+                    ]
+                };
+                getmankindGctrl_Byoneyear.setOption(getmankindGctrl_Byoneyearoption);
+            }
+        })
+    }
+    function getmankindCount_Byyear() {
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../schoolReport/getmankindCount_Byyear',
+            dataType:'json',
+            async:false,
+            success:function (data) {
+                var getmankindCount_Byyearyear = new Array();
+                var mankinddata = [];
+                var other = [];
+                var student = [];
+                var teacher = [];
+                var gradute = [];
+                for(var i=0;i<data.length;i++){
+                    if($.inArray(data[i].year, getmankindCount_Byyearyear)==-1){
+                        getmankindCount_Byyearyear.push(data[i].year);
+                    }
+                    if(data[i].man_kind=='其他'){
+                        other.push(data[i].gctrl);
+                    }
+                    else if(data[i].man_kind=='教职工'){
+                        teacher.push(data[i].gctrl);
+                    }
+                    else if(data[i].man_kind=='本科生'){
+                        student.push(data[i].gctrl);
+                    }
+                    else if(data[i].man_kind=='研究生'){
+                        gradute.push(data[i].gctrl);
+                    }
+                }
+                console.log(getmankindCount_Byyearyear);
+                mankinddata.push({
+                    name:'其他',
+                    type:'line',
+                    data:other
+                });
+                mankinddata.push({
+                    name:'教职工',
+                    type:'line',
+                    data:teacher
+                });
+                mankinddata.push({
+                    name:'本科生',
+                    type:'line',
+                    data:student
+                });
+                mankinddata.push({
+                    name:'研究生',
+                    type:'line',
+                    data:gradute
+                });
+                var getmankindCount_Byyear = echarts.init(document.getElementById('getmankindCount_Byyear'));
+                var getmankindCount_Byyearoption = {
+                    animation:false,
+                    backgroundColor:'white',
+                    xAxis: {
+                        name:'年',
+                        data:getmankindCount_Byyearyear,
+                    },
+                    legend: {
+                        align: 'right',
+                        data: ['其他','教职工','本科生','研究生'],
+                        textStyle: {
+                            align: 'right',
+                            baseline: 'middle',
+                            fontFamily: 'IRANSans'
+                        }
+                    },
+                    yAxis: {
+                        name:'人次'
+                    },
+                    series: mankinddata
+                };
+                getmankindCount_Byyear.setOption(getmankindCount_Byyearoption);
+            }
+        })
+    }
+    function getBook_LendCountBy_year() {
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../schoolReport/getBook_LendCountBy_year',
+            async:false,
+            dataType:'json',
+            success:function (data) {
+                var book_lend_year = [];
+                var book_lend_times = [];
+                var book_return_times = [];
+                for(var i=0;i<data.length;i++){
+                    book_lend_year.push(data[i].year);
+                    book_lend_times.push(data[i].book_lend_times);
+                    book_return_times.push(data[i].book_return_times);
+                }
+                var getBook_LendCountBy_year = echarts.init(document.getElementById('getBook_LendCountBy_year'));
+                var getBook_LendCountBy_yearoption ={
+                    animation:false,
+                    backgroundColor:'white',
+                    tooltip : {
+                        trigger: 'axis',
+                        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                        }
+                    },
+                    legend: {
+                        data: ['借书', '还书']
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    yAxis:  {
+                        name:'册',
+                        type: 'value'
+                    },
+                    xAxis: {
+                        name:'年',
+                        type: 'category',
+                        data: book_lend_year
+                    },
+                    series: [
+                        {
+                            name: '借书',
+                            type: 'bar',
+                            stack: '总量',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'inside'
+                                }
+                            },
+                            data: book_lend_times
+                        },
+                        {
+                            name: '还书',
+                            type: 'bar',
+                            stack: '总量',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'inside'
+                                }
+                            },
+                            data: book_return_times
+                        }
+                    ]
+                };
+                getBook_LendCountBy_year.setOption(getBook_LendCountBy_yearoption);
+            }
+        })
+    }
+    function getBookkindAllCount_Byyear() {
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../schoolReport/getBookkindAllCount_Byyear',
+            async:false,
+            dataType:'json',
+            success:function (data) {
+                var bookkind = [];
+                var bookkinddata = [];
+                for(var i=0;i<data.length;i++){
+                    bookkind.push(data[i].book_kind);
+                    bookkinddata.push(data[i].book_lend_times);
+                }
+                var getBookkindAllCount_Byyear = echarts.init(document.getElementById('getBookkindAllCount_Byyear'));
+                var getBookkindAllCount_Byyearoption = {
+                    animation:false,
+                    backgroundColor:'white',
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: null // 默认为直线，可选为：'line' | 'shadow'
+                        },
+                        formatter: '{b} : {c}'
+                    },
+                    xAxis: [{
+                        type: 'value',
+                        axisLabel: {
+                            show: false
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            show: false
+                        },
+                        splitLine: {
+                            show: false
+                        }
+
+                    }],
+                    yAxis: [{
+                        type: 'category',
+                        boundaryGap: true,
+                        axisTick: {
+                            show: true
+                        },
+                        axisLabel: {
+                            interval: null
+                        },
+                        data: bookkind,
+                        splitLine: {
+                            show: false
+                        }
+                    }],
+                    series: [{
+                        type: 'bar',
+                        barWidth: 25,
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'right'
+                            }
+
+                        },
+                        data: bookkinddata
+                    }]
+                };
+                getBookkindAllCount_Byyear.setOption(getBookkindAllCount_Byyearoption);
+            }
+        })
+    }
     $(function () {
         getResourceCountBy_year();
+        getGctrlsCountBy_year();
+        getGctrlsCountBy_month();
+        getmankindGctrl_Byoneyear();
+        getmankindCount_Byyear();
+        getBook_LendCountBy_year();
+        getBookkindAllCount_Byyear();
+        var picBase64Info1 =echarts.init(document.getElementById("getResourceCountBy_year")).getDataURL();
+        var picBase64Info2 =echarts.init(document.getElementById("getGctrlsCountBy_year")).getDataURL();
+        var picBase64Info3 =echarts.init(document.getElementById("getGctrlsCountBy_month")).getDataURL();
+        var picBase64Info4 =echarts.init(document.getElementById("getmankindGctrl_Byoneyear")).getDataURL();
+        var picBase64Info5 =echarts.init(document.getElementById("getmankindCount_Byyear")).getDataURL();
+        var picBase64Info6 =echarts.init(document.getElementById("getBook_LendCountBy_year")).getDataURL();
+        var picBase64Info7 =echarts.init(document.getElementById("getBookkindAllCount_Byyear")).getDataURL();
+        var postdata = {
+            "picBase64Info1" :picBase64Info1,
+            "picBase64Info2" :picBase64Info2,
+            "picBase64Info3" :picBase64Info3,
+            "picBase64Info4" :picBase64Info4,
+            "picBase64Info5" :picBase64Info5,
+            "picBase64Info6" :picBase64Info6,
+            "picBase64Info7" :picBase64Info7,
+        }
+        $.ajax({
+            type:"POST",
+            contentType: 'application/json;charset=UTF-8',
+            data:JSON.stringify(postdata),
+            url:"../../report/getreport",
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                try{
+                    var elemIF = document.createElement("iframe");
+                    elemIF.src = "../../report/2.docx";
+                    elemIF.style.display = "none";
+                    document.body.appendChild(elemIF);
+                }catch(e){
+
+                }
+            }
+        });
     });
 </script>
 <body>
 <div style="width: 100%;height: 100%;">
-    <div style="height: 300px; left: 25%;width: 50%;position: absolute;" id="getResourceCountBy_year"></div>
+    <div style="height: 300px; left: 20%;width: 60%;position: relative;" id="getResourceCountBy_year"></div>
+    <div style="height: 300px; left: 20%;width: 60%;position: relative;" id="getGctrlsCountBy_year"></div>
+    <div style="height: 300px; left: 20%;width: 60%;position: relative;" id="getGctrlsCountBy_month"></div>
+    <div style="height: 300px; left: 20%;width: 60%;position: relative;" id="getmankindGctrl_Byoneyear"></div>
+    <div style="height: 300px; left: 20%;width: 60%;position: relative;" id="getmankindCount_Byyear"></div>
+    <div style="height: 300px; left: 20%;width: 60%;position: relative;" id="getBook_LendCountBy_year"></div>
+    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getBookkindAllCount_Byyear"></div>
 </div>
 </body>
 </html>

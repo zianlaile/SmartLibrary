@@ -468,25 +468,6 @@
         yearchart("year_count");
         monthchart("month_count");
         daychart("day_count");
-        var picBase64Info =echarts.init(document.getElementById("year_count")).getDataURL();
-        console.log(picBase64Info);
-        $.ajax({
-            type:"POST",
-            contentType: 'application/json;charset=UTF-8',
-            data:picBase64Info,
-            url:"../../report/getreport",
-            dataType: 'json',
-            success: function(data, textStatus, jqXHR){
-                try{
-                    var elemIF = document.createElement("iframe");
-                    elemIF.src = "../../report/2.docx";
-                    elemIF.style.display = "none";
-                    document.body.appendChild(elemIF);
-                }catch(e){
-
-                }
-            }
-        });
         $(".remove").click(function(){
             $(".mask").css("display","none");
         });

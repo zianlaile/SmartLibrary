@@ -1,8 +1,10 @@
 package com.smartlibrary.service;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.smartlibrary.common.CustomXWPFDocument;
 import com.smartlibrary.common.Interface_processing;
+import com.smartlibrary.common.Picture;
 import com.smartlibrary.common.WordUtil;
 import org.springframework.stereotype.Service;
 import sun.misc.BASE64Decoder;
@@ -18,6 +20,16 @@ import java.util.*;
 @Service
 public class reportService {
     public String getReport(String picBase64Info){
+        Picture picture = new Picture();
+        JSONObject json = JSONObject.parseObject(picBase64Info);
+        //System.out.println(json.getString("picBase64Info1"));
+        Map<String,Object> header1 = picture.returnpicture(json.getString("picBase64Info1"),300,809);
+        Map<String,Object> header2 = picture.returnpicture(json.getString("picBase64Info2"),300,809);
+        Map<String,Object> header3 = picture.returnpicture(json.getString("picBase64Info3"),300,809);
+        Map<String,Object> header4 = picture.returnpicture(json.getString("picBase64Info4"),300,809);
+        Map<String,Object> header5 = picture.returnpicture(json.getString("picBase64Info5"),300,809);
+        Map<String,Object> header6 = picture.returnpicture(json.getString("picBase64Info6"),300,809);
+        Map<String,Object> header7 = picture.returnpicture(json.getString("picBase64Info7"),500,809);
         Calendar date = Calendar.getInstance();
         String currentyear = String.valueOf(date.get(Calendar.YEAR));
         Interface_processing interface_processing = new Interface_processing();
@@ -28,6 +40,13 @@ public class reportService {
         String towordpath = path + "2.docx";
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("${school}", "浙江工业");
+        param.put("${img_Book_Amount}", header1);
+        param.put("${img_gctrl_amount}", header2);
+        param.put("${img_month_amount}", header3);
+        param.put("${img_type_percent1}", header4);
+        param.put("${img_type_percent2}", header5);
+        param.put("${img_lend_yearamount}", header6);
+        param.put("${img_type_reader}", header7);
         JSONArray section1_2_1 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getGctrlsCountBy_year");
         JSONArray section1_2_2 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getGctrlsCountBy_month");
         JSONArray section1_2_3 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getmankindCount_Byoneyear");

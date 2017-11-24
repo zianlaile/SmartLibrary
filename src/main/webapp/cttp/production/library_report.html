@@ -71,7 +71,7 @@
                     yAxis: [
                         {
                             type: 'value',
-                            /*name: '保障率',*/
+                            name: '资源数',
                             /*min: 0,
                             max:100,
                             interval: 20,*/
@@ -541,6 +541,7 @@
                 }
                 var getBook_LendCountBy_academyAndyear = echarts.init(document.getElementById('getBook_LendCountBy_academyAndyear'));
                 var getBook_LendCountBy_academyAndyearoption = {
+                    animation:false,
                     backgroundColor:'white',
                     color: ['#3398DB'],
                     tooltip : {
@@ -551,7 +552,7 @@
                     },
                     grid: {
                         left: '3%',
-                        right: '4%',
+                        right: '6%',
                         bottom: '13%',
                         containLabel: true
                     },
@@ -640,6 +641,7 @@
               }
               var getbooklendPeopleAndCount_Byhour = echarts.init(document.getElementById('getbooklendPeopleAndCount_Byhour'));
               var getbooklendPeopleAndCount_Byhouroption = {
+                  animation:false,
                   backgroundColor: 'white',
                   tooltip: {
                       trigger: 'axis',
@@ -659,7 +661,7 @@
                   },
                   grid: {
                       left: '3%',
-                      right: '4%',
+                      right: '6%',
                       bottom: '3%',
                       containLabel: true
                   },
@@ -804,6 +806,7 @@
                     };
                 });
                 var getlend_student_typeoption = {
+                    animation:false,
                     backgroundColor:'white',
                     title: [{
                         text: total.name,
@@ -901,6 +904,7 @@
                     };
                 });
                 var getlendrenew_student_typeoption = {
+                    animation:false,
                     backgroundColor:'white',
                     title: [{
                         text: total.name,
@@ -958,6 +962,675 @@
             }
         })
     }
+    function geICdurationCountBy_year() {
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../schoolReport/geICdurationCountBy_year',
+            dataType:'json',
+            async:false,
+            success:function (data) {
+                var icdurationmonth = [];
+                var idduration_times = [];
+                for(var i=0;i<data.length;i++){
+                    icdurationmonth.push(data[i].month+'月');
+                    idduration_times.push(data[i].eread_times);
+                }
+                var geICdurationCountBy_year = echarts.init(document.getElementById('geICdurationCountBy_year'));
+                var geICdurationCountBy_yearoption = {
+                    animation:false,
+                    backgroundColor:'white',
+                    tooltip : {
+                        trigger: 'axis'
+                    },
+                    calculable : true,
+                    xAxis : [
+                        {
+                            name:'月',
+                            type : 'category',
+                            data : icdurationmonth
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            name:'次',
+                            type : 'value'
+                        }
+                    ],
+                    series : [
+                        {
+                            name:'进馆人次',
+                            type:'bar',
+                            data:idduration_times,
+                            itemStyle: {
+                                normal: {
+                                    color: function(params) {
+                                        // build a color map as your need.
+                                        var colorList = [
+                                            '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
+                                            '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
+                                            '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
+                                        ];
+                                        return colorList[params.dataIndex]
+                                    },label: {
+                                        show: true,
+                                        position: 'top',
+                                        formatter: '{b}\n{c}'
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                };
+                geICdurationCountBy_year.setOption(geICdurationCountBy_yearoption);
+            }
+        });
+    }
+    function geICdurationBy_year(){
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../schoolReport/geICdurationBy_year',
+            async:false,
+            dataType:'json',
+            success:function (data) {
+                var colorList = [
+                    '#59c5a7', '#51b8fe', '#fa827d','#FFCC67'
+                ];
+
+                // 总和
+                var total = {
+                    name: '总次数',
+                    value: data[0].lessone+data[0].onetotwo+data[0].twotofive+data[0].morefive
+                }
+
+                var originalData = [{
+                    value: data[0].lessone,
+                    name: '小于1小时：'+data[0].lessone
+                }, {
+                    value: data[0].onetotwo,
+                    name: '1-2小时：'+data[0].onetotwo
+                }, {
+                    value: data[0].twotofive,
+                    name: "2-5小时："+data[0].twotofive
+                }, {
+                    value: data[0].morefive,
+                    name: "5小时以上："+data[0].morefive
+                },
+                ];
+                echarts.util.each(originalData, function(item, index) {
+                    item.itemStyle = {
+                        normal: {
+                            color: colorList[index]
+                        }
+                    };
+                });
+                var geICdurationBy_yearoption = {
+                    animation:false,
+                    backgroundColor:'white',
+                    title: [{
+                        text: total.name,
+                        left: '49%',
+                        top: '46%',
+                        textAlign: 'center',
+                        textBaseline: 'middle',
+                        textStyle: {
+                            color: '#999',
+                            fontWeight: 'normal',
+                            fontSize: 20
+                        }
+                    }, {
+                        text: total.value,
+                        left: '49%',
+                        top: '51%',
+                        textAlign: 'center',
+                        textBaseline: 'middle',
+                        textStyle: {
+                            color: '#666',
+                            fontWeight: 'normal',
+                            fontSize: 40
+                        }
+                    }],
+                    series: [{
+                        hoverAnimation: false, //设置饼图默认的展开样式
+                        radius: [100, 190],
+                        name: 'pie',
+                        type: 'pie',
+                        selectedMode: 'single',
+                        selectedOffset: 16, //选中是扇区偏移量
+                        clockwise: true,
+                        startAngle: 90,
+                        label: {
+                            normal: {
+                                textStyle: {
+                                    fontSize: 18,
+                                    color: '#999'
+                                }
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                lineStyle: {
+                                    color: '#999',
+
+                                }
+                            }
+                        },
+                        data: originalData
+                    }]
+                };
+                var geICdurationBy_year = echarts.init(document.getElementById('geICdurationBy_year'));
+                geICdurationBy_year.setOption(geICdurationBy_yearoption);
+            }
+        })
+    }
+    function geteread_hour() {
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../schoolReport/getDeviceCount_Byhour',
+            dataType:'json',
+            async:false,
+            success:function (data) {
+                var ereadshour = [];
+                var ereadshourtimes = [];
+                for(var i=0;i<data.length;i++){
+                    ereadshour.push(data[i].hour);
+                    ereadshourtimes.push(data[i].ereads);
+                }
+                var geteread_hour = echarts.init(document.getElementById('geteread_hour'));
+                var geteread_houroption = {
+                    animation:false,
+                    backgroundColor:'white',
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: ['使用次数']
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: ereadshour,
+                        splitLine: { //设置X轴的网格
+                            show: true,
+                            interval: 'auto'
+                        },
+                        axisLine: { //设置X轴的颜色
+                            lineStyle: {
+                                color: 'blue'
+                            }
+                        }
+                    },
+                    yAxis: {
+                        type: 'value',
+                        axisLine: { //设置y轴的颜色
+                            lineStyle: {
+                                color: 'blue'
+                            }
+                        }
+                    },
+                    series: [{
+                        name: '使用次数',
+                        type: 'line',
+                        stack: '总量',
+                        smooth: true, //点与点之间的幅度,false为直线
+                        // symbol: 'circle',
+                        // symbolSize: 5,
+                        // showSymbol: true,   //是否显示点数据的圆点
+                        // itemStyle: {    //设置折线的border颜色
+                        //     normal: {
+                        //         color: 'rgb(0,136,212)',
+                        //         borderColor: 'rgba(0,136,212,0.2)',
+                        //         borderWidth: 10
+                        //     }
+                        // },
+                        label: { //设置点数据的提示
+                            normal: {
+                                show: true,
+                                position: 'top'
+                            }
+                        },
+                        data: ereadshourtimes,
+                        markPoint: { //设置最大值和最小值
+                            data: [{
+                                type: 'max',
+                                name: '最大值'
+                            }, {
+                                type: 'min',
+                                name: '最小值'
+                            }]
+                        }
+
+                    }]
+                };
+                geteread_hour.setOption(geteread_houroption);
+            }
+        })
+    }
+    function getprints_hour() {
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../schoolReport/getDeviceCount_Byhour',
+            dataType:'json',
+            async:false,
+            success:function (data) {
+                var printshour = [];
+                var printshourtimes = [];
+                for(var i=0;i<data.length;i++){
+                    printshour.push(data[i].hour);
+                    printshourtimes.push(data[i].prints);
+                }
+                var getprints_hour = echarts.init(document.getElementById('getprints_hour'));
+                var getprints_houroption = {
+                    animation:false,
+                    backgroundColor:'white',
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: ['自助文印次数']
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: printshour,
+                        splitLine: { //设置X轴的网格
+                            show: true,
+                            interval: 'auto'
+                        },
+                        axisLine: { //设置X轴的颜色
+                            lineStyle: {
+                                color: 'blue'
+                            }
+                        }
+                    },
+                    yAxis: {
+                        type: 'value',
+                        axisLine: { //设置y轴的颜色
+                            lineStyle: {
+                                color: 'blue'
+                            }
+                        }
+                    },
+                    series: [{
+                        name: '自助文印次数',
+                        type: 'line',
+                        stack: '总量',
+                        smooth: true, //点与点之间的幅度,false为直线
+                        // symbol: 'circle',
+                        // symbolSize: 5,
+                        // showSymbol: true,   //是否显示点数据的圆点
+                        // itemStyle: {    //设置折线的border颜色
+                        //     normal: {
+                        //         color: 'rgb(0,136,212)',
+                        //         borderColor: 'rgba(0,136,212,0.2)',
+                        //         borderWidth: 10
+                        //     }
+                        // },
+                        label: { //设置点数据的提示
+                            normal: {
+                                show: true,
+                                position: 'top'
+                            }
+                        },
+                        data: printshourtimes,
+                        markPoint: { //设置最大值和最小值
+                            data: [{
+                                type: 'max',
+                                name: '最大值'
+                            }, {
+                                type: 'min',
+                                name: '最小值'
+                            }]
+                        }
+
+                    }]
+                };
+                getprints_hour.setOption(getprints_houroption);
+            }
+        })
+    }
+    function getprintsCountBy_year() {
+        $.ajax({
+            type:'get',
+            url:'../../printtimes/byyear',
+            contentType:'application/json',
+            async:false,
+            dataType:'json',
+            success:function (data) {
+                var getprintsCountBy_year = echarts.init(document.getElementById('getprintsCountBy_year'));
+                var getprintsCountBy_yearoption = {
+                    animation:false,
+                    backgroundColor:'white',
+                    color: ['#3398DB'],
+                    tooltip : {
+                        trigger: 'axis',
+                        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis : [
+                        {
+                            name:'年',
+                            type : 'category',
+                            data : data.year,
+                            axisTick: {
+                                alignWithLabel: true
+                            }
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            // type : 'category',
+                            // data : ['10','20','30','40'],
+                            name:"人次",
+                            axisTick: {
+                                alignWithLabel: true
+                            }
+                        }
+                    ],
+                    series : [
+                        {
+                            name:'自主文印次数',
+                            type:'bar',
+                            barWidth: '40%',
+                            data:data.printtimes
+                        },
+
+                    ],
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{c}'
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(17, 168,171, 1)'
+                            }, {
+                                offset: 1,
+                                color: 'rgba(17, 168,171, 0.1)'
+                            }]),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    }
+                };
+                getprintsCountBy_year.setOption(getprintsCountBy_yearoption);
+            }
+        });
+
+    }
+    function getprinttimesCountBy_year() {
+        $.ajax({
+            type:'get',
+            url:'../../schoolReport/gettypeprints',
+            contentType: 'application/json',
+            async:false,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                var count = [];
+                for(var i=0;i<data.print.length;i++){
+                    count.push({
+                        value:data.print[i],
+                        itemStyle:{
+                            normal:{
+                                color:'orange'
+
+                            }
+                        }
+                    });
+                }
+                var getprinttimesCountBy_year = echarts.init(document.getElementById('getprinttimesCountBy_year'));
+                var getprinttimesCountBy_yearoption = {
+                    animation:false,
+                    backgroundColor:'white',
+                    animation:false,
+                    xAxis: [
+                        {
+                            name:'年',
+                            type: 'category',
+                            show:true,
+                            data: data.year,
+                            axisPointer: {
+                                type: 'shadow'
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                        }
+                    ],
+
+                    yAxis: [
+                        {
+                            type: 'value',
+                            name: '打印次数',
+                            /*min: 0,
+                             max:100,
+                             interval: 20,*/
+                            axisLabel: {
+                                formatter: '{value}'
+                            },
+                            axisTick: {
+                                show: false
+                            }
+                        },
+
+                    ],
+                    series: [
+                        {
+                            /*name:'保障率',*/
+                            type:'bar',
+                            barWidth: '30%',
+                            data:count,
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'top',
+                                    formatter: '{c}'
+                                }
+                            },
+                        },
+
+                        {
+                            type:'line',
+                            name:'占比',
+                            data:data.print
+                        }
+                    ],
+                };
+                getprinttimesCountBy_year.setOption(getprinttimesCountBy_yearoption);
+            }
+        });
+    }
+    function getcopytimesCountBy_year() {
+        $.ajax({
+            type:'get',
+            url:'../../schoolReport/gettypeprints',
+            contentType: 'application/json',
+            async:false,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                var count = [];
+                for(var i=0;i<data.copy.length;i++){
+                    count.push({
+                        value:data.copy[i],
+                        itemStyle:{
+                            normal:{
+                                color:'orange'
+
+                            }
+                        }
+                    });
+                }
+                var getcopytimesCountBy_year = echarts.init(document.getElementById('getcopytimesCountBy_year'));
+                var getcopytimesCountBy_yearoption = {
+                    animation:false,
+                    backgroundColor:'white',
+                    animation:false,
+                    xAxis: [
+                        {
+                            name:'年',
+                            type: 'category',
+                            show:true,
+                            data: data.year,
+                            axisPointer: {
+                                type: 'shadow'
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                        }
+                    ],
+
+                    yAxis: [
+                        {
+                            type: 'value',
+                            name: '复印次数',
+                            /*min: 0,
+                             max:100,
+                             interval: 20,*/
+                            axisLabel: {
+                                formatter: '{value}'
+                            },
+                            axisTick: {
+                                show: false
+                            }
+                        },
+
+                    ],
+                    series: [
+                        {
+                            /*name:'保障率',*/
+                            type:'bar',
+                            barWidth: '30%',
+                            data:count,
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'top',
+                                    formatter: '{c}'
+                                }
+                            },
+                        },
+
+                        {
+                            type:'line',
+                            name:'占比',
+                            data:data.copy
+                        }
+                    ],
+                };
+                getcopytimesCountBy_year.setOption(getcopytimesCountBy_yearoption);
+            }
+        });
+    }
+    function getscantimesCountBy_year() {
+        $.ajax({
+            type:'get',
+            url:'../../schoolReport/gettypeprints',
+            contentType: 'application/json',
+            async:false,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                var count = [];
+                for(var i=0;i<data.scan.length;i++){
+                    count.push({
+                        value:data.scan[i],
+                        itemStyle:{
+                            normal:{
+                                color:'orange'
+
+                            }
+                        }
+                    });
+                }
+                var getscantimesCountBy_year = echarts.init(document.getElementById('getscantimesCountBy_year'));
+                var getscantimesCountBy_yearoption = {
+                    animation:false,
+                    backgroundColor:'white',
+                    animation:false,
+                    xAxis: [
+                        {
+                            name:'年',
+                            type: 'category',
+                            show:true,
+                            data: data.year,
+                            axisPointer: {
+                                type: 'shadow'
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                        }
+                    ],
+
+                    yAxis: [
+                        {
+                            type: 'value',
+                            name: '扫描次数',
+                            /*min: 0,
+                             max:100,
+                             interval: 20,*/
+                            axisLabel: {
+                                formatter: '{value}'
+                            },
+                            axisTick: {
+                                show: false
+                            }
+                        },
+
+                    ],
+                    series: [
+                        {
+                            /*name:'保障率',*/
+                            type:'bar',
+                            barWidth: '30%',
+                            data:count,
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'top',
+                                    formatter: '{c}'
+                                }
+                            },
+                        },
+
+                        {
+                            type:'line',
+                            name:'占比',
+                            data:data.scan
+                        }
+                    ],
+                };
+                getscantimesCountBy_year.setOption(getscantimesCountBy_yearoption);
+            }
+        });
+    }
     $(function () {
         getResourceCountBy_year();
         getGctrlsCountBy_year();
@@ -970,21 +1643,53 @@
         getbooklendPeopleAndCount_Byhour();
         getlend_student_type();
         getlendrenew_student_type();
-        var picBase64Info1 =echarts.init(document.getElementById("getResourceCountBy_year")).getDataURL();
-        var picBase64Info2 =echarts.init(document.getElementById("getGctrlsCountBy_year")).getDataURL();
-        var picBase64Info3 =echarts.init(document.getElementById("getGctrlsCountBy_month")).getDataURL();
-        var picBase64Info4 =echarts.init(document.getElementById("getmankindGctrl_Byoneyear")).getDataURL();
-        var picBase64Info5 =echarts.init(document.getElementById("getmankindCount_Byyear")).getDataURL();
-        var picBase64Info6 =echarts.init(document.getElementById("getBook_LendCountBy_year")).getDataURL();
-        var picBase64Info7 =echarts.init(document.getElementById("getBookkindAllCount_Byyear")).getDataURL();
-        /*var postdata = {
-            "picBase64Info1" :picBase64Info1,
-            "picBase64Info2" :picBase64Info2,
-            "picBase64Info3" :picBase64Info3,
-            "picBase64Info4" :picBase64Info4,
-            "picBase64Info5" :picBase64Info5,
-            "picBase64Info6" :picBase64Info6,
-            "picBase64Info7" :picBase64Info7,
+        geICdurationCountBy_year();
+        geICdurationBy_year();
+        geteread_hour();
+        getprints_hour();
+        getprintsCountBy_year();
+        getprinttimesCountBy_year();
+        getcopytimesCountBy_year();
+        getscantimesCountBy_year();
+        var img_Book_Amount =echarts.init(document.getElementById("getResourceCountBy_year")).getDataURL();
+        var img_gctrl_amount =echarts.init(document.getElementById("getGctrlsCountBy_year")).getDataURL();
+        var img_month_amount =echarts.init(document.getElementById("getGctrlsCountBy_month")).getDataURL();
+        var img_type_percent1 =echarts.init(document.getElementById("getmankindGctrl_Byoneyear")).getDataURL();
+        var img_type_percent2 =echarts.init(document.getElementById("getmankindCount_Byyear")).getDataURL();
+        var img_lend_yearamount =echarts.init(document.getElementById("getBook_LendCountBy_year")).getDataURL();
+        var img_type_reader =echarts.init(document.getElementById("getBookkindAllCount_Byyear")).getDataURL();
+        var img_academy_img =echarts.init(document.getElementById("getBook_LendCountBy_academyAndyear")).getDataURL();
+        var img_leader_img =echarts.init(document.getElementById("getbooklendPeopleAndCount_Byhour")).getDataURL();
+        var img_borrow_img1 =echarts.init(document.getElementById("getlend_student_type")).getDataURL();
+        var img_borrow_img2 =echarts.init(document.getElementById("getlendrenew_student_type")).getDataURL();
+        var img_read_img =echarts.init(document.getElementById("geICdurationCountBy_year")).getDataURL();
+        var img_seat_img =echarts.init(document.getElementById("geICdurationBy_year")).getDataURL();
+        var img_ebook_spend =echarts.init(document.getElementById("geteread_hour")).getDataURL();
+        var img_print_amount =echarts.init(document.getElementById("getprintsCountBy_year")).getDataURL();
+        var img_print_dy =echarts.init(document.getElementById("getprinttimesCountBy_year")).getDataURL();
+        var img_print_fy =echarts.init(document.getElementById("getcopytimesCountBy_year")).getDataURL();
+        var img_print_sm =echarts.init(document.getElementById("getscantimesCountBy_year")).getDataURL();
+        var img_print_day =echarts.init(document.getElementById("getprints_hour")).getDataURL();
+        var postdata = {
+            "img_Book_Amount" :img_Book_Amount,
+            "img_gctrl_amount" :img_gctrl_amount,
+            "img_month_amount" :img_month_amount,
+            "img_type_percent1" :img_type_percent1,
+            "img_type_percent2" :img_type_percent2,
+            "img_lend_yearamount" :img_lend_yearamount,
+            "img_type_reader" :img_type_reader,
+            "img_academy_img" :img_academy_img,
+            "img_leader_img" : img_leader_img,
+            "img_borrow_img1" :img_borrow_img1,
+            "img_borrow_img2" :img_borrow_img2,
+            "img_read_img" :img_read_img,
+            "img_seat_img" :img_seat_img,
+            "img_ebook_spend" :img_ebook_spend,
+            "img_print_amount":img_print_amount,
+            "img_print_dy":img_print_dy,
+            "img_print_fy":img_print_fy,
+            "img_print_sm":img_print_sm,
+            "img_print_day" :img_print_day,
         }
         $.ajax({
             type:"POST",
@@ -1002,22 +1707,30 @@
 
                 }
             }
-        });*/
+        });
     });
 </script>
 <body>
 <div style="width: 100%;height: 100%;">
-    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getResourceCountBy_year"></div>
-    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getGctrlsCountBy_year"></div>
-    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getGctrlsCountBy_month"></div>
-    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getmankindGctrl_Byoneyear"></div>
-    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getmankindCount_Byyear"></div>
-    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getBook_LendCountBy_year"></div>
-    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getBookkindAllCount_Byyear"></div>
-    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getBook_LendCountBy_academyAndyear"></div>
-    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getbooklendPeopleAndCount_Byhour"></div>
-    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getlend_student_type"></div>
-    <div style="height: 500px; left: 20%;width: 60%;position: relative;" id="getlendrenew_student_type"></div>
+    <div style="height: 500px; left: 15%;width: 70%;position: relative;" id="getResourceCountBy_year"></div>
+    <div style="height: 500px; left: 15%;width: 70%;position: relative;" id="getGctrlsCountBy_year"></div>
+    <div style="height: 500px; left: 15%;width: 70%;position: relative;" id="getGctrlsCountBy_month"></div>
+    <div style="height: 500px; left: 15%;width: 70%;position: relative;" id="getmankindGctrl_Byoneyear"></div>
+    <div style="height: 500px; left: 15%;width: 70%;position: relative;" id="getmankindCount_Byyear"></div>
+    <div style="height: 500px; left: 15%;width: 70%;position: relative;" id="getBook_LendCountBy_year"></div>
+    <div style="height: 500px; left: 15%;width: 70%;position: relative;" id="getBookkindAllCount_Byyear"></div>
+    <div style="height: 500px; left: 15%;width: 70%;position: relative;" id="getBook_LendCountBy_academyAndyear"></div>
+    <div style="height: 500px; left: 15%;width: 70%;position: relative;" id="getbooklendPeopleAndCount_Byhour"></div>
+    <div style="height: 500px; left: 15%;width: 70%;position: relative;" id="getlend_student_type"></div>
+    <div style="height: 500px; left: 15%;width: 70%;position: relative;" id="getlendrenew_student_type"></div>
+    <div style="height: 500px; left: 15%;width: 70%;position: relative;" id="geICdurationCountBy_year"></div>
+    <div style="height: 500px; left: 15%;width: 70%;position: relative;" id="geICdurationBy_year"></div>
+    <div style="height: 500px; left: 15%;width: 70%;position: relative;" id="geteread_hour"></div>
+    <div style="height: 500px; left: 15%;width: 70%;position: relative;" id="getprints_hour"></div>
+    <div style="height: 500px; left: 15%;width: 70%;position: relative;" id="getprintsCountBy_year"></div>
+    <div style="height: 500px; left: 15%;width: 70%;position: relative;" id="getprinttimesCountBy_year"></div>
+    <div style="height: 500px; left: 15%;width: 70%;position: relative;" id="getcopytimesCountBy_year"></div>
+    <div style="height: 500px; left: 15%;width: 70%;position: relative;" id="getscantimesCountBy_year"></div>
 </div>
 </body>
 </html>

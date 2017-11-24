@@ -5,9 +5,7 @@ import com.smartlibrary.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by tt on 2017/10/17.
@@ -129,8 +127,34 @@ public class schoolReportService {
 
     public   List<library_report_month_mankinds> getmankindCount_Byoneyear(library_report_month_mankinds n){
         return schoolReportdao.getmankindCount_Byoneyear(n);
-    };
-
+    }
+    public Map<String,List> gettypeprints(){
+        Map<String,List> returntype = new HashMap<>();
+        List<Print_Times> gettypeList = schoolReportdao.gettypeprints();
+        List<Integer> year = new ArrayList<>();
+        List<Integer> print = new ArrayList<>();
+        List<Integer> copy = new ArrayList<>();
+        List<Integer> scan = new ArrayList<>();
+        for(int i=0;i<gettypeList.size();i++){
+            if(!year.contains(gettypeList.get(i).getYear())){
+                year.add(gettypeList.get(i).getYear());
+            }
+            if(gettypeList.get(i).getPrint_type().equals("C")){
+                copy.add(gettypeList.get(i).getPrint_times());
+            }
+            else if(gettypeList.get(i).getPrint_type().equals("S")){
+                scan.add(gettypeList.get(i).getPrint_times());
+            }
+            else if(gettypeList.get(i).getPrint_type().equals("P")){
+                print.add(gettypeList.get(i).getPrint_times());
+            }
+        }
+        returntype.put("year",year);
+        returntype.put("print",print);
+        returntype.put("scan",scan);
+        returntype.put("copy",copy);
+        return returntype;
+    }
 
 
 

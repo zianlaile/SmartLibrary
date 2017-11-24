@@ -23,13 +23,25 @@ public class reportService {
         Picture picture = new Picture();
         JSONObject json = JSONObject.parseObject(picBase64Info);
         //System.out.println(json.getString("picBase64Info1"));
-        Map<String,Object> header1 = picture.returnpicture(json.getString("picBase64Info1"),300,809);
-        Map<String,Object> header2 = picture.returnpicture(json.getString("picBase64Info2"),300,809);
-        Map<String,Object> header3 = picture.returnpicture(json.getString("picBase64Info3"),300,809);
-        Map<String,Object> header4 = picture.returnpicture(json.getString("picBase64Info4"),300,809);
-        Map<String,Object> header5 = picture.returnpicture(json.getString("picBase64Info5"),300,809);
-        Map<String,Object> header6 = picture.returnpicture(json.getString("picBase64Info6"),300,809);
-        Map<String,Object> header7 = picture.returnpicture(json.getString("picBase64Info7"),500,809);
+        Map<String,Object> header1 = picture.returnpicture(json.getString("img_Book_Amount"),400,550);
+        Map<String,Object> header2 = picture.returnpicture(json.getString("img_gctrl_amount"),600,600);
+        Map<String,Object> header3 = picture.returnpicture(json.getString("img_month_amount"),600,600);
+        Map<String,Object> header4 = picture.returnpicture(json.getString("img_type_percent1"),300,500);
+        Map<String,Object> header5 = picture.returnpicture(json.getString("img_type_percent2"),400,600);
+        Map<String,Object> header6 = picture.returnpicture(json.getString("img_lend_yearamount"),500,550);
+        Map<String,Object> header7 = picture.returnpicture(json.getString("img_type_reader"),600,550);
+        Map<String,Object> header8 = picture.returnpicture(json.getString("img_academy_img"),600,550);
+        Map<String,Object> header9 = picture.returnpicture(json.getString("img_leader_img"),600,550);
+        Map<String,Object> header10 = picture.returnpicture(json.getString("img_borrow_img1"),300,500);
+        Map<String,Object> header11 = picture.returnpicture(json.getString("img_borrow_img2"),300,500);
+        Map<String,Object> header12 = picture.returnpicture(json.getString("img_read_img"),600,550);
+        Map<String,Object> header13 = picture.returnpicture(json.getString("img_seat_img"),300,500);
+        Map<String,Object> header14 = picture.returnpicture(json.getString("img_ebook_spend"),600,550);
+        Map<String,Object> header15 = picture.returnpicture(json.getString("img_print_amount"),600,550);
+        Map<String,Object> header16 = picture.returnpicture(json.getString("img_print_dy"),400,500);
+        Map<String,Object> header17 = picture.returnpicture(json.getString("img_print_fy"),400,500);
+        Map<String,Object> header18 = picture.returnpicture(json.getString("img_print_sm"),400,500);
+        Map<String,Object> header19 = picture.returnpicture(json.getString("img_print_day"),600,550);
         Calendar date = Calendar.getInstance();
         String currentyear = String.valueOf(date.get(Calendar.YEAR));
         Interface_processing interface_processing = new Interface_processing();
@@ -47,6 +59,18 @@ public class reportService {
         param.put("${img_type_percent2}", header5);
         param.put("${img_lend_yearamount}", header6);
         param.put("${img_type_reader}", header7);
+        param.put("${img_academy_img}", header8);
+        param.put("${img_leader_img}", header9);
+        param.put("${img_borrow_img1}", header10);
+        param.put("${img_borrow_img2}", header11);
+        param.put("${img_read_img}", header12);
+        param.put("${img_seat_img}", header13);
+        param.put("${img_ebook_spend}", header14);
+        param.put("${img_print_amount}", header15);
+        param.put("${img_print_dy}", header16);
+        param.put("${img_print_fy}", header17);
+        param.put("${img_print_sm}", header18);
+        param.put("${img_print_day}", header19);
         JSONArray section1_2_1 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getGctrlsCountBy_year");
         JSONArray section1_2_2 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getGctrlsCountBy_month");
         JSONArray section1_2_3 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getmankindCount_Byoneyear");
@@ -59,6 +83,7 @@ public class reportService {
         JSONArray section2_7 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getbooklendPeopleAndCount_Byhour");
         JSONArray section3_1 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/geICdurationCountBy_year");
         JSONArray section3_3 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getDeviceCount_Byhour");
+        JSONObject section4_1 = interface_processing.return_jsonobject("http://localhost:8080/SmartLibrary/printtimes/byyear");
         JSONArray section4_2 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getDeviceCount_Byhour");
         TreeSet<String> max_tree = new TreeSet<String>();
         int max = 0;
@@ -154,7 +179,7 @@ public class reportService {
             param.put("${1-"+number+"-3}",section2_3.getJSONObject(i).getString("academy"));
             param.put("${1-"+number+"-4}",section2_3.getJSONObject(i).getString("all_lend_times"));
         }
-        param.put("${form_top10_year}",section2_3.getJSONObject(0).getString("year"));
+        param.put("${form_top10_year}",currentyear);
         param.put("${top_book_name}",section2_4_1.getJSONObject(0).getString("book_name"));
         param.put("${top_book_times}",section2_4_1.getJSONObject(0).getString("lend_times"));
         param.put("${form_numbertop15_year}",section2_4_1.getJSONObject(0).getString("year"));
@@ -207,6 +232,20 @@ public class reportService {
         }
         param.put("${ebook_spent_clock1}",section3_3.getJSONObject(arr_3_3.indexOf(Collections.max(arr_3_3))).getString("hour"));
         param.put("${ebook_spent_clock2}",section3_3.getJSONObject(arr_3_3.indexOf(Collections.max(arr_3_3))+1).getString("hour"));
+        List<String> year = (List) section4_1.get("year");
+        List<Integer> prints = (List) section4_1.get("printtimes");
+        param.put("${print_amount_year}",year.get(year.size()-1));
+        param.put("${print_amount_page1}",String.valueOf(prints.get(prints.size()-1)));
+        int printnumber1 = prints.get(prints.size()-1);
+        int printnumber2 = prints.get(prints.size()-2);
+        if(printnumber1<printnumber2){
+            param.put("${print_amount_page2}","减少");
+            param.put("${print_amount_page3}",String.valueOf(printnumber2-printnumber1));
+        }
+        else{
+            param.put("${print_amount_page2}","增加");
+            param.put("${print_amount_page3}",String.valueOf(printnumber1-printnumber2));
+        }
         ArrayList<Integer> arr_4_2 = new ArrayList<>();
         for(int i=0;i<section4_2.size();i++){
             arr_4_2.add(section4_2.getJSONObject(i).getInteger("prints"));

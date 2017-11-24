@@ -87,6 +87,7 @@
             <mvc:exclude-mapping path="/real_year_counts/**"/>
             <mvc:exclude-mapping path="/real_numbers/**"/>
             <mvc:exclude-mapping path="/ictimes/byyear"/>
+            <mvc:exclude-mapping path="/printtimes/byyear"/>
             <bean class="com.smartlibrary.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
@@ -111,6 +112,7 @@
             <mvc:exclude-mapping path="/real_year_counts/**"/>
             <mvc:exclude-mapping path="/real_numbers/**"/>
             <mvc:exclude-mapping path="/ictimes/byyear"/>
+            <mvc:exclude-mapping path="/printtimes/byyear"/>
             <mvc:exclude-mapping path="/cttp/production/index.html"/>
             <mvc:exclude-mapping path="/bookLend/**"/>
             <bean class="com.smartlibrary.interceptor.PermessionInterceptor"/>

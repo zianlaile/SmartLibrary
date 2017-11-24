@@ -173,6 +173,9 @@
         GROUP BY man_kind
     </select>
 
+    <select id="gettypeprints" resultType="Print_Times">
+        SELECT `year`,print_type,SUM(times) AS Print_times FROM `zz_print_day_printtype` GROUP BY `year`,print_type;
+    </select>
 
 
 

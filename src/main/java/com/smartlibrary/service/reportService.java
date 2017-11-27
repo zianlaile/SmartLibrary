@@ -47,7 +47,6 @@ public class reportService {
         Interface_processing interface_processing = new Interface_processing();
         String path = this.getClass().getClassLoader().getResource("/").getPath();
         path = path.substring(0,path.indexOf("WEB-INF"))+"report/";
-        System.out.println(path);
         String wordpath = path + "88.docx";
         String towordpath = path + "2.docx";
         Map<String, Object> param = new HashMap<String, Object>();

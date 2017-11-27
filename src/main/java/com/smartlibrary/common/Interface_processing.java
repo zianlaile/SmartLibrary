@@ -49,7 +49,6 @@ public class Interface_processing {
         return js;
     }
     public JSONObject return_jsonobject(String urlName){
-        Map data = new HashMap<String,String>();
         String result = "";
         //String urlName = "http://10.11.35.69/appinterface/RoomTotalInfo.aspx";
         try {
@@ -76,7 +75,6 @@ public class Interface_processing {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(result);
         JSONObject js = JSON.parseObject(result);
         return js;
     }

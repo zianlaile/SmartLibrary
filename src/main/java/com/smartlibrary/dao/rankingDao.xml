@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smartlibrary.dao.rankingDao">
+    <select id="getranking_lend_book_year" parameterType="com.smartlibrary.domain.ranking" resultType="com.smartlibrary.domain.ranking">
+        SELECT *
+        from ranking_lend_book_year
+    </select>
+    <select id="getranking_lend_reader_year" parameterType="com.smartlibrary.domain.ranking" resultType="com.smartlibrary.domain.ranking">
+        SELECT *
+        from ranking_lend_reader_year
+    </select>
+
+
+
+    <select id="getranking_lend_academy_reader_year" parameterType="com.smartlibrary.domain.ranking" resultType="com.smartlibrary.domain.ranking">
+        SELECT *
+        from ranking_lend_academy_reader_year
+    </select>
+
+    <!--进馆-->
+    <select id="getranking_gctrl_month" parameterType="com.smartlibrary.domain.ranking" resultType="com.smartlibrary.domain.ranking">
+        SELECT `month`,sum(gctrl_times) as gctrl_times
+        FROM zz_time_day_count
+        where year=2015
+        group by `month`
+        ORDER BY gctrl_times DESC
+    </select>
+    <select id="getranking_gctrl_day" parameterType="com.smartlibrary.domain.ranking" resultType="com.smartlibrary.domain.ranking">
+        SELECT `month`,`day`,ymdchar,sum(gctrl_times) as gctrl_times
+        FROM zz_time_day_count
+        where year=2015
+        group by `month`,`day`
+        ORDER BY gctrl_times DESC
+        LIMIT 10
+    </select>
+
+    <select id="getranking_gctrl_academy_month" parameterType="com.smartlibrary.domain.ranking" resultType="com.smartlibrary.domain.ranking">
+        SELECT *
+        FROM ranking_gctrl_academy_month
+        where `year`=2015
+        ORDER BY academy ,gctrl_times
+    </select>
+</mapper>

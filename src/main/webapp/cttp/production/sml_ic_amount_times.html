@@ -351,9 +351,7 @@
     function getlarge_croom() {
         $(".chart_title p").text("研修间-使用量分析");
         $(".mask").css("display","block");
-        $("#largeequipment").css("display","none");
-        $("#largeseat").css("display","none");
-        $("#largeread").css("display","none");
+        $(".large_chart").css("display","none");
         $("#largecroom").css("display","block");
         croomchart("largecroom");
     }
@@ -638,10 +636,8 @@
     function getlarge_eread() {
         $(".chart_title p").text("电子阅览室-使用量分析");
         $(".mask").css("display","block");
-        $("#largeequipment").css("display","none");
-        $("#largeseat").css("display","none");
+        $(".large_chart").css("display","none");
         $("#largeread").css("display","block");
-        $("#largecroom").css("display","none");
         ereadchart("largeread");
     }
     function seatchart(chartid){
@@ -925,10 +921,8 @@
     function getlarge_seat() {
         $(".chart_title p").text("座位-使用量分析");
         $(".mask").css("display","block");
-        $("#largeequipment").css("display","none");
+        $(".large_chart").css("display","none");
         $("#largeseat").css("display","block");
-        $("#largeread").css("display","none");
-        $("#largecroom").css("display","none");
         seatchart("largeseat");
     }
     function equipmentchart(chartid){
@@ -1212,21 +1206,293 @@
     function getlarge_equipment() {
         $(".chart_title p").text("设备-外借量分析");
         $(".mask").css("display","block");
+        $(".large_chart").css("display","none");
         $("#largeequipment").css("display","block");
-        $("#largeseat").css("display","none");
-        $("#largeread").css("display","none");
-        $("#largecroom").css("display","none");
         equipmentchart("largeequipment");
     }
+    function geICdurationCountBy_year(chartid) {
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../schoolReport/geICdurationCountBy_year',
+            dataType:'json',
+            async:false,
+            success:function (data) {
+                $("#eread_year_use_title").text(data[0].year+'年电子阅览室使用统计');
+                var icdurationmonth = [];
+                var idduration_times = [];
+                for(var i=0;i<data.length;i++){
+                    icdurationmonth.push(data[i].month+'月');
+                    idduration_times.push(data[i].eread_times);
+                }
+                var geICdurationCountBy_year = echarts.init(document.getElementById(chartid));
+                var geICdurationCountBy_yearoption = {
+                    animation:false,
+                    backgroundColor:'white',
+                    tooltip : {
+                        trigger: 'axis'
+                    },
+                    calculable : true,
+                    xAxis : [
+                        {
+                            name:'月',
+                            type : 'category',
+                            data : icdurationmonth
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            name:'次',
+                            type : 'value'
+                        }
+                    ],
+                    series : [
+                        {
+                            name:'电子阅览室',
+                            type:'bar',
+                            data:idduration_times,
+                            itemStyle: {
+                                normal: {
+                                    color: function(params) {
+                                        // build a color map as your need.
+                                        var colorList = [
+                                            '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
+                                            '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
+                                            '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
+                                        ];
+                                        return colorList[params.dataIndex]
+                                    },label: {
+                                        show: true,
+                                        position: 'top',
+                                        formatter: '{b}\n{c}'
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                };
+                geICdurationCountBy_year.setOption(geICdurationCountBy_yearoption);
+            }
+        });
+    }
+    function getlarge_eread_year_use() {
+        $(".chart_title p").text($("#eread_year_use_title").text());
+        $(".mask").css("display","block");
+        $(".large_chart").css("display","none");
+        $("#large_eread_year_use").css("display","block");
+        geICdurationCountBy_year("large_eread_year_use");
+    }
+    function geICdurationBy_year(chartid){
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../schoolReport/geICdurationBy_year',
+            async:false,
+            dataType:'json',
+            success:function (data) {
+                var colorList = [
+                    '#59c5a7', '#51b8fe', '#fa827d','#FFCC67'
+                ];
+
+                // 总和
+                var total = {
+                    name: '总次数',
+                    value: data[0].lessone+data[0].onetotwo+data[0].twotofive+data[0].morefive
+                }
+
+                var originalData = [{
+                    value: data[0].lessone,
+                    name: '小于1小时：'+data[0].lessone
+                }, {
+                    value: data[0].onetotwo,
+                    name: '1-2小时：'+data[0].onetotwo
+                }, {
+                    value: data[0].twotofive,
+                    name: "2-5小时："+data[0].twotofive
+                }, {
+                    value: data[0].morefive,
+                    name: "5小时以上："+data[0].morefive
+                },
+                ];
+                echarts.util.each(originalData, function(item, index) {
+                    item.itemStyle = {
+                        normal: {
+                            color: colorList[index]
+                        }
+                    };
+                });
+                var geICdurationBy_yearoption = {
+                    animation:false,
+                    backgroundColor:'white',
+                    title: [{
+                        text: total.name,
+                        left: '49%',
+                        top: '46%',
+                        textAlign: 'center',
+                        textBaseline: 'middle',
+                        textStyle: {
+                            color: '#999',
+                            fontWeight: 'normal',
+                            fontSize: 20
+                        }
+                    }, {
+                        text: total.value,
+                        left: '49%',
+                        top: '51%',
+                        textAlign: 'center',
+                        textBaseline: 'middle',
+                        textStyle: {
+                            color: '#666',
+                            fontWeight: 'normal',
+                            fontSize: 40
+                        }
+                    }],
+                    series: [{
+                        hoverAnimation: false, //设置饼图默认的展开样式
+                        radius: [100, 190],
+                        name: 'pie',
+                        type: 'pie',
+                        selectedMode: 'single',
+                        selectedOffset: 16, //选中是扇区偏移量
+                        clockwise: true,
+                        startAngle: 90,
+                        label: {
+                            normal: {
+                                textStyle: {
+                                    fontSize: 18,
+                                    color: '#999'
+                                }
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                lineStyle: {
+                                    color: '#999',
+
+                                }
+                            }
+                        },
+                        data: originalData
+                    }]
+                };
+                var geICdurationBy_year = echarts.init(document.getElementById(chartid));
+                geICdurationBy_year.setOption(geICdurationBy_yearoption);
+            }
+        })
+    }
+    function getlarge_seat_year_use() {
+        $(".chart_title p").text("座位在座时长统计分析");
+        $(".mask").css("display","block");
+        $(".large_chart").css("display","none");
+        $("#large_seat_year_use").css("display","block");
+        geICdurationBy_year("large_seat_year_use");
+    }
+    function geteread_hour(chartid) {
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../schoolReport/getDeviceCount_Byhour',
+            dataType:'json',
+            async:false,
+            success:function (data) {
+                var ereadshour = [];
+                var ereadshourtimes = [];
+                for(var i=0;i<data.length;i++){
+                    ereadshour.push(data[i].hour);
+                    ereadshourtimes.push(data[i].ereads);
+                }
+                var geteread_hour = echarts.init(document.getElementById(chartid));
+                var geteread_houroption = {
+                    animation:false,
+                    backgroundColor:'white',
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: ['使用次数']
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: ereadshour,
+                        splitLine: { //设置X轴的网格
+                            show: true,
+                            interval: 'auto'
+                        },
+                        axisLine: { //设置X轴的颜色
+                            lineStyle: {
+                                color: 'blue'
+                            }
+                        }
+                    },
+                    yAxis: {
+                        type: 'value',
+                        axisLine: { //设置y轴的颜色
+                            lineStyle: {
+                                color: 'blue'
+                            }
+                        }
+                    },
+                    series: [{
+                        name: '使用次数',
+                        type: 'line',
+                        stack: '总量',
+                        smooth: true, //点与点之间的幅度,false为直线
+                        // symbol: 'circle',
+                        // symbolSize: 5,
+                        // showSymbol: true,   //是否显示点数据的圆点
+                        // itemStyle: {    //设置折线的border颜色
+                        //     normal: {
+                        //         color: 'rgb(0,136,212)',
+                        //         borderColor: 'rgba(0,136,212,0.2)',
+                        //         borderWidth: 10
+                        //     }
+                        // },
+                        label: { //设置点数据的提示
+                            normal: {
+                                show: true,
+                                position: 'top'
+                            }
+                        },
+                        data: ereadshourtimes,
+                        markPoint: { //设置最大值和最小值
+                            data: [{
+                                type: 'max',
+                                name: '最大值'
+                            }, {
+                                type: 'min',
+                                name: '最小值'
+                            }]
+                        }
+
+                    }]
+                };
+                geteread_hour.setOption(geteread_houroption);
+            }
+        })
+    }
+    function getlarge_eread_hour_use(){
+        $(".chart_title p").text("电子阅览室平均每日各时段使用次数统计");
+        $(".mask").css("display","block");
+        $(".large_chart").css("display","none");
+        $("#large_eread_hour_use").css("display","block");
+        geteread_hour("large_eread_hour_use");
+    }
     $(function(){
-        var left=$(".left_col").height();
+       /* var left=$(".left_col").height();
         left=left-17;
         $(".right_col").height(left);
         var height=left/2-$(".x_title").height()-90;
         $("#equipment").height(height);
         $("#eread").height(height);
         $("#seat").height(height);
-        $("#croom").height(height);
+        $("#croom").height(height);*/
         $.ajax({
             type:"get",
             contentType: 'application/json',
@@ -1263,6 +1529,9 @@
         ereadchart("eread");
         seatchart("seat");
         equipmentchart("equipment");
+        geICdurationCountBy_year('geICdurationCountBy_year');
+        geICdurationBy_year('geICdurationBy_year');
+        geteread_hour('geteread_hour');
         $(".remove").click(function(){
             $(".mask").css("display","none");
         });
@@ -1285,7 +1554,7 @@
                     <div class="menu_section">
                         <h3>图书馆资源利用分析</h3>
                         <ul class="nav side-menu">
-                            <li><a><div style="width:26px;float: left;"><img src="img/lend.png" style="width:18px"></div>借阅数据分析 <span class="fa fa-chevron-down"></span></a>
+                            <li><a><div style="width:26px;float: left;"><img src="img/lend.png" style="width:18px"\></div>借阅数据分析 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="index.html">图书馆借阅统计</a></li>
                                     <li><a href="sml_book_academy_times.html">学院借还分析</a></li>
@@ -1293,7 +1562,7 @@
                                     <li><a href="sml_book_publisher_times.html">借阅出版社排名</a></li>
                                 </ul>
                             </li>
-                            <li><a><div style="width:26px;float: left;"><img src="img/gctrl.png" style="width:18px"></div>进馆数据分析<span class="fa fa-chevron-down"></span></a>
+                            <li><a><div style="width:26px;float: left;"><img src="img/gctrl.png" style="width:18px"\></div>进馆数据分析<span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="sml_gctrl_times.html">进馆数据统计</a></li>
                                     <li><a href="sml_gctrl_day_times.html">每日进馆人数统计</a></li>
@@ -1301,14 +1570,14 @@
                                     <!-- <li><a href="sml_gctrl_academy_times.html">进馆学院专业分析</a></li> -->
                                 </ul>
                             </li>
-                            <li><a><div style="width:26px;float: left;"><img src="img/IC.png" style="width:18px"></div>IC空间数据分析<span class="fa fa-chevron-down"></span></a>
+                            <li><a><div style="width:26px;float: left;"><img src="img/IC.png" style="width:18px"\></div>IC空间数据分析<span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="sml_ic_times.html">IC空间数据统计</a></li>
                                     <li><a href="sml_ic_amount_times.html">IC空间使用量分析</a></li>
                                     <li><a href="sml_ic_usetime_times.html">IC空间使用时长统计</a></li>
                                 </ul>
                             </li>
-                            <li><a><div style="width:26px;float: left;"><img src="img/print.png" style="width:18px"></div>自助打印复印分析<span class="fa fa-chevron-down"></span></a>
+                            <li><a><div style="width:26px;float: left;"><img src="img/print.png" style="width:18px"\></div>自助打印复印分析<span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="sml_printcs_times.html">自助文印数据统计</a></li>
                                     <li><a href="sml_printcs_pagetype_times.html">纸张类型统计</a></li>
@@ -1316,10 +1585,20 @@
                                     <!-- <li><a href="sml_printcs_location_times.html">文印地点统计</a></li> -->
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-sitemap"></i>人员资产统计 <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-line-chart"></i> 统计排行分析 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="sml_ranking_lend_times.html">借阅统计排行</a></li>
+                                    <li><a href="sml_ranking_gctrl_times.html">进馆统计排行</a></li>
+                                    <li><a href="sml_ranking_seat_times.html">座位统计排行</a></li>
+                                    <li><a href="sml_ranking_ic_times.html">电子阅览室统计排行</a></li>
+                                    <li><a href="sml_ranking_print_times.html">助打印统计排行</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-sitemap"></i> 人员资产统计 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="sml_person_count.html">图书馆人员统计</a></li>
                                     <li><a href="sml_asset_count.html">图书馆资产统计</a></li>
+
                                 </ul>
                             </li>
                         </ul>
@@ -1420,7 +1699,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="croom"></div>
+                            <div id="croom" style="height: 350px"></div>
                         </div>
                     </div>
                 </div>
@@ -1448,7 +1727,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="seat"></div>
+                            <div id="seat" style="height: 350px"></div>
                         </div>
                     </div>
                 </div>
@@ -1479,7 +1758,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="eread"></div>
+                            <div id="eread" style="height: 350px"></div>
                         </div>
                     </div>
                 </div>
@@ -1507,7 +1786,76 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="equipment"></div>
+                            <div id="equipment" style="height: 350px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row"  >
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title"  style="padding:0px;">
+                            <h2 id="eread_year_use_title"></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="" href="javascript:getlarge_eread_year_use()"><i class="fa icon-resize-full"></i></a>
+                                </li>
+
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div id="geICdurationCountBy_year" style="height: 350px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row"  >
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title"  style="padding:0px;">
+                            <h2>座位在座时长统计分析</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="" href="javascript:getlarge_seat_year_use()"><i class="fa icon-resize-full"></i></a>
+                                </li>
+
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div id="geICdurationBy_year" style="height: 450px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row"  >
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title"  style="padding:0px;">
+                            <h2>电子阅览室平均每日各时段使用次数统计</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="" href="javascript:getlarge_eread_hour_use()"><i class="fa icon-resize-full"></i></a>
+                                </li>
+
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div id="geteread_hour" style="height: 450px;"></div>
                         </div>
                     </div>
                 </div>
@@ -1527,6 +1875,9 @@
         <div id="largeseat" class="large_chart"  style="display: none"></div>
         <div id="largeread" class="large_chart"  style="display: none"></div>
         <div id="largeequipment" class="large_chart"  style="display: none"></div>
+        <div id="large_eread_year_use" class="large_chart"  style="display: none"></div>
+        <div id="large_seat_year_use" class="large_chart"  style="display: none"></div>
+        <div id="large_eread_hour_use" class="large_chart"  style="display: none"></div>
     </div>
 </div>
 <!--<script type="text/javascript">

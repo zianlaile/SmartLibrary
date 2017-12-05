@@ -577,6 +577,7 @@
             async:false,
             dataType:'json',
             success:function (data) {
+                $("#reader_lend_rating_title").text(data[0].year+'年各类型读者借阅比例图');
                 var colorList = [
                     '#59c5a7', '#51b8fe', '#fa827d','#FFCC67'
                 ];
@@ -667,6 +668,14 @@
             }
         })
     }
+    function getlarge_reader_lend_rating(){
+        $(".chart_title p").text($("#reader_lend_rating_title").text());
+        $(".mask").css("display","block");
+        /*$("#largeBookkindsCount").css("display","none");*/
+        $(".large_chart").css("display","none");
+        $("#large_reader_lend_rating").css("display","block");
+        getlend_student_type('large_reader_lend_rating');
+    }
     function getlendrenew_student_type(chartid){
         $.ajax({
             type:'get',
@@ -675,6 +684,7 @@
             async:false,
             dataType:'json',
             success:function (data) {
+                $("#reader_relend_rating_title").text(data[0].year+"年各类型读者续借比例图");
                 var colorList = [
                     '#59c5a7', '#51b8fe', '#fa827d','#FFCC67'
                 ];
@@ -765,6 +775,14 @@
             }
         })
     }
+    function getlarge_reader_relend_rating(){
+        $(".chart_title p").text($("#reader_relend_rating_title").text());
+        $(".mask").css("display","block");
+        /*$("#largeBookkindsCount").css("display","none");*/
+        $(".large_chart").css("display","none");
+        $("#large_reader_relend_rating").css("display","block");
+        getlendrenew_student_type('large_reader_relend_rating');
+    }
     $(function(){
        /* var left=$(".left_col").height();
         left=left-17;
@@ -796,7 +814,7 @@
                     <div class="menu_section">
                         <h3>图书馆资源利用分析</h3>
                         <ul class="nav side-menu">
-                            <li><a><div style="width:26px;float: left;"><img src="img/lend.png" style="width:18px"></div>借阅数据分析 <span class="fa fa-chevron-down"></span></a>
+                            <li><a><div style="width:26px;float: left;"><img src="img/lend.png" style="width:18px"\></div>借阅数据分析 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="index.html">图书馆借阅统计</a></li>
                                     <li><a href="sml_book_academy_times.html">学院借还分析</a></li>
@@ -804,7 +822,7 @@
                                     <li><a href="sml_book_publisher_times.html">借阅出版社排名</a></li>
                                 </ul>
                             </li>
-                            <li><a><div style="width:26px;float: left;"><img src="img/gctrl.png" style="width:18px"></div>进馆数据分析<span class="fa fa-chevron-down"></span></a>
+                            <li><a><div style="width:26px;float: left;"><img src="img/gctrl.png" style="width:18px"\></div>进馆数据分析<span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="sml_gctrl_times.html">进馆数据统计</a></li>
                                     <li><a href="sml_gctrl_day_times.html">每日进馆人数统计</a></li>
@@ -812,14 +830,14 @@
                                     <!-- <li><a href="sml_gctrl_academy_times.html">进馆学院专业分析</a></li> -->
                                 </ul>
                             </li>
-                            <li><a><div style="width:26px;float: left;"><img src="img/IC.png" style="width:18px"></div>IC空间数据分析<span class="fa fa-chevron-down"></span></a>
+                            <li><a><div style="width:26px;float: left;"><img src="img/IC.png" style="width:18px"\></div>IC空间数据分析<span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="sml_ic_times.html">IC空间数据统计</a></li>
                                     <li><a href="sml_ic_amount_times.html">IC空间使用量分析</a></li>
                                     <li><a href="sml_ic_usetime_times.html">IC空间使用时长统计</a></li>
                                 </ul>
                             </li>
-                            <li><a><div style="width:26px;float: left;"><img src="img/print.png" style="width:18px"></div>自助打印复印分析<span class="fa fa-chevron-down"></span></a>
+                            <li><a><div style="width:26px;float: left;"><img src="img/print.png" style="width:18px"\></div>自助打印复印分析<span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="sml_printcs_times.html">自助文印数据统计</a></li>
                                     <li><a href="sml_printcs_pagetype_times.html">纸张类型统计</a></li>
@@ -827,7 +845,16 @@
                                     <!-- <li><a href="sml_printcs_location_times.html">文印地点统计</a></li> -->
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-sitemap"></i>人员资产统计 <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-line-chart"></i> 统计排行分析 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="sml_ranking_lend_times.html">借阅统计排行</a></li>
+                                    <li><a href="sml_ranking_gctrl_times.html">进馆统计排行</a></li>
+                                    <li><a href="sml_ranking_seat_times.html">座位统计排行</a></li>
+                                    <li><a href="sml_ranking_ic_times.html">电子阅览室统计排行</a></li>
+                                    <li><a href="sml_ranking_print_times.html">助打印统计排行</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-sitemap"></i> 人员资产统计 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="sml_person_count.html">图书馆人员统计</a></li>
                                     <li><a href="sml_asset_count.html">图书馆资产统计</a></li>
@@ -1383,93 +1410,17 @@
                         </div>
                     </div>
                 </div>
-                <script type="text/javascript">
-                    function bookind_hourchart() {
-                        var bookind_hour_count = echarts.init(document.getElementById('bookind_hour_count'));
-                        // 异步加载数据
-                        $.get('../../bookLend/ByHourAndBookkinds').done(function (data1) {
-                            console.log(data1)
-                            var hours = data1.academy;
-                            var days = data1.bookkindslist
-                            var data = data1.data
-                            // 填入数据
-                            var bookind_hour_count_option = {
-                                title: {
-                                    text: ' ',
-                                    link: 'https://github.com/pissang/echarts-next/graphs/punch-card'
-                                },
-                                legend: {
-                                    data: ['图书借阅量'],
-                                    right: '20%',
-                                },
-
-                                toolbox: {
-                                    right: 20,
-                                    feature: {
-                                        saveAsImage: {},
-                                        restore: {}
-
-                                    }
-                                },
-                                tooltip: {
-                                    position: 'top',
-                                    formatter: function (params) {
-                                        return hours[params.value[0]] + '借阅' + days[params.value[1]] + ':' + params.value[2] + '万本';
-                                    }
-                                },
-                                grid: {
-                                    left: 2,
-                                    bottom: 10,
-                                    right: 10,
-                                    containLabel: true
-                                },
-                                xAxis: {
-                                    type: 'category',
-                                    data: hours,
-                                    boundaryGap: false,
-                                    splitLine: {
-                                        show: true,
-                                        lineStyle: {
-                                            color: '#ddd',
-                                            type: 'dashed'
-                                        }
-                                    },
-                                    axisLine: {
-                                        show: false
-                                    }
-                                },
-                                yAxis: {
-                                    type: 'category',
-                                    data: days,
-                                    axisLine: {
-                                        show: false
-                                    }
-                                },
-                                series: [{
-                                    name: '图书借阅量',
-                                    type: 'scatter',
-                                    symbolSize: function (val) {
-                                        return val[2] * 80;
-                                    },
-                                    data: data
-                                }]
-                            };
-
-                            bookind_hour_count.setOption(bookind_hour_count_option);
-                        });
-                    }
-                </script>
             </div>
             <div class="clearfix"></div>
             <div class="row"  >
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title" style="padding:0px;">
-                            <h2 id="reader_lend_rating"></h2>
+                            <h2 id="reader_lend_rating_title"></h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
-                                <li><a class="" href="javascript:getlargereader_lend_rating()"><i class="fa icon-resize-full"></i></a>
+                                <li><a class="" href="javascript:getlarge_reader_lend_rating()"><i class="fa icon-resize-full"></i></a>
                                 </li>
                                 <li><a class="close-link"><i class="fa fa-close"></i></a>
                                 </li>
@@ -1477,14 +1428,14 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="getlend_student_type" style="height: 300px"></div>
+                            <div id="getlend_student_type" style="height: 450px"></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title" style="padding:0px;">
-                            <h2 id="reader_relend_rating"></h2>
+                            <h2 id="reader_relend_rating_title"></h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
@@ -1496,7 +1447,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="getlendrenew_student_type" style="height: 300px"></div>
+                            <div id="getlendrenew_student_type" style="height: 450px"></div>
                         </div>
                     </div>
                 </div>
@@ -1514,7 +1465,8 @@
         </div>
         <div id="largeSexAndBookkinds" class="large_chart"  style="display: none"></div>
         <div id="largeBookkindsCount" class="large_chart"  style="display: none"></div>
-        <div id="largereader_lend_rating" class="large_chart"  style="display: none"></div>
+        <div id="large_reader_lend_type" class="large_chart"  style="display: none"></div>
+        <div id="large_reader_lend_rating" class="large_chart"  style="display: none"></div>
         <div id="large_reader_relend_rating" class="large_chart"  style="display: none"></div>
     </div>
 </div>

@@ -24,5 +24,7 @@ public interface rankingDao {
     List<ranking> getranking_gctrl_academy_month(ranking b);
     //学院日进馆量排行
     List<ranking> geranking_gctrl_academy_day(ranking b);
+    //打印机使用排行
+    List<ranking> getranking_print_year(ranking b);
     
 }

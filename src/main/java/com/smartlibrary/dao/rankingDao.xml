@@ -11,7 +11,10 @@
         from ranking_lend_reader_year
     </select>
 
-
+    <select id="getranking_lend_academy_book_year" parameterType="com.smartlibrary.domain.ranking" resultType="com.smartlibrary.domain.ranking">
+         SELECT *
+         from ranking_lend_academy_book_year
+    </select>
 
     <select id="getranking_lend_academy_reader_year" parameterType="com.smartlibrary.domain.ranking" resultType="com.smartlibrary.domain.ranking">
         SELECT *
@@ -40,5 +43,17 @@
         FROM ranking_gctrl_academy_month
         where `year`=2015
         ORDER BY academy ,gctrl_times
+    </select>
+    <select id="geranking_gctrl_academy_day" parameterType="com.smartlibrary.domain.ranking" resultType="com.smartlibrary.domain.ranking">
+        SELECT *
+        from ranking_gctrl_academy_day
+    </select>
+    <select id="getranking_print_year" parameterType="com.smartlibrary.domain.ranking" resultType="com.smartlibrary.domain.ranking">
+        SELECT `month`,`day`,ymdchar,sum(print_times) as gctrl_times
+        FROM zz_time_day_count
+        where year=2015
+        group by `month`,`day`
+        ORDER BY gctrl_times DESC
+        LIMIT 10
     </select>
 </mapper>

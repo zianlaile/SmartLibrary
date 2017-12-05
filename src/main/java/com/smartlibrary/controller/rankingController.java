@@ -34,6 +34,12 @@ public class rankingController {
         return rankingservice.getranking_lend_reader_year(b);
     }
 
+    @RequestMapping(method = { RequestMethod.GET },value = "lend_academy_book_year")
+    @ResponseBody
+    public  Map<String ,Map>  getranking_lend_academy_book_year(HttpServletRequest request){
+        ranking b=new ranking();
+        return rankingservice.getranking_lend_academy_book_year(b);
+    }
 
 
     @RequestMapping(method = { RequestMethod.GET },value = "lend_academy_reader_year")
@@ -63,5 +69,18 @@ public class rankingController {
     public  Map<String ,Map>  getranking_gctrl_academy_month(HttpServletRequest request){
         ranking b=new ranking();
         return rankingservice.getranking_gctrl_academy_month(b);
+    }
+    @RequestMapping(method = { RequestMethod.GET },value = "ranking_gctrl_academy_day")
+    @ResponseBody
+    public  Map<String ,Map>  geranking_gctrl_academy_day(HttpServletRequest request){
+        ranking b=new ranking();
+        return rankingservice.geranking_gctrl_academy_day(b);
+    }
+
+    @RequestMapping(method = { RequestMethod.GET },value = "ranking_print_year")
+    @ResponseBody
+    public  Map<String,List>   getranking_print_year(HttpServletRequest request){
+        ranking b=new ranking();
+        return rankingservice.getranking_print_year(b);
     }
 }

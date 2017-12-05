@@ -83,7 +83,38 @@ public class rankingService {
     }
 
 
+    public Map<String ,Map> getranking_lend_academy_book_year(ranking b){
+        List<ranking> lend_book_year= rankingdao.getranking_lend_academy_book_year(b);
+        Map<String ,Map> returndata=new TreeMap<String ,Map>();
+        //得到有几个学院
+        Set oneacademy=new TreeSet();
+        for(int i=0;i<lend_book_year.size();i++){
+            oneacademy.add(lend_book_year.get(i).getAcademy());
+        }
+        Iterator<String> oneacademyit = oneacademy.iterator();
+        ArrayList<String> oneacademylist=new  ArrayList<String>();
+        while(oneacademyit.hasNext()) {
+            String  academy =oneacademyit.next();
+            oneacademylist.add(academy);
+        }
 
+        for (int j = 0; j < oneacademylist.size(); j++) {
+            String  academy =oneacademylist.get(j);
+            ArrayList<String> lend_book_oneyear=new  ArrayList<String>();
+            ArrayList<Integer> times=new  ArrayList<Integer>();
+            Map<String ,List> data=new TreeMap<String ,List>();
+            for (int k = 0; k < lend_book_year.size(); k++) {
+                if(academy.equals(lend_book_year.get(k).getAcademy())){
+                    lend_book_oneyear.add(lend_book_year.get(k).getBook_name());
+                    times.add(lend_book_year.get(k).getLend_times());
+                }
+            }
+            data.put("lend_book_oneyear",lend_book_oneyear);
+            data.put("times",times);
+            returndata.put(academy,data);
+        }
+        return returndata;
+    }
 
 
 
@@ -183,4 +214,52 @@ public class rankingService {
         }
         return returndata;
     }
+
+
+    public Map<String ,Map> geranking_gctrl_academy_day(ranking b){
+        List<ranking> gctrl_academy_year= rankingdao.geranking_gctrl_academy_day(b);
+        Map<String ,Map> returndata=new TreeMap<String ,Map>();
+        //得到有几个学院
+        Set oneacademy=new TreeSet();
+        for(int i=0;i<gctrl_academy_year.size();i++){
+            oneacademy.add(gctrl_academy_year.get(i).getAcademy());
+        }
+        Iterator<String> oneacademyit = oneacademy.iterator();
+        ArrayList<String> oneacademylist=new  ArrayList<String>();
+        while(oneacademyit.hasNext()) {
+            String  academy =oneacademyit.next();
+            oneacademylist.add(academy);
+        }
+
+        for (int j = 0; j < oneacademylist.size(); j++) {
+            String  academy =oneacademylist.get(j);
+            ArrayList<String> gctrl_academy_year_oneyear=new  ArrayList<String>();
+            ArrayList<Integer> times=new  ArrayList<Integer>();
+            Map<String ,List> data=new TreeMap<String ,List>();
+            for (int k = 0; k < gctrl_academy_year.size(); k++) {
+                if(academy.equals(gctrl_academy_year.get(k).getAcademy())){
+                    gctrl_academy_year_oneyear.add(gctrl_academy_year.get(k).getYmdchar());
+                    times.add(gctrl_academy_year.get(k).getGctrl_times());
+                }
+            }
+            data.put("gctrl_academy",gctrl_academy_year_oneyear);
+            data.put("times",times);
+            returndata.put(academy,data);
+        }
+        return returndata;
+    }
+    public Map<String,List> getranking_print_year(ranking b) {
+        List<ranking> year= rankingdao.getranking_print_year(b);
+        ArrayList<Integer> gctrl_times=new  ArrayList<Integer>();
+        ArrayList<String> times=new  ArrayList<String>();
+        Map<String ,List> data=new HashMap<String ,List>();
+        for(int i=0;i<year.size();i++){
+            gctrl_times.add(year.get(i).getGctrl_times());
+            times.add(year.get(i).getYmdchar());
+        }
+        data.put("gctrl_times",gctrl_times);
+        data.put("times",times);
+        return data;
+    }
+
 }

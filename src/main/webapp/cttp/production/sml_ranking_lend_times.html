@@ -222,7 +222,93 @@
 
 <!--//largelend_academy_book_year()-->
 <script type="application/javascript">
-    function getlargelend_academy_book_year(){}
+    function getlargelend_academy_book_year() {
+            $(".chart_title p").text("学院借阅图书排行");
+            $(".mask").css("display", "block");
+            $("#largelend_book_year").css("display", "none");
+            $("#largelend_academy_reader_year").css("display", "none");
+            $("#largelend_reader_year").css("display", "none");
+            $("#largelend_academy_book_year").css("display", "block");
+            var lend_academy_book_year = echarts.init(document.getElementById('largelend_academy_book_year'));
+            // 异步加载数据
+            $.get('../../ranking/lend_academy_book_year').done(function (returndata) {
+                // 填入数据
+                var timeline = [];
+                var options = [];
+                for (var key in returndata) {
+                    timeline.push(key);
+                    var option = {
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {
+                                type: 'shadow'
+                            },
+                            formatter: "{a} <br/>{b} : {c}次"
+                        },
+                        legend: {
+                            data: ['借阅图书数量']
+                        },
+                        toolbox: {
+                            right: 20,
+                            feature: {
+                                saveAsImage: {},
+                                restore: {}
+
+                            }
+                        },
+                        grid: {
+                            top: '3.5%',
+                            left: '3%',
+                            right: '4%',
+                            bottom:'20%',
+                            containLabel: true
+                        },
+                        xAxis: {
+                            type: 'category',
+                            data: returndata[key].lend_book_oneyear
+                        },
+                        yAxis: {
+                            type: 'value',
+                            boundaryGap: [0, 0.01],
+                            "axisLabel": {
+                                "interval": 0,
+                                formatter: '{value}次',
+                            }
+                        },
+                        series: [{
+                            name: '借阅图书数量',
+                            type: 'bar',
+                            itemStyle:{
+                                normal:{
+                                    color:'#EE9201'
+                                }
+                            },
+                            data: returndata[key].times
+                        }]
+                    };
+                    options.push(option);
+                }
+                var lend_academy_book_year_option = {
+                    'timeline': {
+                        data:timeline,
+                        bottom:'10%',
+                        label: {
+                            normal: {
+                                show: true,
+                                interval: 'auto',
+                                formatter: '{value}年',
+                            },
+                        },
+                        axisType: 'category',
+                        show: true,
+                        autoPlay: true,
+                        playInterval: 2000
+                    },
+                    'options': options
+                };
+                lend_academy_book_year.setOption(lend_academy_book_year_option)
+            });
+    }
 
 </script>
 
@@ -701,7 +787,7 @@
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
-                                <li><a class="" href="javascript:getlarge_day()"><i class="fa icon-resize-full"></i></a>
+                                <li><a class="" href="javascript:getlargelend_academy_book_year()"><i class="fa icon-resize-full"></i></a>
                                 </li>
                                 <li><a class="close-link"><i class="fa fa-close"></i></a>
                                 </li>
@@ -716,9 +802,9 @@
                 <script type="text/javascript">
                     //
                     function lend_academy_book_yearchart() {
-                        /*var lend_academy_book_year = echarts.init(document.getElementById('lend_academy_book_year'));
+                        var lend_academy_book_year = echarts.init(document.getElementById('lend_academy_book_year'));
                         // 异步加载数据
-                        $.get('../../ranking/lend_reader_year').done(function (returndata) {
+                        $.get('../../ranking/lend_academy_book_year').done(function (returndata) {
                             // 填入数据
                             var timeline = [];
                             var options = [];
@@ -774,7 +860,7 @@
                                 };
                                 options.push(option);
                             }
-                            var lend_reader_year_option = {
+                            var lend_academy_book_year_option = {
                                 'timeline': {
                                     data: timeline,
                                     label: {
@@ -791,8 +877,8 @@
                                 },
                                 'options': options
                             };
-                            lend_reader_year.setOption(lend_reader_year_option)
-                        });*/
+                            lend_academy_book_year.setOption(lend_academy_book_year_option)
+                        });
                     }
                 </script>
             </div>

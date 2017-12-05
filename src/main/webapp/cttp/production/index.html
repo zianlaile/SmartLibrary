@@ -40,8 +40,10 @@
     function getlarge_year(){
         $(".chart_title p").text("年-借阅统计");
         $(".mask").css("display","block");
-        $("#largemonth").css("display","none");
+        /*$("#largemonth").css("display","none");
         $("#largeday").css("display","none");
+        $("#largeday").css("display","none");*/
+        $(".large_chart").css("display",'none');
         $("#largeyear").css("display","block");
         var year_count = echarts.init(document.getElementById('largeyear'));
         var  year_count_option = {
@@ -162,8 +164,9 @@
     function getlarge_month(){
         $(".chart_title p").text("月-借阅统计");
         $(".mask").css("display","block");
-        $("#largeyear").css("display","none");
-        $("#largeday").css("display","none");
+        /*$("#largeyear").css("display","none");
+        $("#largeday").css("display","none");*/
+        $(".large_chart").css("display",'none');
         $("#largemonth").css("display","block");
         var month_count = echarts.init(document.getElementById('largemonth'));
         var  month_count_option = {
@@ -285,8 +288,9 @@
     function getlarge_day(){
         $(".chart_title p").text("日-借阅统计");
         $(".mask").css("display","block");
-        $("#largeyear").css("display","none");
-        $("#largemonth").css("display","none");
+       /* $("#largeyear").css("display","none");
+        $("#largemonth").css("display","none");*/
+        $(".large_chart").css("display",'none');
         $("#largeday").css("display","block");
         var day_count = echarts.init(document.getElementById('largeday'));
         var  day_count_option = {
@@ -406,19 +410,259 @@
 
 <!--屏幕适配-->
 <script type="application/javascript">
+    function getbooklendPeopleAndCount_Byhour(chartid) {
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../schoolReport/getbooklendPeopleAndCount_Byhour',
+            dataType:'json',
+            async:false,
+            success:function (data) {
+                var booklendhour = [];
+                var lendpeople = [];
+                var lendbookdata = [];
+                $("#year_hour_lend_title").text(data[0].year+'年各时段图书平均借出册数及人数');
+                for(var i=0;i<data.length;i++){
+                    booklendhour.push(data[i].hour+"点");
+                    lendpeople.push(data[i].lend_people);
+                    lendbookdata.push(data[i].lend);
+                }
+                var getbooklendPeopleAndCount_Byhour = echarts.init(document.getElementById(chartid));
+                var getbooklendPeopleAndCount_Byhouroption = {
+                    animation:false,
+                    backgroundColor: 'white',
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            lineStyle: {
+                                color: '#57617B'
+                            }
+                        }
+                    },
+                    legend: {
+                        icon: 'rect',
+                        itemWidth: 14,
+                        itemHeight: 5,
+                        itemGap: 13,
+                        data: ['借出册数', '借出人数'],
+                        right: '4%',
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '6%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: [{
+                        name:'小时',
+                        type: 'category',
+                        boundaryGap: false,
+                        axisLine: {
+                            lineStyle: {
+                                color: '#57617B'
+                            }
+                        },
+                        data: booklendhour
+                    }],
+                    yAxis: [{
+                        type: 'value',
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#57617B'
+                            }
+                        },
+                        axisLabel: {
+                            margin: 10,
+                            textStyle: {
+                                fontSize: 14
+                            }
+                        },
+                        splitLine: {
+                            lineStyle: {
+                                color: '#57617B'
+                            },
+                            show:false,
+                        }
+                    }],
+                    series: [{
+                        name: '借出册数',
+                        type: 'line',
+                        smooth: true,
+                        lineStyle: {
+                            normal: {
+                                width: 1
+                            }
+                        },
+                        areaStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: 'rgba(17, 168, 171, 1)'
+                                }, {
+                                    offset: 0.8,
+                                    color: 'rgba(17, 168, 171, 0.3)'
+                                }], false),
+                                shadowColor: 'rgba(0, 0, 0, 0.1)',
+                                shadowBlur: 10
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: 'rgb(17, 168, 171)',
+                                borderColor: 'rgba(17,168,171,0.27)',
+                                borderWidth: 6
+                            }
+                        },
+                        data: lendbookdata
+                    }, {
+                        name: '借出人数',
+                        type: 'line',
+                        smooth: true,
+                        lineStyle: {
+                            normal: {
+                                width: 1
+                            }
+                        },
+                        areaStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: 'rgba(255, 69, 0, 1)'
+                                }, {
+                                    offset: 0.8,
+                                    color: 'rgba(255, 69, 0, 0.3)'
+                                }], false),
+                                shadowColor: 'rgba(0, 0, 0, 0.1)',
+                                shadowBlur: 10
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: 'rgb(255,69,0)',
+                                borderColor: 'rgba(255,69,0,0.2)',
+                                borderWidth: 6
 
+                            }
+                        },
+                        data: lendpeople
+                    } ]
+                };
+                getbooklendPeopleAndCount_Byhour.setOption(getbooklendPeopleAndCount_Byhouroption);
+            }
+        })
+    }
+    function getBook_LendCountBy_year(chartid) {
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../schoolReport/getBook_LendCountBy_year',
+            async:false,
+            dataType:'json',
+            success:function (data) {
+                var book_lend_year = [];
+                var book_lend_times = [];
+                var book_return_times = [];
+                for(var i=0;i<data.length;i++){
+                    book_lend_year.push(data[i].year);
+                    book_lend_times.push(data[i].book_lend_times);
+                    book_return_times.push(data[i].book_return_times);
+                }
+                var getBook_LendCountBy_year = echarts.init(document.getElementById(chartid));
+                var getBook_LendCountBy_yearoption ={
+                    animation:false,
+                    backgroundColor:'white',
+                    tooltip : {
+                        trigger: 'axis',
+                        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                        }
+                    },
+                    legend: {
+                        data: ['借书', '还书']
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    yAxis:  {
+                        name:'册',
+                        type: 'value'
+                    },
+                    xAxis: {
+                        name:'年',
+                        type: 'category',
+                        data: book_lend_year
+                    },
+                    series: [
+                        {
+                            name: '借书',
+                            type: 'bar',
+                            stack: '总量',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'inside'
+                                }
+                            },
+                            data: book_lend_times
+                        },
+                        {
+                            name: '还书',
+                            type: 'bar',
+                            stack: '总量',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'inside'
+                                }
+                            },
+                            data: book_return_times
+                        }
+                    ]
+                };
+                getBook_LendCountBy_year.setOption(getBook_LendCountBy_yearoption);
+            }
+        })
+    }
+    function getlargeyear_hour_lend(){
+        var title = $("#year_hour_lend_title").text();
+        $(".chart_title p").text(title);
+        $(".mask").css("display","block");
+        /*$("#largemonth").css("display","none");
+         $("#largeday").css("display","none");
+         $("#largeday").css("display","none");*/
+        $(".large_chart").css("display",'none');
+        $("#largeyear_hour_lend").css("display","block");
+        getbooklendPeopleAndCount_Byhour('largeyear_hour_lend');
+    }
+    function getlargeyear_lend_back() {
+        $(".chart_title p").text('历年全馆图书借还总次数统计图');
+        $(".mask").css("display","block");
+        /*$("#largemonth").css("display","none");
+         $("#largeday").css("display","none");
+         $("#largeday").css("display","none");*/
+        $(".large_chart").css("display",'none');
+        $("#largeyear_lend_back").css("display","block");
+        getBook_LendCountBy_year('largeyear_lend_back');
+    }
     $(function(){
-        var left=$(".left_col").height();
+        /*var left=$(".left_col").height();
         left=left-17;
         $(".right_col").height(left);
         var height=left/2-$(".x_title").height()-90;
         $("#year_count").height(height);
         $("#month_count").height(height);
-        $("#day_count").height(height);
+        $("#day_count").height(height);*/
         yearchart();
         monthchart();
         daychart();
-
+        getbooklendPeopleAndCount_Byhour('getbooklendPeopleAndCount_Byhour');
+        getBook_LendCountBy_year('getBook_LendCountBy_year');
     });
 </script>
 
@@ -587,8 +831,8 @@
                             </ul>
                             <div class="clearfix"></div>
                         </div>
-                        <div class="x_content"  >
-                            <div id="year_count" ></div>
+                        <div class="x_content" >
+                            <div id="year_count"  style="height: 250px"></div>
                         </div>
                     </div>
                 </div>
@@ -719,8 +963,8 @@
                             </ul>
                             <div class="clearfix"></div>
                         </div>
-                        <div class="x_content"  >
-                            <div id="month_count" ></div>
+                        <div class="x_content" >
+                            <div id="month_count"  style="height: 250px"></div>
                         </div>
                     </div>
                 </div>
@@ -969,6 +1213,268 @@
                     }
                 </script>
             </div>
+            <div class="clearfix"></div>
+            <div class="row"  >
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title"   style="padding:0px;" >
+                            <h2 id="year_hour_lend_title"></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="" href="javascript:getlargeyear_hour_lend()"><i class="fa icon-resize-full"></i></a>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div id="getbooklendPeopleAndCount_Byhour" style="height:250px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    // 基于月统计
+                    function daychart() {
+                        var day_count = echarts.init(document.getElementById('day_count'));
+                        var  day_count_option = {
+
+                            tooltip: {
+                                trigger: 'axis',
+                                position: function (pt) {
+                                    return [pt[0], '10%'];
+                                }
+                            },
+                            toolbox: {
+                                feature: {
+
+                                    restore: {},
+                                    saveAsImage: {}
+                                }
+                            },
+                            legend: {
+
+                                data:['借阅每日统计']
+                            },
+                            xAxis: {
+                                type: 'category',
+                                boundaryGap: false,
+                                data: []
+                            },
+                            yAxis: {
+                                type: 'value',
+                                boundaryGap: [0, '100%'],
+                                "axisLabel": {
+                                    "interval": 0,
+                                    formatter: '{value}次',
+                                },
+                            },
+                            dataZoom: [{
+                                type: 'inside',
+                                start: 60,
+                                end: 100
+                            }, {
+                                start: 0,
+                                end: 10,
+                                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                                handleSize: '80%',
+                                handleStyle: {
+                                    color: '#fff',
+                                    shadowBlur: 3,
+                                    shadowColor: 'rgba(0, 0, 0, 0.6)',
+                                    shadowOffsetX: 2,
+                                    shadowOffsetY: 2
+                                }
+                            }],
+                            series: [
+                                {
+                                    name:'借阅每日统计',
+                                    type:'line',
+                                    smooth:true,
+                                    symbol: 'none',
+                                    sampling: 'average',
+                                    itemStyle: {
+                                        normal: {
+                                            color: 'rgb(255, 70, 131)'
+                                        }
+                                    },
+                                    areaStyle: {
+                                        normal: {
+                                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                                offset: 0,
+                                                color: 'rgb(255, 158, 68)'
+                                            }, {
+                                                offset: 1,
+                                                color: 'rgb(255, 70, 131)'
+                                            }])
+                                        }
+                                    },
+                                    data: [],
+                                    markPoint: {
+                                        data: [
+                                            {type: 'max', name: '最大值'},
+                                            {type: 'min', name: '最小值'}
+                                        ]
+                                    },
+                                    markLine: {
+                                        data: [
+                                            {type: 'average', name: '平均值'}
+                                        ]
+                                    }
+                                }
+                            ]
+                        };
+                        // 使用刚指定的配置项和数据显示图表。
+                        day_count.setOption(day_count_option);
+                        // 异步加载数据
+                        $.get('../../bookLend/ByDay').done(function (data) {
+                            // 填入数据
+                            day_count.setOption({
+                                xAxis: {
+                                    data: data.times
+                                },
+                                series: [{
+                                    // 根据名字对应到相应的系列
+                                    name: '借阅每日统计',
+                                    data: data.lend_times
+                                }]
+                            });
+                        });
+                    }
+                </script>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row"  >
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title"   style="padding:0px;" >
+                            <h2>历年全馆图书借还总次数统计图</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="" href="javascript:getlargeyear_lend_back()"><i class="fa icon-resize-full"></i></a>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div id="getBook_LendCountBy_year" style="height:300px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    // 基于月统计
+                    function daychart() {
+                        var day_count = echarts.init(document.getElementById('day_count'));
+                        var  day_count_option = {
+
+                            tooltip: {
+                                trigger: 'axis',
+                                position: function (pt) {
+                                    return [pt[0], '10%'];
+                                }
+                            },
+                            toolbox: {
+                                feature: {
+
+                                    restore: {},
+                                    saveAsImage: {}
+                                }
+                            },
+                            legend: {
+
+                                data:['借阅每日统计']
+                            },
+                            xAxis: {
+                                type: 'category',
+                                boundaryGap: false,
+                                data: []
+                            },
+                            yAxis: {
+                                type: 'value',
+                                boundaryGap: [0, '100%'],
+                                "axisLabel": {
+                                    "interval": 0,
+                                    formatter: '{value}次',
+                                },
+                            },
+                            dataZoom: [{
+                                type: 'inside',
+                                start: 60,
+                                end: 100
+                            }, {
+                                start: 0,
+                                end: 10,
+                                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                                handleSize: '80%',
+                                handleStyle: {
+                                    color: '#fff',
+                                    shadowBlur: 3,
+                                    shadowColor: 'rgba(0, 0, 0, 0.6)',
+                                    shadowOffsetX: 2,
+                                    shadowOffsetY: 2
+                                }
+                            }],
+                            series: [
+                                {
+                                    name:'借阅每日统计',
+                                    type:'line',
+                                    smooth:true,
+                                    symbol: 'none',
+                                    sampling: 'average',
+                                    itemStyle: {
+                                        normal: {
+                                            color: 'rgb(255, 70, 131)'
+                                        }
+                                    },
+                                    areaStyle: {
+                                        normal: {
+                                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                                offset: 0,
+                                                color: 'rgb(255, 158, 68)'
+                                            }, {
+                                                offset: 1,
+                                                color: 'rgb(255, 70, 131)'
+                                            }])
+                                        }
+                                    },
+                                    data: [],
+                                    markPoint: {
+                                        data: [
+                                            {type: 'max', name: '最大值'},
+                                            {type: 'min', name: '最小值'}
+                                        ]
+                                    },
+                                    markLine: {
+                                        data: [
+                                            {type: 'average', name: '平均值'}
+                                        ]
+                                    }
+                                }
+                            ]
+                        };
+                        // 使用刚指定的配置项和数据显示图表。
+                        day_count.setOption(day_count_option);
+                        // 异步加载数据
+                        $.get('../../bookLend/ByDay').done(function (data) {
+                            // 填入数据
+                            day_count.setOption({
+                                xAxis: {
+                                    data: data.times
+                                },
+                                series: [{
+                                    // 根据名字对应到相应的系列
+                                    name: '借阅每日统计',
+                                    data: data.lend_times
+                                }]
+                            });
+                        });
+                    }
+                </script>
+            </div>
         </div>
     </div>
 </div>
@@ -983,7 +1489,8 @@
         <div id="largeyear" class="large_chart"  style="display: none"></div>
         <div id="largemonth" class="large_chart"  style="display: none"></div>
         <div id="largeday" class="large_chart"  style="display: none"></div>
-
+        <div id="largeyear_hour_lend" class="large_chart"  style="display: none"></div>
+        <div id="largeyear_lend_back" class="large_chart"  style="display: none"></div>
     </div>
 </div>
 

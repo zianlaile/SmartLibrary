@@ -52,7 +52,8 @@
     function getlarge_SexAndBookkinds(){
         $(".chart_title p").text("性别图书种类分析");
         $(".mask").css("display","block");
-        $("#largeBookkindsCount").css("display","none");
+        /*$("#largeBookkindsCount").css("display","none");*/
+        $(".large_chart").css("display","none");
         $("#largeSexAndBookkinds").css("display","block");
         var largeSexAndBookkinds = echarts.init(document.getElementById('largeSexAndBookkinds'));
 
@@ -354,7 +355,7 @@
     function getlarge_bookkindcount(){
         $(".chart_title p").text("年-图书种类排名");
         $(".mask").css("display","block");
-        $("#largeSexAndBookkinds").css("display","none");
+        $(".large_chart").css("display","none");
         $("#largeBookkindsCount").css("display","block");
 
         var largeBookkindsCount = echarts.init(document.getElementById('largeBookkindsCount'));
@@ -480,17 +481,303 @@
 </script>
 <!--屏幕适配-->
 <script type="application/javascript">
+    function getBookkindAllCount_Byyear(chartid) {
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../schoolReport/getBookkindAllCount_Byyear',
+            async:false,
+            dataType:'json',
+            success:function (data) {
+                $("#reader_lend_type_title").text(data[0].year+"年全校读者借阅分类统计图");
+                var bookkind = [];
+                var bookkinddata = [];
+                for(var i=0;i<data.length;i++){
+                    bookkind.push(data[i].book_kind);
+                    bookkinddata.push(data[i].book_lend_times);
+                }
+                var getBookkindAllCount_Byyear = echarts.init(document.getElementById(chartid));
+                var getBookkindAllCount_Byyearoption = {
+                    animation:false,
+                    backgroundColor:'white',
+                    grid: {
+                        left: '3%',
+                        right: '6%',
+                        bottom: '3%',
+                        top:'3%',
+                        containLabel: true
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: null // 默认为直线，可选为：'line' | 'shadow'
+                        },
+                        formatter: '{b} : {c}'
+                    },
+                    xAxis: [{
+                        type: 'value',
+                        axisLabel: {
+                            show: false
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            show: false
+                        },
+                        splitLine: {
+                            show: false
+                        }
 
+                    }],
+                    yAxis: [{
+                        type: 'category',
+                        boundaryGap: true,
+                        axisTick: {
+                            show: true
+                        },
+                        axisLabel: {
+                            interval: null
+                        },
+                        data: bookkind,
+                        splitLine: {
+                            show: false
+                        }
+                    }],
+                    series: [{
+                        type: 'bar',
+                        barWidth: 25,
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'right'
+                            }
+
+                        },
+                        data: bookkinddata
+                    }]
+                };
+                getBookkindAllCount_Byyear.setOption(getBookkindAllCount_Byyearoption);
+            }
+        })
+    }
+    function getlarge_reader_lend_type() {
+        $(".chart_title p").text($("#reader_lend_type_title").text());
+        $(".mask").css("display","block");
+        /*$("#largeBookkindsCount").css("display","none");*/
+        $(".large_chart").css("display","none");
+        $("#large_reader_lend_type").css("display","block");
+        getBookkindAllCount_Byyear('large_reader_lend_type');
+    }
+    function getlend_student_type(chartid){
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../schoolReport/getmankindCount_Byoneyear',
+            async:false,
+            dataType:'json',
+            success:function (data) {
+                var colorList = [
+                    '#59c5a7', '#51b8fe', '#fa827d','#FFCC67'
+                ];
+
+                // 总和
+                var total = {
+                    name: '总借阅数',
+                    value: data[0].lend+data[1].lend+data[2].lend+data[3].lend
+                }
+
+                var originalData = [{
+                    value: data[0].lend,
+                    name: '其他：'+data[0].lend
+                }, {
+                    value: data[1].lend,
+                    name: '教职工：'+data[1].lend
+                }, {
+                    value: data[2].lend,
+                    name: "本科生："+data[2].lend
+                }, {
+                    value: data[3].lend,
+                    name: "研究生："+data[3].lend
+                },
+                ];
+                echarts.util.each(originalData, function(item, index) {
+                    item.itemStyle = {
+                        normal: {
+                            color: colorList[index]
+                        }
+                    };
+                });
+                var getlend_student_typeoption = {
+                    animation:false,
+                    backgroundColor:'white',
+                    title: [{
+                        text: total.name,
+                        left: '49%',
+                        top: '46%',
+                        textAlign: 'center',
+                        textBaseline: 'middle',
+                        textStyle: {
+                            color: '#999',
+                            fontWeight: 'normal',
+                            fontSize: 20
+                        }
+                    }, {
+                        text: total.value,
+                        left: '49%',
+                        top: '51%',
+                        textAlign: 'center',
+                        textBaseline: 'middle',
+                        textStyle: {
+                            color: '#666',
+                            fontWeight: 'normal',
+                            fontSize: 40
+                        }
+                    }],
+                    series: [{
+                        hoverAnimation: false, //设置饼图默认的展开样式
+                        radius: [100, 190],
+                        name: 'pie',
+                        type: 'pie',
+                        selectedMode: 'single',
+                        selectedOffset: 16, //选中是扇区偏移量
+                        clockwise: true,
+                        startAngle: 90,
+                        label: {
+                            normal: {
+                                textStyle: {
+                                    fontSize: 18,
+                                    color: '#999'
+                                }
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                lineStyle: {
+                                    color: '#999',
+
+                                }
+                            }
+                        },
+                        data: originalData
+                    }]
+                };
+                var getlend_student_type = echarts.init(document.getElementById(chartid));
+                getlend_student_type.setOption(getlend_student_typeoption);
+            }
+        })
+    }
+    function getlendrenew_student_type(chartid){
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../schoolReport/getmankindCount_Byoneyear',
+            async:false,
+            dataType:'json',
+            success:function (data) {
+                var colorList = [
+                    '#59c5a7', '#51b8fe', '#fa827d','#FFCC67'
+                ];
+
+                // 总和
+                var total = {
+                    name: '总续借数',
+                    value: data[0].renew+data[1].renew+data[2].renew+data[3].renew
+                }
+
+                var originalData = [{
+                    value: data[0].renew,
+                    name: '其他：'+data[0].renew
+                }, {
+                    value: data[1].renew,
+                    name: '教职工：'+data[1].renew
+                }, {
+                    value: data[2].renew,
+                    name: "本科生："+data[2].renew
+                }, {
+                    value: data[3].renew,
+                    name: "研究生："+data[3].renew
+                },
+                ];
+                echarts.util.each(originalData, function(item, index) {
+                    item.itemStyle = {
+                        normal: {
+                            color: colorList[index]
+                        }
+                    };
+                });
+                var getlendrenew_student_typeoption = {
+                    animation:false,
+                    backgroundColor:'white',
+                    title: [{
+                        text: total.name,
+                        left: '49%',
+                        top: '46%',
+                        textAlign: 'center',
+                        textBaseline: 'middle',
+                        textStyle: {
+                            color: '#999',
+                            fontWeight: 'normal',
+                            fontSize: 20
+                        }
+                    }, {
+                        text: total.value,
+                        left: '49%',
+                        top: '51%',
+                        textAlign: 'center',
+                        textBaseline: 'middle',
+                        textStyle: {
+                            color: '#666',
+                            fontWeight: 'normal',
+                            fontSize: 40
+                        }
+                    }],
+                    series: [{
+                        hoverAnimation: false, //设置饼图默认的展开样式
+                        radius: [100, 190],
+                        name: 'pie',
+                        type: 'pie',
+                        selectedMode: 'single',
+                        selectedOffset: 16, //选中是扇区偏移量
+                        clockwise: true,
+                        startAngle: 90,
+                        label: {
+                            normal: {
+                                textStyle: {
+                                    fontSize: 18,
+                                    color: '#999'
+                                }
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                lineStyle: {
+                                    color: '#999',
+
+                                }
+                            }
+                        },
+                        data: originalData
+                    }]
+                };
+                var getlendrenew_student_type = echarts.init(document.getElementById(chartid));
+                getlendrenew_student_type.setOption(getlendrenew_student_typeoption);
+            }
+        })
+    }
     $(function(){
-        var left=$(".left_col").height();
+       /* var left=$(".left_col").height();
         left=left-17;
         $(".right_col").height(left);
         var height=left-$(".x_title").height()-120;
         $("#SexAndBookkinds_count").height(height);
-        $("#BookkindCount").height(height);
-
+        $("#BookkindCount").height(height);*/
         SexAndBookkindschart();
         BookkindCountchart();
+        getBookkindAllCount_Byyear('getBookkindAllCount_Byyear');
+        getlend_student_type('getlend_student_type');
+        getlendrenew_student_type('getlendrenew_student_type');
+
     });
 </script>
 <body class="nav-md">
@@ -636,7 +923,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="SexAndBookkinds_count"></div>
+                            <div id="SexAndBookkinds_count" style="height: 300px"></div>
                         </div>
                     </div>
                 </div>
@@ -947,7 +1234,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="BookkindCount" ></div>
+                            <div id="BookkindCount" style="height: 300px"></div>
                         </div>
                     </div>
                 </div>
@@ -1072,6 +1359,147 @@
                         });
                     }
                 </script>
+
+            </div>
+            <div class="clearfix"></div>
+            <div class="row"  >
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title"  style="padding:0px;">
+                            <h2 id="reader_lend_type_title"></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="" href="javascript:getlarge_reader_lend_type()"><i class="fa icon-resize-full"></i></a>
+                                </li>
+
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div id="getBookkindAllCount_Byyear" style="height: 350px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    function bookind_hourchart() {
+                        var bookind_hour_count = echarts.init(document.getElementById('bookind_hour_count'));
+                        // 异步加载数据
+                        $.get('../../bookLend/ByHourAndBookkinds').done(function (data1) {
+                            console.log(data1)
+                            var hours = data1.academy;
+                            var days = data1.bookkindslist
+                            var data = data1.data
+                            // 填入数据
+                            var bookind_hour_count_option = {
+                                title: {
+                                    text: ' ',
+                                    link: 'https://github.com/pissang/echarts-next/graphs/punch-card'
+                                },
+                                legend: {
+                                    data: ['图书借阅量'],
+                                    right: '20%',
+                                },
+
+                                toolbox: {
+                                    right: 20,
+                                    feature: {
+                                        saveAsImage: {},
+                                        restore: {}
+
+                                    }
+                                },
+                                tooltip: {
+                                    position: 'top',
+                                    formatter: function (params) {
+                                        return hours[params.value[0]] + '借阅' + days[params.value[1]] + ':' + params.value[2] + '万本';
+                                    }
+                                },
+                                grid: {
+                                    left: 2,
+                                    bottom: 10,
+                                    right: 10,
+                                    containLabel: true
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    data: hours,
+                                    boundaryGap: false,
+                                    splitLine: {
+                                        show: true,
+                                        lineStyle: {
+                                            color: '#ddd',
+                                            type: 'dashed'
+                                        }
+                                    },
+                                    axisLine: {
+                                        show: false
+                                    }
+                                },
+                                yAxis: {
+                                    type: 'category',
+                                    data: days,
+                                    axisLine: {
+                                        show: false
+                                    }
+                                },
+                                series: [{
+                                    name: '图书借阅量',
+                                    type: 'scatter',
+                                    symbolSize: function (val) {
+                                        return val[2] * 80;
+                                    },
+                                    data: data
+                                }]
+                            };
+
+                            bookind_hour_count.setOption(bookind_hour_count_option);
+                        });
+                    }
+                </script>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row"  >
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title" style="padding:0px;">
+                            <h2 id="reader_lend_rating"></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="" href="javascript:getlargereader_lend_rating()"><i class="fa icon-resize-full"></i></a>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div id="getlend_student_type" style="height: 300px"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title" style="padding:0px;">
+                            <h2 id="reader_relend_rating"></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="" href="javascript:getlarge_reader_relend_rating()"><i class="fa icon-resize-full"></i></a>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div id="getlendrenew_student_type" style="height: 300px"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1086,7 +1514,8 @@
         </div>
         <div id="largeSexAndBookkinds" class="large_chart"  style="display: none"></div>
         <div id="largeBookkindsCount" class="large_chart"  style="display: none"></div>
-
+        <div id="largereader_lend_rating" class="large_chart"  style="display: none"></div>
+        <div id="large_reader_relend_rating" class="large_chart"  style="display: none"></div>
     </div>
 </div>
 <!-- Bootstrap -->

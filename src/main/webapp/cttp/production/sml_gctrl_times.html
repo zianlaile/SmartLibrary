@@ -68,7 +68,11 @@
                 data:['进馆每年统计']
             },
             toolbox: {
+                show: true,
                 feature: {
+                    dataZoom: {},
+                    dataView: {readOnly: false},
+                    magicType: {type: ['line', 'bar']},
                     restore: {},
                     saveAsImage: {}
                 }
@@ -189,8 +193,11 @@
                 containLabel: true
             },
             toolbox: {
+                show: true,
                 feature: {
-
+                    dataZoom: {},
+                    dataView: {readOnly: false},
+                    magicType: {type: ['line', 'bar']},
                     restore: {},
                     saveAsImage: {}
                 }
@@ -310,8 +317,11 @@
                 containLabel: true
             },
             toolbox: {
+                show: true,
                 feature: {
-
+                    dataZoom: {},
+                    dataView: {readOnly: false},
+                    magicType: {type: ['line', 'bar']},
                     restore: {},
                     saveAsImage: {}
                 }
@@ -467,6 +477,16 @@
                 var getmankindCount_Byyearoption = {
                     animation:false,
                     backgroundColor:'white',
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataZoom: {},
+                            dataView: {readOnly: false},
+                            magicType: {type: ['line', 'bar']},
+                            restore: {},
+                            saveAsImage: {}
+                        }
+                    },
                     xAxis: {
                         name:'年',
                         data:getmankindCount_Byyearyear,
@@ -685,7 +705,11 @@
                                 data: ['进馆每年统计']
                             },
                             toolbox: {
+                                show: true,
                                 feature: {
+                                    dataZoom: {},
+                                    dataView: {readOnly: false},
+                                    magicType: {type: ['line', 'bar']},
                                     restore: {},
                                     saveAsImage: {}
                                 }
@@ -813,8 +837,11 @@
                                 }
                             },
                             toolbox: {
+                                show: true,
                                 feature: {
-
+                                    dataZoom: {},
+                                    dataView: {readOnly: false},
+                                    magicType: {type: ['line', 'bar']},
                                     restore: {},
                                     saveAsImage: {}
                                 }
@@ -942,7 +969,6 @@
                     function daychart() {
                         var day_count = echarts.init(document.getElementById('day_count'));
                         var day_count_option = {
-
                             tooltip: {
                                 trigger: 'axis',
                                 position: function (pt) {
@@ -950,7 +976,11 @@
                                 }
                             },
                             toolbox: {
+                                show: true,
                                 feature: {
+                                    dataZoom: {},
+                                    dataView: {readOnly: false},
+                                    magicType: {type: ['line', 'bar']},
                                     restore: {},
                                     saveAsImage: {}
                                 }
@@ -1089,6 +1119,16 @@
                             legend: {
 
                                 data: ['进馆每日统计']
+                            },
+                            toolbox: {
+                                show: true,
+                                feature: {
+                                    dataZoom: {},
+                                    dataView: {readOnly: false},
+                                    magicType: {type: ['line', 'bar']},
+                                    restore: {},
+                                    saveAsImage: {}
+                                }
                             },
                             xAxis: {
                                 type: 'category',

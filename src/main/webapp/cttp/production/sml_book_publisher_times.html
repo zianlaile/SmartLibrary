@@ -72,12 +72,14 @@
                     legend: {
                         data: ['借阅出版社排名']
                     },
-                    toolbox:{
-                        right:20,
-                        feature:{
-                            saveAsImage: {},
-                            restore: {}
-
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataZoom: {},
+                            dataView: {readOnly: false},
+                            magicType: {type: ['line', 'bar']},
+                            restore: {},
+                            saveAsImage: {}
                         }
                     },
                     grid: {
@@ -177,10 +179,12 @@
                             containLabel: true
                         },
                         toolbox: {
-                            show : true,
-                            feature : {
-                                restore : {},
-                                saveAsImage : {}
+                            show: true,
+                            feature: {
+                                dataZoom: {},
+                                dataView: {readOnly: false},
+                                restore: {},
+                                saveAsImage: {}
                             }
                         },
                         calculable : true,
@@ -422,11 +426,13 @@
                                         data: ['借阅出版社排名']
                                     },
                                     toolbox: {
-                                        right: 20,
+                                        show: true,
                                         feature: {
-                                            saveAsImage: {},
-                                            restore: {}
-
+                                            dataZoom: {},
+                                            dataView: {readOnly: false},
+                                            magicType: {type: ['line', 'bar']},
+                                            restore: {},
+                                            saveAsImage: {}
                                         }
                                     },
                                     grid: {
@@ -531,6 +537,8 @@
                                     toolbox: {
                                         show: true,
                                         feature: {
+                                            dataZoom: {},
+                                            dataView: {readOnly: false},
                                             restore: {},
                                             saveAsImage: {}
                                         }

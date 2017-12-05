@@ -71,18 +71,20 @@
                     legend: {
                         "show": true,
                         top: 4,
-                        right: '20%',
                         'data': ['借书量', '还书量'],
                         'selected': {
                             '借书量': true,
                             '还书量': true,
                         }
                     },
-                    toolbox:{
-                        right:20,
-                        feature:{
-                            saveAsImage: {},
-                            restore: {}
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataZoom: {},
+                            dataView: {readOnly: false},
+                            magicType: {type: ['line', 'bar']},
+                            restore: {},
+                            saveAsImage: {}
                         }
                     },
 
@@ -173,14 +175,15 @@
                 },
                 legend: {
                     data: ['图书借阅量'],
-                    right:'20%',
                 },
-                toolbox:{
-                    right:20,
-                    feature:{
-                        saveAsImage: {},
-                        restore: {}
-
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {},
+                        dataView: {readOnly: false},
+                        magicType: {type: ['line', 'bar']},
+                        restore: {},
+                        saveAsImage: {}
                     }
                 },
                 tooltip: {
@@ -260,6 +263,16 @@
                         trigger: 'axis',
                         axisPointer : {            // 坐标轴指示器，坐标轴触发有效
                             type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                        }
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataZoom: {},
+                            dataView: {readOnly: false},
+                            magicType: {type: ['line', 'bar']},
+                            restore: {},
+                            saveAsImage: {}
                         }
                     },
                     grid: {
@@ -530,7 +543,6 @@
                                     legend: {
                                         "show": true,
                                         top: 4,
-                                        right: '20%',
                                         'data': ['借书量', '还书量'],
                                         'selected': {
                                             '借书量': true,
@@ -538,10 +550,13 @@
                                         }
                                     },
                                     toolbox: {
-                                        right: 20,
+                                        show: true,
                                         feature: {
-                                            saveAsImage: {},
-                                            restore: {}
+                                            dataZoom: {},
+                                            dataView: {readOnly: false},
+                                            magicType: {type: ['line', 'bar']},
+                                            restore: {},
+                                            saveAsImage: {}
                                         }
                                     },
 
@@ -645,15 +660,16 @@
                                 },
                                 legend: {
                                     data: ['图书借阅量'],
-                                    right: '20%',
                                 },
 
                                 toolbox: {
-                                    right: 20,
+                                    show: true,
                                     feature: {
-                                        saveAsImage: {},
-                                        restore: {}
-
+                                        dataZoom: {},
+                                        dataView: {readOnly: false},
+                                        magicType: {type: ['line', 'bar']},
+                                        restore: {},
+                                        saveAsImage: {}
                                     }
                                 },
                                 tooltip: {
@@ -744,15 +760,16 @@
                                 },
                                 legend: {
                                     data: ['图书借阅量'],
-                                    right: '20%',
                                 },
 
                                 toolbox: {
-                                    right: 20,
+                                    show: true,
                                     feature: {
-                                        saveAsImage: {},
-                                        restore: {}
-
+                                        dataZoom: {},
+                                        dataView: {readOnly: false},
+                                        magicType: {type: ['line', 'bar']},
+                                        restore: {},
+                                        saveAsImage: {}
                                     }
                                 },
                                 tooltip: {

@@ -108,12 +108,14 @@
                         }
                     },
 
-                    toolbox:{
-                        right:20,
-                        feature:{
-                            saveAsImage: {},
-                            restore: {}
-
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataZoom: {},
+                            dataView: {readOnly: false},
+                            magicType: {type: ['line', 'bar']},
+                            restore: {},
+                            saveAsImage: {}
                         }
                     },
 
@@ -383,14 +385,16 @@
                 legend: {
                     data: ['Top 13'],
                     top: 4,
-                    right: '20%',
                     textStyle: {},
                 },
-                toolbox:{
-                    right:20,
-                    feature:{
-                        saveAsImage: {},
-                        restore: {}
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {},
+                        dataView: {readOnly: false},
+                        magicType: {type: ['line', 'bar']},
+                        restore: {},
+                        saveAsImage: {}
                     }
                 },
                 yAxis: [{
@@ -507,6 +511,16 @@
                         top:'3%',
                         containLabel: true
                     },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataZoom: {},
+                            dataView: {readOnly: false},
+                            magicType: {type: ['line', 'bar']},
+                            restore: {},
+                            saveAsImage: {}
+                        }
+                    },
                     tooltip: {
                         trigger: 'axis',
                         axisPointer: {
@@ -612,6 +626,15 @@
                 var getlend_student_typeoption = {
                     animation:false,
                     backgroundColor:'white',
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataZoom: {},
+                            dataView: {readOnly: false},
+                            restore: {},
+                            saveAsImage: {}
+                        }
+                    },
                     title: [{
                         text: total.name,
                         left: '49%',
@@ -719,6 +742,15 @@
                 var getlendrenew_student_typeoption = {
                     animation:false,
                     backgroundColor:'white',
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataZoom: {},
+                            dataView: {readOnly: false},
+                            restore: {},
+                            saveAsImage: {}
+                        }
+                    },
                     title: [{
                         text: total.name,
                         left: '49%',
@@ -1010,10 +1042,13 @@
                                     },
 
                                     toolbox: {
-                                        right: 20,
+                                        show: true,
                                         feature: {
-                                            saveAsImage: {},
-                                            restore: {}
+                                            dataZoom: {},
+                                            dataView: {readOnly: false},
+                                            magicType: {type: ['line', 'bar']},
+                                            restore: {},
+                                            saveAsImage: {}
                                         }
                                     },
 
@@ -1290,16 +1325,18 @@
                                     containLabel: true
                                 },
                                 toolbox: {
-                                    right: 20,
+                                    show: true,
                                     feature: {
-                                        saveAsImage: {},
-                                        restore: {}
+                                        dataZoom: {},
+                                        dataView: {readOnly: false},
+                                        magicType: {type: ['line', 'bar']},
+                                        restore: {},
+                                        saveAsImage: {}
                                     }
                                 },
                                 legend: {
                                     data: ['Top 13'],
                                     top: 4,
-                                    right: '20%',
                                     textStyle: {},
                                 },
                                 yAxis: [{
@@ -1428,7 +1465,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="getlend_student_type" style="height: 450px"></div>
+                            <div id="getlend_student_type" style="height: 500px"></div>
                         </div>
                     </div>
                 </div>
@@ -1447,7 +1484,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="getlendrenew_student_type" style="height: 450px"></div>
+                            <div id="getlendrenew_student_type" style="height: 500px"></div>
                         </div>
                     </div>
                 </div>

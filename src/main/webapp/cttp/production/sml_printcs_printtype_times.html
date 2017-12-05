@@ -81,6 +81,16 @@
                             position: 'inside'
                         }
                     },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataZoom: {},
+                            dataView: {readOnly: false},
+                            magicType: {type: ['line', 'bar']},
+                            restore: {},
+                            saveAsImage: {}
+                        }
+                    },
                     radius: pieRadius,
                     data: [{
                         name: '打印',
@@ -107,6 +117,15 @@
                             show:true,
                             formatter: '{c}',
                             position: 'inside'
+                        }
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataZoom: {},
+                            dataView: {readOnly: false},
+                            restore: {},
+                            saveAsImage: {}
                         }
                     },
                     radius: pieRadius,
@@ -148,6 +167,15 @@
                 legend: {
                     data: ['打印', '复印', '扫描'],
                     top: 0
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {},
+                        dataView: {readOnly: false},
+                        restore: {},
+                        saveAsImage: {}
+                    }
                 },
                 calendar: [{
                     top: 'middle',
@@ -315,6 +343,16 @@
                     animation:false,
                     backgroundColor:'white',
                     animation:false,
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataZoom: {},
+                            dataView: {readOnly: false},
+                            magicType: {type: ['line', 'bar']},
+                            restore: {},
+                            saveAsImage: {}
+                        }
+                    },
                     xAxis: [
                         {
                             name:'年',
@@ -404,6 +442,16 @@
                     animation:false,
                     backgroundColor:'white',
                     animation:false,
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataZoom: {},
+                            dataView: {readOnly: false},
+                            magicType: {type: ['line', 'bar']},
+                            restore: {},
+                            saveAsImage: {}
+                        }
+                    },
                     xAxis: [
                         {
                             name:'年',
@@ -493,6 +541,16 @@
                     animation:false,
                     backgroundColor:'white',
                     animation:false,
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataZoom: {},
+                            dataView: {readOnly: false},
+                            magicType: {type: ['line', 'bar']},
+                            restore: {},
+                            saveAsImage: {}
+                        }
+                    },
                     xAxis: [
                         {
                             name:'年',
@@ -575,6 +633,16 @@
                 var getprints_houroption = {
                     animation:false,
                     backgroundColor:'white',
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataZoom: {},
+                            dataView: {readOnly: false},
+                            magicType: {type: ['line', 'bar']},
+                            restore: {},
+                            saveAsImage: {}
+                        }
+                    },
                     tooltip: {
                         trigger: 'axis'
                     },
@@ -762,7 +830,7 @@
                                     <li><a href="sml_ranking_gctrl_times.html">进馆统计排行</a></li>
                                     <li><a href="sml_ranking_seat_times.html">座位统计排行</a></li>
                                     <li><a href="sml_ranking_ic_times.html">电子阅览室统计排行</a></li>
-                                    <li><a href="sml_ranking_print_times.html">助打印统计排行</a></li>
+                                    <li><a href="sml_ranking_print_times.html">自助打印统计排行</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-sitemap"></i> 人员资产统计 <span class="fa fa-chevron-down"></span></a>

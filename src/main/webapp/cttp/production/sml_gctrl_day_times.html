@@ -106,12 +106,13 @@
                        // color: '#fff'
                     }
                 },
-                toolbox:{
-                    right:20,
-                    feature:{
-                        saveAsImage: {},
-                        restore: {}
-
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {},
+                        dataView: {readOnly: false},
+                        restore: {},
+                        saveAsImage: {}
                     }
                 },
                 calendar: [{
@@ -273,12 +274,14 @@
                     data: ['日进馆排名'],
                     align: 'left'
                 },
-                toolbox:{
-                    right:20,
-                    feature:{
-                        saveAsImage: {},
-                        restore: {}
-
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {},
+                        dataView: {readOnly: false},
+                        magicType: {type: ['line', 'bar']},
+                        restore: {},
+                        saveAsImage: {}
                     }
                 },
                 grid: {
@@ -395,7 +398,7 @@
                                     <li><a href="sml_ranking_gctrl_times.html">进馆统计排行</a></li>
                                     <li><a href="sml_ranking_seat_times.html">座位统计排行</a></li>
                                     <li><a href="sml_ranking_ic_times.html">电子阅览室统计排行</a></li>
-                                    <li><a href="sml_ranking_print_times.html">助打印统计排行</a></li>
+                                    <li><a href="sml_ranking_print_times.html">自助打印统计排行</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-sitemap"></i> 人员资产统计 <span class="fa fa-chevron-down"></span></a>
@@ -545,11 +548,12 @@
                                     }
                                 },
                                 toolbox: {
-                                    right: 20,
+                                    show: true,
                                     feature: {
-                                        saveAsImage: {},
-                                        restore: {}
-
+                                        dataZoom: {},
+                                        dataView: {readOnly: false},
+                                        restore: {},
+                                        saveAsImage: {}
                                     }
                                 },
                                 calendar: [{
@@ -728,11 +732,13 @@
                                     align: 'left'
                                 },
                                 toolbox: {
-                                    right: 20,
+                                    show: true,
                                     feature: {
-                                        saveAsImage: {},
-                                        restore: {}
-
+                                        dataZoom: {},
+                                        dataView: {readOnly: false},
+                                        magicType: {type: ['line', 'bar']},
+                                        restore: {},
+                                        saveAsImage: {}
                                     }
                                 },
                                 tooltip: {},

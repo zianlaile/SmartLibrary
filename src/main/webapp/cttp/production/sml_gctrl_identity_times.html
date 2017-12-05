@@ -101,13 +101,15 @@
                     tooltip: {},
                     legend: {
                         top: 4,
-                        right: '20%',
                         data: ['大学生', '研究生', '教师', '其他']
 
                     },
                     toolbox: {
+                        show: true,
                         feature: {
-
+                            dataZoom: {},
+                            dataView: {readOnly: false},
+                            magicType: {type: ['line', 'bar']},
                             restore: {},
                             saveAsImage: {}
                         }
@@ -272,12 +274,14 @@
                         }
                     },
 
-                    toolbox:{
-                        right:20,
-                        feature:{
-                            saveAsImage: {},
-                            restore: {}
-
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataZoom: {},
+                            dataView: {readOnly: false},
+                            magicType: {type: ['line', 'bar']},
+                            restore: {},
+                            saveAsImage: {}
                         }
                     },
 
@@ -536,6 +540,15 @@
                 var getmankindGctrl_Byoneyearoption = {
                     animation:false,
                     backgroundColor:'white',
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataZoom: {},
+                            dataView: {readOnly: false},
+                            restore: {},
+                            saveAsImage: {}
+                        }
+                    },
                     tooltip : {
                         trigger: 'item',
                         formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -628,7 +641,7 @@
                                     <li><a href="sml_ranking_gctrl_times.html">进馆统计排行</a></li>
                                     <li><a href="sml_ranking_seat_times.html">座位统计排行</a></li>
                                     <li><a href="sml_ranking_ic_times.html">电子阅览室统计排行</a></li>
-                                    <li><a href="sml_ranking_print_times.html">助打印统计排行</a></li>
+                                    <li><a href="sml_ranking_print_times.html">自助打印统计排行</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-sitemap"></i> 人员资产统计 <span class="fa fa-chevron-down"></span></a>
@@ -784,12 +797,15 @@
                                     tooltip: {},
                                     legend: {
                                         top: 4,
-                                        right: '20%',
                                         data: ['大学生', '研究生', '教师', '其他']
 
                                     },
                                     toolbox: {
+                                        show: true,
                                         feature: {
+                                            dataZoom: {},
+                                            dataView: {readOnly: false},
+                                            magicType: {type: ['line', 'bar']},
                                             restore: {},
                                             saveAsImage: {}
                                         }
@@ -953,7 +969,6 @@
                                     legend: {
                                         data: ['男生', '女生'],
                                         top: 4,
-                                        right: '20%',
                                         textStyle: {
                                             // color: '#fff',
                                         },
@@ -967,18 +982,15 @@
                                         }
                                     },
                                     toolbox: {
-                                        right: 20,
+                                        show: true,
                                         feature: {
-                                            saveAsImage: {},
+                                            dataZoom: {},
+                                            dataView: {readOnly: false},
+                                            magicType: {type: ['line', 'bar']},
                                             restore: {},
-                                            // dataView: {},
-                                            //dataZoom: {},
-                                            /*magicType: {
-                                            type:['line','bar']
-                                        },*/
-                                            // brush: {},
-                                    }
-                                },
+                                            saveAsImage: {}
+                                        }
+                                    },
                                 grid: [{
                                     show: false,
                                     left: '4%',

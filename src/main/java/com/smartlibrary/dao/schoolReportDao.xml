@@ -109,6 +109,7 @@
         from zz_book_month_bookkinds_gender
         where `year`=2015
         GROUP BY `book_kind`
+        ORDER BY book_lend_times
     </select>
 
     <!--3. 有借阅记录的教职工读者人数-->

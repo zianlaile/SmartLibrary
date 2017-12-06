@@ -815,6 +815,116 @@
         $("#large_reader_relend_rating").css("display","block");
         getlendrenew_student_type('large_reader_relend_rating');
     }
+    function getyear_lend_type_top5(chartid){
+        $.ajax({
+            type: 'get',
+            contentType: 'application/json',
+            url: '../../schoolReport/getTop5bookkind_Byyear',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                var year = [];
+                var lendtimes = [];
+                var booktype = [];
+                /*var lendtimes_option = [];
+                var booktype_option = [];*/
+                for(var i=0;i<data.length;i++){
+                    if(year.indexOf(data[i].year+'年')==-1){
+                        year.push(data[i].year+'年');
+                    }
+                    lendtimes.push(data[i].book_lend_times);
+                    booktype.push(data[i].book_kind);
+                }
+                /*for(var i=0;i<year.length;i++){
+                    lendtimes_option.push(lendtimes.slice(i*5,i*5+5));
+                    booktype_option.push(booktype.slice(i*5,i*5+5));
+                }*/
+                var options = [];
+                for(var i=0;i<year.length;i++){
+                    options.push({
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        toolbox: {
+                            show: true,
+                            feature: {
+                                dataZoom: {},
+                                dataView: {readOnly: false},
+                                magicType: {type: ['line', 'bar']},
+                                restore: {},
+                                saveAsImage: {}
+                            }
+                        },
+                        calculable: true,
+                        grid: {
+                            y: 100,
+                            y2: 100
+                        },
+                        xAxis: [{
+                            type: 'category',
+                            axisLabel: {
+                                interval: 0
+                            },
+                            data: booktype.slice(i*5,i*5+5)
+                        }],
+                        yAxis: [{
+                            type: 'value',
+                            name: '单位: 册'
+                        }],
+                        series: [{
+                            name: '册数',
+                            type: 'bar',
+                            markLine: {
+                                symbol: ['arrow', 'none'],
+                                symbolSize: [4, 2],
+                                itemStyle: {
+                                    normal: {
+                                        lineStyle: {
+                                            color: 'orange'
+                                        },
+                                        barBorderColor: 'orange',
+                                        label: {
+                                            position: 'left',
+                                            formatter: function(params) {
+                                                return Math.round(params.value);
+                                            },
+                                            textStyle: {
+                                                color: 'orange'
+                                            }
+                                        }
+                                    }
+                                },
+                                data: [{
+                                    type: 'average',
+                                    name: '平均值'
+                                }]
+                            },
+                            data: lendtimes.slice(i*5,i*5+5)
+                        }]
+                    });
+                }
+                var mycharts = echarts.init(document.getElementById(chartid));
+                var option = {
+                    timeline: {
+                        axisType: 'category',
+                        autoPlay: true,
+                        playInterval: 3000,
+                        data: year
+                    },
+                    options:options
+                };
+                mycharts.setOption(option);
+            }
+        });
+    }
+    function getlarge_lend_type_top5() {
+        $(".chart_title p").text("历年图书借阅类别TOP5趋势图");
+        $(".mask").css("display","block");
+        /*$("#largeBookkindsCount").css("display","none");*/
+        $(".large_chart").css("display","none");
+        $("#large_lend_type_top5").css("display","block");
+        getyear_lend_type_top5("large_lend_type_top5");
+    }
     $(function(){
        /* var left=$(".left_col").height();
         left=left-17;
@@ -827,7 +937,7 @@
         getBookkindAllCount_Byyear('getBookkindAllCount_Byyear');
         getlend_student_type('getlend_student_type');
         getlendrenew_student_type('getlendrenew_student_type');
-
+        getyear_lend_type_top5("year_lend_type_top5");
     });
 </script>
 <body class="nav-md">
@@ -1489,6 +1599,29 @@
                     </div>
                 </div>
             </div>
+            <div class="clearfix"></div>
+            <div class="row"  >
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title"  style="padding:0px;">
+                            <h2>历年图书借阅类别TOP5趋势图</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="" href="javascript:getlarge_lend_type_top5()"><i class="fa icon-resize-full"></i></a>
+                                </li>
+
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div id="year_lend_type_top5" style="height: 350px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -1505,6 +1638,7 @@
         <div id="large_reader_lend_type" class="large_chart"  style="display: none"></div>
         <div id="large_reader_lend_rating" class="large_chart"  style="display: none"></div>
         <div id="large_reader_relend_rating" class="large_chart"  style="display: none"></div>
+        <div id="large_lend_type_top5" class="large_chart"  style="display: none"></div>
     </div>
 </div>
 <!-- Bootstrap -->

@@ -38,7 +38,7 @@
 <!--//getlarge_year-->
 <script type="application/javascript">
     function getlarge_year(){
-        $(".chart_title p").text("年-借阅统计");
+        $(".chart_title p").text("历年-借阅统计");
         $(".mask").css("display","block");
         /*$("#largemonth").css("display","none");
         $("#largeday").css("display","none");
@@ -166,7 +166,7 @@
 <!--//getlarge_month-->
 <script type="application/javascript">
     function getlarge_month(){
-        $(".chart_title p").text("月-借阅统计");
+        $(".chart_title p").text("历年每月-借阅统计");
         $(".mask").css("display","block");
         /*$("#largeyear").css("display","none");
         $("#largeday").css("display","none");*/
@@ -207,7 +207,6 @@
             },
             yAxis: {
                 type: 'value',
-                boundaryGap: [0, '100%'],
                 "axisLabel": {
                     "interval": 0,
                     formatter: '{value}次',
@@ -293,7 +292,7 @@
 <!--//getlarge_day()-->
 <script type="application/javascript">
     function getlarge_day(){
-        $(".chart_title p").text("日-借阅统计");
+        $(".chart_title p").text("历年每日-借阅统计");
         $(".mask").css("display","block");
        /* $("#largeyear").css("display","none");
         $("#largemonth").css("display","none");*/
@@ -335,7 +334,6 @@
             },
             yAxis: {
                 type: 'value',
-                boundaryGap: [0, '100%'],
                 "axisLabel": {
                     "interval": 0,
                     formatter: '{value}次',
@@ -849,7 +847,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title"  style="padding:0px;" >
-                            <h2>年-借阅统计</h2>
+                            <h2>历年-借阅统计</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
@@ -985,7 +983,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title"   style="padding:0px;" >
-                            <h2>月-借阅统计</h2>
+                            <h2>历年每月-借阅统计</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
@@ -1038,7 +1036,6 @@
                         },
                         yAxis: {
                             type: 'value',
-                            boundaryGap: [0, '100%'],
                             "axisLabel": {
                                 "interval": 0,
                                 formatter: '{value}次',
@@ -1124,7 +1121,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title"   style="padding:0px;" >
-                            <h2>日-借阅统计</h2>
+                            <h2>历年每日-借阅统计</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
@@ -1173,7 +1170,6 @@
                         },
                         yAxis: {
                             type: 'value',
-                            boundaryGap: [0, '100%'],
                             "axisLabel": {
                                 "interval": 0,
                                 formatter: '{value}次',
@@ -1307,7 +1303,6 @@
                             },
                             yAxis: {
                                 type: 'value',
-                                boundaryGap: [0, '100%'],
                                 "axisLabel": {
                                     "interval": 0,
                                     formatter: '{value}次',
@@ -1441,7 +1436,6 @@
                             },
                             yAxis: {
                                 type: 'value',
-                                boundaryGap: [0, '100%'],
                                 "axisLabel": {
                                     "interval": 0,
                                     formatter: '{value}次',

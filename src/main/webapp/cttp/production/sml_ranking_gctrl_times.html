@@ -38,7 +38,7 @@
 <!--//largeranking_gctrl_month-->
 <script type="application/javascript">
     function getlargeranking_gctrl_month(){
-        $(".chart_title p").text("总量月进馆量排行");
+        $(".chart_title p").text("当年月进馆量排行");
         $(".mask").css("display","block");
         $("#largeranking_gctrl_day").css("display","none");
         $("#largeranking_gctrl_academy_month").css("display","none");
@@ -170,7 +170,7 @@
 <!--//largeranking_gctrl_day-->
 <script type="application/javascript">
     function getlargeranking_gctrl_day(){
-        $(".chart_title p").text("总量日进馆量排行");
+        $(".chart_title p").text("当年日进馆量排行");
         $(".mask").css("display","block");
         $("#largeranking_gctrl_month").css("display","none");
         $("#largeranking_gctrl_academy_month").css("display","none");
@@ -211,7 +211,7 @@
                     data: [],
                     "axisLabel": {
                         "interval": 0,
-                        formatter: '{value}日',
+                        formatter: '{value}',
                     },
                     axisTick: {
                         alignWithLabel: true
@@ -298,7 +298,7 @@
 <!--//largeranking_gctrl_academy_month()-->
 <script type="application/javascript">
     function getlargeranking_gctrl_academy_month(){
-        $(".chart_title p").text("学院月进馆量排行");
+        $(".chart_title p").text("当年学院月进馆量排行");
         $(".mask").css("display","block");
         $("#largeranking_gctrl_day").css("display","none");
         $("#largeranking_gctrl_month").css("display","none");
@@ -378,7 +378,7 @@
                         normal: {
                             show: true,
                             interval: 'auto',
-                            formatter: '{value}年',
+                            formatter: '{value}',
                         },
                     },
                     axisType: 'category',
@@ -397,7 +397,7 @@
 <!--//largeranking_gctrl_academy_day()-->
 <script type="application/javascript">
     function getlargeranking_gctrl_academy_day(){
-        $(".chart_title p").text("学院日进馆量排行");
+        $(".chart_title p").text("当年学院日进馆量排行");
         $(".mask").css("display","block");
         $("#largeranking_gctrl_day").css("display","none");
         $("#largeranking_gctrl_month").css("display","none");
@@ -472,7 +472,7 @@
                         normal: {
                             show: true,
                             interval: 'auto',
-                            formatter: '{value}年',
+                            formatter: '{value}',
                         },
                     },
                     axisType: 'category',
@@ -493,14 +493,14 @@
 <script type="application/javascript">
 
     $(function(){
-        var left=$(".left_col").height();
+        /*var left=$(".left_col").height();
         left=left-17;
         $(".right_col").height(left+400);
         var height=left/4-$(".x_title").height()+22;
         $("#ranking_gctrl_month").height(height);
         $("#ranking_gctrl_day").height(height);
         $("#ranking_gctrl_academy_month").height(height);
-        $("#ranking_gctrl_academy_day").height(height);
+        $("#ranking_gctrl_academy_day").height(height);*/
         ranking_gctrl_monthchart();
         ranking_gctrl_daychart();
         ranking_gctrl_academy_monthchart();
@@ -663,7 +663,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title"  style="padding:0px;" >
-                            <h2>总量月进馆量排行</h2>
+                            <h2>当年月进馆量排行</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
@@ -675,7 +675,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content"  >
-                            <div id="ranking_gctrl_month" ></div>
+                            <div id="ranking_gctrl_month" style="height: 350px;"></div>
                         </div>
                     </div>
                 </div>
@@ -804,7 +804,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title"   style="padding:0px;" >
-                            <h2>总量日进馆量排行</h2>
+                            <h2>当年日进馆量排行</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
@@ -816,7 +816,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content"  >
-                            <div id="ranking_gctrl_day" ></div>
+                            <div id="ranking_gctrl_day" style="height: 350px;"></div>
                         </div>
                     </div>
                 </div>
@@ -858,7 +858,7 @@
                                     data: [],
                                     "axisLabel": {
                                         "interval": 0,
-                                        formatter: '{value}日',
+                                        formatter: '{value}',
                                     },
                                     axisTick: {
                                         alignWithLabel: true
@@ -945,7 +945,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title"   style="padding:0px;" >
-                            <h2>学院月进馆量排行</h2>
+                            <h2>当年学院月进馆量排行</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
@@ -957,7 +957,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="ranking_gctrl_academy_month"></div>
+                            <div id="ranking_gctrl_academy_month" style="height: 350px;"></div>
                         </div>
                     </div>
                 </div>
@@ -1034,7 +1034,7 @@
                                         normal: {
                                             show: true,
                                             interval: 'auto',
-                                            formatter: '{value}年',
+                                            formatter: '{value}',
                                         },
                                     },
                                     axisType: 'category',
@@ -1054,7 +1054,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title"   style="padding:0px;" >
-                            <h2>学院日进馆量排行</h2>
+                            <h2>当年学院日进馆量排行</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
@@ -1066,7 +1066,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content"  >
-                            <div id="ranking_gctrl_academy_day" ></div>
+                            <div id="ranking_gctrl_academy_day" style="height: 350px;"></div>
                         </div>
                     </div>
                 </div>
@@ -1140,7 +1140,7 @@
                                         normal: {
                                             show: true,
                                             interval: 'auto',
-                                            formatter: '{value}年',
+                                            formatter: '{value}',
                                         },
                                     },
                                     axisType: 'category',

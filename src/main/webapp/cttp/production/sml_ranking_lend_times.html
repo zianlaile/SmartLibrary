@@ -95,6 +95,11 @@
             series: [{
             name: '借阅图书数量',
             type: 'bar',
+                itemStyle:{
+                    normal:{
+                        color:'#EE9201'
+                    }
+                },
             data: returndata[key].times
         }]
         };
@@ -417,14 +422,14 @@
 <script type="application/javascript">
 
     $(function(){
-        var left=$(".left_col").height();
+        /*var left=$(".left_col").height();
         left=left-17;
         $(".right_col").height(left+400);
         var height=left/4-$(".x_title").height()+22;
         $("#lend_book_year").height(height);
         $("#lend_reader_year").height(height);
         $("#lend_academy_book_year").height(height);
-        $("#lend_academy_reader_year").height(height);
+        $("#lend_academy_reader_year").height(height);*/
         lend_book_yearchart();
         lend_reader_yearchart();
         lend_academy_book_yearchart();
@@ -599,7 +604,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content"  >
-                            <div id="lend_book_year" ></div>
+                            <div id="lend_book_year" style="height: 350px;"></div>
                         </div>
                     </div>
                 </div>
@@ -657,6 +662,11 @@
                                             series: [{
                                                 name: '借阅图书数量',
                                                 type: 'bar',
+                                                itemStyle:{
+                                                    normal:{
+                                                        color:'#EE9201'
+                                                    }
+                                                },
                                                 data: returndata[key].times
                                             }]
                                         };
@@ -701,7 +711,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content"  >
-                            <div id="lend_reader_year" ></div>
+                            <div id="lend_reader_year" style="height: 350px;"></div>
                         </div>
                     </div>
                 </div>
@@ -807,7 +817,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="lend_academy_book_year"></div>
+                            <div id="lend_academy_book_year" style="height: 350px;"></div>
                         </div>
                     </div>
                 </div>
@@ -913,7 +923,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content"  >
-                            <div id="lend_academy_reader_year" ></div>
+                            <div id="lend_academy_reader_year" style="height: 350px;"></div>
                         </div>
                     </div>
                 </div>

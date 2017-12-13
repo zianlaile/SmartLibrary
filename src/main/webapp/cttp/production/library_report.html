@@ -1670,7 +1670,7 @@
         var img_print_fy =echarts.init(document.getElementById("getcopytimesCountBy_year")).getDataURL();
         var img_print_sm =echarts.init(document.getElementById("getscantimesCountBy_year")).getDataURL();
         var img_print_day =echarts.init(document.getElementById("getprints_hour")).getDataURL();
-        var postdata = {
+        /*var postdata = {
             "img_Book_Amount" :img_Book_Amount,
             "img_gctrl_amount" :img_gctrl_amount,
             "img_month_amount" :img_month_amount,
@@ -1707,7 +1707,61 @@
 
                 }
             }
+        });*/
+        /*$.ajax({
+            type:'get',
+            url:'../../schoolReport/getbooklendPeopleAndCount_Byhour',
+            contentType:'application/json',
+            dataType:'json',
+            success:function (data) {
+                var hour = [];
+                var lend = [];
+                var lendpeople = [];
+                for(var i=0;i<data.length;i++){
+                    hour.push(data[i].hour);
+                    lend.push(data[i].lend);
+                    lendpeople.push(data[i].lend_people);
+                }
+                var year = data[0].year;//年份
+                var max_lend = Math.max.apply(Math,lend);//借阅册数
+                var lend_hour =hour[lend.indexOf(max_lend)];//借阅量的高峰期 lend_hour点-lend_hour+1点
+                var max_lend_people = Math.max.apply(Math,lendpeople);//借阅人数
+                var people_hour = hour[lendpeople.indexOf(max_lend_people)];//借阅人次最多时段 people_hour点-people_hour+1点
+            }
         });
+        $.ajax({
+            type:'get',
+            url:'../../schoolReport/getDeviceCount_Byhour',
+            contentType:'application/json',
+            dataType:'json',
+            success:function (data) {
+                var hour = [];
+                var ereads = [];
+                for(var i=0;i<data.length;i++){
+                    hour.push(data[i].hour);
+                    ereads.push(data[i].ereads);
+                }
+                var max_ereads = Math.max.apply(Math,ereads);
+                var ereads_hour =hour[ereads.indexOf(max_ereads)];//电子阅览室的高峰期 lend_hour点-lend_hour+1点
+            }
+        });
+        $.ajax({
+            type:'get',
+            url:'../../schoolReport/getDeviceCount_Byhour',
+            contentType:'application/json',
+            dataType:'json',
+            success:function (data) {
+                var hour = [];
+                var prints = [];
+                for(var i=0;i<data.length;i++){
+                    hour.push(data[i].hour);
+                    prints.push(data[i].prints);
+                }
+                var max_prints = Math.max.apply(Math,prints);
+                var prints_hour =hour[prints.indexOf(max_prints)];//自助文印设备的高峰期 lend_hour点-lend_hour+1点
+                alert(prints_hour);
+            }
+        });*/
     });
 </script>
 <body>

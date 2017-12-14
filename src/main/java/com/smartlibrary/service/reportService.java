@@ -8,6 +8,7 @@ import com.smartlibrary.common.Picture;
 import com.smartlibrary.common.WordUtil;
 import org.springframework.stereotype.Service;
 import sun.misc.BASE64Decoder;
+import sun.reflect.generics.tree.Tree;
 
 import java.io.*;
 import java.net.URLDecoder;
@@ -49,8 +50,18 @@ public class reportService {
         path = path.substring(0,path.indexOf("WEB-INF"))+"report/";
         String wordpath = path + "88.docx";
         String towordpath = path + "2.docx";
+        Map<String,Object> logo = new HashMap<String, Object>();
+        logo.put("width", 200);
+        logo.put("height", 200);
+        logo.put("type", "JPG");
+        try {
+            logo.put("content", WordUtil.inputStream2ByteArray(new FileInputStream(path+"school-logo.jpg"), true));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("${school}", "浙江工业");
+        param.put("${logo}", logo);
         param.put("${img_Book_Amount}", header1);
         param.put("${img_gctrl_amount}", header2);
         param.put("${img_month_amount}", header3);
@@ -84,6 +95,7 @@ public class reportService {
         JSONArray section3_3 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getDeviceCount_Byhour");
         JSONObject section4_1 = interface_processing.return_jsonobject("http://localhost:8080/SmartLibrary/printtimes/byyear");
         JSONArray section4_2 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getDeviceCount_Byhour");
+        JSONObject section2_7_1 = interface_processing.return_jsonobject("http://localhost:8080/SmartLibrary/schoolReport/getTeacherCount_BycountAndyear");
         TreeSet<String> max_tree = new TreeSet<String>();
         int max = 0;
         for(int i=0;i<section1_2_1.size();i++){
@@ -217,6 +229,73 @@ public class reportService {
         param.put("${library_lead_clock4}",section2_7.getJSONObject(arrpeople2_7.indexOf(Collections.max(arrpeople2_7))+1).getString("hour")+"点");
         param.put("${library_leader_amount}",section2_7.getJSONObject(arrpeople2_7.indexOf(Collections.max(arrpeople2_7))).getString("lend_people"));
         param.put("${img_leader_year}",section2_7.getJSONObject(0).getString("year"));
+        TreeSet<Integer> teacher_year = new TreeSet<>();
+        JSONArray teacher_array = new JSONArray();
+        for(int i=1;i<=8;i++){
+            switch (i){
+                case 1:
+                    teacher_array = section2_7_1.getJSONArray("<10册");
+                    for(int j=1;j<=3;j++){
+                        param.put("${4-"+i+"-"+j+"}",teacher_array.getJSONObject(j-1).getString("lend"));
+                        teacher_year.add(teacher_array.getJSONObject(j-1).getInteger("year"));
+                    }
+                    break;
+                case 2:
+                    teacher_array = section2_7_1.getJSONArray("11-20册");
+                    for(int j=1;j<=3;j++){
+                        param.put("${4-"+i+"-"+j+"}",teacher_array.getJSONObject(j-1).getString("lend"));
+                        teacher_year.add(teacher_array.getJSONObject(j-1).getInteger("year"));
+                    }
+                    break;
+                case 3:
+                    teacher_array = section2_7_1.getJSONArray("21-30册");
+                    for(int j=1;j<=3;j++){
+                        param.put("${4-"+i+"-"+j+"}",teacher_array.getJSONObject(j-1).getString("lend"));
+                        teacher_year.add(teacher_array.getJSONObject(j-1).getInteger("year"));
+                    }
+                    break;
+                case 4:
+                    teacher_array = section2_7_1.getJSONArray("31-50册");
+                    for(int j=1;j<=3;j++){
+                        param.put("${4-"+i+"-"+j+"}",teacher_array.getJSONObject(j-1).getString("lend"));
+                        teacher_year.add(teacher_array.getJSONObject(j-1).getInteger("year"));
+                    }
+                    break;
+                case 5:
+                    teacher_array = section2_7_1.getJSONArray("51-100册");
+                    for(int j=1;j<=3;j++){
+                        param.put("${4-"+i+"-"+j+"}",teacher_array.getJSONObject(j-1).getString("lend"));
+                        teacher_year.add(teacher_array.getJSONObject(j-1).getInteger("year"));
+                    }
+                    break;
+                case 6:
+                    teacher_array = section2_7_1.getJSONArray("101-200册");
+                    for(int j=1;j<=3;j++){
+                        param.put("${4-"+i+"-"+j+"}",teacher_array.getJSONObject(j-1).getString("lend"));
+                        teacher_year.add(teacher_array.getJSONObject(j-1).getInteger("year"));
+                    }
+                    break;
+                case 7:
+                    teacher_array = section2_7_1.getJSONArray("201-300册");
+                    for(int j=1;j<=3;j++){
+                        param.put("${4-"+i+"-"+j+"}",teacher_array.getJSONObject(j-1).getString("lend"));
+                        teacher_year.add(teacher_array.getJSONObject(j-1).getInteger("year"));
+                    }
+                    break;
+                case 8:
+                    teacher_array = section2_7_1.getJSONArray(">300册");
+                    for(int j=1;j<=3;j++){
+                        param.put("${4-"+i+"-"+j+"}",teacher_array.getJSONObject(j-1).getString("lend"));
+                        teacher_year.add(teacher_array.getJSONObject(j-1).getInteger("year"));
+                    }
+                    break;
+            }
+        }
+        List teacher_year_list = new ArrayList(teacher_year);
+        param.put("${chart_year1}",teacher_year_list.get(0)+"年");
+        param.put("${chart_year2}",teacher_year_list.get(1)+"年");
+        param.put("${chart_year3}",teacher_year_list.get(2)+"年");
+        /*System.out.println(param);*/
         param.put("${eread_read_year}",section3_1.getJSONObject(0).getString("year"));
         ArrayList<Integer> arr_3_1 = new ArrayList<>();
         for(int i=0;i<section3_1.size();i++){

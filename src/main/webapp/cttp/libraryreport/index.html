@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图书馆报告</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="jquery-1.8.3.min.js"></script>
+    <script src="template.js"></script>
+    <script src="echarts.min.js"></script>
+    <script src="index.js"></script>
+</head>
+<body>
+<div class="wrap">
+    <div class="page cover">
+        <div class="school-logo"><img src="images/school-logo.jpg"></div>
+        <div class="school-name"><span>xxxxx学校</span></div>
+        <div class="report-title">图书馆阅读分析</div>
+        <div class="report-title">报告</div>
+        <div class="report-time">xx年度</div>
+        <div class="department">xxx图书馆编制</div>
+        <div class="detailed-time">xx年xx月</div>
+    </div>
+    <div class="page catalog">
+        <div class="catalog-title">目录</div>
+        <div class="catalog-content">
+            <a class="para-title" href="#1"><span class="first-catalog">1.1 馆藏文献资源变化趋势</span><div class="dot" style="width: 65%;"></div><div class="pageNum">1</div></a>
+            <a class="para-title" href="#2"><span class="first-catalog">1.2 进馆分析 </span><div class="dot" style="width: 81%;"></div><div class="pageNum">2</div></a>
+            <a class="para-title" href="#2"><span class="second-catalog">1.2.1 历年图书馆进馆总人次</span><div class="dot" style="width: 58%;"></div><div class="pageNum">2</div></a>
+            <a class="para-title" href="#2"><span class="second-catalog">1.2.2 图书馆按月进馆人次统计</span><div class="dot" style="width: 56%;"></div><div class="pageNum">2</div></a>
+            <a class="para-title" href="#3"><span class="second-catalog">1.2.3 图书馆进馆读者类型</span><div class="dot" style="width: 60%;"></div><div class="pageNum">3</div></a>
+            <a class="para-title" href="#5"><span class="first-catalog">2.1 历年全馆图书借还统计</span><div class="dot" style="width: 65%;"></div><div class="pageNum">5</div></a>
+            <a class="para-title" href="#6"><span class="first-catalog">2.2 图书借阅分类</span><div class="dot" style="width: 76%;"></div><div class="pageNum">6</div></a>
+            <a class="para-title" href="#6"><span class="second-catalog">2.2.1 全校读者借阅分类统计</span><div class="dot" style="width: 60%;"></div><div class="pageNum">6</div></a>
+            <a class="para-title" href="#7"><span class="first-catalog">2.3 读者借阅排名</span><div class="dot" style="width: 76%;"></div><div class="pageNum">7</div></a>
+            <a class="para-title" href="#8"><span class="first-catalog">2.4 图书借阅排行</span><div class="dot" style="width: 76%;"></div><div class="pageNum">8</div></a>
+            <a class="para-title" href="#10"><span class="first-catalog">2.5 学院借阅统计</span><div class="dot" style="width: 75%;"></div><div class="pageNum">10</div></a>
+            <a class="para-title" href="#11"><span class="first-catalog">2.6 平均每日各时段图书借出量</span><div class="dot" style="width: 60%;"></div><div class="pageNum">11</div></a>
+            <a class="para-title" href="#12"><span class="first-catalog">2.7 借阅读者身份分析</span><div class="dot" style="width: 72%;"></div><div class="pageNum">12</div></a>
+            <a class="para-title" href="#12"><span class="second-catalog">2.7.1 教职工读者借阅分析</span><div class="dot" style="width: 60%;"></div><div class="pageNum">12</div></a>
+            <a class="para-title" href="#13"><span class="second-catalog">2.7.2 各类型读者借阅比例</span><div class="dot" style="width: 60%;"></div><div class="pageNum">13</div></a>
+            <a class="para-title" href="#14"><span class="first-catalog">3.1 电子阅览室使用统计</span><div class="dot" style="width: 68%;"></div><div class="pageNum">14</div></a>
+            <a class="para-title" href="#15"><span class="first-catalog">3.2 座位在座时长统计</span><div class="dot" style="width: 72%;"></div><div class="pageNum">15</div></a>
+            <a class="para-title" href="#16"><span class="first-catalog">3.3 电子阅览室平均每日使用统计</span><div class="dot" style="width: 58%;"></div><div class="pageNum">16</div></a>
+            <a class="para-title" href="#17"><span class="first-catalog">4.1 全馆自助文印统计</span><div class="dot" style="width: 70%;"></div><div class="pageNum">17</div></a>
+            <a class="para-title" href="#20"><span class="first-catalog">4.2 自助文印每日各时段使用统计</span><div class="dot" style="width: 58%;"></div><div class="pageNum">20</div></a>
+        </div>
+    </div>
+    <div class="page" id="1" style="overflow: hidden;">
+        <div class="chapter-vertical"><div>01</div><div>馆</div><div>藏</div><div>与</div><div>进</div><div>馆</div></div>
+        <div class="right-content">
+            <div class="first-title">1.1 馆藏文献资源变化趋势</div>
+            <p class="para-txt">图书馆主要由奉贤校区图书馆、徐汇校区图书馆组成，总面积 10970 平米，设有书库及阅览室 13 个（包括电子阅览室、苹果体验中心），总座位数为 1313 座。截至 2017年 11月30日，图书馆纸质图书总量为1254227册（预计2017年底可达到127万册），纸质期刊981种，以商务经济、工商管理为重点的学科藏书体系。</p>
+            <div class="chart-title">历年馆藏文献资源总量变化趋势</div>
+            <div class="chart chart-big">
+                <div id="getResourceCountBy_year" style="width: 100%;height: 100%;"></div>
+            </div>
+        </div>
+        <div class="pagination">1</div>
+    </div>
+    <div class="page chapter" id="2">
+        <div class="first-title">1.2 进馆分析</div>
+        <div class="second-title">1.2.1 历年图书馆进馆总人次</div>
+        <div class="para-txt gctrl-intro">从 <span class="emphases first-year"></span> 年到<span class="emphases last-year"></span>年，在<span class="emphases max-year"></span>年图书馆入馆人次最多，为<span class="emphases max-num">xx</span>人次。</div>
+        <div class="chart-title">历年图书馆进馆总人次统计图</div>
+        <div class="chart chart-big">
+            <div id="getGctrlsCountBy_year" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="second-title twenty-top">1.2.2 图书馆按月进馆人次统计</div>
+        <div class="para-txt month-gctrl"><span class="emphases first-year"></span>年<span class="emphases first-month"></span>月- <span class="emphases last-year"></span>年<span class="emphases last-month"></span>月入馆总人次为 <span class="emphases total"></span>人次， 其中 <span class="emphases max-month"></span> 月人流进出最为密集。</div>
+        <div class="pagination">2</div>
+    </div>
+    <div class="page chapter" id="3">
+        <div class="chart-title">图书馆门禁按月入馆人次统计图</div>
+        <div class="chart chart-big">
+            <div id="getGctrlsCountBy_month" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="second-title twenty-top">1.2.3 图书馆进馆读者类型</div>
+        <div class="para-txt gctrl-type">在各类型进馆读者中，<span class="emphases max-type"></span>读者为主要进馆人群，所占比例达 <span class="emphases max-num"></span> % </div>
+        <div class="pagination">3</div>
+    </div>
+    <div class="page chapter" id="4">
+        <div class="chart-title">图书馆进馆读者类型比例图</div>
+        <div class="chart chart-small">
+            <div id="getmankindGctrl_Byoneyear" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="chart-title">历年进馆读者类型比例趋势</div>
+        <div class="chart chart-small">
+            <div id="getmankindCount_Byyear" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">4</div>
+    </div>
+    <div class="page" id="5">
+        <div class="chapter-horizontal blue">02 图书借阅</div>
+        <div class="chapter-content">
+            <div class="first-title">2.1 历年全馆图书借还统计</div>
+            <div class="para-txt lend-return">通过历年全馆图书借还总次数的统计，<span class="emphases max-year"></span> 年图书借还总次数达到最高，为 <span class="emphases max-total"></span> 次；<span class="emphases sec-year"></span> 年图书借还总次数则排在第二名，总共为 <span class="emphases sec-total"></span> 次。</div>
+            <div class="chart-title"><div class="chart-title">历年全馆图书借还总次数统计图</div></div>
+            <div class="chart">
+                <div id="getBook_LendCountBy_year" style="width: 100%;height: 100%;"></div>
+            </div>
+        </div>
+        <div class="pagination">5</div>
+    </div>
+    <div class="page chapter" id="6">
+        <div class="first-title">2.2 图书借阅分类</div>
+        <div class="second-title">2.2.1 全校读者借阅分类统计</div>
+        <div class="para-txt lend-type">全校借阅分类统计中，<span class="emphases max-type"></span> 类图书最受读者欢迎，共被借阅 <span class="emphases max-num"></span>次；<span class="emphases sec-type"></span> 类图书则位列第二，总共被借阅 <span class="emphases sec-num"></span> 次。</div>
+        <div class="chart-title">全校读者借阅分类统计图</div>
+        <div class="chart chart-bigger">
+            <div id="getBookkindAllCount_Byyear" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">6</div>
+    </div>
+    <div class="page chapter" id="7">
+        <div class="first-title">2.3 读者借阅排名</div>
+        <div class="para-txt reader-info"><span class="emphases max-name"></span>、<span class="emphases sec-name"></span>、<span class="emphases third-name"></span> 以前三的借阅量名列前茅，借阅量分别为<span class="emphases max-num"></span>次，<span class="emphases sec-num"></span>次，<span class="emphases third-num"></span>次。</div>
+        <div class="chart-title">总借阅量排名前10读者信息表</div>
+        <div class="table reader-lend"></div>
+        <div class="pagination">7</div>
+    </div>
+    <div class="page chapter" id="8">
+        <div class="first-title">2.4 图书借阅排行</div>
+        <div class="para-txt book-info">在单册书中，《<span class="emphases max-name"></span>》总借阅次数 <span class="emphases max-num"></span> 次成为最受欢迎图书。</div>
+        <div class="chart-title">图书借阅排行前15（按册）</div>
+        <div class="table book-lend1"></div>
+        <div class="pagination">8</div>
+    </div>
+    <div class="page chapter" id="9">
+        <div class="para-txt book-info2">在由于每种书副本数不同，除了单册书外，最受欢迎的图书是 《 <span class="emphases max-name"></span> 》书名。</div>
+        <div class="chart-title">图书借阅排行前15（按种）</div>
+        <div class="table book-lend2"></div>
+        <div class="pagination">9</div>
+    </div>
+    <div class="page chapter" id="10">
+        <div class="first-title">2.5 学院借阅统计</div>
+        <div class="para-txt academy-lend">从学院借阅统计来看，<span class="emphases max-name"></span>、<span class="emphases sec-name"></span>、<span class="emphases third-name"></span>读者图书借阅总人次较其他学院略高。</div>
+        <div class="chart-title">各学院借阅统计图</div>
+        <div class="chart chart-bigger">
+            <div id="getBook_LendCountBy_academyAndyear" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">10</div>
+    </div>
+    <div class="page chapter" id="11">
+        <div class="first-title">2.6 平均每日各时段图书借出量</div>
+        <div class="para-txt average-lend">平均每日借阅量的高峰期在 <span class="emphases first-hour">xx</span>点 -<span class="emphases next-hour">xx</span>点，共借阅 <span class="emphases first-num">xx</span>册；平均借阅人次最多的时段则在<span class="emphases max-hour">xx</span>点-<span class="emphases second-hour">xx</span>点，借阅人数达<span class="emphases second-num">xx</span>人。</div>
+        <div class="chart-title">各时段图书平均借出册数及人数</div>
+        <div class="chart chart-bigger">
+            <div id="getbooklendPeopleAndCount_Byhour" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">11</div>
+    </div>
+    <div class="page chapter" id="12">
+        <div class="first-title">2.7 借阅读者身份分析</div>
+        <div class="second-title">2.7.1 教职工读者借阅分析</div>
+        <!--<div class="para-txt">xx年有借阅记录的教职工读者xx人，共借阅图书xx册。</div>-->
+        <div class="table staff-lend" style="margin-top: 30px;">
+        </div>
+        <div class="pagination">12</div>
+    </div>
+    <div class="page chapter" id="13">
+        <div class="first-title">2.7.2 各类型读者借阅比例</div>
+        <div class="para-txt type-rate">各类型读者借阅中，主要借阅人群为 <span class="emphases max-type"></span>读者，占据全部读者的 <span class="emphases max-num"></span> %</div>
+        <div class="chart-title">各类型读者借阅比例图</div>
+        <div class="chart chart-smaller">
+            <div id="getlend_student_type" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="chart-title">各类型读者续借比例图</div>
+        <div class="chart chart-smaller">
+            <div id="getlendrenew_student_type" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">13</div>
+    </div>
+    <div class="page" id="14">
+        <div class="chapter-horizontal green">03 IC空间</div>
+        <div class="chapter-content">
+            <div class="first-title">3.1 电子阅览室使用统计</div>
+            <div class="para-txt eread-info">通过电子阅览室的使用人数及使用次数的分析，在 <span class="emphases max-month"></span> 月电子阅览室的使用人数最多，共被使用 <span class="emphases max-num"></span> 次。</div>
+            <div class="chart-title"><div class="chart-title">电子阅览室使用统计</div></div>
+            <div class="chart">
+                <div id="geICdurationCountBy_year" style="width: 100%;height: 100%;"></div>
+            </div>
+        </div>
+        <div class="pagination">14</div>
+    </div>
+    <div class="page chapter" id="15">
+        <div class="first-title">3.2 座位在座时长统计</div>
+        <div class="chart-title">座位在座时长统计分析</div>
+        <div class="chart chart-bigger">
+            <div id="geICdurationBy_year" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">15</div>
+    </div>
+    <div class="page chapter" id="16">
+        <div class="first-title">3.3 电子阅览室平均每日使用统计</div>
+        <div class="para-txt eread-info">电子阅览室的使用高峰时段在 <span class="emphases max-hour"></span>点 - <span class="emphases next-hour"></span>点，十分规律。</div>
+        <div class="chart-title">电子阅览室平均每日各时段使用次数统计</div>
+        <div class="chart chart-bigger">
+            <div id="geteread_hour" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">16</div>
+    </div>
+    <div class="page" id="17">
+        <div class="chapter-horizontal light-purple">04 文印分析</div>
+        <div class="chapter-content">
+            <div class="first-title">4.1 全馆自助文印统计</div>
+            <div class="para-txt total-print"><span class="emphases this-year"></span> 年全馆读者自助文印总量为 <span class="emphases this-num">xx</span> 页，比上一年 <span class="emphases variable-type"></span>了 <span class="emphases variable-num">xx</span> 页。</div>
+            <div class="chart-title"><div class="chart-title">历年全馆读者自助文印总量统计</div></div>
+            <div class="chart">
+                <div id="getprintsCountBy_year" style="width: 100%;height: 100%;"></div>
+            </div>
+        </div>
+        <div class="pagination">17</div>
+    </div>
+    <div class="page chapter" id="18">
+        <div class="chart-title">历年全馆读者自助打印量统计</div>
+        <div class="chart chart-small">
+            <div id="getprinttimesCountBy_year" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="chart-title">历年全馆读者自助复印量统计</div>
+        <div class="chart chart-small">
+            <div id="getcopytimesCountBy_year" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">18</div>
+    </div>
+    <div class="page chapter" id="19">
+        <div class="chart-title">历年全馆读者自助扫描量统计</div>
+        <div class="chart chart">
+            <div id="getscantimesCountBy_year" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">19</div>
+    </div>
+    <div class="page chapter" id="20">
+        <div class="first-title">4.2 自助文印每日各时段使用统计</div>
+        <div class="para-txt print-info">自助文印设备的使用高峰时段在 <span class="emphases max-hour"></span>点- <span class="emphases next-hour"></span>点。</div>
+        <div class="chart-title">自助文印设备平均每日各时段使用次数统计</div>
+        <div class="chart chart-big">
+            <div id="getprints_hour" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="end-img"></div>
+        <div class="pagination">20</div>
+    </div>
+    <div class="btn-wrap"><button onclick="javascript:downloadword();">导出</button></div>
+</div>
+
+<script type="text/html" id="readerLend">
+    <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th>排序</th>
+            <th>学号</th>
+            <th>读者姓名</th>
+            <th>所属学院</th>
+            <th>借阅次数</th>
+        </tr>
+        {{each param as p index}}
+        <tr>
+            <td>{{index+1}}</td>
+            <td>{{p.account}}</td>
+            <td>{{p.name}}</td>
+            <td>{{p.academy}}</td>
+            <td>{{p.all_lend_times}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</script>
+<script type="text/html" id="bookLend1">
+    <table class="table-green" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th width="8%">排序</th>
+            <th width="30%">书名</th>
+            <th width="35%">著者</th>
+            <th width="15%">出版日期</th>
+            <th width="12%">借阅次数</th>
+        </tr>
+        {{each param as p index}}
+        <tr>
+            <td>{{index+1}}</td>
+            <td>{{p.book_name}}</td>
+            <td>{{p.author}}</td>
+            <td>{{p.book_pubyear}}</td>
+            <td>{{p.lend_times}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</script>
+<script type="text/html" id="bookLend2">
+    <table class="table-purple" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th width="8%">排序</th>
+            <th width="30%">书名</th>
+            <th width="35%">著者</th>
+            <th width="15%">出版日期</th>
+            <th width="12%">借阅次数</th>
+        </tr>
+        {{each param as p index}}
+        <tr>
+            <td>{{index+1}}</td>
+            <td>{{p.book_name}}</td>
+            <td>{{p.author}}</td>
+            <td>{{p.book_pubyear}}</td>
+            <td>{{p.lend_times}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</script>
+<script type="text/html" id="staffLend">
+    <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th>借阅册数</th>
+            {{each param.year as p}}
+            <th>{{p}}年</th>
+            {{/each}}
+        </tr>
+        {{each param.dat as m}}
+        <tr>
+            <td>{{m.name}}</td>
+            <td>{{m.data1}}</td>
+            <td>{{m.data2}}</td>
+            <td>{{m.data3}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</script>
+</body>
+</html>

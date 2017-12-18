@@ -1,0 +1,299 @@
+/* CSS Document */
+body,div,ol,ul,li,dl,dt,dd,h1,h2,h3,h4,h5,h6,p,form,fieldset,legend,input,button{ margin:0; padding:0; -webkit-tap-highlight-color:rgba(255,255,255,0); }
+html {  width: 100%; height:100%;font-family: 'Heiti SC', 'Microsoft YaHei'; font-size: 14px; outline: 0; -webkit-text-size-adjust:none;color: #333333}
+body {  width:100%; height:100%; margin: 0; -webkit-user-select: none; position: relative; background-color:#fff;font-size: 14px;}
+a:hover,a:link,a:visited,a{ color:inherit; text-decoration:none;}
+ul,li{list-style:none}
+i{font-style:normal}
+.none{display: none;}
+
+.wrap{
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    color: #333333;
+    position: relative;
+    background: #f8f8f8;
+    padding-bottom: 20px;
+}
+.page{
+    width: 50%;
+    height: 800px;
+    margin: 0 auto;
+    margin-top: 15px;
+    position: relative;
+    background: #ffffff;
+    box-shadow: #888 0 0 5px;
+    -moz-box-shadow: #888 0 0 5px;
+    -webkit-box-shadow: #888 0 0 5px;
+}
+.wrap .cover{
+    text-align: center;
+}
+.school-logo{
+    height: 200px;
+    line-height: 200px;
+}
+.school-logo img{
+    width: 30%;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+.report-title{
+    font-size: 60px;
+    font-weight: bold;
+    margin-top: 20px;
+    font-family: "楷体","楷体_GB2312";
+}
+.report-time{
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 60px;
+    margin-bottom: 70px;
+    font-family: "楷体","楷体_GB2312";
+}
+.department,.detailed-time{
+    font-size: 20px;
+    color: #666;
+    letter-spacing: 1px;
+    font-family: "楷体","楷体_GB2312";
+}
+.catalog-title{
+    text-align: center;
+    font-weight: bold;
+    padding: 30px 0 20px 0;
+    font-size: 16px;
+}
+.catalog-content{
+    width: 78%;
+    margin: 0 auto;
+}
+.para-title{
+    margin-bottom: 10px;
+    cursor: pointer;
+    display: block;
+    position: relative;
+}
+.first-catalog{
+    font-weight: bold;
+}
+.second-catalog{
+    margin-left: 26px;
+}
+.chapter-vertical{
+    width: 20%;
+    height: 100%;
+    float: left;
+    margin-right: 5%;
+    background: #A94576;
+    color: white;
+}
+.chapter{
+    width: 40%;
+    padding: 40px 5% 30px 5%;
+}
+.chapter-content{
+    width: 80%;
+    padding: 40px 10% 30px 10%;
+}
+.right-content{
+    width: 70%;
+    float: right;
+    padding: 40px 5% 30px 0;
+}
+.first-title{
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.second-title{
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.chart-title{
+    font-size: 16px;
+    font-family: "楷体","楷体_GB2312";
+    text-align: center;
+    margin-bottom: 25px;
+}
+.para-txt{
+    text-indent: 28px;
+    font-size: 16px;
+    letter-spacing: 2px;
+    line-height: 25px;
+    margin-bottom: 10px;
+}
+.chart{
+    width: 95%;
+    height: 380px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    border: 1px solid #cccccc;
+}
+/*.chart div{*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+/*}*/
+.chart-big{
+    height: 460px;
+}
+.chart-bigger{
+    height: 550px;
+}
+.chart-small{
+    height: 300px;
+}
+.chart-smaller{
+    height: 280px;
+}
+.pagination{
+    bottom:3%;
+    right: 5%;
+    color: #888;
+    font-size: 12px;
+    position: absolute;
+}
+.end-img{
+    bottom:6%;
+    right: 3%;
+    width: 160px;
+    height: 120px;
+    background: url("images/end-img.png") no-repeat center;
+    background-size: 100%;
+    position: absolute;
+}
+.emphases{
+    font-weight: bold;
+    font-style: italic;
+}
+.twenty-top{
+    margin-top: 20px;
+}
+.chapter-horizontal{
+    width: 100%;
+    height: 140px;
+    color: white;
+    text-align: center;
+    font-size: 60px;
+    line-height: 140px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+.blue{
+    background: #0073B2;
+}
+.green{
+    background: #749E49;
+}
+.light-purple{
+    background: #9E79A3;
+}
+.table{
+    width: 95%;
+    margin: 0 auto;
+    margin-bottom: 30px;
+}
+.table table{
+    width: 100%;
+    text-align: center;
+}
+.table table tr th{
+    color: #333;
+    padding: 20px 5px;
+    font-weight: bold;
+    background: #F8F8F8;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
+}
+.table table tr td{
+    color: #666;
+    padding: 15px 5px;
+    background: #F8F8F8;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
+}
+.table .table-green tr th,.table .table-purple tr th{
+    font-size: .4rem;
+    padding: 10px 3px;
+}
+.table .table-green tr td,.table .table-purple tr td{
+    font-size: .4rem;
+    padding: 8px 3px;
+}
+
+.table .table-cyan tr th:first-child,.table .table-cyan tr td:first-child{
+    color: white;
+    background: #5DADA6;
+}
+.table .table-green tr th:first-child,.table .table-green tr td:first-child{
+    color: white;
+    background: #5DADA6;
+}
+.table .table-purple tr th:first-child,.table .table-purple tr td:first-child{
+    color: white;
+    background: #9E79A3;
+}
+.btn-wrap{
+    position: fixed;
+    right: 5%;
+    bottom: 8%;
+}
+.btn-wrap:hover{
+    bottom: 9%;
+}
+.btn-wrap button{
+    width: 60px;
+    height: 60px;
+    outline: none;
+    border: none;
+    color: #666666;
+    cursor: pointer;
+    background: #eee;
+    border-radius: 50%;
+    box-shadow: #aaa 0 0 5px;
+    -moz-box-shadow: #aaa 0 0 5px;
+    -webkit-box-shadow: #aaa 0 0 5px;
+}
+.school-name{
+    margin-top: 20px;
+    margin-bottom: 60px;
+}
+@font-face
+{
+    font-family: schoolNameFont;
+    src: url('font/lxk.ttf')
+    ,url('font/lxk.ttf'); /* IE9+ */
+}
+.school-name span{
+    color: #153119;
+    font-size: 42px;
+    font-family: schoolNameFont;
+}
+.dot{
+    border-top:1px dashed #666;
+    position:absolute;
+    top:11px;
+    right: 0;
+    margin: 0 5px;
+    width: 75%;
+}
+.pageNum{
+    position: absolute;
+    right: 0;
+    padding: 0 5px;
+    z-index: 100;
+    top:0;
+    font-size: 13px;
+    text-align: right;
+    background: #fff;
+}
+.chapter-vertical{
+    padding-top: 18%;
+}
+.chapter-vertical div{
+    text-align: center;
+    font-size: 60px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}

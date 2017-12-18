@@ -7,6 +7,7 @@ public class reader_report{
     int id;//id
     String account;//账户
     String name;//名字
+    String gender;//性别
     String school;//学校
     String academy;//学院
     String identity;//身份
@@ -56,7 +57,13 @@ public class reader_report{
 
     double per_gctrl_times;//进馆百分比
 
+    public String getGender() {
+        return gender;
+    }
 
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     public double getPer_gctrl_times() {
         return per_gctrl_times;

@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f992ca24-f752-47da-844e-0ed23b7bbd51" name="Default" comment="lkk   test">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SmartLibrary.iml" afterPath="$PROJECT_DIR$/SmartLibrary.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/smartlibrary/controller/schoolReportController.java" afterPath="$PROJECT_DIR$/src/main/java/com/smartlibrary/controller/schoolReportController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/smartlibrary/dao/schoolReportDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/smartlibrary/dao/schoolReportDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/smartlibrary/dao/schoolReportDao.xml" afterPath="$PROJECT_DIR$/src/main/java/com/smartlibrary/dao/schoolReportDao.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/smartlibrary/service/schoolReportService.java" afterPath="$PROJECT_DIR$/src/main/java/com/smartlibrary/service/schoolReportService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/smartlibrary/dao/readerReportDao.xml" afterPath="$PROJECT_DIR$/src/main/java/com/smartlibrary/dao/readerReportDao.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/smartlibrary/domain/reader_report.java" afterPath="$PROJECT_DIR$/src/main/java/com/smartlibrary/domain/reader_report.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -45,75 +43,24 @@
     <favorites_list name="SmartLibrary" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="schoolReportDao.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/smartlibrary/dao/schoolReportDao.xml">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
+      <file leaf-file-name="readerReportDao.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/smartlibrary/dao/readerReportDao.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="182" column="0" selection-start-line="182" selection-start-column="0" selection-end-line="183" selection-end-column="37" />
+            <state relative-caret-position="300">
+              <caret line="27" column="18" selection-start-line="27" selection-start-column="18" selection-end-line="27" selection-end-column="18" />
               <folding>
-                <marker date="1513666307023" expanded="true" signature="366:455" placeholder="select year " />
-                <marker date="1513666307023" expanded="true" signature="629:700" placeholder="select year " />
-                <marker date="1513666307023" expanded="true" signature="853:1008" placeholder="select ymdat... " />
-                <marker date="1513666307023" expanded="true" signature="1171:1318" placeholder="select year,... " />
-                <marker date="1513666307023" expanded="true" signature="1517:1689" placeholder="select year,... " />
-                <marker date="1513666307023" expanded="true" signature="1882:2060" placeholder="select acade... library_report_academy" />
-                <marker date="1513666307023" expanded="true" signature="2255:2461" placeholder="select acade... library_report_academy" />
-                <marker date="1513666307023" expanded="true" signature="2655:2789" placeholder="select acade... library_report_academy" />
-                <marker date="1513666307023" expanded="true" signature="2976:3164" placeholder="select year,... " />
-                <marker date="1513666307023" expanded="true" signature="3363:3565" placeholder="select year,... " />
-                <marker date="1513666307023" expanded="true" signature="3751:3867" placeholder="select * fro... library_report_IC_duration" />
-                <marker date="1513666307023" expanded="true" signature="4022:4154" placeholder="select year,... " />
-                <marker date="1513666307023" expanded="true" signature="4391:4567" placeholder="SELECT accou... reader_report" />
-                <marker date="1513666307023" expanded="true" signature="4771:4918" placeholder="SELECT year " />
-                <marker date="1513666307023" expanded="true" signature="5168:5321" placeholder="SELECT year " />
-                <marker date="1513666307023" expanded="true" signature="5511:5724" placeholder="SELECT year,... " />
-                <marker date="1513666307023" expanded="true" signature="5951:6032" placeholder="select count... library_report_month_teacher" />
-                <marker date="1513666307023" expanded="true" signature="6262:6378" placeholder="select `year... library_report_month_mankinds" />
-                <marker date="1513666307023" expanded="true" signature="6736:7012" placeholder="SELECT DISTI... library_report_month_teacher" />
-                <marker date="1513666307023" expanded="true" signature="6841:6990" placeholder="SELECT`year`... library_report_month_teacher" />
-                <marker date="1513666307023" expanded="true" signature="7280:7709" placeholder="SELECT a.boo... zz_book_year_academy_bookkinds" />
-                <marker date="1513666307023" expanded="true" signature="7444:7623" placeholder="SELECT book_... *" />
-                <marker date="1513666307023" expanded="true" signature="7476:7611" placeholder="select *,SUM... zz_book_year_academy_bookkinds" />
-                <marker date="1513666307023" expanded="true" signature="8091:8232" placeholder="select `year... library_report_month_mankinds" />
-                <marker date="1513666307023" expanded="true" signature="8437:8613" placeholder="select `year... library_report_month_mankinds" />
-                <marker date="1513666307023" expanded="true" signature="8694:8801" placeholder="SELECT `year... zz_print_day_printtype" />
-                <marker date="1513666307023" expanded="true" signature="9003:9300" placeholder="SELECT `year... zz_ic_month_identity" />
+                <marker date="1513674324100" expanded="true" signature="384:481" placeholder="select `name... " />
+                <marker date="1513674324100" expanded="true" signature="700:884" placeholder="select first... reader_report" />
+                <marker date="1513674324100" expanded="true" signature="758:803" placeholder="select max(a... reader_report" />
+                <marker date="1513674324100" expanded="true" signature="1104:1237" placeholder="select longg... reader_report" />
+                <marker date="1513674324100" expanded="true" signature="1504:2560" placeholder="SELECT a.yea... a" />
+                <marker date="1513674324100" expanded="true" signature="1858:2504" placeholder="SELECT year,... " />
+                <marker date="1513674324100" expanded="true" signature="2779:2970" placeholder="select accou... reader_report" />
+                <marker date="1513674324100" expanded="true" signature="3203:3355" placeholder="select r.acc... reader_report" />
+                <marker date="1513674324100" expanded="true" signature="3554:3631" placeholder="select * fro... reader_report_ic_lend" />
+                <marker date="1513674324100" expanded="true" signature="3848:4009" placeholder="select r.acc... reader_report" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="schoolReportDao.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/smartlibrary/dao/schoolReportDao.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="526">
-              <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="68" selection-end-column="56" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="schoolReportService.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/smartlibrary/service/schoolReportService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="383">
-              <caret line="165" column="0" selection-start-line="165" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
-              <folding>
-                <element signature="method#getTeacherCount_BycountAndyear#0;class#schoolReportService#0" expanded="false" />
-                <element signature="method#gettypeprints#0;class#schoolReportService#0" expanded="false" />
-                <element signature="method#getICTimesBYTypeOneyear#0;class#schoolReportService#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="schoolReportController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/smartlibrary/controller/schoolReportController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="658">
-              <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -176,6 +123,8 @@
         <option value="$PROJECT_DIR$/src/main/java/com/smartlibrary/dao/schoolReportDao.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/smartlibrary/service/schoolReportService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/smartlibrary/controller/schoolReportController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/smartlibrary/domain/reader_report.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/smartlibrary/dao/readerReportDao.xml" />
       </list>
     </option>
   </component>
@@ -255,7 +204,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -292,84 +240,6 @@
               <option name="myItemId" value="main" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SmartLibrary" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SmartLibrary" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cttp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SmartLibrary" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SmartLibrary" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cttp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="production" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SmartLibrary" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SmartLibrary" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -423,12 +293,43 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="service" />
+              <option name="myItemId" value="domain" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SmartLibrary" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SmartLibrary" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="smartlibrary" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dao" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1214,6 +1115,7 @@
       <workItem from="1512100600135" duration="2161000" />
       <workItem from="1513653545602" duration="14000" />
       <workItem from="1513653593824" duration="4994000" />
+      <workItem from="1513674028217" duration="330000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1499845716778</created>
@@ -1240,7 +1142,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46017000" />
+    <option name="totallyTimeSpent" value="46347000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1271,7 +1173,6 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14871195" sideWeight="0.49785408" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32982457" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31695905" sideWeight="0.44206008" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32982457" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1290,6 +1191,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="12" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31695905" sideWeight="0.44206008" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295129" sideWeight="0.51666665" order="12" side_tool="true" content_ui="tabs" />
@@ -1328,15 +1230,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="875">
-          <caret line="35" column="32" selection-start-line="35" selection-start-column="32" selection-end-line="35" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/html/NewFile1.html" />
     <entry file="file://$PROJECT_DIR$/src/main/webapp/cttp/src/js/helpers/smartresize.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1583,7 +1476,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="125">
           <caret line="5" column="14" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1591,9 +1483,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-175">
           <caret line="87" column="55" selection-start-line="87" selection-start-column="32" selection-end-line="87" selection-end-column="55" />
-          <folding>
-            <element signature="n#!!block;n#downloadword#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1601,9 +1490,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1599">
           <caret line="98" column="58" selection-start-line="98" selection-start-column="58" selection-end-line="98" selection-end-column="58" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#3;n#div#1;n#div#6;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1611,7 +1497,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1649,7 +1534,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="253">
           <caret line="41" column="48" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="56" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1679,70 +1563,74 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="63">
           <caret line="75" column="28" selection-start-line="75" selection-start-column="11" selection-end-line="75" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/smartlibrary/controller/schoolReportController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="658">
-          <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/smartlibrary/dao/schoolReportDao.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
+        <state relative-caret-position="4550">
           <caret line="182" column="0" selection-start-line="182" selection-start-column="0" selection-end-line="183" selection-end-column="37" />
-          <folding>
-            <marker date="1513666307023" expanded="true" signature="366:455" placeholder="select year " />
-            <marker date="1513666307023" expanded="true" signature="629:700" placeholder="select year " />
-            <marker date="1513666307023" expanded="true" signature="853:1008" placeholder="select ymdat... " />
-            <marker date="1513666307023" expanded="true" signature="1171:1318" placeholder="select year,... " />
-            <marker date="1513666307023" expanded="true" signature="1517:1689" placeholder="select year,... " />
-            <marker date="1513666307023" expanded="true" signature="1882:2060" placeholder="select acade... library_report_academy" />
-            <marker date="1513666307023" expanded="true" signature="2255:2461" placeholder="select acade... library_report_academy" />
-            <marker date="1513666307023" expanded="true" signature="2655:2789" placeholder="select acade... library_report_academy" />
-            <marker date="1513666307023" expanded="true" signature="2976:3164" placeholder="select year,... " />
-            <marker date="1513666307023" expanded="true" signature="3363:3565" placeholder="select year,... " />
-            <marker date="1513666307023" expanded="true" signature="3751:3867" placeholder="select * fro... library_report_IC_duration" />
-            <marker date="1513666307023" expanded="true" signature="4022:4154" placeholder="select year,... " />
-            <marker date="1513666307023" expanded="true" signature="4391:4567" placeholder="SELECT accou... reader_report" />
-            <marker date="1513666307023" expanded="true" signature="4771:4918" placeholder="SELECT year " />
-            <marker date="1513666307023" expanded="true" signature="5168:5321" placeholder="SELECT year " />
-            <marker date="1513666307023" expanded="true" signature="5511:5724" placeholder="SELECT year,... " />
-            <marker date="1513666307023" expanded="true" signature="5951:6032" placeholder="select count... library_report_month_teacher" />
-            <marker date="1513666307023" expanded="true" signature="6262:6378" placeholder="select `year... library_report_month_mankinds" />
-            <marker date="1513666307023" expanded="true" signature="6736:7012" placeholder="SELECT DISTI... library_report_month_teacher" />
-            <marker date="1513666307023" expanded="true" signature="6841:6990" placeholder="SELECT`year`... library_report_month_teacher" />
-            <marker date="1513666307023" expanded="true" signature="7280:7709" placeholder="SELECT a.boo... zz_book_year_academy_bookkinds" />
-            <marker date="1513666307023" expanded="true" signature="7444:7623" placeholder="SELECT book_... *" />
-            <marker date="1513666307023" expanded="true" signature="7476:7611" placeholder="select *,SUM... zz_book_year_academy_bookkinds" />
-            <marker date="1513666307023" expanded="true" signature="8091:8232" placeholder="select `year... library_report_month_mankinds" />
-            <marker date="1513666307023" expanded="true" signature="8437:8613" placeholder="select `year... library_report_month_mankinds" />
-            <marker date="1513666307023" expanded="true" signature="8694:8801" placeholder="SELECT `year... zz_print_day_printtype" />
-            <marker date="1513666307023" expanded="true" signature="9003:9300" placeholder="SELECT `year... zz_ic_month_identity" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/smartlibrary/dao/schoolReportDao.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="526">
+        <state relative-caret-position="1600">
           <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="68" selection-end-column="56" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/smartlibrary/service/schoolReportService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
+        <state relative-caret-position="428">
           <caret line="165" column="0" selection-start-line="165" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
           <folding>
             <element signature="method#getTeacherCount_BycountAndyear#0;class#schoolReportService#0" expanded="false" />
             <element signature="method#gettypeprints#0;class#schoolReportService#0" expanded="false" />
             <element signature="method#getICTimesBYTypeOneyear#0;class#schoolReportService#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/smartlibrary/controller/schoolReportController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/smartlibrary/domain/reader_report.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="500">
+          <caret line="59" column="31" selection-start-line="59" selection-start-column="31" selection-end-line="59" selection-end-column="31" />
+          <folding>
+            <element signature="e#1636#1637#0" expanded="true" />
+            <element signature="e#1680#1681#0" expanded="true" />
+            <element signature="e#1716#1717#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/smartlibrary/dao/readerReportDao.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="27" column="18" selection-start-line="27" selection-start-column="18" selection-end-line="27" selection-end-column="18" />
+          <folding>
+            <marker date="1513674324100" expanded="true" signature="384:481" placeholder="select `name... " />
+            <marker date="1513674324100" expanded="true" signature="700:884" placeholder="select first... reader_report" />
+            <marker date="1513674324100" expanded="true" signature="758:803" placeholder="select max(a... reader_report" />
+            <marker date="1513674324100" expanded="true" signature="1104:1237" placeholder="select longg... reader_report" />
+            <marker date="1513674324100" expanded="true" signature="1504:2560" placeholder="SELECT a.yea... a" />
+            <marker date="1513674324100" expanded="true" signature="1858:2504" placeholder="SELECT year,... " />
+            <marker date="1513674324100" expanded="true" signature="2779:2970" placeholder="select accou... reader_report" />
+            <marker date="1513674324100" expanded="true" signature="3203:3355" placeholder="select r.acc... reader_report" />
+            <marker date="1513674324100" expanded="true" signature="3554:3631" placeholder="select * fro... reader_report_ic_lend" />
+            <marker date="1513674324100" expanded="true" signature="3848:4009" placeholder="select r.acc... reader_report" />
           </folding>
         </state>
       </provider>

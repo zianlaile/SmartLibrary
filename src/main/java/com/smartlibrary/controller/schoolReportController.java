@@ -156,4 +156,14 @@ public class schoolReportController {
     }
 
 
+
+
+
+    //研修间-使用量分析（一年，四个类别(本科，研究生，教师，其他) ，四种IC资源）
+    @RequestMapping(value = "/getICTimesBYTypeOneyear",method = RequestMethod.GET)
+    public Map<String,List> getICTimesBYTypeOneyear(){
+        IC_Times i=new IC_Times();
+        return schoolReportservice.getICTimesBYTypeOneyear(i);
+    }
+
 }

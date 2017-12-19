@@ -131,8 +131,6 @@
 
 
 
-
-
     <!--2011年-2017年教职工借阅人数统计（包括：<10册, 11-20册, 21-30册, 31-50册, 51-100册, 101-200册, 201-300册, >300册）（表格）
       做起来麻烦点 ，循环一下，lend，back 借用一下做大小值-->
     <select id="getTeacherCount_BycountAndyear" parameterType="com.smartlibrary.domain.library_report_month_mankinds" resultType="com.smartlibrary.domain.library_report_month_mankinds">
@@ -177,6 +175,19 @@
 
     <select id="gettypeprints" resultType="Print_Times">
         SELECT `year`,print_type,SUM(times) AS Print_times FROM `zz_print_day_printtype` GROUP BY `year`,print_type;
+    </select>
+
+
+
+
+
+<!--研修间-使用量分析（一年，四个类别） 时间要改，暂时2015-->
+    <select id="getICTimesBYTypeOneyear" parameterType="com.smartlibrary.domain.IC_Times" resultType="com.smartlibrary.domain.IC_Times">
+      SELECT `year`,`month`,user_type,SUM(croom_times) AS croom_times,SUM(eread_times) AS  eread_times,SUM(seat_times) AS seat_times,SUM(equipment_times) AS equipment_times
+      FROM zz_ic_month_identity
+	  where year=2015
+      GROUP BY user_type,`year`,`month`
+      ORDER BY user_type,`year`,`month`
     </select>
 
 

@@ -61,4 +61,12 @@ public interface schoolReportDao {
     List<library_report_month_mankinds> getmankindCount_Byyear(library_report_month_mankinds n);
     List<library_report_month_mankinds> getmankindCount_Byoneyear(library_report_month_mankinds n);
     List<Print_Times> gettypeprints();
+
+
+
+
+// <!--研修间-使用量分析（一年，四个类别） 时间要改，暂时2015-->
+    List<IC_Times> getICTimesBYTypeOneyear( IC_Times i);
+
+
 }

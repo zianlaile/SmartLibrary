@@ -67,6 +67,9 @@ public class schoolReportService {
 
 
 
+
+
+
     //<!--今年读者总借阅次数排名前10（包括学号、读者姓名、所属学院、总借阅次数）（表格）新表-学号-年份-->
     public List<reader_report> getReder_booklendCount_Byyear(reader_report n){
         return schoolReportdao.getReder_booklendCount_Byyear(n);
@@ -155,6 +158,89 @@ public class schoolReportService {
         returntype.put("copy",copy);
         return returntype;
     }
+
+
+
+
+
+
+    // <!--研修间-使用量分析（一年，四个类别） 时间要改，暂时2015-->
+    public Map<String,List> getICTimesBYTypeOneyear( IC_Times ii){
+        Map typeandmonthdata = new HashMap<String,List>();
+        List<IC_Times> gettypeandmonthdata= schoolReportdao.getICTimesBYTypeOneyear(ii);
+        List croomtimesg = new ArrayList<Integer>();
+        List croomtimeso = new ArrayList<Integer>();
+        List croomtimest = new ArrayList<Integer>();
+        List croomtimesu = new ArrayList<Integer>();
+
+        List ereadtimesg = new ArrayList<Integer>();
+        List ereadtimeso = new ArrayList<Integer>();
+        List ereadtimest = new ArrayList<Integer>();
+        List ereadtimesu = new ArrayList<Integer>();
+
+        List seattimesg = new ArrayList<Integer>();
+        List seattimeso = new ArrayList<Integer>();
+        List seattimest = new ArrayList<Integer>();
+        List seattimesu = new ArrayList<Integer>();
+
+        List equipmenttimesg = new ArrayList<Integer>();
+        List equipmenttimeso = new ArrayList<Integer>();
+        List equipmenttimest = new ArrayList<Integer>();
+        List equipmenttimesu = new ArrayList<Integer>();
+
+        List month = new ArrayList<String>();
+        for(int i=0;i<gettypeandmonthdata.size();i++){
+            if(!month.contains(String.valueOf(gettypeandmonthdata.get(i).getYear())+"/"+String.valueOf(gettypeandmonthdata.get(i).getMonth()))){
+                month.add(String.valueOf(gettypeandmonthdata.get(i).getYear())+"/"+String.valueOf(gettypeandmonthdata.get(i).getMonth()));
+            }
+            if(gettypeandmonthdata.get(i).getUser_type().equals("G")){
+                croomtimesg.add(gettypeandmonthdata.get(i).getCroom_times());
+                ereadtimesg.add(gettypeandmonthdata.get(i).getEread_times());
+                seattimesg.add(gettypeandmonthdata.get(i).getSeat_times());
+                equipmenttimesg.add(gettypeandmonthdata.get(i).getEquipment_times());
+            }
+            else if(gettypeandmonthdata.get(i).getUser_type().equals("O")){
+                croomtimeso.add(gettypeandmonthdata.get(i).getCroom_times());
+                ereadtimeso.add(gettypeandmonthdata.get(i).getEread_times());
+                seattimeso.add(gettypeandmonthdata.get(i).getSeat_times());
+                equipmenttimeso.add(gettypeandmonthdata.get(i).getEquipment_times());
+            }
+            else if(gettypeandmonthdata.get(i).getUser_type().equals("T")){
+                croomtimest.add(gettypeandmonthdata.get(i).getCroom_times());
+                ereadtimest.add(gettypeandmonthdata.get(i).getEread_times());
+                seattimest.add(gettypeandmonthdata.get(i).getSeat_times());
+                equipmenttimest.add(gettypeandmonthdata.get(i).getEquipment_times());
+            }
+            else if(gettypeandmonthdata.get(i).getUser_type().equals("U")){
+                croomtimesu.add(gettypeandmonthdata.get(i).getCroom_times());
+                ereadtimesu.add(gettypeandmonthdata.get(i).getEread_times());
+                seattimesu.add(gettypeandmonthdata.get(i).getSeat_times());
+                equipmenttimesu.add(gettypeandmonthdata.get(i).getEquipment_times());
+            }
+        }
+
+        typeandmonthdata.put("croomtimesg",croomtimesg);
+        typeandmonthdata.put("croomtimeso",croomtimeso);
+        typeandmonthdata.put("croomtimest",croomtimest);
+        typeandmonthdata.put("croomtimesu",croomtimesu);
+        typeandmonthdata.put("ereadtimesg",ereadtimesg);
+        typeandmonthdata.put("ereadtimeso",ereadtimeso);
+        typeandmonthdata.put("ereadtimest",ereadtimest);
+        typeandmonthdata.put("ereadtimesu",ereadtimesu);
+        typeandmonthdata.put("seattimesg",seattimesg);
+        typeandmonthdata.put("seattimeso",seattimeso);
+        typeandmonthdata.put("seattimest",seattimest);
+        typeandmonthdata.put("seattimesu",seattimesu);
+        typeandmonthdata.put("equipmenttimesg",equipmenttimesg);
+        typeandmonthdata.put("equipmenttimeso",equipmenttimeso);
+        typeandmonthdata.put("equipmenttimest",equipmenttimest);
+        typeandmonthdata.put("equipmenttimesu",equipmenttimesu);
+        typeandmonthdata.put("month",month);
+        return typeandmonthdata;
+    }
+
+
+
 
 
 

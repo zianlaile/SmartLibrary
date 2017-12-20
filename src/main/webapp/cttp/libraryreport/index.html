@@ -28,6 +28,7 @@
             <a class="para-title" href="#2"><span class="second-catalog">1.2.1 历年图书馆进馆总人次</span><div class="dot" style="width: 58%;"></div><div class="pageNum">2</div></a>
             <a class="para-title" href="#2"><span class="second-catalog">1.2.2 图书馆按月进馆人次统计</span><div class="dot" style="width: 56%;"></div><div class="pageNum">2</div></a>
             <a class="para-title" href="#3"><span class="second-catalog">1.2.3 图书馆进馆读者类型</span><div class="dot" style="width: 60%;"></div><div class="pageNum">3</div></a>
+            <a class="para-title" href="#3"><span class="second-catalog">1.2.4 每日进馆人数</span><div class="dot" style="width: 60%;"></div><div class="pageNum">3</div></a>
             <a class="para-title" href="#5"><span class="first-catalog">2.1 历年全馆图书借还统计</span><div class="dot" style="width: 65%;"></div><div class="pageNum">5</div></a>
             <a class="para-title" href="#6"><span class="first-catalog">2.2 图书借阅分类</span><div class="dot" style="width: 76%;"></div><div class="pageNum">6</div></a>
             <a class="para-title" href="#6"><span class="second-catalog">2.2.1 全校读者借阅分类统计</span><div class="dot" style="width: 60%;"></div><div class="pageNum">6</div></a>
@@ -38,9 +39,11 @@
             <a class="para-title" href="#12"><span class="first-catalog">2.7 借阅读者身份分析</span><div class="dot" style="width: 72%;"></div><div class="pageNum">12</div></a>
             <a class="para-title" href="#12"><span class="second-catalog">2.7.1 教职工读者借阅分析</span><div class="dot" style="width: 60%;"></div><div class="pageNum">12</div></a>
             <a class="para-title" href="#13"><span class="second-catalog">2.7.2 各类型读者借阅比例</span><div class="dot" style="width: 60%;"></div><div class="pageNum">13</div></a>
+            <a class="para-title" href="#12"><span class="first-catalog">2.8 出版社借阅总数排名</span><div class="dot" style="width: 72%;"></div><div class="pageNum">12</div></a>
             <a class="para-title" href="#14"><span class="first-catalog">3.1 电子阅览室使用统计</span><div class="dot" style="width: 68%;"></div><div class="pageNum">14</div></a>
             <a class="para-title" href="#15"><span class="first-catalog">3.2 座位在座时长统计</span><div class="dot" style="width: 72%;"></div><div class="pageNum">15</div></a>
             <a class="para-title" href="#16"><span class="first-catalog">3.3 电子阅览室平均每日使用统计</span><div class="dot" style="width: 58%;"></div><div class="pageNum">16</div></a>
+            <a class="para-title" href="#16"><span class="first-catalog">3.4 IC空间使用量分析</span><div class="dot" style="width: 58%;"></div><div class="pageNum">16</div></a>
             <a class="para-title" href="#17"><span class="first-catalog">4.1 全馆自助文印统计</span><div class="dot" style="width: 70%;"></div><div class="pageNum">17</div></a>
             <a class="para-title" href="#20"><span class="first-catalog">4.2 自助文印每日各时段使用统计</span><div class="dot" style="width: 58%;"></div><div class="pageNum">20</div></a>
         </div>
@@ -86,6 +89,21 @@
         <div class="chart-title">历年进馆读者类型比例趋势</div>
         <div class="chart chart-small">
             <div id="getmankindCount_Byyear" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">4</div>
+    </div>
+    <div class="page chapter" id="">
+        <div class="second-title twenty-top">1.2.4 当年每日进馆人数</div>
+        <div class="chart-title">当年每日进馆人数</div>
+        <div class="chart chart-bigger">
+            <div id="day_gctrl" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">4</div>
+    </div>
+    <div class="page chapter">
+        <div class="chart-title">当年进馆人数top12</div>
+        <div class="chart chart-bigger">
+            <div id="gctrl_top12" style="width: 100%;height: 100%;"></div>
         </div>
         <div class="pagination">4</div>
     </div>
@@ -170,6 +188,19 @@
         </div>
         <div class="pagination">13</div>
     </div>
+    <div class="page chapter" style="height: 1000px;">
+        <div class="first-title">2.8 出版社借阅总数排名</div>
+        <!--<div class="para-txt type-rate">各类型读者借阅中，主要借阅人群为 <span class="emphases max-type"></span>读者，占据全部读者的 <span class="emphases max-num"></span> %</div>-->
+        <div class="chart-title">当年出版社借阅总数排名</div>
+        <div class="chart chart-smaller">
+            <div id="publisher_raking" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="chart-title">当年出版社借阅比例图</div>
+        <div class="chart chart-bigger">
+            <div id="publisher_rating" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">13</div>
+    </div>
     <div class="page" id="14">
         <div class="chapter-horizontal green">03 IC空间</div>
         <div class="chapter-content">
@@ -196,6 +227,29 @@
         <div class="chart-title">电子阅览室平均每日各时段使用次数统计</div>
         <div class="chart chart-bigger">
             <div id="geteread_hour" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">16</div>
+    </div>
+    <div class="page chapter">
+        <div class="first-title">3.4 IC空间使用量分析</div>
+        <div class="chart-title">当年研修间使用量分析</div>
+        <div class="chart chart-small">
+            <div id="croom" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="chart-title">当年座位使用量分析</div>
+        <div class="chart chart-small">
+            <div id="seat" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">16</div>
+    </div>
+    <div class="page chapter">
+        <div class="chart-title">当年电子阅览室使用量分析</div>
+        <div class="chart chart-small">
+            <div id="eread" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="chart-title">当年设备使用量分析</div>
+        <div class="chart chart-small">
+            <div id="equipment" style="width: 100%;height: 100%;"></div>
         </div>
         <div class="pagination">16</div>
     </div>

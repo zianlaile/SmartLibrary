@@ -22,7 +22,1173 @@ $(function () {
     bookLend1();//图书借阅排名按册
     bookLend2(); //图书借阅排名按种
     staffLend(); //教职工借阅册数分类
+    getpublish_raking();//借阅出版社排名
+    getpublish_rating();//借阅出版社比例
+    day_gctrl();//当年每日进馆
+    dctrl_top12();//排名前12
+    $.ajax({
+        type:"get",
+        contentType: 'application/json',
+        url:"../../schoolReport/getICTimesBYTypeOneyear",
+        async:false,
+        dataType: 'json',
+        success: function(data, textStatus, jqXHR){
+            month=data.month;
+            ereadtimesg=data.ereadtimesg;
+            ereadtimeso=data.ereadtimeso;
+            ereadtimest=data.ereadtimest;
+            ereadtimesu=data.ereadtimesu;
+            seattimesg=data.seattimesg;
+            seattimeso=data.seattimeso;
+            seattimest=data.seattimest;
+            seattimesu=data.seattimesu;
+            croomtimesg=data.croomtimesg;
+            croomtimeso=data.croomtimeso;
+            croomtimest=data.croomtimest;
+            croomtimesu=data.croomtimesu;
+            equipmenttimesg=data.equipmenttimesg;
+            equipmenttimeso=data.equipmenttimeso;
+            equipmenttimest=data.equipmenttimest;
+            equipmenttimesu=data.equipmenttimesu;
+            for(var i=0;i<month.length;i++){
+                amounteread[i]=Number(ereadtimesg[i])+Number(ereadtimeso[i])+Number(ereadtimest[i])+Number(ereadtimesu[i]);
+                amountcroom[i]=Number(croomtimesg[i])+Number(croomtimeso[i])+Number(croomtimest[i])+Number(croomtimesu[i]);
+                amountseat[i]=Number(seattimesg[i])+Number(seattimeso[i])+Number(seattimest[i])+Number(seattimesu[i]);
+                amountequipment[i]=Number(equipmenttimesg[i])+Number(equipmenttimeso[i])+Number(equipmenttimest[i])+Number(equipmenttimesu[i]);
+            }
+        }
+    });
+    croomchart("croom");
+    ereadchart("eread");
+    seatchart("seat");
+    equipmentchart("equipment");
 });
+var month;
+var ereadtimesg;
+var ereadtimeso;
+var ereadtimest;
+var ereadtimesu;
+var seattimesg;
+var seattimeso;
+var seattimest;
+var seattimesu;
+var croomtimesg;
+var croomtimeso;
+var croomtimest;
+var croomtimesu;
+var equipmenttimesg;
+var equipmenttimeso;
+var equipmenttimest;
+var equipmenttimesu;
+var amounteread=[];
+var amountcroom=[];
+var amountseat=[];
+var amountequipment=[];
+function croomchart(chartid){
+    var croom_count = echarts.init(document.getElementById(chartid));
+    var  croom_count_option ={
+        /*backgroundColor: "#344b58",*/
+        animation:false,
+        "tooltip": {
+            "trigger": "axis",
+            "axisPointer": {
+                "type": "shadow",
+                textStyle: {
+                    color: "#222"
+                }
+
+            },
+        },
+        /*"grid": {
+         "borderWidth": 0,
+         "top": 110,
+         "bottom": 95,
+         textStyle: {
+         color: "#222"
+         }
+         },*/
+        "legend": {
+            /*right: '10%',*/
+            /*top: '11%',*/
+            textStyle: {
+                color: '#90979c',
+            },
+            "data": ['本科生', '研究生','教师','其他']
+        },
+
+
+        "calculable": true,
+        "xAxis": [{
+            "name":"时间",
+            "type": "category",
+            "axisLine": {
+                lineStyle: {
+                    color: '#222'
+                }
+            },
+            "splitLine": {
+                "show": false
+            },
+            "axisTick": {
+                "show": false
+            },
+            "axisLabel": {
+                rotate:40,
+                "interval": 0,
+
+            },
+            "data": month,
+        }],
+        "yAxis": [{
+            "name":"人次",
+            "type": "value",
+            "splitLine": {
+                "show": false
+            },
+            "axisLine": {
+                lineStyle: {
+                    color: '#222'
+                }
+            },
+            "axisTick": {
+                "show": false
+            },
+            "axisLabel": {
+                "interval": 0,
+
+            },
+            "splitArea": {
+                "show": false
+            },
+
+        }],
+        /*dataZoom: [{
+         type: 'inside',
+         start: 70,
+         end: 100
+         }, {
+         start: 70,
+         end: 100,
+         handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+         handleSize: '80%',
+         handleStyle: {
+         color: '#fff',
+         shadowBlur: 3,
+         shadowColor: 'rgba(0, 0, 0, 0.6)',
+         shadowOffsetX: 2,
+         shadowOffsetY: 2
+         }
+         }],*/
+        "series": [{
+            "name": "本科生",
+            "type": "bar",
+            "stack": "总量",
+            "barMaxWidth": 35,
+            "barGap": "10%",
+            "itemStyle": {
+                "normal": {
+                    "color": "rgba(255,144,128,1)",
+                    "label": {
+                        "show": false,
+                        "textStyle": {
+                            "color": "#fff"
+                        },
+                        "position": "insideTop",
+                        formatter: function(p) {
+                            return p.value > 0 ? (p.value) : '';
+                        }
+                    }
+                }
+            },
+            "data": croomtimesu,
+        },
+
+            {
+                "name": "研究生",
+                "type": "bar",
+                "stack": "总量",
+                "itemStyle": {
+                    "normal": {
+                        "color": "rgba(0,191,183,1)",
+                        "barBorderRadius": 0,
+                        "label": {
+                            "show": false,
+                            "position": "top",
+                            formatter: function(p) {
+                                return p.value > 0 ? (p.value) : '';
+                            }
+                        }
+                    }
+                },
+                "data": croomtimesg
+            },
+            {
+                "name": "教师",
+                "type": "bar",
+                "stack": "总量",
+                "itemStyle": {
+                    "normal": {
+                        "color": "rgba(30,144,255,1)",
+                        "barBorderRadius": 0,
+                        "label": {
+                            "show": false,
+                            "position": "top",
+                            formatter: function(p) {
+                                return p.value > 0 ? (p.value) : '';
+                            }
+                        }
+                    }
+                },
+                "data": croomtimest
+            },{
+                "name": "其他",
+                "type": "bar",
+                "stack": "总量",
+                "itemStyle": {
+                    "normal": {
+                        "color": "rgba(255,165,0,1)",
+                        "barBorderRadius": 0,
+                        "label": {
+                            "show": false,
+                            "position": "top",
+                            formatter: function(p) {
+                                return p.value > 0 ? (p.value) : '';
+                            }
+                        }
+                    }
+                },
+                "data": croomtimeso
+            },{
+                "name": "总数",
+                "type": "line",
+                "stack": "总量",
+                symbolSize:10,
+                symbol:'circle',
+                "itemStyle": {
+                    "normal": {
+                        "color": "rgba(30,144,255,1)",
+                        "barBorderRadius": 0,
+                        "label": {
+                            "show": true,
+                            "position": "top",
+                            formatter: function(p) {
+                                return p.value > 0 ? (p.value) : '';
+                            }
+                        }
+                    }
+                },
+                "data":amountcroom
+            },
+        ]
+    };
+    croom_count.setOption(croom_count_option);
+}
+function ereadchart(chartid){
+    var eread_count = echarts.init(document.getElementById(chartid));
+    var  eread_count_option ={
+        /*backgroundColor: "#344b58",*/
+        animation:false,
+        "tooltip": {
+            "trigger": "axis",
+            "axisPointer": {
+                "type": "shadow",
+                textStyle: {
+                    color: "#222"
+                }
+
+            },
+        },
+        /*"grid": {
+         "borderWidth": 0,
+         "top": 110,
+         "bottom": 95,
+         textStyle: {
+         color: "#fff"
+         }
+         },*/
+        "legend": {
+            /*right: '10%',*/
+            /*top: '11%',*/
+            textStyle: {
+                color: '#90979c',
+            },
+            "data": ['本科生', '研究生','教师','其他']
+        },
+
+
+        "calculable": true,
+        "xAxis": [{
+            "name":"时间",
+            "type": "category",
+            "axisLine": {
+                lineStyle: {
+                    color: '#222'
+                }
+            },
+            "splitLine": {
+                "show": false
+            },
+            "axisTick": {
+                "show": false
+            },
+            "splitArea": {
+                "show": false
+            },
+            "axisLabel": {
+                rotate:40,
+                "interval": 0,
+
+            },
+            "data": month,
+        }],
+        "yAxis": [{
+            "name":"人次",
+            "type": "value",
+            "splitLine": {
+                "show": false
+            },
+            "axisLine": {
+                lineStyle: {
+                    color: '#222'
+                }
+            },
+            "axisTick": {
+                "show": false
+            },
+            "axisLabel": {
+                "interval": 0,
+
+            },
+            "splitArea": {
+                "show": false
+            },
+
+        }],
+        /*dataZoom: [{
+         type: 'inside',
+         start: 70,
+         end: 100
+         }, {
+         start: 70,
+         end: 100,
+         handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+         handleSize: '80%',
+         handleStyle: {
+         color: '#fff',
+         shadowBlur: 3,
+         shadowColor: 'rgba(0, 0, 0, 0.6)',
+         shadowOffsetX: 2,
+         shadowOffsetY: 2
+         }
+         }],*/
+        "series": [{
+            "name": "本科生",
+            "type": "bar",
+            "stack": "总量",
+            "barMaxWidth": 35,
+            "barGap": "10%",
+            "itemStyle": {
+                "normal": {
+                    "color": "rgba(255,144,128,1)",
+                    "label": {
+                        "show": false,
+                        "textStyle": {
+                            "color": "#fff"
+                        },
+                        "position": "insideTop",
+                        formatter: function(p) {
+                            return p.value > 0 ? (p.value) : '';
+                        }
+                    }
+                }
+            },
+            "data": ereadtimesu,
+        },
+
+            {
+                "name": "研究生",
+                "type": "bar",
+                "stack": "总量",
+                "itemStyle": {
+                    "normal": {
+                        "color": "rgba(0,191,183,1)",
+                        "barBorderRadius": 0,
+                        "label": {
+                            "show": false,
+                            "position": "top",
+                            formatter: function(p) {
+                                return p.value > 0 ? (p.value) : '';
+                            }
+                        }
+                    }
+                },
+                "data": ereadtimesg
+            },
+            {
+                "name": "教师",
+                "type": "bar",
+                "stack": "总量",
+                "itemStyle": {
+                    "normal": {
+                        "color": "rgba(30,144,255,1)",
+                        "barBorderRadius": 0,
+                        "label": {
+                            "show": false,
+                            "position": "top",
+                            formatter: function(p) {
+                                return p.value > 0 ? (p.value) : '';
+                            }
+                        }
+                    }
+                },
+                "data": ereadtimest
+            },{
+                "name": "其他",
+                "type": "bar",
+                "stack": "总量",
+                "itemStyle": {
+                    "normal": {
+                        "color": "rgba(255,165,0,1)",
+                        "barBorderRadius": 0,
+                        "label": {
+                            "show": false,
+                            "position": "top",
+                            formatter: function(p) {
+                                return p.value > 0 ? (p.value) : '';
+                            }
+                        }
+                    }
+                },
+                "data": ereadtimeso
+            },{
+                "name": "总数",
+                "type": "line",
+                "stack": "总量",
+                symbolSize:10,
+                symbol:'circle',
+                "itemStyle": {
+                    "normal": {
+                        "color": "rgba(30,144,255,1)",
+                        "barBorderRadius": 0,
+                        "label": {
+                            "show": true,
+                            "position": "top",
+                            formatter: function(p) {
+                                return p.value > 0 ? (p.value) : '';
+                            }
+                        }
+                    }
+                },
+                "data":amounteread
+            },
+        ]
+    };
+    eread_count.setOption(eread_count_option);
+}
+function seatchart(chartid){
+    var seat_count = echarts.init(document.getElementById(chartid));
+    var  seat_count_option ={
+        /*backgroundColor: "#344b58",*/
+        animation:false,
+        "tooltip": {
+            "trigger": "axis",
+            "axisPointer": {
+                "type": "shadow",
+                textStyle: {
+                    color: "#222"
+                }
+
+            },
+        },
+        /*"grid": {
+         "borderWidth": 0,
+         "top": 110,
+         "bottom": 95,
+         textStyle: {
+         color: "#222"
+         }
+         },*/
+        "legend": {
+            /*right: '10%',*/
+            /*top: '11%',*/
+            textStyle: {
+                color: '#90979c',
+            },
+            "data": ['本科生', '研究生','教师','其他']
+        },
+
+
+        "calculable": true,
+        "xAxis": [{
+            "name":"时间",
+            "type": "category",
+            "axisLine": {
+                lineStyle: {
+                    color: '#222'
+                }
+            },
+            "splitLine": {
+                "show": false
+            },
+            "axisTick": {
+                "show": false
+            },
+            "splitArea": {
+                "show": false
+            },
+            "axisLabel": {
+                rotate:40,
+                "interval": 0,
+
+            },
+            "data": month,
+        }],
+        "yAxis": [{
+            "name":"人次",
+            "type": "value",
+            "splitLine": {
+                "show": false
+            },
+            "axisLine": {
+                lineStyle: {
+                    color: '#222'
+                }
+            },
+            "axisTick": {
+                "show": false
+            },
+            "axisLabel": {
+                "interval": 0,
+
+            },
+            "splitArea": {
+                "show": false
+            },
+
+        }],
+        /*dataZoom: [{
+         type: 'inside',
+         start: 70,
+         end: 100
+         }, {
+         start: 70,
+         end: 100,
+         handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+         handleSize: '80%',
+         handleStyle: {
+         color: '#fff',
+         shadowBlur: 3,
+         shadowColor: 'rgba(0, 0, 0, 0.6)',
+         shadowOffsetX: 2,
+         shadowOffsetY: 2
+         }
+         }],*/
+        "series": [{
+            "name": "本科生",
+            "type": "bar",
+            "stack": "总量",
+            "barMaxWidth": 35,
+            "barGap": "10%",
+            "itemStyle": {
+                "normal": {
+                    "color": "rgba(255,144,128,1)",
+                    "label": {
+                        "show": false,
+                        "textStyle": {
+                            "color": "#fff"
+                        },
+                        "position": "insideTop",
+                        formatter: function(p) {
+                            return p.value > 0 ? (p.value) : '';
+                        }
+                    }
+                }
+            },
+            "data": seattimesu,
+        },
+
+            {
+                "name": "研究生",
+                "type": "bar",
+                "stack": "总量",
+                "itemStyle": {
+                    "normal": {
+                        "color": "rgba(0,191,183,1)",
+                        "barBorderRadius": 0,
+                        "label": {
+                            "show": false,
+                            "position": "top",
+                            formatter: function(p) {
+                                return p.value > 0 ? (p.value) : '';
+                            }
+                        }
+                    }
+                },
+                "data": seattimesg
+            },
+            {
+                "name": "教师",
+                "type": "bar",
+                "stack": "总量",
+                "itemStyle": {
+                    "normal": {
+                        "color": "rgba(30,144,255,1)",
+                        "barBorderRadius": 0,
+                        "label": {
+                            "show": false,
+                            "position": "top",
+                            formatter: function(p) {
+                                return p.value > 0 ? (p.value) : '';
+                            }
+                        }
+                    }
+                },
+                "data": seattimest
+            },{
+                "name": "其他",
+                "type": "bar",
+                "stack": "总量",
+                "itemStyle": {
+                    "normal": {
+                        "color": "rgba(255,165,0,1)",
+                        "barBorderRadius": 0,
+                        "label": {
+                            "show": false,
+                            "position": "top",
+                            formatter: function(p) {
+                                return p.value > 0 ? (p.value) : '';
+                            }
+                        }
+                    }
+                },
+                "data": seattimeso
+            },{
+                "name": "总数",
+                "type": "line",
+                "stack": "总量",
+                symbolSize:10,
+                symbol:'circle',
+                "itemStyle": {
+                    "normal": {
+                        "color": "rgba(30,144,255,1)",
+                        "barBorderRadius": 0,
+                        "label": {
+                            "show": true,
+                            "position": "top",
+                            formatter: function(p) {
+                                return p.value > 0 ? (p.value) : '';
+                            }
+                        }
+                    }
+                },
+                "data":amountseat
+            },
+        ]
+    };
+    seat_count.setOption(seat_count_option);
+}
+function equipmentchart(chartid){
+    var equipment_count = echarts.init(document.getElementById(chartid));
+    var  equipment_count_option ={
+        /*backgroundColor: "#344b58",*/
+        animation:false,
+        "tooltip": {
+            "trigger": "axis",
+            "axisPointer": {
+                "type": "shadow",
+                textStyle: {
+                    color: "#222"
+                }
+
+            },
+        },
+        /*"grid": {
+         "borderWidth": 0,
+         "top": 110,
+         "bottom": 95,
+         textStyle: {
+         color: "#222"
+         }
+         },*/
+        "legend": {
+            /*right: '10%',*/
+            /*top: '11%',*/
+            textStyle: {
+                color: '#90979c',
+            },
+            "data": ['本科生', '研究生','教师','其他']
+        },
+
+
+        "calculable": true,
+        "xAxis": [{
+            "name":"时间",
+            "type": "category",
+            "axisLine": {
+                lineStyle: {
+                    color: '#222'
+                }
+            },
+            "splitLine": {
+                "show": false
+            },
+            "axisTick": {
+                "show": false
+            },
+            "splitArea": {
+                "show": false
+            },
+            "axisLabel": {
+                rotate:40,
+                "interval": 0,
+
+            },
+            "data": month,
+        }],
+        "yAxis": [{
+            "name":"人次",
+            "type": "value",
+            "splitLine": {
+                "show": false
+            },
+            "axisLine": {
+                lineStyle: {
+                    color: '#222'
+                }
+            },
+            "axisTick": {
+                "show": false
+            },
+            "axisLabel": {
+                "interval": 0,
+
+            },
+            "splitArea": {
+                "show": false
+            },
+
+        }],
+        /*dataZoom: [{
+         type: 'inside',
+         start: 70,
+         end: 100
+         }, {
+         start: 70,
+         end: 100,
+         handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+         handleSize: '80%',
+         handleStyle: {
+         color: '#fff',
+         shadowBlur: 3,
+         shadowColor: 'rgba(0, 0, 0, 0.6)',
+         shadowOffsetX: 2,
+         shadowOffsetY: 2
+         }
+         }],*/
+        "series": [{
+            "name": "本科生",
+            "type": "bar",
+            "stack": "总量",
+            "barMaxWidth": 35,
+            "barGap": "10%",
+            "itemStyle": {
+                "normal": {
+                    "color": "rgba(255,144,128,1)",
+                    "label": {
+                        "show": false,
+                        "textStyle": {
+                            "color": "#fff"
+                        },
+                        "position": "insideTop",
+                        formatter: function(p) {
+                            return p.value > 0 ? (p.value) : '';
+                        }
+                    }
+                }
+            },
+            "data": equipmenttimesu,
+        },
+
+            {
+                "name": "研究生",
+                "type": "bar",
+                "stack": "总量",
+                "itemStyle": {
+                    "normal": {
+                        "color": "rgba(0,191,183,1)",
+                        "barBorderRadius": 0,
+                        "label": {
+                            "show": false,
+                            "position": "top",
+                            formatter: function(p) {
+                                return p.value > 0 ? (p.value) : '';
+                            }
+                        }
+                    }
+                },
+                "data": equipmenttimesg
+            },
+            {
+                "name": "教师",
+                "type": "bar",
+                "stack": "总量",
+                "itemStyle": {
+                    "normal": {
+                        "color": "rgba(30,144,255,1)",
+                        "barBorderRadius": 0,
+                        "label": {
+                            "show": false,
+                            "position": "top",
+                            formatter: function(p) {
+                                return p.value > 0 ? (p.value) : '';
+                            }
+                        }
+                    }
+                },
+                "data": equipmenttimest
+            },{
+                "name": "其他",
+                "type": "bar",
+                "stack": "总量",
+                "itemStyle": {
+                    "normal": {
+                        "color": "rgba(255,165,0,1)",
+                        "barBorderRadius": 0,
+                        "label": {
+                            "show": false,
+                            "position": "top",
+                            formatter: function(p) {
+                                return p.value > 0 ? (p.value) : '';
+                            }
+                        }
+                    }
+                },
+                "data": equipmenttimeso
+            },{
+                "name": "总数",
+                "type": "line",
+                "stack": "总量",
+                symbolSize:10,
+                symbol:'circle',
+                "itemStyle": {
+                    "normal": {
+                        "color": "rgba(30,144,255,1)",
+                        "barBorderRadius": 0,
+                        "label": {
+                            "show": true,
+                            "position": "top",
+                            formatter: function(p) {
+                                return p.value > 0 ? (p.value) : '';
+                            }
+                        }
+                    }
+                },
+                "data":amountequipment
+            },
+        ]
+    };
+    equipment_count.setOption(equipment_count_option);
+}
+function day_gctrl() {
+    $.get('../../gctrl/ByDay2').done(function (resultdata) {
+        // 填入数据
+        var day_gctrl = echarts.init(document.getElementById('day_gctrl'));
+        var gctrl_times=resultdata.gctrl_times;
+        var times=resultdata.times;
+        var year=resultdata.year[0];
+        if(typeof(year)=="undefined"){
+            var date=new Date;
+            year=year=date.getFullYear();
+        }
+        var data=[];
+        for(var i=0;i<times.length;i++){
+            var onedata=[];
+            onedata.push(times[i]);
+            onedata.push(gctrl_times[i]);
+            data.push(onedata);
+        }
+        var day_count_option_option = {
+            // backgroundColor: '#404a59',
+            /*title: {
+             top: 30,
+             text: year+'年每天进馆人数',
+             left: 'center',
+             textStyle: {
+             }
+             },*/
+            animation:false,
+            tooltip : {
+                trigger: 'item',
+                position: 'top',
+                formatter: function (params) {
+                    // console.log(params);
+                    //return "000"
+                    return params.data[0] + '     进馆' +':'+ params.data[1]+ '人' ;
+                }
+            },
+            legend: {
+                top: '30',
+                left: '100',
+                data:['人数'],
+                textStyle: {
+                    // color: '#fff'
+                }
+            },
+            calendar: [{
+                top: 100,
+                left: 'center',
+                range: [year+'-01-01', year+'-06-30'],
+                dayLabel:{nameMap : 'cn'},
+                monthLabel :{nameMap : 'cn'},
+                splitLine: {
+                    show: true,
+                    lineStyle: {
+                        color: '#000',
+                        width: 4,
+                        type: 'solid'
+                    }
+                },
+                yearLabel: {
+                    formatter: '{start} 上半年',
+                    textStyle: {
+                        color: '#fff'
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        //color: '#323c48',
+                        borderWidth: 1,
+                        borderColor: '#111'
+                    }
+                }
+            }, {
+                top: 340,
+                left: 'center',
+                range: [year+'-07-01', year+'-12-31'],
+                dayLabel:{nameMap : 'cn'},
+                monthLabel :{nameMap : 'cn'},
+                splitLine: {
+                    show: true,
+                    lineStyle: {
+                        color: '#000',
+                        width: 4,
+                        type: 'solid'
+                    }
+                },
+                yearLabel: {
+                    formatter: '{start} 下半年',
+                    textStyle: {
+                        color: '#fff'
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        // color: '#323c48',
+                        borderWidth: 1,
+                        borderColor: '#111'
+                    }
+                }
+            }],
+            series : [
+                {
+                    name: '人数',
+                    type: 'scatter',
+                    coordinateSystem: 'calendar',
+                    data: data,
+                    symbolSize: function (val) {
+                        return val[1] / 500;
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#ddb926'
+                        }
+                    }
+                },
+                {
+                    name: '人数',
+                    type: 'scatter',
+                    coordinateSystem: 'calendar',
+                    calendarIndex: 1,
+                    data: data,
+                    symbolSize: function (val) {
+                        return val[1] / 500;
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#ddb926'
+                        }
+                    }
+                },
+            ]
+        };
+        day_gctrl.setOption(day_count_option_option);
+    });
+}
+function dctrl_top12() {
+    var gctrl_top12 = echarts.init(document.getElementById('gctrl_top12'));
+    $.get('../../gctrl/ByDay_count2').done(function (resultdata) {
+        // 填入数据
+        var day_count2_option = {
+            animation:false,
+            legend: {
+                data: ['日进馆排名'],
+                align: 'left'
+            },
+            grid: {
+                left: '10%',
+                right: '10%',
+                containLabel: true
+            },
+            tooltip: {},
+            xAxis: {
+                data: resultdata.time,
+                'axisLabel': {
+                    rotate:30,
+                    'interval': 0
+                },
+                silent: false,
+                splitLine: {
+                    show: false
+                }
+            },
+            yAxis: {
+            },
+            series: [{
+                name: '日进馆排名',
+                type: 'bar',
+                data: resultdata.gctrl_times,
+                itemStyle:{
+                    normal:{
+                        color:'#45e4cb',
+                    }
+                },
+                animationDelay: function (idx) {
+                    return idx * 10;
+                }
+            }],
+            animationEasing: 'elasticOut',
+            animationDelayUpdate: function (idx) {
+                return idx * 5;
+            }
+        };
+        gctrl_top12.setOption(day_count2_option);
+    });
+}
+function getpublish_raking() {
+    $.ajax({
+        type:'get',
+        url:'../../bookLend/ByPublisher',
+        contentType:'application/json',
+        async:false,
+        dataType:'json',
+        success:function (data) {
+            for(var key in data){
+            }
+            var option = {
+                animation:false,
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    },
+                    formatter: "{a} <br/>{b} : {c}次"
+                },
+                legend: {
+                    data: ['借阅出版社排名']
+                },
+                grid: {
+                    top:'0%',
+                    left: '3%',
+                    right: '4%',
+                    bottom:'0%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value',
+                    boundaryGap: [0, 0.01],
+                    "axisLabel": {
+                        "interval": 0,
+                        formatter: '{value}次',
+                    }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: data[key].publisher
+                },
+                series: [{
+                    name: '借阅出版社排名',
+                    type: 'bar',
+                    data: data[key].times
+                }]
+            };
+            var chart = echarts.init(document.getElementById('publisher_raking'));
+            chart.setOption(option);
+        }
+    })
+}
+function getpublish_rating() {
+    $.ajax({
+        type:'get',
+        url:'../../bookLend/ByPublisher',
+        contentType:'application/json',
+        async:false,
+        dataType:'json',
+        success:function (data) {
+            for(var key in data){
+            }
+            var piedatalist = [];
+            for (var k = 0; k < data[key].publisher.length; k++) {
+                var piedata = {};
+                piedata.value = data[key].times[k];
+                piedata.name = data[key].publisher[k];
+                piedatalist.push(piedata);
+            }
+            var option = {
+                animation:false,
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "借阅量<br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    top: 'center',
+                    left: 20,
+                    orient: 'vertical',
+                    bottom: 20,
+                    data: data[key].publisher
+                },
+                calculable: true,
+                series: [
+                    {
+                        name: '面积模式',
+                        type: 'pie',
+                        radius: [30, 130],
+                        center: ['50%', '50%'],
+                        roseType: 'area',
+                        label: {
+                            normal: {
+                                show: false
+                            },
+                            emphasis: {
+                                show: true
+                            }
+                        },
+                        lableLine: {
+                            normal: {
+                                show: false
+                            },
+                            emphasis: {
+                                show: true
+                            }
+                        },
+                        data: piedatalist
+                    }
+                ]
+            };
+            var chart = echarts.init(document.getElementById('publisher_rating'));
+            chart.setOption(option);
+        }
+    })
+}
 function downloadword(){
 	var img_Book_Amount =echarts.init(document.getElementById("getResourceCountBy_year")).getDataURL();
         var img_gctrl_amount =echarts.init(document.getElementById("getGctrlsCountBy_year")).getDataURL();
@@ -43,6 +1209,14 @@ function downloadword(){
         var img_print_fy =echarts.init(document.getElementById("getcopytimesCountBy_year")).getDataURL();
         var img_print_sm =echarts.init(document.getElementById("getscantimesCountBy_year")).getDataURL();
         var img_print_day =echarts.init(document.getElementById("getprints_hour")).getDataURL();
+        var publisher_rating =echarts.init(document.getElementById("publisher_rating")).getDataURL();
+        var publisher_raking =echarts.init(document.getElementById("publisher_raking")).getDataURL();
+        var gctrl_top12 =echarts.init(document.getElementById("gctrl_top12")).getDataURL();
+        var day_gctrl =echarts.init(document.getElementById("day_gctrl")).getDataURL();
+        var croom =echarts.init(document.getElementById("croom")).getDataURL();
+        var eread =echarts.init(document.getElementById("eread")).getDataURL();
+        var seat =echarts.init(document.getElementById("seat")).getDataURL();
+        var equipment =echarts.init(document.getElementById("equipment")).getDataURL();
         var postdata = {
             "img_Book_Amount" :img_Book_Amount,
             "img_gctrl_amount" :img_gctrl_amount,
@@ -63,6 +1237,14 @@ function downloadword(){
             "img_print_fy":img_print_fy,
             "img_print_sm":img_print_sm,
             "img_print_day" :img_print_day,
+            "publisher_rating":publisher_rating,
+            "publisher_raking":publisher_raking,
+            "gctrl_top12":gctrl_top12,
+            "day_gctrl":day_gctrl,
+            "croom":croom,
+            "eread":eread,
+            "seat":seat,
+            "equipment":equipment,
         }
         $.ajax({
             type:"POST",

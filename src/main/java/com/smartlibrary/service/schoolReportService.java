@@ -254,6 +254,7 @@ public class schoolReportService {
         }
         result.put("stack",stack);
         result.put("amount",amount);
+        result.put("object",data);
         return result;
     }
     //   <!--馆藏基本情况  当年新增情况 馆数量太多 取前十-->

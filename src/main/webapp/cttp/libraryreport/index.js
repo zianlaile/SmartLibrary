@@ -3032,6 +3032,7 @@ function getprints_hour() {
 }
 function readerLend() {
     $.get('../../schoolReport/getReder_booklendCount_Byyear',function (info) {
+        //console.log(info)
         $(".reader-info").find(".max-name").text(info[0].name);
         $(".reader-info").find(".sec-name").text(info[1].name);
         $(".reader-info").find(".third-name").text(info[2].name);
@@ -3145,61 +3146,66 @@ function sortByKey(array,key){
      async:false,
      dataType: 'json',
      success: function(data, textStatus, jqXHR){
+         console.log(data.object)
+         var html = template('getCollectionOveralltable',{param:data.object});
+         $(".getCollectionOveralltable").html(html);
      dataAll=data.amount;
      yAxisData=data.stack;
      for(var i=0;i<dataAll.length;i++){
         // console.log({ value:dataAll[i],name:yAxisData[i]})
          piedata.push({ value:dataAll[i],name:yAxisData[i]});
      }
-         console.log(piedata)
-     var getCollectionOverall = echarts.init(document.getElementById('getCollectionOverall'));
-     var getCollectionOveralloption = {
-         animation:false,
-     backgroundColor: '#0f375f',
-     title:[
-     {text:"各馆藏书占比",x: '2%', y: '1%',textStyle:{color:"#fff",fontSize:"14"}},
-     {text:"各馆藏书TOP10",x: '40%', y: '1%',textStyle:{color:"#fff",fontSize:"14"}},
+       //  console.log(piedata)
+         var getCollectionOverall = echarts.init(document.getElementById('getCollectionOverall'));
+         var getCollectionOveralloption = {
+             animation:false,
+         backgroundColor: '#0f375f',
+         title:[
+         {text:"各馆藏书占比",x: '2%', y: '1%',textStyle:{color:"#fff",fontSize:"14"}},
+         {text:"各馆藏书TOP10",x: '40%', y: '1%',textStyle:{color:"#fff",fontSize:"14"}},
 
-     ],
-     grid: [
-     {x: '50%', y: '7%', width: '45%', height: '90%'},
-     ],
-     tooltip: {
-     formatter: '{b} ({c})'
-     },
-     xAxis: [
-     {gridIndex: 0, axisTick: {show:false},axisLabel: {show:false},splitLine: {show:false},axisLine: {show:false }},
-     ],
-     yAxis: [
-     {  gridIndex: 0, interval:0,data:yAxisData,
-     axisTick: {show:false}, axisLabel: {show:true},splitLine: {show:false},
-     axisLine: {show:true,lineStyle:{color:"#6173a3"}},
-     }
-     ],
-     series: [
-     {
-     name: '各馆藏书占比',
-     type: 'pie',
-     radius : '30%',
-     center: ['20%', '50%'],
-     color:['#86c9f4','#4da8ec','#3a91d2','#005fa6','#315f97'],
-     data:piedata,
-     label:{normal:{show:false,position:'inside'}},
-     labelLine:{normal:{show:false} },
-     itemStyle: {normal: {label:{ show: true,  formatter: '{b} \n ({d}%)', textStyle:{color:'#B1B9D3'}} },},
-     },
+         ],
+         grid: [
+         {x: '50%', y: '7%', width: '45%', height: '90%'},
+         ],
+         tooltip: {
+         formatter: '{b} ({c})'
+         },
+         xAxis: [
+         {gridIndex: 0, axisTick: {show:false},axisLabel: {show:false},splitLine: {show:false},axisLine: {show:false }},
+         ],
+         yAxis: [
+         {  gridIndex: 0, interval:0,data:yAxisData,
+         axisTick: {show:false}, axisLabel: {show:true},splitLine: {show:false},
+         axisLine: {show:true,lineStyle:{color:"#6173a3"}},
+         }
+         ],
+         series: [
+         {
+         name: '各馆藏书占比',
+         type: 'pie',
+         radius : '30%',
+         center: ['20%', '50%'],
+         color:['#86c9f4','#4da8ec','#3a91d2','#005fa6','#315f97'],
+         data:piedata,
+         label:{normal:{show:false,position:'inside'}},
+         labelLine:{normal:{show:false} },
+         itemStyle: {normal: {label:{ show: true,  formatter: '{b} \n ({d}%)', textStyle:{color:'#B1B9D3'}} },},
+         },
 
-     {
-     name: '各馆藏书TOP10',
-     type: 'bar',xAxisIndex: 0,yAxisIndex: 0,barWidth:'45%',
-     itemStyle:{normal:{color:'#86c9f4'}},
-     label:{normal:{show:true, position:"right",textStyle:{color:"#9EA7C4"}}},
-     data: dataAll,
-     },
+         {
+         name: '各馆藏书TOP10',
+         type: 'bar',xAxisIndex: 0,yAxisIndex: 0,barWidth:'45%',
+         itemStyle:{normal:{color:'#86c9f4'}},
+         label:{normal:{show:true, position:"right",textStyle:{color:"#9EA7C4"}}},
+         data: dataAll,
+         },
 
-     ]
-     };
-     getCollectionOverall.setOption(getCollectionOveralloption);
+         ]
+         };
+         getCollectionOverall.setOption(getCollectionOveralloption);
      }
      });
+
+
  }

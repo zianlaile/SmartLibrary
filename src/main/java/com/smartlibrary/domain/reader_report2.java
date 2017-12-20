@@ -6,18 +6,11 @@ package com.smartlibrary.domain;
 public class reader_report2 {
     String account;//账户
     String name;//名字
+    int year;
     String school;//学校
     String academy;//学院
     int max_book_month;//借阅量最多的月份
     int max_book_month_count;//借阅量最多的月份的借阅量
-    int A;
-    int B;
-    int C;
-    int D;
-    int E;
-    int F;
-    int G;
-    int H;
 
     public String getAccount() {
         return account;
@@ -67,230 +60,207 @@ public class reader_report2 {
         this.max_book_month_count = max_book_month_count;
     }
 
-    int I;
-    int J;
-    int K;
-    int L;
-    int M;
-    int N;
-    int O;
-    int P;
-    int Q;
-    int R;
-    int S;
-    int T;
-    int U;
-    int V;
-    int W;
-    int X;
-    int Y;
-    int Z;
+    public int getYear() { return year;}
 
-    public int getA() {
-        return A;
+    public void setYear(int year) { this.year = year;}
+
+
+    int 马列主义;
+    int         哲学宗教;
+    int 社会科学总论;
+    int         政治法律;
+    int 军事;
+    int         经济;
+    int 文教体科;
+    int        语言文字;
+    int 文学;
+    int         艺术;
+    int 历史地理;
+    int         自然科学总论;
+    int  数理化;
+    int         天文地理;
+    int 生物科学;
+    int         医学卫生;
+    int 农业科学;
+    int         工业技术;
+    int  交通运输;
+    int        航空航天;
+    int 环境劳保科学;
+    int         综合性图书;
+
+    public int get马列主义() {
+        return 马列主义;
     }
 
-    public void setA(int a) {
-        A = a;
+    public void set马列主义(int 马列主义) {
+        this.马列主义 = 马列主义;
     }
 
-    public int getB() {
-        return B;
+    public int get哲学宗教() {
+        return 哲学宗教;
     }
 
-    public void setB(int b) {
-        B = b;
+    public void set哲学宗教(int 哲学宗教) {
+        this.哲学宗教 = 哲学宗教;
     }
 
-    public int getC() {
-        return C;
+    public int get社会科学总论() {
+        return 社会科学总论;
     }
 
-    public void setC(int c) {
-        C = c;
+    public void set社会科学总论(int 社会科学总论) {
+        this.社会科学总论 = 社会科学总论;
     }
 
-    public int getD() {
-        return D;
+    public int get政治法律() {
+        return 政治法律;
     }
 
-    public void setD(int d) {
-        D = d;
+    public void set政治法律(int 政治法律) {
+        this.政治法律 = 政治法律;
     }
 
-    public int getE() {
-        return E;
+    public int get军事() {
+        return 军事;
     }
 
-    public void setE(int e) {
-        E = e;
+    public void set军事(int 军事) {
+        this.军事 = 军事;
     }
 
-    public int getF() {
-        return F;
+    public int get经济() {
+        return 经济;
     }
 
-    public void setF(int f) {
-        F = f;
+    public void set经济(int 经济) {
+        this.经济 = 经济;
     }
 
-    public int getG() {
-        return G;
+    public int get文教体科() {
+        return 文教体科;
     }
 
-    public void setG(int g) {
-        G = g;
+    public void set文教体科(int 文教体科) {
+        this.文教体科 = 文教体科;
     }
 
-    public int getH() {
-        return H;
+    public int get语言文字() {
+        return 语言文字;
     }
 
-    public void setH(int h) {
-        H = h;
+    public void set语言文字(int 语言文字) {
+        this.语言文字 = 语言文字;
     }
 
-    public int getI() {
-        return I;
+    public int get文学() {
+        return 文学;
     }
 
-    public void setI(int i) {
-        I = i;
+    public void set文学(int 文学) {
+        this.文学 = 文学;
     }
 
-    public int getJ() {
-        return J;
+    public int get艺术() {
+        return 艺术;
     }
 
-    public void setJ(int j) {
-        J = j;
+    public void set艺术(int 艺术) {
+        this.艺术 = 艺术;
     }
 
-    public int getK() {
-        return K;
+    public int get历史地理() {
+        return 历史地理;
     }
 
-    public void setK(int k) {
-        K = k;
+    public void set历史地理(int 历史地理) {
+        this.历史地理 = 历史地理;
     }
 
-    public int getL() {
-        return L;
+    public int get自然科学总论() {
+        return 自然科学总论;
     }
 
-    public void setL(int l) {
-        L = l;
+    public void set自然科学总论(int 自然科学总论) {
+        this.自然科学总论 = 自然科学总论;
     }
 
-    public int getM() {
-        return M;
+    public int get数理化() {
+        return 数理化;
     }
 
-    public void setM(int m) {
-        M = m;
+    public void set数理化(int 数理化) {
+        this.数理化 = 数理化;
     }
 
-    public int getN() {
-        return N;
+    public int get天文地理() {
+        return 天文地理;
     }
 
-    public void setN(int n) {
-        N = n;
+    public void set天文地理(int 天文地理) {
+        this.天文地理 = 天文地理;
     }
 
-    public int getO() {
-        return O;
+    public int get生物科学() {
+        return 生物科学;
     }
 
-    public void setO(int o) {
-        O = o;
+    public void set生物科学(int 生物科学) {
+        this.生物科学 = 生物科学;
     }
 
-    public int getP() {
-        return P;
+    public int get医学卫生() {
+        return 医学卫生;
     }
 
-    public void setP(int p) {
-        P = p;
+    public void set医学卫生(int 医学卫生) {
+        this.医学卫生 = 医学卫生;
     }
 
-    public int getQ() {
-        return Q;
+    public int get农业科学() {
+        return 农业科学;
     }
 
-    public void setQ(int q) {
-        Q = q;
+    public void set农业科学(int 农业科学) {
+        this.农业科学 = 农业科学;
     }
 
-    public int getR() {
-        return R;
+    public int get工业技术() {
+        return 工业技术;
     }
 
-    public void setR(int r) {
-        R = r;
+    public void set工业技术(int 工业技术) {
+        this.工业技术 = 工业技术;
     }
 
-    public int getS() {
-        return S;
+    public int get交通运输() {
+        return 交通运输;
     }
 
-    public void setS(int s) {
-        S = s;
+    public void set交通运输(int 交通运输) {
+        this.交通运输 = 交通运输;
     }
 
-    public int getT() {
-        return T;
+    public int get航空航天() {
+        return 航空航天;
     }
 
-    public void setT(int t) {
-        T = t;
+    public void set航空航天(int 航空航天) {
+        this.航空航天 = 航空航天;
     }
 
-    public int getU() {
-        return U;
+    public int get环境劳保科学() {
+        return 环境劳保科学;
     }
 
-    public void setU(int u) {
-        U = u;
+    public void set环境劳保科学(int 环境劳保科学) {
+        this.环境劳保科学 = 环境劳保科学;
     }
 
-    public int getV() {
-        return V;
+    public int get综合性图书() {
+        return 综合性图书;
     }
 
-    public void setV(int v) {
-        V = v;
-    }
-
-    public int getW() {
-        return W;
-    }
-
-    public void setW(int w) {
-        W = w;
-    }
-
-    public int getX() {
-        return X;
-    }
-
-    public void setX(int x) {
-        X = x;
-    }
-
-    public int getY() {
-        return Y;
-    }
-
-    public void setY(int y) {
-        Y = y;
-    }
-
-    public int getZ() {
-        return Z;
-    }
-
-    public void setZ(int z) {
-        Z = z;
+    public void set综合性图书(int 综合性图书) {
+        this.综合性图书 = 综合性图书;
     }
 }

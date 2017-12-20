@@ -183,13 +183,134 @@
 
 <!--研修间-使用量分析（一年，四个类别） 时间要改，暂时2015-->
     <select id="getICTimesBYTypeOneyear" parameterType="com.smartlibrary.domain.IC_Times" resultType="com.smartlibrary.domain.IC_Times">
-      SELECT `year`,`month`,user_type,SUM(croom_times) AS croom_times,SUM(eread_times) AS  eread_times,SUM(seat_times) AS seat_times,SUM(equipment_times) AS equipment_times
-      FROM zz_ic_month_identity
-	  where year=2015
-      GROUP BY user_type,`year`,`month`
-      ORDER BY user_type,`year`,`month`
+        SELECT `year`,`month`,user_type,SUM(croom_times) AS croom_times,SUM(eread_times) AS  eread_times,SUM(seat_times) AS seat_times,SUM(equipment_times) AS equipment_times
+        FROM zz_ic_month_identity
+        where year=2015
+        GROUP BY user_type,`year`,`month`
+        ORDER BY user_type,`year`,`month`
     </select>
 
+
+    <!--馆藏基本情况  总体情况 馆数量太多 取前十-->
+    <select id="getCollectionOverall" parameterType="com.smartlibrary.domain.CollectionBook" resultType="com.smartlibrary.domain.CollectionBook">
+        SELECT stack,sum(amount) amount
+        FROM library_report_bookcollection_count
+        GROUP BY stack
+        ORDER BY amount DESC
+        limit 10
+    </select>
+
+    <!--馆藏基本情况  当年新增情况 馆数量太多 取前十-->
+    <select id="getCollectionNewAdded" parameterType="com.smartlibrary.domain.CollectionBook" resultType="com.smartlibrary.domain.CollectionBook">
+        SELECT year ,stack,sum(amount) amount
+        FROM library_report_bookcollection_year
+        GROUP BY stack
+        ORDER BY amount DESC
+        limit 10
+    </select>
+<!--
+
+    &lt;!&ndash;馆藏基本情况  新增馆藏分类分布 类别太多 取前十&ndash;&gt;
+    <select id="getCollectionNewAdded" parameterType="com.smartlibrary.domain.CollectionBook" resultType="com.smartlibrary.domain.CollectionBook">
+        SELECT
+            a.*
+        FROM
+            (
+                SELECT
+                    category,
+                    bookType,
+                    sum(amount) amount
+                FROM
+                    library_report_bookcollection_year
+                GROUP BY
+                    category,
+                    bookType
+            ) a
+        WHERE a.category in (
+        select b.category from(
+                SELECT
+                    category,
+                    sum(amount) amount
+                FROM
+                    library_report_bookcollection_year
+                GROUP BY
+                    category
+            ORDER BY amount DESC
+                limit 10
+        ) b
+        )
+    </select>
+
+
+    &lt;!&ndash;馆藏基本情况  新增图书分类分布 类别太多 取前十&ndash;&gt;
+    <select id="getCollectionNewAdded" parameterType="com.smartlibrary.domain.CollectionBook" resultType="com.smartlibrary.domain.CollectionBook">
+        SELECT
+            a.*
+        FROM
+            (
+                SELECT
+                    category,
+                    bookType,
+                    sum(amount) amount
+                FROM
+                    library_report_bookcollection_year
+                where  bookType like '%图书%'
+                GROUP BY
+                    category,
+                    bookType
+            ) a
+        WHERE a.category in (
+        select b.category from(
+                SELECT
+                    category,
+                    sum(amount) amount
+                FROM
+                    library_report_bookcollection_year
+            where  bookType like '%图书%'
+                GROUP BY
+                    category
+            ORDER BY amount DESC
+                limit 10
+        ) b
+        )
+    </select>
+
+
+    &lt;!&ndash;馆藏基本情况  新增外文分类分布 类别太多 取前十&ndash;&gt;
+    <select id="getCollectionNewAdded" parameterType="com.smartlibrary.domain.CollectionBook" resultType="com.smartlibrary.domain.CollectionBook">
+        SELECT
+        a.*
+        FROM
+        (
+        SELECT
+        category,
+        bookType,
+        sum(amount) amount
+        FROM
+        library_report_bookcollection_year
+        where  bookType like '%外文%'
+        GROUP BY
+        category,
+        bookType
+        ) a
+        WHERE a.category in (
+        select b.category from(
+        SELECT
+        category,
+        sum(amount) amount
+        FROM
+        library_report_bookcollection_year
+        where  bookType like '%外文%'
+        GROUP BY
+        category
+        ORDER BY amount DESC
+        limit 10
+        ) b
+        )
+    </select>
+
+
+-->
 
 
 </mapper>

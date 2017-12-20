@@ -5,7 +5,10 @@ import com.smartlibrary.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by tt on 2017/10/17.
@@ -239,7 +242,184 @@ public class schoolReportService {
         return typeandmonthdata;
     }
 
+    //   <!--馆藏基本情况  总体情况 馆数量太多 取前十-->
+    public Map<String,List> getCollectionOverall(CollectionBook b) {
+        List<CollectionBook> data= schoolReportdao.getCollectionOverall(b);
+        ArrayList<String> stack=new  ArrayList<String>();
+        ArrayList<Integer> amount=new  ArrayList<Integer>();
+        Map<String ,List> result=new HashMap<String ,List>();
+        for(int i=0;i<data.size();i++){
+            stack.add(data.get(i).getStack());
+            amount.add(data.get(i).getAmount());
+        }
+        result.put("stack",stack);
+        result.put("amount",amount);
+        return result;
+    }
+    //   <!--馆藏基本情况  当年新增情况 馆数量太多 取前十-->
+    public Map<String,List> getCollectionNewAdded(CollectionBook b) {
+        List<CollectionBook> data= schoolReportdao.getCollectionNewAdded(b);
+        ArrayList<String> stack=new  ArrayList<String>();
+        ArrayList<Integer> amount=new  ArrayList<Integer>();
+        Map<String ,List> result=new HashMap<String ,List>();
+        for(int i=0;i<data.size();i++){
+            stack.add(data.get(i).getStack());
+            amount.add(data.get(i).getAmount());
+        }
+        result.put("stack",stack);
+        result.put("amount",amount);
+        return result;
+    }
 
+    //   <!--馆藏基本情况  新增馆藏分类分布 类别太多 取前十-->
+    public Map<String,List> getCollectionNewAddedByCate(CollectionBook b) {
+        List<CollectionBook> data= schoolReportdao.getCollectionNewAddedByCate(b);
+        ArrayList<String> category=new  ArrayList<String>();
+        ArrayList<String> booktype=new  ArrayList<String>();
+
+        ArrayList<Integer> ZWTS=new  ArrayList<Integer>();
+        ArrayList<Integer> ZWZS=new  ArrayList<Integer>();
+        ArrayList<Integer> QT=new  ArrayList<Integer>();
+        ArrayList<Integer> WKHDB=new  ArrayList<Integer>();
+        ArrayList<Integer> WWTS=new  ArrayList<Integer>();
+        ArrayList<Integer> XWLW=new  ArrayList<Integer>();
+        ArrayList<Integer> GTTS=new  ArrayList<Integer>();
+        ArrayList<Integer> TCTS=new  ArrayList<Integer>();
+
+
+        Map<String ,List> result=new HashMap<String ,List>();
+        for(int i=0;i<data.size();i++){
+            String  cate=data.get(i).getCategory();
+            if(!category.contains(cate) ){
+                category.add(cate);
+            }
+            String  bk=data.get(i).getBookType();
+            if(!booktype.contains(bk)) {
+                booktype.add(bk);
+            }
+            int  am=data.get(i).getAmount();
+            switch(bk){
+                case "中文图书":
+                    ZWTS.add(am);
+                    break;
+                case "中文赠书":
+                    ZWZS.add(am);
+                    break;
+                case "其他":
+                    QT.add(am);
+                    break;
+                case "外刊合订本":
+                    WKHDB.add(am);
+                    break;
+                case "外文图书":
+                    WWTS.add(am);
+                    break;
+                case "学位论文":
+                    XWLW.add(am);
+                    break;
+                case "港台图书":
+                    GTTS.add(am);
+                    break;
+                case "特藏图书":
+                    TCTS.add(am);
+                    break;
+
+            }
+        }
+        result.put("category",category);
+        result.put("booktype",booktype);
+
+        result.put("中文图书",ZWTS);
+        result.put("中文赠书",ZWZS);
+        result.put("其他",QT);
+        result.put("外刊合订本",WKHDB);
+        result.put("外文图书",WWTS);
+        result.put("学位论文",XWLW);
+        result.put("港台图书",GTTS);
+        result.put("特藏图书",TCTS);
+        return result;
+    }
+
+    // <!--馆藏基本情况  新增图书分类分布 类别太多 取前十-->
+    public Map<String,List> getCollectionTuShuNewAddedByCate(CollectionBook b) {
+        List<CollectionBook> data= schoolReportdao.getCollectionTuShuNewAddedByCate(b);
+        ArrayList<String> category=new  ArrayList<String>();
+        ArrayList<String> booktype=new  ArrayList<String>();
+
+        ArrayList<Integer> ZWTS=new  ArrayList<Integer>();
+        ArrayList<Integer> WWTS=new  ArrayList<Integer>();
+        ArrayList<Integer> GTTS=new  ArrayList<Integer>();
+        ArrayList<Integer> TCTS=new  ArrayList<Integer>();
+
+
+        Map<String ,List> result=new HashMap<String ,List>();
+        for(int i=0;i<data.size();i++){
+            String  cate=data.get(i).getCategory();
+            if(!category.contains(cate) ){
+                category.add(cate);
+            }
+            String  bk=data.get(i).getBookType();
+            if(!booktype.contains(bk)) {
+                booktype.add(bk);
+            }
+            int  am=data.get(i).getAmount();
+            switch(bk){
+                case "中文图书":
+                    ZWTS.add(am);
+                    break;
+                case "外文图书":
+                    WWTS.add(am);
+                    break;
+                case "港台图书":
+                    GTTS.add(am);
+                    break;
+                case "特藏图书":
+                    TCTS.add(am);
+                    break;
+
+            }
+        }
+        result.put("category",category);
+        result.put("booktype",booktype);
+
+        result.put("中文图书",ZWTS);
+        result.put("外文图书",WWTS);
+        result.put("港台图书",GTTS);
+        result.put("特藏图书",TCTS);
+        return result;
+    }
+    // <!--馆藏基本情况  新增外文分类分布 类别太多 取前十-->
+    public  Map<String,List> getCollectionWaiWenNewAddedByCate(CollectionBook b) {
+        List<CollectionBook> data= schoolReportdao.getCollectionWaiWenNewAddedByCate(b);
+        ArrayList<String> category=new  ArrayList<String>();
+        ArrayList<String> booktype=new  ArrayList<String>();
+
+        ArrayList<Integer> WWTS=new  ArrayList<Integer>();
+
+        Map<String ,List> result=new HashMap<String ,List>();
+        for(int i=0;i<data.size();i++){
+            String  cate=data.get(i).getCategory();
+            if(!category.contains(cate) ){
+                category.add(cate);
+            }
+            String  bk=data.get(i).getBookType();
+            if(!booktype.contains(bk)) {
+                booktype.add(bk);
+            }
+            int  am=data.get(i).getAmount();
+            switch(bk){
+
+                case "外文图书":
+                    WWTS.add(am);
+                    break;
+
+            }
+        }
+        result.put("category",category);
+        result.put("booktype",booktype);
+        result.put("外文图书",WWTS);
+        return result;
+    }
 
 
 

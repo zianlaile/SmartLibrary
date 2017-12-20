@@ -166,4 +166,39 @@ public class schoolReportController {
         return schoolReportservice.getICTimesBYTypeOneyear(i);
     }
 
+
+    // <!--馆藏基本情况  总体情况 馆数量太多 取前十-->
+    @RequestMapping(value = "/getCollectionOverall",method = RequestMethod.GET)
+    public Map<String,List> getCollectionOverall(){
+        CollectionBook i=new CollectionBook();
+        return schoolReportservice.getCollectionOverall(i);
+    }
+    //    <!--馆藏基本情况  当年新增情况 馆数量太多 取前十-->
+    @RequestMapping(value = "/getCollectionNewAdded",method = RequestMethod.GET)
+    public Map<String,List> getCollectionNewAdded(){
+        CollectionBook i=new CollectionBook();
+        return schoolReportservice.getCollectionNewAdded(i);
+    }
+
+    //    <!--馆藏基本情况  新增馆藏分类分布 类别太多 取前十-->
+    @RequestMapping(value = "/getCollectionNewAddedByCate",method = RequestMethod.GET)
+    public Map<String,List> getCollectionNewAddedByCate(){
+        CollectionBook i=new CollectionBook();
+        return schoolReportservice.getCollectionNewAddedByCate(i);
+    }
+
+    //    <!--馆藏基本情况  新增馆藏分类分布 类别太多 取前十-->
+    @RequestMapping(value = "/getCollectionTuShuNewAddedByCate",method = RequestMethod.GET)
+    public Map<String,List> getCollectionTuShuNewAddedByCate(){
+        CollectionBook i=new CollectionBook();
+        return schoolReportservice.getCollectionTuShuNewAddedByCate(i);
+    }
+    //    <!--馆藏基本情况  新增外文分类分布 类别太多 取前十-->
+    @RequestMapping(value = "/getCollectionWaiWenNewAddedByCate",method = RequestMethod.GET)
+    public Map<String,List> getCollectionWaiWenNewAddedByCate(){
+        CollectionBook i=new CollectionBook();
+        return schoolReportservice.getCollectionWaiWenNewAddedByCate(i);
+    }
+
+
 }

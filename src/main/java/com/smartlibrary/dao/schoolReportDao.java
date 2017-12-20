@@ -65,8 +65,21 @@ public interface schoolReportDao {
 
 
 
-// <!--研修间-使用量分析（一年，四个类别） 时间要改，暂时2015-->
+    // <!--研修间-使用量分析（一年，四个类别） 时间要改，暂时2015-->
     List<IC_Times> getICTimesBYTypeOneyear( IC_Times i);
+
+    //   <!--馆藏基本情况  总体情况 馆数量太多 取前十-->
+    List<CollectionBook> getCollectionOverall( CollectionBook i);
+    //   <!--馆藏基本情况  当年新增情况 馆数量太多 取前十-->
+    List<CollectionBook> getCollectionNewAdded( CollectionBook i);
+    // <!--馆藏基本情况  新增馆藏分类分布 类别太多 取前十-->
+    List<CollectionBook> getCollectionNewAddedByCate( CollectionBook i);
+    // <!--馆藏基本情况  新增图书分类分布 类别太多 取前十-->
+    List<CollectionBook> getCollectionTuShuNewAddedByCate( CollectionBook i);
+    // <!--馆藏基本情况  新增外文分类分布 类别太多 取前十-->
+    List<CollectionBook> getCollectionWaiWenNewAddedByCate( CollectionBook i);
+
+
 
 
 }

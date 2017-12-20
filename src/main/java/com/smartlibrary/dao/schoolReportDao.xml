@@ -208,10 +208,9 @@
         ORDER BY amount DESC
         limit 10
     </select>
-<!--
 
-    &lt;!&ndash;馆藏基本情况  新增馆藏分类分布 类别太多 取前十&ndash;&gt;
-    <select id="getCollectionNewAdded" parameterType="com.smartlibrary.domain.CollectionBook" resultType="com.smartlibrary.domain.CollectionBook">
+    <!--馆藏基本情况  新增馆藏分类分布 类别太多 取前十-->
+    <select id="getCollectionNewAddedByCate" parameterType="com.smartlibrary.domain.CollectionBook" resultType="com.smartlibrary.domain.CollectionBook">
         SELECT
             a.*
         FROM
@@ -241,9 +240,8 @@
         )
     </select>
 
-
-    &lt;!&ndash;馆藏基本情况  新增图书分类分布 类别太多 取前十&ndash;&gt;
-    <select id="getCollectionNewAdded" parameterType="com.smartlibrary.domain.CollectionBook" resultType="com.smartlibrary.domain.CollectionBook">
+    <!--馆藏基本情况  新增图书分类分布 类别太多 取前十-->
+    <select id="getCollectionTuShuNewAddedByCate" parameterType="com.smartlibrary.domain.CollectionBook" resultType="com.smartlibrary.domain.CollectionBook">
         SELECT
             a.*
         FROM
@@ -275,9 +273,8 @@
         )
     </select>
 
-
-    &lt;!&ndash;馆藏基本情况  新增外文分类分布 类别太多 取前十&ndash;&gt;
-    <select id="getCollectionNewAdded" parameterType="com.smartlibrary.domain.CollectionBook" resultType="com.smartlibrary.domain.CollectionBook">
+    <!--馆藏基本情况  新增外文分类分布 类别太多 取前十-->
+    <select id="getCollectionWaiWenNewAddedByCate" parameterType="com.smartlibrary.domain.CollectionBook" resultType="com.smartlibrary.domain.CollectionBook">
         SELECT
         a.*
         FROM
@@ -310,7 +307,6 @@
     </select>
 
 
--->
 
 
 </mapper>

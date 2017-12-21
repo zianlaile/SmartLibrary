@@ -3303,7 +3303,7 @@ function getCollectionNewAddedByCate(){
             booktype=data.booktype;
             category=data.category;
             for(var key in data){
-                if(key!="booktype"&&key!="category")
+                if(key!="booktype"&&key!="category"&&key!="ob")
                 {
                     servicedata.push({ name: key,type: 'bar',data:data[key]});
                 }
@@ -3364,7 +3364,7 @@ function getCollectionTuShuNewAddedByCatetable(){
             booktype=data.booktype;
             category=data.category;
             for(var key in data){
-                if(key!="booktype"&&key!="category")
+                if(key!="booktype"&&key!="category"&&key!="ob")
                 {
                     servicedata.push({ name: key,type: 'bar',data:data[key]});
                 }

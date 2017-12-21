@@ -269,6 +269,7 @@ public class schoolReportService {
         }
         result.put("stack",stack);
         result.put("amount",amount);
+        result.put("object",data);
         return result;
     }
 
@@ -277,6 +278,7 @@ public class schoolReportService {
         List<CollectionBook> data= schoolReportdao.getCollectionNewAddedByCate(b);
         ArrayList<String> category=new  ArrayList<String>();
         ArrayList<String> booktype=new  ArrayList<String>();
+        ArrayList<CollectionBook> ob=new  ArrayList<CollectionBook>();
 
         ArrayList<Integer> ZWTS=new  ArrayList<Integer>();
         ArrayList<Integer> ZWZS=new  ArrayList<Integer>();
@@ -291,9 +293,6 @@ public class schoolReportService {
         Map<String ,List> result=new HashMap<String ,List>();
         for(int i=0;i<data.size();i++){
             String  cate=data.get(i).getCategory();
-            if(!category.contains(cate) ){
-                category.add(cate);
-            }
             String  bk=data.get(i).getBookType();
             if(!booktype.contains(bk)) {
                 booktype.add(bk);
@@ -326,6 +325,54 @@ public class schoolReportService {
                     break;
 
             }
+            if(!category.contains(cate) ){
+                category.add(cate);
+            }
+        }
+
+
+
+
+        for(int k=0 ;k<category.size();k++){
+            CollectionBook c=new CollectionBook();
+            c.setCategory(category.get(k));
+            for(int i=0;i<data.size();i++)
+            {
+                String  cate=data.get(i).getCategory();
+                String  bk=data.get(i).getBookType();
+                int  am=data.get(i).getAmount();
+                if(cate.equals(category.get(k))){
+                    switch(bk){
+                        case "中文图书":
+                            c.setZWTS(am);
+                            break;
+                        case "中文赠书":
+                            c.setZWZS(am);
+                            break;
+                        case "其他":
+                            c.setQT(am);
+                            break;
+                        case "外刊合订本":
+                            c.setWKHDB(am);
+                            break;
+                        case "外文图书":
+                            c.setWWTS(am);
+                            break;
+                        case "学位论文":
+                            c.setXWLW(am);
+                            break;
+                        case "港台图书":
+                            c.setGTTS(am);
+                            break;
+                        case "特藏图书":
+                            c.setTCTS(am);
+                            break;
+                    }
+
+                }
+            }
+            ob.add(c);
+
         }
         result.put("category",category);
         result.put("booktype",booktype);
@@ -338,6 +385,7 @@ public class schoolReportService {
         result.put("学位论文",XWLW);
         result.put("港台图书",GTTS);
         result.put("特藏图书",TCTS);
+        result.put("ob",ob);
         return result;
     }
 
@@ -346,7 +394,7 @@ public class schoolReportService {
         List<CollectionBook> data= schoolReportdao.getCollectionTuShuNewAddedByCate(b);
         ArrayList<String> category=new  ArrayList<String>();
         ArrayList<String> booktype=new  ArrayList<String>();
-
+        ArrayList<CollectionBook> ob=new  ArrayList<CollectionBook>();
         ArrayList<Integer> ZWTS=new  ArrayList<Integer>();
         ArrayList<Integer> WWTS=new  ArrayList<Integer>();
         ArrayList<Integer> GTTS=new  ArrayList<Integer>();
@@ -380,6 +428,37 @@ public class schoolReportService {
 
             }
         }
+
+
+        for(int k=0 ;k<category.size();k++){
+            CollectionBook c=new CollectionBook();
+            c.setCategory(category.get(k));
+            for(int i=0;i<data.size();i++)
+            {
+                String  cate=data.get(i).getCategory();
+                String  bk=data.get(i).getBookType();
+                int  am=data.get(i).getAmount();
+                if(cate.equals(category.get(k))){
+                    switch(bk){
+                        case "中文图书":
+                            c.setZWTS(am);
+                            break;
+                        case "外文图书":
+                            c.setWWTS(am);
+                            break;
+                        case "港台图书":
+                            c.setGTTS(am);
+                            break;
+                        case "特藏图书":
+                            c.setTCTS(am);
+                            break;
+                    }
+
+                }
+            }
+            ob.add(c);
+
+        }
         result.put("category",category);
         result.put("booktype",booktype);
 
@@ -387,6 +466,7 @@ public class schoolReportService {
         result.put("外文图书",WWTS);
         result.put("港台图书",GTTS);
         result.put("特藏图书",TCTS);
+        result.put("ob",ob);
         return result;
     }
     // <!--馆藏基本情况  新增外文分类分布 类别太多 取前十-->

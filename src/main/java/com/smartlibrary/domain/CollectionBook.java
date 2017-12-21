@@ -10,6 +10,24 @@ public class CollectionBook {
     String category;
     String   bookType;
     int  amount;
+    int amounttype;
+    int amountnumber;
+
+    public int getAmounttype() {
+        return amounttype;
+    }
+
+    public void setAmounttype(int amounttype) {
+        this.amounttype = amounttype;
+    }
+
+    public int getAmountnumber() {
+        return amountnumber;
+    }
+
+    public void setAmountnumber(int amountnumber) {
+        this.amountnumber = amountnumber;
+    }
 
 
     int ZWTS;

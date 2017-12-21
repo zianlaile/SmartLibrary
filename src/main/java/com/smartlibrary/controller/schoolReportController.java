@@ -200,5 +200,31 @@ public class schoolReportController {
         return schoolReportservice.getCollectionWaiWenNewAddedByCate(i);
     }
 
+    //书目库书目记录总量
+    @RequestMapping(value = "/getCollectionAmountType",method = RequestMethod.GET)
+    public Map<String,List> getCollectionAmountType(){
+        return schoolReportservice.getCollectionAmountType();
+    }
 
+    //书目库书目记录类型统计
+    @RequestMapping(value = "/getCollectionByStackAndBooktype",method = RequestMethod.GET)
+    public Map<String,List> getCollectionByStackAndBooktype(){
+        return schoolReportservice.getCollectionByStackAndBooktype();
+    }
+    //图书按出版年份统计
+    @RequestMapping(value = "/getCollectionByPubyear",method = RequestMethod.GET)
+    public Map<String,CollectionBook> getCollectionByPubyear(){
+        return  schoolReportservice.getCollectionByPubyear();
+    }
+    //各种格式书目分类分布（种）(册)
+    @RequestMapping(value = "/getCollectionBycategory",method = RequestMethod.GET)
+    public Map<String,List> getCollectionBycategory(){
+        return schoolReportservice.getCollectionBycategory();
+    }
+
+    //品种前十的分类
+    @RequestMapping(value = "/getTop10category",method = RequestMethod.GET)
+    public Map<String,List> getTop10category(){
+        return schoolReportservice.getTop10category();
+    }
 }

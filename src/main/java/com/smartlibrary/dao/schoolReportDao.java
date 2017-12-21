@@ -1,6 +1,7 @@
 package com.smartlibrary.dao;
 
 import com.smartlibrary.domain.*;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -79,7 +80,19 @@ public interface schoolReportDao {
     // <!--馆藏基本情况  新增外文分类分布 类别太多 取前十-->
     List<CollectionBook> getCollectionWaiWenNewAddedByCate( CollectionBook i);
 
-
-
-
+    //书目库书目记录总量
+    List<CollectionBook> getCollectionAmountType();
+    //当年新增种类
+    List<CollectionBook> getCollectionAmountTypeYear(int year);
+    //2010年后出版的
+    List<CollectionBook> getCollectionAmountTypePubyear();
+    //书目库书目记录类型统计
+    List<CollectionBook> getCollectionByStackAndBooktype();
+    //图书按出版年份统计（种/ 册）
+    CollectionBook getCollectionByPubyear(@Param("startyear")int startyear, @Param("endyear")int endyear);
+    CollectionBook getCollectionByPubyearUnknow();
+    //各种格式书目分类分布（种）(册)
+    List<CollectionBook> getCollectionBycategory();
+    //品种前十的分类
+    List<CollectionBook> getTop10category();
 }

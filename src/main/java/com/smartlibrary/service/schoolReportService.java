@@ -2,13 +2,11 @@ package com.smartlibrary.service;
 
 import com.smartlibrary.dao.schoolReportDao;
 import com.smartlibrary.domain.*;
+import org.apache.poi.hssf.record.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by tt on 2017/10/17.
@@ -502,8 +500,157 @@ public class schoolReportService {
         return result;
     }
 
+    public Map<String, List> getCollectionAmountType(){
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        List<CollectionBook> collectionList = schoolReportdao.getCollectionAmountType();
+        List<CollectionBook> thisyearCollection = schoolReportdao.getCollectionAmountTypeYear(year);
+        List<CollectionBook> pubyearCollection = schoolReportdao.getCollectionAmountTypePubyear();
+        List<String> stack = new ArrayList<>();
+        List<String> stackthisyear = new ArrayList<>();
+        List<String> stackpubyear = new ArrayList<>();
+        List<Integer> amounttype = new ArrayList<>();
+        List<Integer> amounttypeYear = new ArrayList<>();
+        List<Integer> amounttypePubyear = new ArrayList<>();
+        Map<String,List> CollectionAmountType = new HashMap<>();
+        for(int i=0;i<collectionList.size();i++){
+            stack.add(collectionList.get(i).getStack());
+            amounttype.add(collectionList.get(i).getAmounttype());
+        }
+        for(int i=0;i<thisyearCollection.size();i++){
+            stackthisyear.add(thisyearCollection.get(i).getStack());
+            amounttypeYear.add(thisyearCollection.get(i).getAmounttype());
+        }
+        for(int i=0;i<pubyearCollection.size();i++){
+            stackpubyear.add(pubyearCollection.get(i).getStack());
+            amounttypePubyear.add(pubyearCollection.get(i).getAmounttype());
+        }
+        CollectionAmountType.put("stack",stack);
+        CollectionAmountType.put("amounttype",amounttype);
+        CollectionAmountType.put("stackthisyear",stackthisyear);
+        CollectionAmountType.put("amounttypeYear",amounttypeYear);
+        CollectionAmountType.put("stackpubyear",stackpubyear);
+        CollectionAmountType.put("amounttypePubyear",amounttypePubyear);
+        return CollectionAmountType;
+    }
 
+    public Map<String,List> getCollectionByStackAndBooktype(){
+        List<CollectionBook> CollectionByStackAndBooktype = schoolReportdao.getCollectionByStackAndBooktype();
+        Map<String,List> returnmap = new HashMap<>();
+        List<String> stack = new ArrayList<>();
+        List<String> bookType = new ArrayList<>();
+        List<Integer> amounttype = new ArrayList<>();
+        List<Integer> amountnumber = new ArrayList<>();
+        for(int i=0;i<CollectionByStackAndBooktype.size();i++){
+            if(!stack.contains(CollectionByStackAndBooktype.get(i).getStack())){
+                stack.add(CollectionByStackAndBooktype.get(i).getStack());
+            }
+            if(!bookType.contains(CollectionByStackAndBooktype.get(i).getBookType())){
+                bookType.add(CollectionByStackAndBooktype.get(i).getBookType());
+            }
+            amounttype.add(CollectionByStackAndBooktype.get(i).getAmounttype());
+            amountnumber.add(CollectionByStackAndBooktype.get(i).getAmountnumber());
+        }
+        returnmap.put("stack",stack);
+        returnmap.put("bookType",bookType);
+        returnmap.put("amounttype",amounttype);
+        returnmap.put("amountnumber",amountnumber);
+        return returnmap;
+    }
 
+    public Map<String,CollectionBook> getCollectionByPubyear(){
+        CollectionBook pubyearcollection = new CollectionBook();
+        Map<String,CollectionBook> returndata = new HashMap<>();
+        for(int i=1;i<=12;i++){
+            switch (i){
+                case 1:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(0,1919);
+                    returndata.put("-1919",pubyearcollection);
+                    break;
+                case 2:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(1920,1929);
+                    returndata.put("1920-1929",pubyearcollection);
+                    break;
+                case 3:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(1930,1939);
+                    returndata.put("1930-1939",pubyearcollection);
+                    break;
+                case 4:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(1940,1949);
+                    returndata.put("1940-1949",pubyearcollection);
+                    break;
+                case 5:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(1950,1959);
+                    returndata.put("1950-1959",pubyearcollection);
+                    break;
+                case 6:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(1960,1969);
+                    returndata.put("1960-1969",pubyearcollection);
+                    break;
+                case 7:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(1970,1979);
+                    returndata.put("1970-1979",pubyearcollection);
+                    break;
+                case 8:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(1980,1989);
+                    returndata.put("1980-1989",pubyearcollection);
+                    break;
+                case 9:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(1990,1999);
+                    returndata.put("1990-1999",pubyearcollection);
+                    break;
+                case 10:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(2000,2009);
+                    returndata.put("2000-2009",pubyearcollection);
+                    break;
+                case 11:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(2010,9999);
+                    returndata.put("2010-",pubyearcollection);
+                    break;
+                case 12:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyearUnknow();
+                    returndata.put("不详",pubyearcollection);
+                    break;
+            }
+        }
+        return returndata;
+    }
 
+    public Map<String,List> getCollectionBycategory(){
+        List<CollectionBook> CollectionBycategory = schoolReportdao.getCollectionBycategory();
+        Map<String,List> CollectionBycategorydata = new HashMap<>();
+        List<String> category = new ArrayList<>();
+        List<String> bookType = new ArrayList<>();
+        List<Integer> amounttype = new ArrayList<>();
+        List<Integer> amountnumber = new ArrayList<>();
+        for(int i=0;i<CollectionBycategory.size();i++){
+            if(!category.contains(CollectionBycategory.get(i).getCategory())){
+                category.add(CollectionBycategory.get(i).getCategory());
+            }
+            if(!bookType.contains(CollectionBycategory.get(i).getBookType())){
+                bookType.add(CollectionBycategory.get(i).getBookType());
+            }
+            amounttype.add(CollectionBycategory.get(i).getAmounttype());
+            amountnumber.add(CollectionBycategory.get(i).getAmountnumber());
+        }
+        CollectionBycategorydata.put("category",category);
+        CollectionBycategorydata.put("bookType",bookType);
+        CollectionBycategorydata.put("amounttype",amounttype);
+        CollectionBycategorydata.put("amountnumber",amountnumber);
+        return CollectionBycategorydata;
+    }
 
+    public Map<String,List> getTop10category(){
+        List<CollectionBook> Top10category = schoolReportdao.getTop10category();
+        Map<String,List> Top10categorydata = new HashMap<>();
+        List<String> category = new ArrayList<>();
+        List<Integer> amounttype = new ArrayList<>();
+        for(int i=0;i<Top10category.size();i++){
+            category.add(Top10category.get(i).getCategory());
+            amounttype.add(Top10category.get(i).getAmounttype());
+        }
+        Top10categorydata.put("category",category);
+        Top10categorydata.put("amounttype",amounttype);
+        return Top10categorydata;
+    }
 }

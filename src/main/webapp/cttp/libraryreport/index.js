@@ -1,6 +1,9 @@
 $(function () {
     getResourceCountBy_year();//历年馆藏资源统计
     getCollectionOverall();
+    getCollectionNewAdded();
+    getCollectionNewAddedByCate();
+    getCollectionTuShuNewAddedByCatetable();
     getGctrlsCountBy_year();//历年进馆统计
     getGctrlsCountBy_month();//图书馆门禁按月进馆统计
     getmankindGctrl_Byoneyear();//进馆读者类型比例图
@@ -3146,7 +3149,6 @@ function sortByKey(array,key){
      async:false,
      dataType: 'json',
      success: function(data, textStatus, jqXHR){
-         console.log(data.object)
          var html = template('getCollectionOveralltable',{param:data.object});
          $(".getCollectionOveralltable").html(html);
      dataAll=data.amount;
@@ -3209,3 +3211,199 @@ function sortByKey(array,key){
 
 
  }
+
+function getCollectionNewAdded(){
+    var dataAll=[];
+    var yAxisData=[];
+    var piedata=[];
+    $.ajax({
+        type:'get',
+        url:'../../schoolReport/getCollectionNewAdded',
+        contentType: 'application/json',
+        async:false,
+        dataType: 'json',
+        success: function(data, textStatus, jqXHR){
+            var html = template('getCollectionOveralltable',{param:data.object});
+            $(".getCollectionNewAddedtable").html(html);
+            dataAll=data.amount;
+            yAxisData=data.stack;
+            for(var i=0;i<dataAll.length;i++){
+                // console.log({ value:dataAll[i],name:yAxisData[i]})
+                piedata.push({ value:dataAll[i],name:yAxisData[i]});
+            }
+            //  console.log(piedata)
+            var getCollectionNewAdded = echarts.init(document.getElementById('getCollectionNewAdded'));
+            var getCollectionNewAddedoption = {
+                animation:false,
+                backgroundColor: '#0f375f',
+                title:[
+                    {text:"各馆新增藏书占比",x: '2%', y: '1%',textStyle:{color:"#fff",fontSize:"14"}},
+                    {text:"各馆新增藏书TOP10",x: '40%', y: '1%',textStyle:{color:"#fff",fontSize:"14"}},
+
+                ],
+                grid: [
+                    {x: '50%', y: '7%', width: '45%', height: '90%'},
+                ],
+                tooltip: {
+                    formatter: '{b} ({c})'
+                },
+                xAxis: [
+                    {gridIndex: 0, axisTick: {show:false},axisLabel: {show:false},splitLine: {show:false},axisLine: {show:false }},
+                ],
+                yAxis: [
+                    {  gridIndex: 0, interval:0,data:yAxisData,
+                        axisTick: {show:false}, axisLabel: {show:true},splitLine: {show:false},
+                        axisLine: {show:true,lineStyle:{color:"#6173a3"}},
+                    }
+                ],
+                series: [
+                    {
+                        name: '各馆新增藏书占比',
+                        type: 'pie',
+                        radius : '30%',
+                        center: ['20%', '50%'],
+                        color:['#86c9f4','#4da8ec','#3a91d2','#005fa6','#315f97'],
+                        data:piedata,
+                        label:{normal:{show:false,position:'inside'}},
+                        labelLine:{normal:{show:false} },
+                        itemStyle: {normal: {label:{ show: true,  formatter: '{b} \n ({d}%)', textStyle:{color:'#B1B9D3'}} },},
+                    },
+
+                    {
+                        name: '各馆新增藏书TOP10',
+                        type: 'bar',xAxisIndex: 0,yAxisIndex: 0,barWidth:'45%',
+                        itemStyle:{normal:{color:'#86c9f4'}},
+                        label:{normal:{show:true, position:"right",textStyle:{color:"#9EA7C4"}}},
+                        data: dataAll,
+                    },
+
+                ]
+            };
+            getCollectionNewAdded.setOption(getCollectionNewAddedoption);
+        }
+    });
+
+
+}
+
+function getCollectionNewAddedByCate(){
+    var booktype=[];
+    var category=[];
+    var servicedata=[];
+    $.ajax({
+        type:'get',
+        url:'../../schoolReport/getCollectionNewAddedByCate',
+        contentType: 'application/json',
+        async:false,
+        dataType: 'json',
+        success: function(data, textStatus, jqXHR){
+            console.log(data.ob)
+            var html = template('getCollectionNewAddedByCatetable',{param:data.ob});
+            $(".getCollectionNewAddedByCatetable").html(html);
+            booktype=data.booktype;
+            category=data.category;
+            for(var key in data){
+                if(key!="booktype"&&key!="category")
+                {
+                    servicedata.push({ name: key,type: 'bar',data:data[key]});
+                }
+            }
+            var getCollectionNewAddedByCate = echarts.init(document.getElementById('getCollectionNewAddedByCate'));
+            var getCollectionNewAddedByCateoption = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                legend: {
+                    data:booktype,
+                    align: 'right',
+                    right: 10
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: [{
+                    type: 'category',
+                    data: category
+                }],
+                yAxis: [{
+                    type: 'value',
+                    name: '总数(本)',
+                    axisLabel: {
+                        formatter: '{value}'
+                    }
+                }],
+                series: servicedata
+            };
+            getCollectionNewAddedByCate.setOption(getCollectionNewAddedByCateoption);
+        }
+    });
+
+
+}
+
+function getCollectionTuShuNewAddedByCatetable(){
+    var booktype=[];
+    var category=[];
+    var servicedata=[];
+    $.ajax({
+        type:'get',
+        url:'../../schoolReport/getCollectionTuShuNewAddedByCate',
+        contentType: 'application/json',
+        async:false,
+        dataType: 'json',
+        success: function(data, textStatus, jqXHR){
+            console.log(data.ob)
+            var html = template('getCollectionTuShuNewAddedByCatetable',{param:data.ob});
+            $(".getCollectionTuShuNewAddedByCatetable").html(html);
+            booktype=data.booktype;
+            category=data.category;
+            for(var key in data){
+                if(key!="booktype"&&key!="category")
+                {
+                    servicedata.push({ name: key,type: 'bar',data:data[key]});
+                }
+            }
+            var getCollectionTuShuNewAddedByCate = echarts.init(document.getElementById('getCollectionTuShuNewAddedByCate'));
+            var getCollectionTuShuNewAddedByCateoption = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                legend: {
+                    data:booktype,
+                    align: 'right',
+                    right: 10
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: [{
+                    type: 'category',
+                    data: category
+                }],
+                yAxis: [{
+                    type: 'value',
+                    name: '总数(本)',
+                    axisLabel: {
+                        formatter: '{value}'
+                    }
+                }],
+                series: servicedata
+            };
+            getCollectionTuShuNewAddedByCate.setOption(getCollectionTuShuNewAddedByCateoption);
+        }
+    });
+
+
+}

@@ -306,7 +306,56 @@
         )
     </select>
 
+    <select id="getCollectionAmountType" resultType="CollectionBook">
+        SELECT stack,SUM(amounttype) amounttype
+        FROM library_report_bookcollection_stack_count
+        GROUP BY stack
+        ORDER BY stack ASC
+    </select>
 
+    <select id="getCollectionAmountTypeYear" parameterType="int" resultType="CollectionBook">
+        SELECT stack,amounttype
+        FROM library_report_bookcollection_addyear
+        WHERE `year` = #{year}
+        ORDER BY stack ASC
+    </select>
 
+    <select id="getCollectionAmountTypePubyear" resultType="CollectionBook">
+        SELECT stack,SUM(amounttype) amounttype
+        FROM library_report_bookcollection_pubyear
+        WHERE `year`!='不详' AND `year`>2010
+        GROUP BY stack
+        ORDER BY stack ASC
+    </select>
 
+    <select id="getCollectionByStackAndBooktype" resultType="CollectionBook">
+        SELECT stack,bookType,amounttype
+        FROM library_report_bookcollection_stack_count
+        ORDER BY stack ASC , bookType ASC
+    </select>
+
+    <select id="getCollectionByPubyear" resultType="CollectionBook">
+        SELECT SUM(amounttype) amounttype,SUM(amountnumber) amountnumber
+        FROM library_report_bookcollection_pubyear
+        WHERE `year`!='不详'
+        AND `year` &lt;= #{endyear}
+        AND `year` &gt;= #{startyear}
+    </select>
+    <select id="getCollectionByPubyearUnknow" resultType="CollectionBook">
+        SELECT SUM(amounttype) amounttype,SUM(amountnumber) amountnumber
+        FROM library_report_bookcollection_pubyear
+        WHERE `year` = '不详'
+    </select>
+    <select id="getCollectionBycategory" resultType="CollectionBook">
+        SELECT category,bookType,amounttype,amountnumber
+        FROM library_report_bookcollection_category_count
+        ORDER BY category ASC,bookType ASC
+    </select>
+    <select id="getTop10category" resultType="CollectionBook">
+        SELECT category,SUM(amounttype) amounttype
+        FROM library_report_bookcollection_category_count
+        GROUP BY category
+        ORDER BY amounttype DESC
+        LIMIT 10
+    </select>
 </mapper>

@@ -69,6 +69,18 @@
         </div>
         <div class="pagination">1</div>
     </div>
+    <div class="page chapter" style="height: 1400px;">
+        <div class="first-title">1.2 书目记录统计（种）</div>
+        <div class="second-title">1.2.1 书目库书目记录总量</div>
+        <div class="table getCollectionAmountTypeTable"></div>
+        <div class="para-txt lend-return"><span class="emphases collectionyear"></span>年年底书目库共有书目数据<span class="emphases amount1"></span> 种（包括部分电子书刊），当年新增<span class="emphases amount3"></span> 种，2010年以后出版文献 <span class="emphases amount2"></span> 种。</div>
+        <div class="pagination">7</div>
+    </div>
+    <div class="page chapter" style="height: 1250px;">
+        <div class="second-title">1.2.2 书目库书目记录类型统计</div>
+        <div class="table getCollectionByStackAndBooktype"></div>
+        <div class="pagination">7</div>
+    </div>
     <div class="page chapter" id="123">
         <div class="first-title">1.2 院系馆藏信息共享情况</div>
         <div class="second-title">1.2.1 总体情况</div>
@@ -506,6 +518,56 @@
         </tr>
         {{/each}}
     </table>
+</script>
+<script type="text/html" id="getCollectionAmountType">
+    <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th style="width: 40%">书目库</th>
+            <th style="width: 15%">总量（种）</th>
+            <th style="width: 20%">当年新增（种）</th>
+            <th style="width: 25%">2010年以后出版（种）</th>
+        </tr>
+        {{each param as p}}
+        <tr>
+            <td style="padding: 5px 5px;">{{p.stack}}</td>
+            <td style="padding: 5px 5px;">{{p.amounttype}}</td>
+            <td style="padding: 5px 5px;">{{p.amounttypeYear}}</td>
+            <td style="padding: 5px 5px;">{{p.amounttypePubyear}}</td>
+        </tr>
+        {{/each}}
+        <tr>
+            <td>合计</td>
+            <td>{{amount1}}</td>
+            <td>{{amount3}}</td>
+            <td>{{amount2}}</td>
+        </tr>
+    </table>
+</script>
+<script type="text/html" id="getCollectionByStackAndBooktype">
+<table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
+    <tr>
+        <th style="width: 30%">书目库</th>
+        {{each bookType as p}}
+        <th>{{p}}</th>
+        {{/each}}
+        <th>合计</th>
+    </tr>
+    {{each param as p}}
+    <tr>
+        <td style="padding: 5px 5px;">{{p.stack}}</td>
+        {{each p.amounttype as a}}
+        <td style="padding: 5px 5px;">{{a}}</td>
+        {{/each}}
+        <td style="padding: 5px 5px;">{{p.amount}}</td>
+    </tr>
+    {{/each}}
+    <tr>
+        <td>总计</td>
+        {{each arr1 as a}}
+        <td>{{a}}</td>
+        {{/each}}
+    </tr>
+</table>
 </script>
 </body>
 </html>

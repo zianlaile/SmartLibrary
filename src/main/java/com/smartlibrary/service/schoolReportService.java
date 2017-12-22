@@ -239,10 +239,422 @@ public class schoolReportService {
         return typeandmonthdata;
     }
 
+    //   <!--馆藏基本情况  总体情况 馆数量太多 取前十-->
+    public Map<String,List> getCollectionOverall(CollectionBook b) {
+        List<CollectionBook> data= schoolReportdao.getCollectionOverall(b);
+        ArrayList<String> stack=new  ArrayList<String>();
+        ArrayList<Integer> amount=new  ArrayList<Integer>();
+        Map<String ,List> result=new HashMap<String ,List>();
+        for(int i=0;i<data.size();i++){
+            stack.add(data.get(i).getStack());
+            amount.add(data.get(i).getAmount());
+        }
+        result.put("stack",stack);
+        result.put("amount",amount);
+        result.put("object",data);
+        return result;
+    }
+    //   <!--馆藏基本情况  当年新增情况 馆数量太多 取前十-->
+    public Map<String,List> getCollectionNewAdded(CollectionBook b) {
+        List<CollectionBook> data= schoolReportdao.getCollectionNewAdded(b);
+        ArrayList<String> stack=new  ArrayList<String>();
+        ArrayList<Integer> amount=new  ArrayList<Integer>();
+        Map<String ,List> result=new HashMap<String ,List>();
+        for(int i=0;i<data.size();i++){
+            stack.add(data.get(i).getStack());
+            amount.add(data.get(i).getAmount());
+        }
+        result.put("stack",stack);
+        result.put("amount",amount);
+        result.put("object",data);
+        return result;
+    }
+
+    //   <!--馆藏基本情况  新增馆藏分类分布 类别太多 取前十-->
+    public Map<String,List> getCollectionNewAddedByCate(CollectionBook b) {
+        List<CollectionBook> data= schoolReportdao.getCollectionNewAddedByCate(b);
+        ArrayList<String> category=new  ArrayList<String>();
+        ArrayList<String> booktype=new  ArrayList<String>();
+        ArrayList<CollectionBook> ob=new  ArrayList<CollectionBook>();
+
+        ArrayList<Integer> ZWTS=new  ArrayList<Integer>();
+        ArrayList<Integer> ZWZS=new  ArrayList<Integer>();
+        ArrayList<Integer> QT=new  ArrayList<Integer>();
+        ArrayList<Integer> WKHDB=new  ArrayList<Integer>();
+        ArrayList<Integer> WWTS=new  ArrayList<Integer>();
+        ArrayList<Integer> XWLW=new  ArrayList<Integer>();
+        ArrayList<Integer> GTTS=new  ArrayList<Integer>();
+        ArrayList<Integer> TCTS=new  ArrayList<Integer>();
+
+
+        Map<String ,List> result=new HashMap<String ,List>();
+        for(int i=0;i<data.size();i++){
+            String  cate=data.get(i).getCategory();
+            String  bk=data.get(i).getBookType();
+            if(!booktype.contains(bk)) {
+                booktype.add(bk);
+            }
+            int  am=data.get(i).getAmount();
+            switch(bk){
+                case "中文图书":
+                    ZWTS.add(am);
+                    break;
+                case "中文赠书":
+                    ZWZS.add(am);
+                    break;
+                case "其他":
+                    QT.add(am);
+                    break;
+                case "外刊合订本":
+                    WKHDB.add(am);
+                    break;
+                case "外文图书":
+                    WWTS.add(am);
+                    break;
+                case "学位论文":
+                    XWLW.add(am);
+                    break;
+                case "港台图书":
+                    GTTS.add(am);
+                    break;
+                case "特藏图书":
+                    TCTS.add(am);
+                    break;
+
+            }
+            if(!category.contains(cate) ){
+                category.add(cate);
+            }
+        }
 
 
 
 
+        for(int k=0 ;k<category.size();k++){
+            CollectionBook c=new CollectionBook();
+            c.setCategory(category.get(k));
+            for(int i=0;i<data.size();i++)
+            {
+                String  cate=data.get(i).getCategory();
+                String  bk=data.get(i).getBookType();
+                int  am=data.get(i).getAmount();
+                if(cate.equals(category.get(k))){
+                    switch(bk){
+                        case "中文图书":
+                            c.setZWTS(am);
+                            break;
+                        case "中文赠书":
+                            c.setZWZS(am);
+                            break;
+                        case "其他":
+                            c.setQT(am);
+                            break;
+                        case "外刊合订本":
+                            c.setWKHDB(am);
+                            break;
+                        case "外文图书":
+                            c.setWWTS(am);
+                            break;
+                        case "学位论文":
+                            c.setXWLW(am);
+                            break;
+                        case "港台图书":
+                            c.setGTTS(am);
+                            break;
+                        case "特藏图书":
+                            c.setTCTS(am);
+                            break;
+                    }
+
+                }
+            }
+            ob.add(c);
+
+        }
+        result.put("category",category);
+        result.put("booktype",booktype);
+
+        result.put("中文图书",ZWTS);
+        result.put("中文赠书",ZWZS);
+        result.put("其他",QT);
+        result.put("外刊合订本",WKHDB);
+        result.put("外文图书",WWTS);
+        result.put("学位论文",XWLW);
+        result.put("港台图书",GTTS);
+        result.put("特藏图书",TCTS);
+        result.put("ob",ob);
+        return result;
+    }
+
+    // <!--馆藏基本情况  新增图书分类分布 类别太多 取前十-->
+    public Map<String,List> getCollectionTuShuNewAddedByCate(CollectionBook b) {
+        List<CollectionBook> data= schoolReportdao.getCollectionTuShuNewAddedByCate(b);
+        ArrayList<String> category=new  ArrayList<String>();
+        ArrayList<String> booktype=new  ArrayList<String>();
+        ArrayList<CollectionBook> ob=new  ArrayList<CollectionBook>();
+        ArrayList<Integer> ZWTS=new  ArrayList<Integer>();
+        ArrayList<Integer> WWTS=new  ArrayList<Integer>();
+        ArrayList<Integer> GTTS=new  ArrayList<Integer>();
+        ArrayList<Integer> TCTS=new  ArrayList<Integer>();
 
 
+        Map<String ,List> result=new HashMap<String ,List>();
+        for(int i=0;i<data.size();i++){
+            String  cate=data.get(i).getCategory();
+            if(!category.contains(cate) ){
+                category.add(cate);
+            }
+            String  bk=data.get(i).getBookType();
+            if(!booktype.contains(bk)) {
+                booktype.add(bk);
+            }
+            int  am=data.get(i).getAmount();
+            switch(bk){
+                case "中文图书":
+                    ZWTS.add(am);
+                    break;
+                case "外文图书":
+                    WWTS.add(am);
+                    break;
+                case "港台图书":
+                    GTTS.add(am);
+                    break;
+                case "特藏图书":
+                    TCTS.add(am);
+                    break;
+
+            }
+        }
+
+
+        for(int k=0 ;k<category.size();k++){
+            CollectionBook c=new CollectionBook();
+            c.setCategory(category.get(k));
+            for(int i=0;i<data.size();i++)
+            {
+                String  cate=data.get(i).getCategory();
+                String  bk=data.get(i).getBookType();
+                int  am=data.get(i).getAmount();
+                if(cate.equals(category.get(k))){
+                    switch(bk){
+                        case "中文图书":
+                            c.setZWTS(am);
+                            break;
+                        case "外文图书":
+                            c.setWWTS(am);
+                            break;
+                        case "港台图书":
+                            c.setGTTS(am);
+                            break;
+                        case "特藏图书":
+                            c.setTCTS(am);
+                            break;
+                    }
+
+                }
+            }
+            ob.add(c);
+
+        }
+        result.put("category",category);
+        result.put("booktype",booktype);
+
+        result.put("中文图书",ZWTS);
+        result.put("外文图书",WWTS);
+        result.put("港台图书",GTTS);
+        result.put("特藏图书",TCTS);
+        result.put("ob",ob);
+        return result;
+    }
+    // <!--馆藏基本情况  新增外文分类分布 类别太多 取前十-->
+    public  Map<String,List> getCollectionWaiWenNewAddedByCate(CollectionBook b) {
+        List<CollectionBook> data= schoolReportdao.getCollectionWaiWenNewAddedByCate(b);
+        ArrayList<String> category=new  ArrayList<String>();
+        ArrayList<String> booktype=new  ArrayList<String>();
+
+        ArrayList<Integer> WWTS=new  ArrayList<Integer>();
+
+        Map<String ,List> result=new HashMap<String ,List>();
+        int count=0;
+        for(int i=0;i<data.size();i++){
+            String  cate=data.get(i).getCategory();
+            if(!category.contains(cate) ){
+                category.add(cate);
+            }
+            String  bk=data.get(i).getBookType();
+            if(!booktype.contains(bk)) {
+                booktype.add(bk);
+            }
+            int  am=data.get(i).getAmount();
+            switch(bk){
+
+                case "外文图书":
+                    WWTS.add(am);
+                    count=count+am;
+                    break;
+
+            }
+        }
+        List<Integer> counts =new LinkedList<Integer>();
+        counts.add(count);
+        result.put("category",category);
+        result.put("booktype",booktype);
+        result.put("外文图书",WWTS);
+        result.put("count",counts);
+        return result;
+    }
+
+    public Map<String, List> getCollectionAmountType(){
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        List<CollectionBook> collectionList = schoolReportdao.getCollectionAmountType();
+        List<CollectionBook> thisyearCollection = schoolReportdao.getCollectionAmountTypeYear(year);
+        List<CollectionBook> pubyearCollection = schoolReportdao.getCollectionAmountTypePubyear();
+        List<String> stack = new ArrayList<>();
+        List<String> stackthisyear = new ArrayList<>();
+        List<String> stackpubyear = new ArrayList<>();
+        List<Integer> amounttype = new ArrayList<>();
+        List<Integer> amounttypeYear = new ArrayList<>();
+        List<Integer> amounttypePubyear = new ArrayList<>();
+        Map<String,List> CollectionAmountType = new HashMap<>();
+        for(int i=0;i<collectionList.size();i++){
+            stack.add(collectionList.get(i).getStack());
+            amounttype.add(collectionList.get(i).getAmounttype());
+        }
+        for(int i=0;i<thisyearCollection.size();i++){
+            stackthisyear.add(thisyearCollection.get(i).getStack());
+            amounttypeYear.add(thisyearCollection.get(i).getAmounttype());
+        }
+        for(int i=0;i<pubyearCollection.size();i++){
+            stackpubyear.add(pubyearCollection.get(i).getStack());
+            amounttypePubyear.add(pubyearCollection.get(i).getAmounttype());
+        }
+        CollectionAmountType.put("stack",stack);
+        CollectionAmountType.put("amounttype",amounttype);
+        CollectionAmountType.put("stackthisyear",stackthisyear);
+        CollectionAmountType.put("amounttypeYear",amounttypeYear);
+        CollectionAmountType.put("stackpubyear",stackpubyear);
+        CollectionAmountType.put("amounttypePubyear",amounttypePubyear);
+        return CollectionAmountType;
+    }
+
+    public Map<String,List> getCollectionByStackAndBooktype(){
+        List<CollectionBook> CollectionByStackAndBooktype = schoolReportdao.getCollectionByStackAndBooktype();
+        Map<String,List> returnmap = new HashMap<>();
+        List<String> stack = new ArrayList<>();
+        List<String> bookType = new ArrayList<>();
+        List<Integer> amounttype = new ArrayList<>();
+        List<Integer> amountnumber = new ArrayList<>();
+        for(int i=0;i<CollectionByStackAndBooktype.size();i++){
+            if(!stack.contains(CollectionByStackAndBooktype.get(i).getStack())){
+                stack.add(CollectionByStackAndBooktype.get(i).getStack());
+            }
+            if(!bookType.contains(CollectionByStackAndBooktype.get(i).getBookType())){
+                bookType.add(CollectionByStackAndBooktype.get(i).getBookType());
+            }
+            amounttype.add(CollectionByStackAndBooktype.get(i).getAmounttype());
+            amountnumber.add(CollectionByStackAndBooktype.get(i).getAmountnumber());
+        }
+        returnmap.put("stack",stack);
+        returnmap.put("bookType",bookType);
+        returnmap.put("amounttype",amounttype);
+        returnmap.put("amountnumber",amountnumber);
+        return returnmap;
+    }
+
+    public Map<String,CollectionBook> getCollectionByPubyear(){
+        CollectionBook pubyearcollection = new CollectionBook();
+        Map<String,CollectionBook> returndata = new HashMap<>();
+        for(int i=1;i<=12;i++){
+            switch (i){
+                case 1:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(0,1919);
+                    returndata.put("-1919",pubyearcollection);
+                    break;
+                case 2:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(1920,1929);
+                    returndata.put("1920-1929",pubyearcollection);
+                    break;
+                case 3:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(1930,1939);
+                    returndata.put("1930-1939",pubyearcollection);
+                    break;
+                case 4:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(1940,1949);
+                    returndata.put("1940-1949",pubyearcollection);
+                    break;
+                case 5:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(1950,1959);
+                    returndata.put("1950-1959",pubyearcollection);
+                    break;
+                case 6:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(1960,1969);
+                    returndata.put("1960-1969",pubyearcollection);
+                    break;
+                case 7:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(1970,1979);
+                    returndata.put("1970-1979",pubyearcollection);
+                    break;
+                case 8:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(1980,1989);
+                    returndata.put("1980-1989",pubyearcollection);
+                    break;
+                case 9:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(1990,1999);
+                    returndata.put("1990-1999",pubyearcollection);
+                    break;
+                case 10:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(2000,2009);
+                    returndata.put("2000-2009",pubyearcollection);
+                    break;
+                case 11:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyear(2010,9999);
+                    returndata.put("2010-",pubyearcollection);
+                    break;
+                case 12:
+                    pubyearcollection = schoolReportdao.getCollectionByPubyearUnknow();
+                    returndata.put("不详",pubyearcollection);
+                    break;
+            }
+        }
+        return returndata;
+    }
+
+    public Map<String,List> getCollectionBycategory(){
+        List<CollectionBook> CollectionBycategory = schoolReportdao.getCollectionBycategory();
+        Map<String,List> CollectionBycategorydata = new HashMap<>();
+        List<String> category = new ArrayList<>();
+        List<String> bookType = new ArrayList<>();
+        List<Integer> amounttype = new ArrayList<>();
+        List<Integer> amountnumber = new ArrayList<>();
+        for(int i=0;i<CollectionBycategory.size();i++){
+            if(!category.contains(CollectionBycategory.get(i).getCategory())){
+                category.add(CollectionBycategory.get(i).getCategory());
+            }
+            if(!bookType.contains(CollectionBycategory.get(i).getBookType())){
+                bookType.add(CollectionBycategory.get(i).getBookType());
+            }
+            amounttype.add(CollectionBycategory.get(i).getAmounttype());
+            amountnumber.add(CollectionBycategory.get(i).getAmountnumber());
+        }
+        CollectionBycategorydata.put("category",category);
+        CollectionBycategorydata.put("bookType",bookType);
+        CollectionBycategorydata.put("amounttype",amounttype);
+        CollectionBycategorydata.put("amountnumber",amountnumber);
+        return CollectionBycategorydata;
+    }
+
+    public Map<String,List> getTop10category(){
+        List<CollectionBook> Top10category = schoolReportdao.getTop10category();
+        Map<String,List> Top10categorydata = new HashMap<>();
+        List<String> category = new ArrayList<>();
+        List<Integer> amounttype = new ArrayList<>();
+        for(int i=0;i<Top10category.size();i++){
+            category.add(Top10category.get(i).getCategory());
+            amounttype.add(Top10category.get(i).getAmounttype());
+        }
+        Top10categorydata.put("category",category);
+        Top10categorydata.put("amounttype",amounttype);
+        return Top10categorydata;
+    }
 }

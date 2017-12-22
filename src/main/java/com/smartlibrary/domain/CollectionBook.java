@@ -10,6 +10,98 @@ public class CollectionBook {
     String category;
     String   bookType;
     int  amount;
+    int amounttype;
+    int amountnumber;
+
+    public int getAmounttype() {
+        return amounttype;
+    }
+
+    public void setAmounttype(int amounttype) {
+        this.amounttype = amounttype;
+    }
+
+    public int getAmountnumber() {
+        return amountnumber;
+    }
+
+    public void setAmountnumber(int amountnumber) {
+        this.amountnumber = amountnumber;
+    }
+
+
+    int ZWTS;
+    int ZWZS;
+    int QT;
+    int WKHDB;
+    int WWTS;
+    int XWLW;
+    int GTTS;
+    int TCTS;
+
+    public int getZWTS() {
+        return ZWTS;
+    }
+
+    public void setZWTS(int ZWTS) {
+        this.ZWTS = ZWTS;
+    }
+
+    public int getZWZS() {
+        return ZWZS;
+    }
+
+    public void setZWZS(int ZWZS) {
+        this.ZWZS = ZWZS;
+    }
+
+    public int getQT() {
+        return QT;
+    }
+
+    public void setQT(int QT) {
+        this.QT = QT;
+    }
+
+    public int getWKHDB() {
+        return WKHDB;
+    }
+
+    public void setWKHDB(int WKHDB) {
+        this.WKHDB = WKHDB;
+    }
+
+    public int getWWTS() {
+        return WWTS;
+    }
+
+    public void setWWTS(int WWTS) {
+        this.WWTS = WWTS;
+    }
+
+    public int getXWLW() {
+        return XWLW;
+    }
+
+    public void setXWLW(int XWLW) {
+        this.XWLW = XWLW;
+    }
+
+    public int getGTTS() {
+        return GTTS;
+    }
+
+    public void setGTTS(int GTTS) {
+        this.GTTS = GTTS;
+    }
+
+    public int getTCTS() {
+        return TCTS;
+    }
+
+    public void setTCTS(int TCTS) {
+        this.TCTS = TCTS;
+    }
 
     public int getId() {
         return id;

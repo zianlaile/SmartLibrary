@@ -166,4 +166,65 @@ public class schoolReportController {
         return schoolReportservice.getICTimesBYTypeOneyear(i);
     }
 
+
+    // <!--馆藏基本情况  总体情况 馆数量太多 取前十-->
+    @RequestMapping(value = "/getCollectionOverall",method = RequestMethod.GET)
+    public Map<String,List> getCollectionOverall(){
+        CollectionBook i=new CollectionBook();
+        return schoolReportservice.getCollectionOverall(i);
+    }
+    //    <!--馆藏基本情况  当年新增情况 馆数量太多 取前十-->
+    @RequestMapping(value = "/getCollectionNewAdded",method = RequestMethod.GET)
+    public Map<String,List> getCollectionNewAdded(){
+        CollectionBook i=new CollectionBook();
+        return schoolReportservice.getCollectionNewAdded(i);
+    }
+
+    //    <!--馆藏基本情况  新增馆藏分类分布 类别太多 取前十-->
+    @RequestMapping(value = "/getCollectionNewAddedByCate",method = RequestMethod.GET)
+    public Map<String,List> getCollectionNewAddedByCate(){
+        CollectionBook i=new CollectionBook();
+        return schoolReportservice.getCollectionNewAddedByCate(i);
+    }
+
+    //    <!--馆藏基本情况  新增馆藏分类分布 类别太多 取前十-->
+    @RequestMapping(value = "/getCollectionTuShuNewAddedByCate",method = RequestMethod.GET)
+    public Map<String,List> getCollectionTuShuNewAddedByCate(){
+        CollectionBook i=new CollectionBook();
+        return schoolReportservice.getCollectionTuShuNewAddedByCate(i);
+    }
+    //    <!--馆藏基本情况  新增外文分类分布 类别太多 取前十-->
+    @RequestMapping(value = "/getCollectionWaiWenNewAddedByCate",method = RequestMethod.GET)
+    public Map<String,List> getCollectionWaiWenNewAddedByCate(){
+        CollectionBook i=new CollectionBook();
+        return schoolReportservice.getCollectionWaiWenNewAddedByCate(i);
+    }
+
+    //书目库书目记录总量
+    @RequestMapping(value = "/getCollectionAmountType",method = RequestMethod.GET)
+    public Map<String,List> getCollectionAmountType(){
+        return schoolReportservice.getCollectionAmountType();
+    }
+
+    //书目库书目记录类型统计
+    @RequestMapping(value = "/getCollectionByStackAndBooktype",method = RequestMethod.GET)
+    public Map<String,List> getCollectionByStackAndBooktype(){
+        return schoolReportservice.getCollectionByStackAndBooktype();
+    }
+    //图书按出版年份统计
+    @RequestMapping(value = "/getCollectionByPubyear",method = RequestMethod.GET)
+    public Map<String,CollectionBook> getCollectionByPubyear(){
+        return  schoolReportservice.getCollectionByPubyear();
+    }
+    //各种格式书目分类分布（种）(册)
+    @RequestMapping(value = "/getCollectionBycategory",method = RequestMethod.GET)
+    public Map<String,List> getCollectionBycategory(){
+        return schoolReportservice.getCollectionBycategory();
+    }
+
+    //品种前十的分类
+    @RequestMapping(value = "/getTop10category",method = RequestMethod.GET)
+    public Map<String,List> getTop10category(){
+        return schoolReportservice.getTop10category();
+    }
 }

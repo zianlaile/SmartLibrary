@@ -1,5 +1,10 @@
 $(function () {
     getResourceCountBy_year();//历年馆藏资源统计
+    getCollectionOverall();
+    getCollectionNewAdded();
+    getCollectionNewAddedByCate();
+    getCollectionTuShuNewAddedByCate();
+    getCollectionWaiWenNewAddedByCate();
     getGctrlsCountBy_year();//历年进馆统计
     getGctrlsCountBy_month();//图书馆门禁按月进馆统计
     getmankindGctrl_Byoneyear();//进馆读者类型比例图
@@ -3031,6 +3036,7 @@ function getprints_hour() {
 }
 function readerLend() {
     $.get('../../schoolReport/getReder_booklendCount_Byyear',function (info) {
+        //console.log(info)
         $(".reader-info").find(".max-name").text(info[0].name);
         $(".reader-info").find(".sec-name").text(info[1].name);
         $(".reader-info").find(".third-name").text(info[2].name);
@@ -3129,4 +3135,402 @@ function sortByKey(array,key){
         var y=b[key];
         return ((x<y)?-1:((x>y)?1:0));
     });
+}
+
+
+
+ function getCollectionOverall(){
+     var dataAll=[];
+     var yAxisData=[];
+     var piedata=[];
+     $.ajax({
+     type:'get',
+     url:'../../schoolReport/getCollectionOverall',
+     contentType: 'application/json',
+     async:false,
+     dataType: 'json',
+     success: function(data, textStatus, jqXHR){
+         var html = template('getCollectionOveralltable',{param:data.object});
+         $(".getCollectionOveralltable").html(html);
+     dataAll=data.amount;
+     yAxisData=data.stack;
+     for(var i=0;i<dataAll.length;i++){
+        // console.log({ value:dataAll[i],name:yAxisData[i]})
+         piedata.push({ value:dataAll[i],name:yAxisData[i]});
+     }
+       //  console.log(piedata)
+         var getCollectionOverall = echarts.init(document.getElementById('getCollectionOverall'));
+         var getCollectionOveralloption = {
+             animation:false,
+         backgroundColor: '#0f375f',
+         title:[
+         {text:"各馆藏书占比",x: '2%', y: '1%',textStyle:{color:"#fff",fontSize:"14"}},
+         {text:"各馆藏书TOP10",x: '40%', y: '1%',textStyle:{color:"#fff",fontSize:"14"}},
+
+         ],
+         grid: [
+         {x: '50%', y: '7%', width: '45%', height: '90%'},
+         ],
+         tooltip: {
+         formatter: '{b} ({c})'
+         },
+         xAxis: [
+         {gridIndex: 0, axisTick: {show:false},axisLabel: {show:false},splitLine: {show:false},axisLine: {show:false }},
+         ],
+         yAxis: [
+         {  gridIndex: 0, interval:0,data:yAxisData,
+         axisTick: {show:false}, axisLabel: {show:true},splitLine: {show:false},
+         axisLine: {show:true,lineStyle:{color:"#6173a3"}},
+         }
+         ],
+         series: [
+         {
+         name: '各馆藏书占比',
+         type: 'pie',
+         radius : '30%',
+         center: ['20%', '50%'],
+         color:['#86c9f4','#4da8ec','#3a91d2','#005fa6','#315f97'],
+         data:piedata,
+         label:{normal:{show:false,position:'inside'}},
+         labelLine:{normal:{show:false} },
+         itemStyle: {normal: {label:{ show: true,  formatter: '{b} \n ({d}%)', textStyle:{color:'#B1B9D3'}} },},
+         },
+
+         {
+         name: '各馆藏书TOP10',
+         type: 'bar',xAxisIndex: 0,yAxisIndex: 0,barWidth:'45%',
+         itemStyle:{normal:{color:'#86c9f4'}},
+         label:{normal:{show:true, position:"right",textStyle:{color:"#9EA7C4"}}},
+         data: dataAll,
+         },
+
+         ]
+         };
+         getCollectionOverall.setOption(getCollectionOveralloption);
+     }
+     });
+
+
+ }
+
+function getCollectionNewAdded(){
+    var dataAll=[];
+    var yAxisData=[];
+    var piedata=[];
+    $.ajax({
+        type:'get',
+        url:'../../schoolReport/getCollectionNewAdded',
+        contentType: 'application/json',
+        async:false,
+        dataType: 'json',
+        success: function(data, textStatus, jqXHR){
+            var html = template('getCollectionOveralltable',{param:data.object});
+            $(".getCollectionNewAddedtable").html(html);
+            dataAll=data.amount;
+            yAxisData=data.stack;
+            for(var i=0;i<dataAll.length;i++){
+                // console.log({ value:dataAll[i],name:yAxisData[i]})
+                piedata.push({ value:dataAll[i],name:yAxisData[i]});
+            }
+            //  console.log(piedata)
+            var getCollectionNewAdded = echarts.init(document.getElementById('getCollectionNewAdded'));
+            var getCollectionNewAddedoption = {
+                animation:false,
+                backgroundColor: '#0f375f',
+                title:[
+                    {text:"各馆新增藏书占比",x: '2%', y: '1%',textStyle:{color:"#fff",fontSize:"14"}},
+                    {text:"各馆新增藏书TOP10",x: '40%', y: '1%',textStyle:{color:"#fff",fontSize:"14"}},
+
+                ],
+                grid: [
+                    {x: '50%', y: '7%', width: '45%', height: '90%'},
+                ],
+                tooltip: {
+                    formatter: '{b} ({c})'
+                },
+                xAxis: [
+                    {gridIndex: 0, axisTick: {show:false},axisLabel: {show:false},splitLine: {show:false},axisLine: {show:false }},
+                ],
+                yAxis: [
+                    {  gridIndex: 0, interval:0,data:yAxisData,
+                        axisTick: {show:false}, axisLabel: {show:true},splitLine: {show:false},
+                        axisLine: {show:true,lineStyle:{color:"#6173a3"}},
+                    }
+                ],
+                series: [
+                    {
+                        name: '各馆新增藏书占比',
+                        type: 'pie',
+                        radius : '30%',
+                        center: ['20%', '50%'],
+                        color:['#86c9f4','#4da8ec','#3a91d2','#005fa6','#315f97'],
+                        data:piedata,
+                        label:{normal:{show:false,position:'inside'}},
+                        labelLine:{normal:{show:false} },
+                        itemStyle: {normal: {label:{ show: true,  formatter: '{b} \n ({d}%)', textStyle:{color:'#B1B9D3'}} },},
+                    },
+
+                    {
+                        name: '各馆新增藏书TOP10',
+                        type: 'bar',xAxisIndex: 0,yAxisIndex: 0,barWidth:'45%',
+                        itemStyle:{normal:{color:'#86c9f4'}},
+                        label:{normal:{show:true, position:"right",textStyle:{color:"#9EA7C4"}}},
+                        data: dataAll,
+                    },
+
+                ]
+            };
+            getCollectionNewAdded.setOption(getCollectionNewAddedoption);
+        }
+    });
+
+
+}
+
+function getCollectionNewAddedByCate(){
+    var booktype=[];
+    var category=[];
+    var servicedata=[];
+    $.ajax({
+        type:'get',
+        url:'../../schoolReport/getCollectionNewAddedByCate',
+        contentType: 'application/json',
+        async:false,
+        dataType: 'json',
+        success: function(data, textStatus, jqXHR){
+            var html = template('getCollectionNewAddedByCatetable',{param:data.ob});
+            $(".getCollectionNewAddedByCatetable").html(html);
+            booktype=data.booktype;
+            category=data.category;
+            for(var key in data){
+                if(key!="booktype"&&key!="category"&&key!="ob")
+                {
+                    servicedata.push({ name: key,type: 'bar',data:data[key]});
+                }
+            }
+            var getCollectionNewAddedByCate = echarts.init(document.getElementById('getCollectionNewAddedByCate'));
+            var getCollectionNewAddedByCateoption = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                legend: {
+                    data:booktype,
+                    align: 'right',
+                    right: 10
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: [{
+                    type: 'category',
+                    data: category
+                }],
+                yAxis: [{
+                    type: 'value',
+                    name: '总数(本)',
+                    axisLabel: {
+                        formatter: '{value}'
+                    }
+                }],
+                series: servicedata
+            };
+            getCollectionNewAddedByCate.setOption(getCollectionNewAddedByCateoption);
+        }
+    });
+
+
+}
+
+function getCollectionTuShuNewAddedByCate(){
+    var booktype=[];
+    var category=[];
+    var servicedata=[];
+    $.ajax({
+        type:'get',
+        url:'../../schoolReport/getCollectionTuShuNewAddedByCate',
+        contentType: 'application/json',
+        async:false,
+        dataType: 'json',
+        success: function(data, textStatus, jqXHR){
+            var html = template('getCollectionTuShuNewAddedByCatetable',{param:data.ob});
+            $(".getCollectionTuShuNewAddedByCatetable").html(html);
+            booktype=data.booktype;
+            category=data.category;
+            for(var key in data){
+                if(key!="booktype"&&key!="category"&&key!="ob")
+                {
+                    servicedata.push({ name: key,type: 'bar',data:data[key]});
+                }
+            }
+            var getCollectionTuShuNewAddedByCate = echarts.init(document.getElementById('getCollectionTuShuNewAddedByCate'));
+            var getCollectionTuShuNewAddedByCateoption = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                legend: {
+                    data:booktype,
+                    align: 'right',
+                    right: 10
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: [{
+                    type: 'category',
+                    data: category
+                }],
+                yAxis: [{
+                    type: 'value',
+                    name: '总数(本)',
+                    axisLabel: {
+                        formatter: '{value}'
+                    }
+                }],
+                series: servicedata
+            };
+            getCollectionTuShuNewAddedByCate.setOption(getCollectionTuShuNewAddedByCateoption);
+        }
+    });
+
+
+}
+
+function getCollectionWaiWenNewAddedByCate(){
+    var lengthdata=[];
+    var servicedata=[];
+    $.ajax({
+        type:'get',
+        url:'../../schoolReport/getCollectionWaiWenNewAddedByCate',
+        contentType: 'application/json',
+        async:false,
+        dataType: 'json',
+        success: function(data, textStatus, jqXHR){
+            //var html = template('getCollectionTuShuNewAddedByCatetable',{param:data.ob});
+            //$(".getCollectionTuShuNewAddedByCatetable").html(html)
+            lengthdata=data.category;
+
+            var center1= ['10%', '30%'];
+            var center2= ['30%', '30%'];
+            var center3=['50%', '30%'];
+            var center4= ['70%', '30%'];
+            var center5= ['90%', '30%'];
+            var center6=['10%', '70%'];
+            var center7= ['30%', '70%'];
+            var center8=['50%', '70%'];
+            var center9= ['70%', '70%'];
+            var center10=['90%', '70%'];
+            var centers=[center1,center2,center3,center4,center5,center6,center7,center8,center9,center10];i
+            var labelTop = {
+                normal : {
+                    label : {
+                        show : true,
+                        position : 'center',
+                        formatter : '{b}',
+                        textStyle: {
+                            baseline : 'bottom'
+                        }
+                    },
+                    labelLine : {
+                        show : false
+                    }
+                }
+            };
+            var labelFromatter = {
+                normal : {
+                    label : {
+                        formatter : function (params){
+                            return  ((data['count'][0] - params.value)/data['count'][0]).toFixed(2)
+                        },
+                        textStyle: {
+                            baseline : 'top'
+                        }
+                    }
+                },
+            }
+            var labelBottom = {
+                normal : {
+                    color: '#ccc',
+                    label : {
+                        show : true,
+                        position : 'center'
+                    },
+                    labelLine : {
+                        show : false
+                    }
+                },
+                emphasis: {
+                    color: 'rgba(0,0,0,0)'
+                }
+            };
+            var radius = [40, 55];
+            for(var i=0;i<data["category"].length;i++){
+                    servicedata.push(
+                        {
+                            type : 'pie',
+                            center : centers[i],
+                            radius : radius,
+                            itemStyle : labelFromatter,
+                            data : [
+                                {name:'other', value:data['count'][0]-data['外文图书'][i], itemStyle : labelBottom},
+                                {name:data['category'][i], value:data['外文图书'][i],itemStyle : labelTop}
+                            ]
+                        }
+                    );
+            }
+            var getCollectionWaiWenNewAddedByCateoption = {
+                legend: {
+                    x : 'center',
+                    y : 'center',
+                    data:lengthdata
+                },
+                toolbox: {
+                    show : true,
+                    feature : {
+                        dataView : {show: true, readOnly: false},
+                        magicType : {
+                            show: true,
+                            type: ['pie', 'funnel'],
+                            option: {
+                                funnel: {
+                                    width: '20%',
+                                    height: '30%',
+                                    itemStyle : {
+                                        normal : {
+                                            label : {
+                                                formatter : function (params){
+                                                    return 'other\n' + params.value + '%\n'
+                                                },
+                                                textStyle: {
+                                                    baseline : 'middle'
+                                                }
+                                            }
+                                        },
+                                    }
+                                }
+                            }
+                        },
+                        restore : {show: true},
+                        saveAsImage : {show: true}
+                    }
+                },
+                series : servicedata
+            };
+            var getCollectionWaiWenNewAddedByCate = echarts.init(document.getElementById('getCollectionWaiWenNewAddedByCate'));
+            getCollectionWaiWenNewAddedByCate.setOption(getCollectionWaiWenNewAddedByCateoption);
+        }
+    });
+
+
 }

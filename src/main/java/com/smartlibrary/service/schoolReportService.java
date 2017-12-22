@@ -2,7 +2,6 @@ package com.smartlibrary.service;
 
 import com.smartlibrary.dao.schoolReportDao;
 import com.smartlibrary.domain.*;
-import org.apache.poi.hssf.record.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -476,6 +475,7 @@ public class schoolReportService {
         ArrayList<Integer> WWTS=new  ArrayList<Integer>();
 
         Map<String ,List> result=new HashMap<String ,List>();
+        int count=0;
         for(int i=0;i<data.size();i++){
             String  cate=data.get(i).getCategory();
             if(!category.contains(cate) ){
@@ -490,13 +490,17 @@ public class schoolReportService {
 
                 case "外文图书":
                     WWTS.add(am);
+                    count=count+am;
                     break;
 
             }
         }
+        List<Integer> counts =new LinkedList<Integer>();
+        counts.add(count);
         result.put("category",category);
         result.put("booktype",booktype);
         result.put("外文图书",WWTS);
+        result.put("count",counts);
         return result;
     }
 

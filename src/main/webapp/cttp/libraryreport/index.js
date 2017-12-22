@@ -3,7 +3,8 @@ $(function () {
     getCollectionOverall();
     getCollectionNewAdded();
     getCollectionNewAddedByCate();
-    getCollectionTuShuNewAddedByCatetable();
+    getCollectionTuShuNewAddedByCate();
+    getCollectionWaiWenNewAddedByCate();
     getGctrlsCountBy_year();//历年进馆统计
     getGctrlsCountBy_month();//图书馆门禁按月进馆统计
     getmankindGctrl_Byoneyear();//进馆读者类型比例图
@@ -3297,7 +3298,6 @@ function getCollectionNewAddedByCate(){
         async:false,
         dataType: 'json',
         success: function(data, textStatus, jqXHR){
-            console.log(data.ob)
             var html = template('getCollectionNewAddedByCatetable',{param:data.ob});
             $(".getCollectionNewAddedByCatetable").html(html);
             booktype=data.booktype;
@@ -3347,7 +3347,7 @@ function getCollectionNewAddedByCate(){
 
 }
 
-function getCollectionTuShuNewAddedByCatetable(){
+function getCollectionTuShuNewAddedByCate(){
     var booktype=[];
     var category=[];
     var servicedata=[];
@@ -3358,7 +3358,6 @@ function getCollectionTuShuNewAddedByCatetable(){
         async:false,
         dataType: 'json',
         success: function(data, textStatus, jqXHR){
-            console.log(data.ob)
             var html = template('getCollectionTuShuNewAddedByCatetable',{param:data.ob});
             $(".getCollectionTuShuNewAddedByCatetable").html(html);
             booktype=data.booktype;
@@ -3402,6 +3401,134 @@ function getCollectionTuShuNewAddedByCatetable(){
                 series: servicedata
             };
             getCollectionTuShuNewAddedByCate.setOption(getCollectionTuShuNewAddedByCateoption);
+        }
+    });
+
+
+}
+
+function getCollectionWaiWenNewAddedByCate(){
+    var lengthdata=[];
+    var servicedata=[];
+    $.ajax({
+        type:'get',
+        url:'../../schoolReport/getCollectionWaiWenNewAddedByCate',
+        contentType: 'application/json',
+        async:false,
+        dataType: 'json',
+        success: function(data, textStatus, jqXHR){
+            //var html = template('getCollectionTuShuNewAddedByCatetable',{param:data.ob});
+            //$(".getCollectionTuShuNewAddedByCatetable").html(html)
+            lengthdata=data.category;
+
+            var center1= ['10%', '30%'];
+            var center2= ['30%', '30%'];
+            var center3=['50%', '30%'];
+            var center4= ['70%', '30%'];
+            var center5= ['90%', '30%'];
+            var center6=['10%', '70%'];
+            var center7= ['30%', '70%'];
+            var center8=['50%', '70%'];
+            var center9= ['70%', '70%'];
+            var center10=['90%', '70%'];
+            var centers=[center1,center2,center3,center4,center5,center6,center7,center8,center9,center10];i
+            var labelTop = {
+                normal : {
+                    label : {
+                        show : true,
+                        position : 'center',
+                        formatter : '{b}',
+                        textStyle: {
+                            baseline : 'bottom'
+                        }
+                    },
+                    labelLine : {
+                        show : false
+                    }
+                }
+            };
+            var labelFromatter = {
+                normal : {
+                    label : {
+                        formatter : function (params){
+                            return  ((data['count'][0] - params.value)/data['count'][0]).toFixed(2)
+                        },
+                        textStyle: {
+                            baseline : 'top'
+                        }
+                    }
+                },
+            }
+            var labelBottom = {
+                normal : {
+                    color: '#ccc',
+                    label : {
+                        show : true,
+                        position : 'center'
+                    },
+                    labelLine : {
+                        show : false
+                    }
+                },
+                emphasis: {
+                    color: 'rgba(0,0,0,0)'
+                }
+            };
+            var radius = [40, 55];
+            for(var i=0;i<data["category"].length;i++){
+                    servicedata.push(
+                        {
+                            type : 'pie',
+                            center : centers[i],
+                            radius : radius,
+                            itemStyle : labelFromatter,
+                            data : [
+                                {name:'other', value:data['count'][0]-data['外文图书'][i], itemStyle : labelBottom},
+                                {name:data['category'][i], value:data['外文图书'][i],itemStyle : labelTop}
+                            ]
+                        }
+                    );
+            }
+            var getCollectionWaiWenNewAddedByCateoption = {
+                legend: {
+                    x : 'center',
+                    y : 'center',
+                    data:lengthdata
+                },
+                toolbox: {
+                    show : true,
+                    feature : {
+                        dataView : {show: true, readOnly: false},
+                        magicType : {
+                            show: true,
+                            type: ['pie', 'funnel'],
+                            option: {
+                                funnel: {
+                                    width: '20%',
+                                    height: '30%',
+                                    itemStyle : {
+                                        normal : {
+                                            label : {
+                                                formatter : function (params){
+                                                    return 'other\n' + params.value + '%\n'
+                                                },
+                                                textStyle: {
+                                                    baseline : 'middle'
+                                                }
+                                            }
+                                        },
+                                    }
+                                }
+                            }
+                        },
+                        restore : {show: true},
+                        saveAsImage : {show: true}
+                    }
+                },
+                series : servicedata
+            };
+            var getCollectionWaiWenNewAddedByCate = echarts.init(document.getElementById('getCollectionWaiWenNewAddedByCate'));
+            getCollectionWaiWenNewAddedByCate.setOption(getCollectionWaiWenNewAddedByCateoption);
         }
     });
 

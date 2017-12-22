@@ -67,6 +67,8 @@ $(function () {
     ereadchart("eread");
     seatchart("seat");
     equipmentchart("equipment");
+    getCollectionAmountType();
+    getCollectionByStackAndBooktype()
 });
 var month;
 var ereadtimesg;
@@ -3298,6 +3300,7 @@ function getCollectionNewAddedByCate(){
         async:false,
         dataType: 'json',
         success: function(data, textStatus, jqXHR){
+            console.log(data.ob)
             var html = template('getCollectionNewAddedByCatetable',{param:data.ob});
             $(".getCollectionNewAddedByCatetable").html(html);
             booktype=data.booktype;
@@ -3347,6 +3350,65 @@ function getCollectionNewAddedByCate(){
 
 }
 
+function getCollectionTuShuNewAddedByCatetable(){
+    var booktype=[];
+    var category=[];
+    var servicedata=[];
+    $.ajax({
+        type:'get',
+        url:'../../schoolReport/getCollectionTuShuNewAddedByCate',
+        contentType: 'application/json',
+        async:false,
+        dataType: 'json',
+        success: function(data, textStatus, jqXHR){
+            var html = template('getCollectionTuShuNewAddedByCatetable',{param:data.ob});
+            $(".getCollectionTuShuNewAddedByCatetable").html(html);
+            booktype=data.booktype;
+            category=data.category;
+            for(var key in data){
+                if(key!="booktype"&&key!="category"&&key!="ob")
+                {
+                    servicedata.push({ name: key,type: 'bar',data:data[key]});
+                }
+            }
+            var getCollectionTuShuNewAddedByCate = echarts.init(document.getElementById('getCollectionTuShuNewAddedByCate'));
+            var getCollectionTuShuNewAddedByCateoption = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                legend: {
+                    data:booktype,
+                    align: 'right',
+                    right: 10
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: [{
+                    type: 'category',
+                    data: category
+                }],
+                yAxis: [{
+                    type: 'value',
+                    name: '总数(本)',
+                    axisLabel: {
+                        formatter: '{value}'
+                    }
+                }],
+                series: servicedata
+            };
+            getCollectionTuShuNewAddedByCate.setOption(getCollectionTuShuNewAddedByCateoption);
+        }
+    });
+
+
+}
 function getCollectionTuShuNewAddedByCate(){
     var booktype=[];
     var category=[];
@@ -3406,7 +3468,6 @@ function getCollectionTuShuNewAddedByCate(){
 
 
 }
-
 function getCollectionWaiWenNewAddedByCate(){
     var lengthdata=[];
     var servicedata=[];
@@ -3533,4 +3594,94 @@ function getCollectionWaiWenNewAddedByCate(){
     });
 
 
+}
+
+function getCollectionAmountType() {
+    $.ajax({
+        type:'get',
+        url:'../../schoolReport/getCollectionAmountType',
+        contentType:'application/json',
+        async:false,
+        dataType:'json',
+        success:function (data){
+            var param = [];
+            var amount1 = 0;
+            var amount2 = 0;
+            var amount3 = 0;
+            for(var i=0;i<data.stack.length;i++){
+                var basedata = new Object();
+                basedata.stack=data.stack[i];
+                basedata.amounttype=data.amounttype[i];
+                if(data.stackpubyear.indexOf(data.stack[i])!=-1){
+                    basedata.amounttypePubyear = data.amounttypePubyear[data.stackpubyear.indexOf(data.stack[i])];
+                }
+                else{
+                    basedata.amounttypePubyear=0;
+                }
+                if(data.stackthisyear.indexOf(data.stack[i])!=-1){
+                    basedata.amounttypeYear = data.amounttypeYear[data.stackthisyear.indexOf(data.stack[i])];
+                }
+                else{
+                    basedata.amounttypeYear=0;
+                }
+                amount1+=basedata.amounttype;
+                amount2+=basedata.amounttypePubyear;
+                amount3+=basedata.amounttypeYear;
+                param.push(basedata);
+            }
+            var html = template('getCollectionAmountType',{param:param,amount1:amount1,amount2:amount2,amount3:amount3});
+            $(".getCollectionAmountTypeTable").html(html);
+            var data = new Date;
+            var year = data.getFullYear();
+            $(".collectionyear").text(year);
+            $(".amount1").text(amount1);
+            $(".amount2").text(amount2);
+            $(".amount3").text(amount3);
+        }
+    })
+}
+
+function getCollectionByStackAndBooktype() {
+    $.ajax({
+        type:'get',
+        url:'../../schoolReport/getCollectionByStackAndBooktype',
+        contentType:'application/json',
+        async:false,
+        dataType:'json',
+        success:function (data){
+            var param = [];
+            for(var i=0;i<data.stack.length;i++){
+                var basedata = new Object();
+                basedata.stack = data.stack[i];
+                var arr = new Array;
+                var amount=0;
+                for(var j=0;j<data.bookType.length;j++){
+                    arr.push(data.amounttype[i*data.bookType.length+j]);
+                    amount+=data.amounttype[i*data.bookType.length+j];
+                }
+                basedata.amounttype = arr;
+                basedata.amount=amount;
+                param.push(basedata);
+            }
+            var arr1 = [];
+            for(var i=0;i<param.length;i++){
+                for(var j=0;j<param[i].amounttype.length;j++){
+                    if(i==0){
+                        arr1[j] = param[i].amounttype[j];
+                    }
+                    else{
+                        arr1[j]+=param[i].amounttype[j];
+                    }
+                }
+                if(i==0){
+                    arr1[param[i].amounttype.length] = param[i].amount;
+                }
+                else{
+                    arr1[param[i].amounttype.length] += param[i].amount;
+                }
+            }
+            var html = template('getCollectionByStackAndBooktype',{param:param,bookType:data.bookType,arr1:arr1});
+            $(".getCollectionByStackAndBooktype").html(html);
+        }
+    })
 }

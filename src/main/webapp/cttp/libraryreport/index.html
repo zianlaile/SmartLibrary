@@ -82,6 +82,47 @@
         <div class="table getCollectionByStackAndBooktype"></div>
         <div class="pagination">7</div>
     </div>
+    <div class="page chapter">
+        <div class="first-title">1.3 图书出版年份分布</div>
+        <div class="second-title">1.3.1 图书按出版年份统计表（种/ 册）</div>
+        <div class="table getCollectionByPubyear"></div>
+        <div class="pagination">7</div>
+    </div>
+    <div class="page chapter" style="height: 1100px;">
+       <div class="chart-title">图书出版年分布（种）</div>
+        <div class="chart chart-big">
+            <div id="typechart" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="chart-title">图书出版年分布（册）</div>
+        <div class="chart chart-big">
+            <div id="typenumber" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">13</div>
+    </div>
+    <div class="page chapter">
+        <div class="first-title">1.4 馆藏文献分类分布</div>
+        <div class="second-title">1.4.1 各种格式书目分类分布（种）</div>
+        <div class="chart-title">各种格式书目分类分布（种）</div>
+        <div class="chart chart-bigger" style="height: 700px">
+            <div id="getCollectionBycategorytype" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">7</div>
+    </div>
+    <div class="page chapter">
+        <div class="second-title">1.4.2 各种格式书目分类分布（册）</div>
+        <div class="chart-title">各种格式书目分类分布（册）</div>
+        <div class="chart chart-bigger" style="height: 700px">
+            <div id="getCollectionBycategorynumber" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">7</div>
+    </div>
+    <div class="page chapter">
+        <div class="second-title">1.4.3 品种前10的分类</div>
+        <div class="chart-title">品种前10的分类统计表</div>
+        <div class="table getTop10category"></div>
+        <div class="pagination">7</div>
+    </div>
+
     <div class="page chapter" id="123">
         <div class="first-title">1.2 院系馆藏信息共享情况</div>
         <div class="second-title">1.2.1 总体情况</div>
@@ -579,6 +620,49 @@
         {{/each}}
     </tr>
 </table>
+</script>
+<script type="text/html" id="getCollectionByPubyear">
+    <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th>出版年</th>
+            <th>种</th>
+            <th>百分比</th>
+            <th>册</th>
+            <th>百分比</th>
+        </tr>
+        {{each param as p}}
+        <tr>
+            <td>{{p.year}}</td>
+            <td>{{p.amounttype}}</td>
+            <td>{{p.typepecent}}</td>
+            <td>{{p.amountnumber}}</td>
+            <td>{{p.numberpecent}}</td>
+        </tr>
+        {{/each}}
+        <tr>
+            <td>合计</td>
+            <td>{{amounttype}}</td>
+            <td>100%</td>
+            <td>{{amountnumber}}</td>
+            <td>100%</td>
+        </tr>
+    </table>
+</script>
+<script type="text/html" id="getTop10category">
+    <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th>排序</th>
+            <th>分类</th>
+            <th>种</th>
+        </tr>
+        {{each param as p index}}
+        <tr>
+            <td>{{index+1}}</td>
+            <td>{{p.category}}</td>
+            <td>{{p.amounttype}}</td>
+        </tr>
+        {{/each}}
+    </table>
 </script>
 </body>
 </html>

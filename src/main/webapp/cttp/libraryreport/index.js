@@ -31,6 +31,7 @@ $(function () {
     getpublish_rating();//借阅出版社比例
     day_gctrl();//当年每日进馆
     dctrl_top12();//排名前12
+    getCollectionByPubyear();//图书按出版年份统计表（种/ 册）
     $.ajax({
         type:"get",
         contentType: 'application/json',
@@ -68,7 +69,9 @@ $(function () {
     seatchart("seat");
     equipmentchart("equipment");
     getCollectionAmountType();
-    getCollectionByStackAndBooktype()
+    getCollectionByStackAndBooktype();
+    getCollectionBycategory();
+    getTop10category();
 });
 var month;
 var ereadtimesg;
@@ -3684,4 +3687,309 @@ function getCollectionByStackAndBooktype() {
             $(".getCollectionByStackAndBooktype").html(html);
         }
     })
+}
+
+function getCollectionByPubyear() {
+    $.ajax({
+        type:'get',
+        url:'../../schoolReport/getCollectionByPubyear',
+        contentType:'application/json',
+        async:false,
+        dataType:'json',
+        success:function (data){
+            var param = [];
+            var typechart=[];
+            var numberchart=[];
+            var yeardata = [];
+            var amounttype = 0;
+            var amountnumber = 0;
+            for(var key in data){
+                var basedata = new Object();
+                var typechartdata = new Object();
+                var numberchartdata = new Object();
+                var index = 0;
+                switch(key){
+                    case "-1919" : index=0;break;
+                    case "1920-1929" : index=1;break;
+                    case "1930-1939" : index=2;break;
+                    case "1940-1949" : index=3;break;
+                    case "1950-1959" : index=4;break;
+                    case "1960-1969" : index=5;break;
+                    case "1970-1979" : index=6;break;
+                    case "1980-1989" : index=7;break;
+                    case "1990-1999" : index=8;break;
+                    case "2000-2009" : index=9;break;
+                    case "2010-" : index=10;break;
+                    case "不详" : index=11;break;
+                }
+                basedata.year = key;
+                basedata.amounttype = data[key].amounttype;
+                basedata.amountnumber = data[key].amountnumber;
+                amounttype += data[key].amounttype;
+                amountnumber += data[key].amountnumber;
+                param[index] = basedata;
+                yeardata[index] = key;
+                typechartdata.name = key;
+                typechartdata.value = data[key].amounttype;
+                typechart[index] = typechartdata;
+                numberchartdata.name = key;
+                numberchartdata.value = data[key].amountnumber;
+                numberchart[index] = numberchartdata;
+            }
+            for(var i=0;i<param.length;i++){
+                param[i].typepecent = parseFloat(param[i].amounttype/amounttype)*100;
+                param[i].numberpecent = parseFloat(param[i].amountnumber/amountnumber)*100;
+                param[i].typepecent = param[i].typepecent.toFixed(2)+"%";
+                param[i].numberpecent = param[i].numberpecent.toFixed(2)+"%";
+            }
+            var html = template('getCollectionByPubyear',{param:param,amounttype:amounttype,amountnumber:amountnumber});
+            $(".getCollectionByPubyear").html(html);
+            var typeoption = {
+                animation:false,
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b}: {c} ({d}%)",
+                },
+                legend: {
+                    y:'bottom',
+                    itemWidth: 14,
+                    itemHeight: 14,
+                    align: 'left',
+                    data:yeardata
+                },
+                series: [
+                    {
+                        name:'图书出版年发布（种）',
+                        type:'pie',
+                        hoverAnimation: false,
+                        legendHoverLink:false,
+                        radius: ['40%', '42%'],
+                        color: ['#CD0000','#FFEC8B','#0000CD','#FF4500','#FF3E96','#d74e67', '#0092ff', '#eba954', '#21b6b9','#60a900','#01949b',' #f17677'],
+                        label: {
+                            normal: {
+                                position: 'inner'
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                show: false
+                            },
+
+                        },
+                        tooltip: {
+                            show:false,
+
+
+                        },
+                    },
+                    {
+                        name:'图书出版年发布（种）',
+                        type:'pie',
+                        radius: ['42%', '55%'],
+                        color: ['#CD0000','#FFEC8B','#0000CD','#FF4500','#FF3E96','#d74e67', '#0092ff', '#eba954', '#21b6b9','#60a900','#01949b',' #f17677'],
+                        label: {
+                            normal: {
+                                formatter: '{b}\n{d}%'
+                            },
+
+                        },
+                        data:typechart
+                    }
+                ]
+            };
+
+            var numberoption = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b}: {c} ({d}%)",
+                },
+                legend: {
+                    y:'bottom',
+                    itemWidth: 14,
+                    itemHeight: 14,
+                    align: 'left',
+                    data:yeardata
+                },
+                series: [
+                    {
+                        name:'图书出版年发布（册）',
+                        type:'pie',
+                        hoverAnimation: false,
+                        legendHoverLink:false,
+                        radius: ['40%', '42%'],
+                        color: ['#CD0000','#FFEC8B','#0000CD','#FF4500','#FF3E96','#d74e67', '#0092ff', '#eba954', '#21b6b9','#60a900','#01949b',' #f17677'],
+                        label: {
+                            normal: {
+                                position: 'inner'
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                show: false
+                            },
+
+                        },
+                        tooltip: {
+                            show:false,
+                        },
+                    },
+                    {
+                        name:'图书出版年发布（册）',
+                        type:'pie',
+                        radius: ['42%', '55%'],
+                        color: ['#CD0000','#FFEC8B','#0000CD','#FF4500','#FF3E96','#d74e67', '#0092ff', '#eba954', '#21b6b9','#60a900','#01949b',' #f17677'],
+                        label: {
+                            normal: {
+                                formatter: '{b}\n{d}%'
+                            },
+
+                        },
+                        data:numberchart
+                    }
+                ]
+            };
+            var typechart = echarts.init(document.getElementById("typechart"));
+            var typenumber = echarts.init(document.getElementById("typenumber"));
+            typechart.setOption(typeoption);
+            typenumber.setOption(numberoption);
+        }
+    });
+}
+
+function getCollectionBycategory() {
+    $.ajax({
+        type:'get',
+        url:'../../schoolReport/getCollectionBycategory',
+        contentType:'application/json',
+        async:false,
+        dataType:'json',
+        success:function (data){
+            var arr = [];
+            var arr1 = [];
+            var seriestype = [];
+            var seriesnumber = [];
+            for(var i=0;i<data.bookType.length;i++){
+                arr[i] = [];
+                arr1[i] = [];
+                for(var j=0;j<data.category.length;j++){
+                    arr[i].push(data.amounttype[i*data.category.length+j]);
+                    arr1[i].push(data.amountnumber[i*data.category.length+j]);
+                }
+            }
+            var itemcolor = ['#FF7F0E','#2CA02C','#6ca7e2','#00CCFF','#915872','#3077b7','#9a8169','#3f8797'];
+            for(var i=0;i<arr.length;i++){
+                seriestype.push({
+                    name: data.bookType[i],
+                    type: 'bar',
+                    stack: '总量',
+                    itemStyle:{
+                        normal:{
+                            color:itemcolor[i]
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'insideRight'
+                        }
+                    },
+                    data: arr[i]
+                });
+                seriesnumber.push({
+                    name: data.bookType[i],
+                    type: 'bar',
+                    stack: '总量',
+                    itemStyle:{
+                        normal:{
+                            color:itemcolor[i]
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'insideRight'
+                        }
+                    },
+                    data: arr1[i]
+                });
+            }
+            var typeoption = {
+                animation:false,
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                        type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                legend: {
+                    data: data.bookType
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis:  {
+                    type: 'value'
+                },
+                yAxis: {
+                    type: 'category',
+                    data: data.category
+                },
+                series: seriestype
+            };
+            var numberoption = {
+                animation:false,
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                        type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                legend: {
+                    data: data.bookType
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis:  {
+                    type: 'value'
+                },
+                yAxis: {
+                    type: 'category',
+                    data: data.category
+                },
+                series: seriesnumber
+            };
+            var typechart = echarts.init(document.getElementById("getCollectionBycategorytype"));
+            typechart.setOption(typeoption);
+            var numberchart = echarts.init(document.getElementById("getCollectionBycategorynumber"));
+            numberchart.setOption(numberoption);
+        }
+    });
+}
+
+function getTop10category(){
+    $.ajax({
+        type:'get',
+        url:'../../schoolReport/getTop10category',
+        contentType:'application/json',
+        async:false,
+        dataType:'json',
+        success:function (data){
+            var param = [];
+            for(var i=0;i<data.category.length;i++){
+                param.push({
+                    "category" : data.category[i],
+                    "amounttype" : data.amounttype[i]
+                });
+            }
+            var html = template('getTop10category',{param:param});
+            $(".getTop10category").html(html);
+        }
+    });
 }

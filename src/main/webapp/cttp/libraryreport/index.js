@@ -3192,7 +3192,7 @@ function sortByKey(array,key){
 
          ],
          grid: [
-         {x: '50%', y: '7%', width: '45%', height: '90%'},
+         {x: '65%', y: '7%', width: '30%', height: '90%'},
          ],
          tooltip: {
          formatter: '{b} ({c})'
@@ -3211,12 +3211,12 @@ function sortByKey(array,key){
          name: '各馆藏书占比',
          type: 'pie',
          radius : '30%',
-         center: ['20%', '50%'],
+         center: ['25%', '50%'],
          color:['#86c9f4','#4da8ec','#3a91d2','#005fa6','#315f97'],
          data:piedata,
-         label:{normal:{show:false,position:'inside'}},
-         labelLine:{normal:{show:false} },
-         itemStyle: {normal: {label:{ show: true,  formatter: '{b} \n ({d}%)', textStyle:{color:'#B1B9D3'}} },},
+         label:{normal:{show:true,position:'outside',fontSize:12}},
+         labelLine:{normal:{show:true} },
+         itemStyle: {normal: {label:{ show: true,  formatter: '({d}%)', textStyle:{color:'#B1B9D3'}} },},
          },
 
          {
@@ -3266,7 +3266,7 @@ function getCollectionNewAdded(){
 
                 ],
                 grid: [
-                    {x: '50%', y: '7%', width: '45%', height: '90%'},
+                    {x: '65%', y: '7%', width: '30%', height: '90%'},
                 ],
                 tooltip: {
                     formatter: '{b} ({c})'
@@ -3285,12 +3285,12 @@ function getCollectionNewAdded(){
                         name: '各馆新增藏书占比',
                         type: 'pie',
                         radius : '30%',
-                        center: ['20%', '50%'],
+                        center: ['25%', '50%'],
                         color:['#86c9f4','#4da8ec','#3a91d2','#005fa6','#315f97'],
                         data:piedata,
-                        label:{normal:{show:false,position:'inside'}},
-                        labelLine:{normal:{show:false} },
-                        itemStyle: {normal: {label:{ show: true,  formatter: '{b} \n ({d}%)', textStyle:{color:'#B1B9D3'}} },},
+                        label:{normal:{show:true,position:'outside',fontSize:12}},
+                        labelLine:{normal:{show:true} },
+                        itemStyle: {normal: {label:{ show: true,  formatter: '({d}%)', textStyle:{color:'#B1B9D3'}} },},
                     },
 
                     {
@@ -3430,6 +3430,7 @@ function getCollectionTuShuNewAddedByCatetable(){
 
 
 }
+
 function getCollectionTuShuNewAddedByCate(){
     var booktype=[];
     var category=[];
@@ -3489,6 +3490,7 @@ function getCollectionTuShuNewAddedByCate(){
 
 
 }
+
 function getCollectionWaiWenNewAddedByCate(){
     var lengthdata=[];
     var servicedata=[];

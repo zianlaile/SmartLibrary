@@ -65,5 +65,38 @@
         where r.account=#{account}
     </select>
 
+    <!-- app需要 全校进馆 借阅排名-->
+    <select id="getapp_bookandgctrl_rank" parameterType="com.smartlibrary.domain.reader_report" resultType="com.smartlibrary.domain.reader_report">
+        select month_lend_rank as all_lend_rank,month_gctrl_rank as all_gctrl_rank
+        from reader_report
+        where account=#{account}
+    </select>
+
+    <!-- app需要 学院进馆排名-->
+    <select id="getapp_gctrl_academy_rank" parameterType="com.smartlibrary.domain.reader_report" resultType="Integer">
+       select count(1)from(select account,month_gctrl_times,academy
+        from reader_report
+        where academy=
+        (select academy
+        from reader_report
+        where account=#{account})) b
+        where b.month_gctrl_times>(select month_gctrl_times
+        from reader_report
+        where account=#{account})
+    </select>
+
+
+    <!-- app需要 学院借阅排名-->
+    <select id="getapp_book_academy_rank" parameterType="com.smartlibrary.domain.reader_report" resultType="Integer">
+        select count(1)from(select account,month_lend_times,academy
+        from reader_report
+        where academy=
+        (select academy
+        from reader_report
+        where account=#{account})) b
+        where b.month_lend_times>(select month_lend_times
+        from reader_report
+        where account=#{account})
+    </select>
 
 </mapper>

@@ -74,4 +74,24 @@ public class readerReportController {
 
     }
 
+    //  <!-- app需要 全校进馆 借阅排名-->
+    @RequestMapping(value = "/getapp_bookandgctrl_rank", method = RequestMethod.POST)
+    public   List<reader_report> getapp_bookandgctrl_rank(@RequestBody   reader_report n){
+        return readerReportservice.getapp_bookandgctrl_rank(n);
+
+    }
+
+    //<!-- app需要 学院进馆排名-->
+    @RequestMapping(value = "/getapp_gctrl_academy_rank", method = RequestMethod.POST)
+    public  Integer getapp_gctrl_academy_rank(@RequestBody   reader_report n){
+        return readerReportservice.getapp_gctrl_academy_rank(n);
+
+    }
+    // <!-- app需要 学院借阅排名-->
+    @RequestMapping(value = "/getapp_book_academy_rank", method = RequestMethod.POST)
+    public  Integer getapp_book_academy_rank(@RequestBody  reader_report n){
+        return readerReportservice.getapp_book_academy_rank(n);
+
+    }
+
 }

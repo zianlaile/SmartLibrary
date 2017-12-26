@@ -1227,6 +1227,15 @@ function downloadword(){
         var eread =echarts.init(document.getElementById("eread")).getDataURL();
         var seat =echarts.init(document.getElementById("seat")).getDataURL();
         var equipment =echarts.init(document.getElementById("equipment")).getDataURL();
+        var typechart = echarts.init(document.getElementById("typechart")).getDataURL();
+        var typenumber = echarts.init(document.getElementById("typenumber")).getDataURL();
+        var getCollectionBycategorytype = echarts.init(document.getElementById("getCollectionBycategorytype")).getDataURL();
+        var getCollectionBycategorynumber = echarts.init(document.getElementById("getCollectionBycategorynumber")).getDataURL();
+        var getCollectionOverall = echarts.init(document.getElementById("getCollectionOverall")).getDataURL();
+        var getCollectionNewAdded = echarts.init(document.getElementById("getCollectionNewAdded")).getDataURL();
+        var getCollectionNewAddedByCate = echarts.init(document.getElementById("getCollectionNewAddedByCate")).getDataURL();
+        var getCollectionTuShuNewAddedByCate = echarts.init(document.getElementById("getCollectionTuShuNewAddedByCate")).getDataURL();
+        var getCollectionWaiWenNewAddedByCate = echarts.init(document.getElementById("getCollectionWaiWenNewAddedByCate")).getDataURL();
         var postdata = {
             "img_Book_Amount" :img_Book_Amount,
             "img_gctrl_amount" :img_gctrl_amount,
@@ -1255,6 +1264,15 @@ function downloadword(){
             "eread":eread,
             "seat":seat,
             "equipment":equipment,
+            "typechart":typechart,
+            "typenumber":typenumber,
+            "getCollectionBycategorytype":getCollectionBycategorytype,
+            "getCollectionBycategorynumber":getCollectionBycategorynumber,
+            "getCollectionOverall":getCollectionOverall,
+            "getCollectionNewAdded":getCollectionNewAdded,
+            "getCollectionNewAddedByCate":getCollectionNewAddedByCate,
+            "getCollectionTuShuNewAddedByCate":getCollectionTuShuNewAddedByCate,
+            "getCollectionWaiWenNewAddedByCate":getCollectionWaiWenNewAddedByCate,
         }
         $.ajax({
             type:"POST",

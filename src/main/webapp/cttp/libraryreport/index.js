@@ -3321,7 +3321,6 @@ function getCollectionNewAddedByCate(){
         async:false,
         dataType: 'json',
         success: function(data, textStatus, jqXHR){
-            console.log(data.ob)
             var html = template('getCollectionNewAddedByCatetable',{param:data.ob});
             $(".getCollectionNewAddedByCatetable").html(html);
             booktype=data.booktype;
@@ -3334,6 +3333,7 @@ function getCollectionNewAddedByCate(){
             }
             var getCollectionNewAddedByCate = echarts.init(document.getElementById('getCollectionNewAddedByCate'));
             var getCollectionNewAddedByCateoption = {
+                animation:false,
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: { // 坐标轴指示器，坐标轴触发有效
@@ -3394,6 +3394,7 @@ function getCollectionTuShuNewAddedByCatetable(){
             }
             var getCollectionTuShuNewAddedByCate = echarts.init(document.getElementById('getCollectionTuShuNewAddedByCate'));
             var getCollectionTuShuNewAddedByCateoption = {
+                animation:false,
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: { // 坐标轴指示器，坐标轴触发有效
@@ -3454,6 +3455,7 @@ function getCollectionTuShuNewAddedByCate(){
             }
             var getCollectionTuShuNewAddedByCate = echarts.init(document.getElementById('getCollectionTuShuNewAddedByCate'));
             var getCollectionTuShuNewAddedByCateoption = {
+                animation:false,
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: { // 坐标轴指示器，坐标轴触发有效
@@ -3574,12 +3576,13 @@ function getCollectionWaiWenNewAddedByCate(){
                     );
             }
             var getCollectionWaiWenNewAddedByCateoption = {
+                animation:false,
                 legend: {
                     x : 'center',
                     y : 'center',
                     data:lengthdata
                 },
-                toolbox: {
+               /* toolbox: {
                     show : true,
                     feature : {
                         dataView : {show: true, readOnly: false},
@@ -3608,7 +3611,7 @@ function getCollectionWaiWenNewAddedByCate(){
                         restore : {show: true},
                         saveAsImage : {show: true}
                     }
-                },
+                },*/
                 series : servicedata
             };
             var getCollectionWaiWenNewAddedByCate = echarts.init(document.getElementById('getCollectionWaiWenNewAddedByCate'));

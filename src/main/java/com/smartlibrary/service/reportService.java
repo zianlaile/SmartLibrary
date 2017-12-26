@@ -71,6 +71,7 @@ public class reportService {
         logo.put("width", 200);
         logo.put("height", 200);
         logo.put("type", "JPG");
+        logo.put("picpath",path+"school-logo.jpg");
         try {
             logo.put("content", WordUtil.inputStream2ByteArray(new FileInputStream(path+"school-logo.jpg"), true));
         } catch (FileNotFoundException e) {
@@ -370,11 +371,12 @@ public class reportService {
             fopts = new FileOutputStream(towordpath);
             doc.write(fopts);
             fopts.close();
+            return "1";
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "1";
+        return "0";
     }
 }

@@ -1281,13 +1281,16 @@ function downloadword(){
             url:"../../report/getreport",
             dataType: 'json',
             success: function(data, textStatus, jqXHR){
-                try{
-                    var elemIF = document.createElement("iframe");
-                    elemIF.src = "../../report/2.docx";
-                    elemIF.style.display = "none";
-                    document.body.appendChild(elemIF);
-                }catch(e){
+                console.log(data);
+                if(data==1){
+                    try{
+                        var elemIF = document.createElement("iframe");
+                        elemIF.src = "../../report/2.docx";
+                        elemIF.style.display = "none";
+                        document.body.appendChild(elemIF);
+                    }catch(e){
 
+                    }
                 }
             }
         });

@@ -12,7 +12,7 @@ import java.util.UUID;
  * Created by 胡云飞 on 2017/11/16.
  */
 public class Picture {
-    public Map<String,Object> returnpicture(String picBase64Info,int height,int width){
+    public Map<String,Object> returnpicture(String picBase64Info,String name){
         String path = this.getClass().getClassLoader().getResource("/").getPath();
         path = path.substring(0,path.indexOf("WEB-INF"))+"report/";
         System.out.println(path);
@@ -23,7 +23,7 @@ public class Picture {
             //System.out.println("1不存在");
             f.mkdir();
         }
-        picpath = picpath +"/"+ UUID.randomUUID().toString()+".jpg"; //生成随机名字，避免重复
+        picpath = picpath +"/"+name+".jpg"; //生成随机名字，避免重复
         /*f = new File(path);
         if(!f.exists()){
             System.out.println("2不存在");
@@ -40,14 +40,6 @@ public class Picture {
             throw new RuntimeException();
         }
         Map<String,Object> header = new HashMap<String, Object>();
-        header.put("width", width);
-        header.put("height", height);
-        header.put("type", "JPG");
-        try {
-            header.put("content", WordUtil.inputStream2ByteArray(new FileInputStream(picpath), true));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
         return header;
     }
 }

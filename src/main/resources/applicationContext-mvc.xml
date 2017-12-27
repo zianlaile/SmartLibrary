@@ -85,6 +85,7 @@
             <mvc:exclude-mapping path="/schoolReport/**"/>  <!--图书馆报告接口-->
             <mvc:exclude-mapping path="/readerReport/**"/>  <!--读者报告接口-->
             <mvc:exclude-mapping path="/report/**"/>  <!--图书馆报告-->
+            <mvc:exclude-mapping path="/report/reportpic/**"/>  <!--图书馆报告图片-->
             <mvc:exclude-mapping path="/real_year_counts/**"/>
             <mvc:exclude-mapping path="/real_numbers/**"/>
             <mvc:exclude-mapping path="/ictimes/byyear"/>
@@ -117,6 +118,7 @@
             <mvc:exclude-mapping path="/cttp/production/index.html"/>
             <mvc:exclude-mapping path="/bookLend/**"/>
             <mvc:exclude-mapping path="/report/**"/>  <!--图书馆报告-->
+            <mvc:exclude-mapping path="/report/reportpic/**"/>  <!--图书馆报告图片-->
             <bean class="com.smartlibrary.interceptor.PermessionInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

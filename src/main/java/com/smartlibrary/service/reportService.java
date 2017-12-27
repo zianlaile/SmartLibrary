@@ -25,42 +25,42 @@ public class reportService {
         Picture picture = new Picture();
         JSONObject json = JSONObject.parseObject(picBase64Info);
         //System.out.println(json.getString("picBase64Info1"));
-        Map<String,Object> header1 = picture.returnpicture(json.getString("img_Book_Amount"),400,550);
-        Map<String,Object> header2 = picture.returnpicture(json.getString("img_gctrl_amount"),450,650);
-        Map<String,Object> header3 = picture.returnpicture(json.getString("img_month_amount"),450,650);
-        Map<String,Object> header4 = picture.returnpicture(json.getString("img_type_percent1"),300,700);
-        Map<String,Object> header5 = picture.returnpicture(json.getString("img_type_percent2"),300,700);
-        Map<String,Object> header6 = picture.returnpicture(json.getString("img_lend_yearamount"),350,700);
-        Map<String,Object> header7 = picture.returnpicture(json.getString("img_type_reader"),600,650);
-        Map<String,Object> header8 = picture.returnpicture(json.getString("img_academy_img"),550,700);
-        Map<String,Object> header9 = picture.returnpicture(json.getString("img_leader_img"),550,700);
-        Map<String,Object> header10 = picture.returnpicture(json.getString("img_borrow_img1"),300,700);
-        Map<String,Object> header11 = picture.returnpicture(json.getString("img_borrow_img2"),300,700);
-        Map<String,Object> header12 = picture.returnpicture(json.getString("img_read_img"),400,700);
-        Map<String,Object> header13 = picture.returnpicture(json.getString("img_seat_img"),550,700);
-        Map<String,Object> header14 = picture.returnpicture(json.getString("img_ebook_spend"),560,700);
-        Map<String,Object> header15 = picture.returnpicture(json.getString("img_print_amount"),400,700);
-        Map<String,Object> header16 = picture.returnpicture(json.getString("img_print_dy"),300,700);
-        Map<String,Object> header17 = picture.returnpicture(json.getString("img_print_fy"),300,700);
-        Map<String,Object> header18 = picture.returnpicture(json.getString("img_print_sm"),300,700);
-        Map<String,Object> header19 = picture.returnpicture(json.getString("img_print_day"),450,700);
-        Map<String,Object> header20 = picture.returnpicture(json.getString("day_gctrl"),550,700);
-        Map<String,Object> header21 = picture.returnpicture(json.getString("gctrl_top12"),550,700);
-        Map<String,Object> header22 = picture.returnpicture(json.getString("publisher_raking"),300,700);
-        Map<String,Object> header23 = picture.returnpicture(json.getString("publisher_rating"),500,700);
-        Map<String,Object> header24 = picture.returnpicture(json.getString("croom"),300,700);
-        Map<String,Object> header25 = picture.returnpicture(json.getString("eread"),300,700);
-        Map<String,Object> header26 = picture.returnpicture(json.getString("seat"),300,700);
-        Map<String,Object> header27 = picture.returnpicture(json.getString("equipment"),300,600);
-        Map<String,Object> header28 = picture.returnpicture(json.getString("typechart"),430,600);
-        Map<String,Object> header29 = picture.returnpicture(json.getString("typenumber"),430,600);
-        Map<String,Object> header30 = picture.returnpicture(json.getString("getCollectionBycategorytype"),650,600);
-        Map<String,Object> header31 = picture.returnpicture(json.getString("getCollectionBycategorynumber"),650,600);
-        Map<String,Object> header32 = picture.returnpicture(json.getString("getCollectionOverall"),550,600);
-        Map<String,Object> header33 = picture.returnpicture(json.getString("getCollectionNewAdded"),550,600);
-        Map<String,Object> header34 = picture.returnpicture(json.getString("getCollectionNewAddedByCate"),460,600);
-        Map<String,Object> header35 = picture.returnpicture(json.getString("getCollectionTuShuNewAddedByCate"),460,600);
-        Map<String,Object> header36 = picture.returnpicture(json.getString("getCollectionWaiWenNewAddedByCate"),450,600);
+        Map<String,Object> header1 = picture.returnpicture(json.getString("img_Book_Amount"),"img_Book_Amount");
+        Map<String,Object> header2 = picture.returnpicture(json.getString("img_gctrl_amount"),"img_gctrl_amount");
+        Map<String,Object> header3 = picture.returnpicture(json.getString("img_month_amount"),"img_month_amount");
+        Map<String,Object> header4 = picture.returnpicture(json.getString("img_type_percent1"),"img_type_percent1");
+        Map<String,Object> header5 = picture.returnpicture(json.getString("img_type_percent2"),"img_type_percent2");
+        Map<String,Object> header6 = picture.returnpicture(json.getString("img_lend_yearamount"),"img_lend_yearamount");
+        Map<String,Object> header7 = picture.returnpicture(json.getString("img_type_reader"),"img_type_reader");
+        Map<String,Object> header8 = picture.returnpicture(json.getString("img_academy_img"),"img_academy_img");
+        Map<String,Object> header9 = picture.returnpicture(json.getString("img_leader_img"),"img_leader_img");
+        Map<String,Object> header10 = picture.returnpicture(json.getString("img_borrow_img1"),"img_borrow_img1");
+        Map<String,Object> header11 = picture.returnpicture(json.getString("img_borrow_img2"),"img_borrow_img2");
+        Map<String,Object> header12 = picture.returnpicture(json.getString("img_read_img"),"img_read_img");
+        Map<String,Object> header13 = picture.returnpicture(json.getString("img_seat_img"),"img_seat_img");
+        Map<String,Object> header14 = picture.returnpicture(json.getString("img_ebook_spend"),"img_ebook_spend");
+        Map<String,Object> header15 = picture.returnpicture(json.getString("img_print_amount"),"img_print_amount");
+        Map<String,Object> header16 = picture.returnpicture(json.getString("img_print_dy"),"img_print_dy");
+        Map<String,Object> header17 = picture.returnpicture(json.getString("img_print_fy"),"img_print_fy");
+        Map<String,Object> header18 = picture.returnpicture(json.getString("img_print_sm"),"img_print_sm");
+        Map<String,Object> header19 = picture.returnpicture(json.getString("img_print_day"),"img_print_day");
+        Map<String,Object> header20 = picture.returnpicture(json.getString("day_gctrl"),"day_gctrl");
+        Map<String,Object> header21 = picture.returnpicture(json.getString("gctrl_top12"),"gctrl_top12");
+        Map<String,Object> header22 = picture.returnpicture(json.getString("publisher_raking"),"publisher_raking");
+        Map<String,Object> header23 = picture.returnpicture(json.getString("publisher_rating"),"publisher_rating");
+        Map<String,Object> header24 = picture.returnpicture(json.getString("croom"),"croom");
+        Map<String,Object> header25 = picture.returnpicture(json.getString("eread"),"eread");
+        Map<String,Object> header26 = picture.returnpicture(json.getString("seat"),"seat");
+        Map<String,Object> header27 = picture.returnpicture(json.getString("equipment"),"equipment");
+        Map<String,Object> header28 = picture.returnpicture(json.getString("typechart"),"typechart");
+        Map<String,Object> header29 = picture.returnpicture(json.getString("typenumber"),"typenumber");
+        Map<String,Object> header30 = picture.returnpicture(json.getString("getCollectionBycategorytype"),"getCollectionBycategorytype");
+        Map<String,Object> header31 = picture.returnpicture(json.getString("getCollectionBycategorynumber"),"getCollectionBycategorynumber");
+        Map<String,Object> header32 = picture.returnpicture(json.getString("getCollectionOverall"),"getCollectionOverall");
+        Map<String,Object> header33 = picture.returnpicture(json.getString("getCollectionNewAdded"),"getCollectionNewAdded");
+        Map<String,Object> header34 = picture.returnpicture(json.getString("getCollectionNewAddedByCate"),"getCollectionNewAddedByCate");
+        Map<String,Object> header35 = picture.returnpicture(json.getString("getCollectionTuShuNewAddedByCate"),"getCollectionTuShuNewAddedByCate");
+        Map<String,Object> header36 = picture.returnpicture(json.getString("getCollectionWaiWenNewAddedByCate"),"getCollectionWaiWenNewAddedByCate");
         Calendar date = Calendar.getInstance();
         String currentyear = String.valueOf(date.get(Calendar.YEAR));
         Interface_processing interface_processing = new Interface_processing();
@@ -117,7 +117,7 @@ public class reportService {
         param.put("getCollectionNewAddedByCate", header34);
         param.put("getCollectionTuShuNewAddedByCate", header35);
         param.put("getCollectionWaiWenNewAddedByCate", header36);*/
-        JSONArray section1_2_1 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getGctrlsCountBy_year");
+        /*JSONArray section1_2_1 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getGctrlsCountBy_year");
         JSONArray section1_2_2 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getGctrlsCountBy_month");
         JSONArray section1_2_3 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getmankindCount_Byoneyear");
         JSONArray section2_1 = interface_processing.return_json("http://localhost:8080/SmartLibrary/schoolReport/getBook_LendCountBy_year");
@@ -331,7 +331,7 @@ public class reportService {
         param.put("chart_year1",teacher_year_list.get(0)+"年");
         param.put("chart_year2",teacher_year_list.get(1)+"年");
         param.put("chart_year3",teacher_year_list.get(2)+"年");
-        /*System.out.println(param);*/
+        *//*System.out.println(param);*//*
         param.put("eread_read_year",section3_1.getJSONObject(0).getString("year"));
         ArrayList<Integer> arr_3_1 = new ArrayList<>();
         for(int i=0;i<section3_1.size();i++){
@@ -365,7 +365,7 @@ public class reportService {
             arr_4_2.add(section4_2.getJSONObject(i).getInteger("prints"));
         }
         param.put("print_day_clock1",section4_2.getJSONObject(arr_4_2.indexOf(Collections.max(arr_4_2))).getString("hour")+"点");
-        param.put("print_day_clock2",section4_2.getJSONObject(arr_4_2.indexOf(Collections.max(arr_4_2))+1).getString("hour")+"点");
+        param.put("print_day_clock2",section4_2.getJSONObject(arr_4_2.indexOf(Collections.max(arr_4_2))+1).getString("hour")+"点");*/
         /*CustomXWPFDocument doc = WordUtil.generateWord(param, wordpath);
         FileOutputStream fopts = null;
         try {
@@ -379,12 +379,12 @@ public class reportService {
             e.printStackTrace();
         }
         return "0";*/
-        try {
+        /*try {
             new XDocService().run("http://localhost:8080/SmartLibrary/report/88.docx",param,new File(towordpath));
             return "1";
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        return "0";
+        }*/
+        return "1";
     }
 }

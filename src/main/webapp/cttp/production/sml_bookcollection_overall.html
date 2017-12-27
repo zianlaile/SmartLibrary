@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>图书馆资产统计</title>
+    <title>图书馆馆藏总体统计</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -35,6 +35,7 @@
     <!-- 引入 ECharts 文件 -->
     <script src="../../js/echarts.min.js"></script>
 </head>
+
 <!--注销-->
 <script type="application/javascript">
     function sys_logout(){
@@ -48,216 +49,37 @@
         });
     }
 </script>
-<script type="application/javascript">
-    function getlarge_asset_year(){
-        $(".chart_title p").text("设备-购买年份统计");
-        $(".large_chart").css("display","none");
-        $(".mask").css("display","block");
-        $("#large_asset_year_count").css("display","block");
-        var asset_year_count = echarts.init(document.getElementById('large_asset_year_count'));
-        // 异步加载数据
-        $.get('../../personasset/ByPurchaseDateCount').done(function (data) {
-            // 填入数据
-            console.log(data);
-
-            var day_count1_option = {
-               // color: ['#3398DB'],
-                title: {
-                    text: ''
-                },
-                tooltip: {},
-                legend: {
-                    data:['数量']
-                },
-                toolbox: {
-                    show: true,
-                    feature: {
-                        dataZoom: {},
-                        dataView: {readOnly: false},
-                        magicType: {type: ['line', 'bar']},
-                        restore: {},
-                        saveAsImage: {}
-                    }
-                },
-                grid: {
-                    bottom: '10%',
-                    containLabel: true
-                },
-                xAxis: {
-                    name:'年份',
-                    data: data.ayear
-                },
-                yAxis: [ {
-                    "axisLabel": {
-                        "interval": 0,
-                        formatter: '{value}台',
-                    },
-                    axisTick: {
-                        alignWithLabel: true
-                    }
-                }],
-                series: [
-                    {
-                        name: '数量',
-                        type: 'bar',
-                        barWidth: '45%',
-                        data:data.acount,
-                        markPoint: {
-                            data: [
-                                {type: 'max', name: '最大值'},
-                                {type: 'min', name: '最小值'}
-                            ]
-                        },
-                        markLine: {
-                            data: [
-                                {type: 'average', name: '平均值'}
-                            ]
-                        }
-                    },
-
-                ],
-                label: {
-                    normal: {
-                        show: true,
-                        position: 'top',
-                        formatter: '{c}'
-                    }
-                },
-                itemStyle: {
-                    normal: {
-
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                            offset: 0,
-                            color: 'rgba(17, 168,171, 1)'
-                        }, {
-                            offset: 1,
-                            color: 'rgba(17, 168,171, 0.1)'
-                        }]),
-                        shadowColor: 'rgba(0, 0, 0, 0.1)',
-                        shadowBlur: 10
-                    }
-                }
-            };
-            asset_year_count.setOption(day_count1_option);
-        });
-
-    }
-    $(function(){
-        $(".remove").click(function(){
-            $(".mask").css("display","none");
-        });
-    });
-</script>
-<script type="application/javascript">
-    function getlarge_employee_pie(){
-        $(".chart_title p").text("设备-楼层统计");
-        $(".large_chart").css("display","none");
-        $("#large_asset_floor").css("display","block");
-        $(".mask").css("display","block");
-        var day_count2 = echarts.init(document.getElementById('large_asset_floor'));
-            // 异步加载数据
-        $.get('../../personasset/ByFloorCount').done(function (pdata) {
-            // 填入数据
-            console.log(pdata);
-
-            var aresult = [];
-            for(var z =0;z<pdata.acount.length;z++){
-                var b = {};
-                b.value = pdata.acount[z];
-                b.name = pdata.afloor[z];
-                aresult.push(b);
-            }
-            console.info(aresult);
-
-            var day_count2_option = {
-                tooltip: {
-                    trigger: 'item',
-                    formatter: "{a} <br/>{b}: {c}台"
-                },
-                legend: {
-
-                    data:pdata.afloor
-                },
-                toolbox: {
-                    show: true,
-                    feature: {
-                        dataZoom: {},
-                        dataView: {readOnly: false},
-                        restore: {},
-                        saveAsImage: {}
-                    }
-                },
-                series: [
-                    {
-                        name:'楼层数量',
-                        type:'pie',
-                        radius: ['50%', '70%'],
-                        avoidLabelOverlap: false,
-                        label: {
-                            normal: {
-                                show: false,
-                                position: 'center'
-                            },
-                            emphasis: {
-                                show: true,
-                                textStyle: {
-                                    fontSize: '30',
-                                    fontWeight: 'bold'
-                                }
-                            }
-                        },
-                        labelLine: {
-                            normal: {
-                                show: false
-                            }
-                        },
-                        data:aresult
-                    }
-                ]
-            };
-            day_count2.setOption(day_count2_option);
-        });
-
-
-    }
-    $(function(){
-        $(".remove").click(function(){
-            $(".mask").css("display","none");
-        });
-    });
-</script>
 
 
 <!--屏幕适配-->
 <script type="application/javascript">
-    function getResourceCountBy_year(chartid) {
+
+/*    function getBook_LendCountBy_academyAndyear(chartid) {
         $.ajax({
             type:'get',
-            url:'../../schoolReport/getResourceCountBy_year',
-            contentType: 'application/json',
+            contentType:'application/json',
+            url:'../../schoolReport/getBook_LendCountBy_academyAndyear',
+            dataType:'json',
             async:false,
-            dataType: 'json',
-            success: function(data, textStatus, jqXHR){
-                var year = [];
-                var count = [];
-                var count1 = [];
+            success:function (data) {
+                $("#academy_lend_title").text(data[0].year+"年各学院借阅统计图");
+                var academy = [];
+                var academylend = [];
                 for(var i=0;i<data.length;i++){
-                    year.push(data[i].year);
-                    count.push({
-                        value:data[i].count,
-                        itemStyle:{
-                            normal:{
-                                color:'orange'
-
-                            }
-                        }
-                    });
-                    count1.push(data[i].count)
+                    academy.push(data[i].academy);
+                    academylend.push(data[i].lend);
                 }
-                var getResourceCountBy_year = echarts.init(document.getElementById(chartid));
-                var option = {
-                    backgroundColor:'white',
+                var getBook_LendCountBy_academyAndyear = echarts.init(document.getElementById(chartid));
+                var getBook_LendCountBy_academyAndyearoption = {
                     animation:false,
+                    backgroundColor:'white',
+                    color: ['#3398DB'],
+                    tooltip : {
+                        trigger: 'axis',
+                        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                        }
+                    },
                     toolbox: {
                         show: true,
                         feature: {
@@ -268,83 +90,100 @@
                             saveAsImage: {}
                         }
                     },
-                    xAxis: [
+                    grid: {
+                        left: '3%',
+                        right: '6%',
+                        bottom: '13%',
+                        containLabel: true
+                    },
+                    xAxis : [
                         {
-                            name:'年',
-                            type: 'category',
-                            show:true,
-                            data: year,
-                            axisPointer: {
-                                type: 'shadow'
-                            },
+                            name:'学院',
+                            type : 'category',
+                            data : academy,
                             axisTick: {
-                                show: false
+                                alignWithLabel: true
                             },
-                        }
-                    ],
-
-                    yAxis: [
-                        {
-                            type: 'value',
-                            name: '资源数',
-                            /*min: 0,
-                             max:100,
-                             interval: 20,*/
-                            axisLabel: {
-                                formatter: '{value}'
-                            },
-                            axisTick: {
-                                show: false
-                            }
-                        },
-
-                    ],
-                    series: [
-                        {
-                            /*name:'保障率',*/
-                            type:'bar',
-                            barWidth: '30%',
-                            data:count,
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'top',
-                                    formatter: '{c}'
+                            "axisLabel": {
+                                "interval": 0,
+                                "rotate": 30,
+                                "show": true,
+                                "splitNumber": 15,
+                                "textStyle": {
+                                    "fontFamily": "微软雅黑",
+                                    "fontSize": 12
                                 }
-                            },
-                        },
-
-                        {
-                            type:'line',
-                            name:'占比',
-                            data:count1
+                            }
                         }
                     ],
+                    yAxis : [
+                        {
+                            // type : 'category',
+                            // data : ['10','20','30','40'],
+                            name:'册',
+                            axisTick: {
+                                alignWithLabel: true
+                            }
+                        }
+                    ],
+                    series : [
+                        {
+                            name:'借阅',
+                            type:'bar',
+                            barWidth: '40%',
+                            data:academylend
+                        },
+
+                    ],
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{c}'
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(17, 168,171, 1)'
+                            }, {
+                                offset: 1,
+                                color: 'rgba(17, 168,171, 0.1)'
+                            }]),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    }
                 };
-                getResourceCountBy_year.setOption(option);
+                getBook_LendCountBy_academyAndyear.setOption(getBook_LendCountBy_academyAndyearoption);
             }
-        });
+
+        })
+
     }
-    function getlarge_resouce() {
-        $(".chart_title p").text("历年年馆藏文献资源总量变化趋势");
-        $(".large_chart").css("display","none");
-        $("#large_resouce").css("display","block");
+    function getlarge_academy_lend() {
+        $(".chart_title p").text($("#academy_lend_title").text());
         $(".mask").css("display","block");
-        getResourceCountBy_year("large_resouce");
-    }
+        $(".large_chart").css("display","none");
+        $("#large_academy_lend").css("display","block");
+        getBook_LendCountBy_academyAndyear('large_academy_lend');
+    }*/
     $(function(){
-        var left=$(".left_col").height();
-        left=left-17;
-        $(".right_col").height(left);
-        var height=left/2-$(".x_title").height()-90;
-        $("#employee_year_number").height(height);
-        $("#employee_year_sex").height(height);
-        $("#getResourceCountBy_year").height(height);
-        person_countchart();
-        person_count2chart();
-        getResourceCountBy_year('getResourceCountBy_year');
+        /*var left=$(".left_col").height();
+         left=left-17;
+         $(".right_col").height(left);
+         var height=left/2-$(".x_title").height()-90;
+         $("#academy_hour_count").height(height);
+         $("#bookind_hour_count").height(height);*/
+        getCollectionOverall();
+        getCollectionBycategory();
+        /*getBook_LendCountBy_academyAndyear('getBook_LendCountBy_academyAndyear');*/
+
     });
 </script>
+
 <body class="nav-md">
 <div class="container body">
     <div class="main_container">
@@ -488,196 +327,237 @@
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="clearfix"></div>
-            <div class="row"  >
-                <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="row" >
+                <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title" style="padding:0px;">
-                            <h2>设备-购买年份统计</h2>
+                            <h2>总体情况</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
-                                <li><a class="" href="javascript:getlarge_asset_year()"><i class="fa icon-resize-full"></i></a>
-                                </li>
+                               <!-- <li><a class="" href="javascript:getlarge_academy_hour_count()"><i class="fa icon-resize-full"></i></a>
+                                </li>-->
                                 <li><a class="close-link"><i class="fa fa-close"></i></a>
                                 </li>
                             </ul>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="employee_year_number"></div>
-                            <!--<div id="publisher_count"></div>-->
+                            <div id="getCollectionOverall" style="height: 250px"></div>
                         </div>
                     </div>
                 </div>
                 <script type="text/javascript">
-                    function person_countchart() {
-                        var employee_year_number = echarts.init(document.getElementById('employee_year_number'));
-                        // 异步加载数据
-                        $.get('../../personasset/ByPurchaseDateCount').done(function (data) {
-                            // 填入数据
-                            console.log(data);
-
-                            var day_count1_option = {
-                                title: {
-                                    text: ''
-                                },
-                                tooltip: {},
-                                legend: {
-                                    data:['数量']
-                                },
-                                toolbox: {
-                                    show: true,
-                                    feature: {
-                                        dataZoom: {},
-                                        dataView: {readOnly: false},
-                                        magicType: {type: ['line', 'bar']},
-                                        restore: {},
-                                        saveAsImage: {}
-                                    }
-                                },
-                                xAxis: {
-                                    name:'年份',
-                                    data: data.ayear
-                                },
-                               yAxis: [ {
-                                   "axisLabel": {
-                                       "interval": 0,
-                                       formatter: '{value}台',
-                                   },
-                                   axisTick: {
-                                       alignWithLabel: true
-                                   }
-                               }],
-                                series: [
-                                    {
-                                        name: '数量',
-                                        type: 'bar',
-                                        barWidth: '45%',
-                                        data:data.acount,
-                                        markPoint: {
-                                            data: [
-                                                {type: 'max', name: '最大值'},
-                                                {type: 'min', name: '最小值'}
-                                            ]
-                                        },
-                                        markLine: {
-                                            data: [
-                                                {type: 'average', name: '平均值'}
-                                            ]
-                                        }
-                                    },
-
-                                ],
-                                label: {
-                                    normal: {
-                                        show: true,
-                                        position: 'top',
-                                        formatter: '{c}'
-                                    }
-                                },
-                                itemStyle: {
-                                    normal: {
-
-                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                            offset: 0,
-                                            color: 'rgba(17, 168,171, 1)'
-                                        }, {
-                                            offset: 1,
-                                            color: 'rgba(17, 168,171, 0.1)'
-                                        }]),
-                                        shadowColor: 'rgba(0, 0, 0, 0.1)',
-                                        shadowBlur: 10
-                                    }
+                    function getCollectionOverall(){
+                        var dataAll=[];
+                        var yAxisData=[];
+                        var piedata=[];
+                        $.ajax({
+                            type:'get',
+                            url:'../../schoolReport/getCollectionOverall',
+                            contentType: 'application/json',
+                            async:false,
+                            dataType: 'json',
+                            success: function(data, textStatus, jqXHR){
+                                dataAll=data.amount;
+                                yAxisData=data.stack;
+                                for(var i=0;i<dataAll.length;i++){
+                                    // console.log({ value:dataAll[i],name:yAxisData[i]})
+                                    piedata.push({ value:dataAll[i],name:yAxisData[i]});
                                 }
-                            };
-                            employee_year_number.setOption(day_count1_option);
+                                //  console.log(piedata)
+                                var getCollectionOverall = echarts.init(document.getElementById('getCollectionOverall'));
+                                var getCollectionOveralloption = {
+                                    animation:false,
+                                    backgroundColor: '#0f375f',
+                                    title:[
+                                        {text:"各馆藏书占比",x: '2%', y: '1%',textStyle:{color:"#fff",fontSize:"14"}},
+                                        {text:"各馆藏书TOP10",x: '40%', y: '1%',textStyle:{color:"#fff",fontSize:"14"}},
+
+                                    ],
+                                    grid: [
+                                        {x: '65%', y: '7%', width: '30%', height: '90%'},
+                                    ],
+                                    tooltip: {
+                                        formatter: '{b} ({c})'
+                                    },
+                                    xAxis: [
+                                        {gridIndex: 0, axisTick: {show:false},axisLabel: {show:false},splitLine: {show:false},axisLine: {show:false }},
+                                    ],
+                                    yAxis: [
+                                        {  gridIndex: 0, interval:0,data:yAxisData,
+                                            axisTick: {show:false}, axisLabel: {show:true},splitLine: {show:false},
+                                            axisLine: {show:true,lineStyle:{color:"#6173a3"}},
+                                        }
+                                    ],
+                                    series: [
+                                        {
+                                            name: '各馆藏书占比',
+                                            type: 'pie',
+                                            radius : '30%',
+                                            center: ['25%', '50%'],
+                                            color:['#86c9f4','#4da8ec','#3a91d2','#005fa6','#315f97'],
+                                            data:piedata,
+                                            label:{normal:{show:true,position:'outside',fontSize:12}},
+                                            labelLine:{normal:{show:true} },
+                                            itemStyle: {normal: {label:{ show: true,  formatter: '({d}%)', textStyle:{color:'#B1B9D3'}} },},
+                                        },
+
+                                        {
+                                            name: '各馆藏书TOP10',
+                                            type: 'bar',xAxisIndex: 0,yAxisIndex: 0,barWidth:'45%',
+                                            itemStyle:{normal:{color:'#86c9f4'}},
+                                            label:{normal:{show:true, position:"right",textStyle:{color:"#9EA7C4"}}},
+                                            data: dataAll,
+                                        },
+
+                                    ]
+                                };
+                                getCollectionOverall.setOption(getCollectionOveralloption);
+                            }
                         });
+
+
                     }
                 </script>
-                <div class="col-md-6 col-sm-6 col-xs-12">
+            </div>
+            <div class="clearfix"></div>
+            <div class="row"  >
+                <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
-                        <div class="x_title" style="padding:0px;">
-                            <h2>设备-楼层统计</h2>
+                        <div class="x_title"  style="padding:0px;">
+                            <h2>各种格式书目分类分布（种）</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
-                                <!--<li><a class="" href="javascript:getlarge_employee_sex()"><i class="fa icon-resize-full"></i></a>-->
-                                <li><a class="" href="javascript:getlarge_employee_pie()"><i class="fa icon-resize-full"></i></a>
-                                </li>
+                                <!--<li><a class="" href="javascript:getlarge_bookind_hour_count()"><i class="fa icon-resize-full"></i></a>
+                                </li>-->
+
                                 <li><a class="close-link"><i class="fa fa-close"></i></a>
                                 </li>
                             </ul>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="employee_year_sex"></div>
+                            <div id="getCollectionBycategorytype" style="height: 250px;"></div>
                         </div>
                     </div>
                 </div>
                 <script type="text/javascript">
-                    function person_count2chart() {
-                        var day_count2 = echarts.init(document.getElementById('employee_year_sex'));
-                        // 异步加载数据
-                        $.get('../../personasset/ByFloorCount').done(function (pdata) {
-                            // 填入数据
-                            console.log(pdata);
-
-                           var aresult = [];
-                           for(var z =0;z<pdata.acount.length;z++){
-                               var b = {};
-                               b.value = pdata.acount[z];
-                               b.name = pdata.afloor[z];
-                               aresult.push(b);
-                           }
-                           console.info(aresult);
-
-                            var day_count2_option = {
-                                tooltip: {
-                                    trigger: 'item',
-                                    formatter: "{a} <br/>{b}: {c}台"
-                                },
-                                legend: {
-
-                                    data:pdata.afloor
-                                },
-                                toolbox: {
-                                    show: true,
-                                    feature: {
-                                        dataZoom: {},
-                                        dataView: {readOnly: false},
-                                        restore: {},
-                                        saveAsImage: {}
+                    function getCollectionBycategory() {
+                        $.ajax({
+                            type:'get',
+                            url:'../../schoolReport/getCollectionBycategory',
+                            contentType:'application/json',
+                            async:false,
+                            dataType:'json',
+                            success:function (data){
+                                var arr = [];
+                                var arr1 = [];
+                                var seriestype = [];
+                                var seriesnumber = [];
+                                for(var i=0;i<data.bookType.length;i++){
+                                    arr[i] = [];
+                                    arr1[i] = [];
+                                    for(var j=0;j<data.category.length;j++){
+                                        arr[i].push(data.amounttype[i*data.category.length+j]);
+                                        arr1[i].push(data.amountnumber[i*data.category.length+j]);
                                     }
-                                },
-                                series: [
-                                    {
-                                        name:'楼层数量',
-                                        type:'pie',
-                                        radius: ['50%', '70%'],
-                                        avoidLabelOverlap: false,
+                                }
+                                var itemcolor = ['#FF7F0E','#2CA02C','#6ca7e2','#00CCFF','#915872','#3077b7','#9a8169','#3f8797'];
+                                for(var i=0;i<arr.length;i++){
+                                    seriestype.push({
+                                        name: data.bookType[i],
+                                        type: 'bar',
+                                        stack: '总量',
+                                        itemStyle:{
+                                            normal:{
+                                                color:itemcolor[i]
+                                            }
+                                        },
                                         label: {
                                             normal: {
                                                 show: false,
-                                                position: 'center'
-                                            },
-                                            emphasis: {
-                                                show: true,
-                                                textStyle: {
-                                                    fontSize: '30',
-                                                    fontWeight: 'bold'
-                                                }
+                                                position: 'insideRight'
                                             }
                                         },
-                                        labelLine: {
+                                        data: arr[i]
+                                    });
+                                    seriesnumber.push({
+                                        name: data.bookType[i],
+                                        type: 'bar',
+                                        stack: '总量',
+                                        itemStyle:{
+                                            normal:{
+                                                color:itemcolor[i]
+                                            }
+                                        },
+                                        label: {
                                             normal: {
-                                                show: false
+                                                show: false,
+                                                position: 'insideRight'
                                             }
                                         },
-                                        data:aresult
-                                    }
-                                ]
-                            };
-                            day_count2.setOption(day_count2_option);
+                                        data: arr1[i]
+                                    });
+                                }
+                                var typeoption = {
+                                    animation:false,
+                                    tooltip : {
+                                        trigger: 'axis',
+                                        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                                            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                                        }
+                                    },
+                                    legend: {
+                                        data: data.bookType
+                                    },
+                                    grid: {
+                                        left: '3%',
+                                        right: '4%',
+                                        bottom: '3%',
+                                        containLabel: true
+                                    },
+                                    xAxis:  {
+                                        type: 'value'
+                                    },
+                                    yAxis: {
+                                        type: 'category',
+                                        data: data.category
+                                    },
+                                    series: seriestype
+                                };
+                                var numberoption = {
+                                    animation:false,
+                                    tooltip : {
+                                        trigger: 'axis',
+                                        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                                            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                                        }
+                                    },
+                                    legend: {
+                                        data: data.bookType
+                                    },
+                                    grid: {
+                                        left: '3%',
+                                        right: '4%',
+                                        bottom: '3%',
+                                        containLabel: true
+                                    },
+                                    xAxis:  {
+                                        type: 'value'
+                                    },
+                                    yAxis: {
+                                        type: 'category',
+                                        data: data.category
+                                    },
+                                    series: seriesnumber
+                                };
+                                var typechart = echarts.init(document.getElementById("getCollectionBycategorytype"));
+                                typechart.setOption(typeoption);
+                                var numberchart = echarts.init(document.getElementById("getCollectionBycategorynumber"));
+                                numberchart.setOption(numberoption);
+                            }
                         });
                     }
                 </script>
@@ -687,12 +567,12 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title"  style="padding:0px;">
-                            <h2>历年年馆藏文献资源总量变化趋势</h2>
+                            <h2 id="academy_lend_title">各种格式书目分类分布（册）</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
-                                <li><a class="" href="javascript:getlarge_resouce()"><i class="fa icon-resize-full"></i></a>
-                                </li>
+                                <!--<li><a class="" href="javascript:getlarge_academy_lend()"><i class="fa icon-resize-full"></i></a>
+                                </li>-->
 
                                 <li><a class="close-link"><i class="fa fa-close"></i></a>
                                 </li>
@@ -700,10 +580,12 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="getResourceCountBy_year"></div>
+                            <div id="getCollectionBycategorynumber" style="height: 300px;"></div>
                         </div>
                     </div>
                 </div>
+                <script type="text/javascript">
+                </script>
             </div>
         </div>
     </div>
@@ -716,11 +598,12 @@
         <div class="chart_title">
             <p></p>
         </div>
-        <div id="large_asset_year_count" class="large_chart"  style="display: none"></div>
-        <div id="large_asset_floor" class="large_chart"  style="display: none"></div>
-        <div id="large_resouce" class="large_chart"  style="display: none"></div>
+        <div id="large_academy_hour_count" class="large_chart"  style="display: none"></div>
+        <div id="large_bookind_hour_count" class="large_chart"  style="display: none"></div>
+        <div id="large_academy_lend" class="large_chart"  style="display: none"></div>
     </div>
 </div>
+
 <!-- Bootstrap -->
 <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- FastClick -->

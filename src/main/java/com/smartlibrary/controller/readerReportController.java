@@ -3,10 +3,7 @@ package com.smartlibrary.controller;
 import com.smartlibrary.domain.reader_report;
 import com.smartlibrary.service.readerReportService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -91,6 +88,20 @@ public class readerReportController {
     @RequestMapping(value = "/getapp_book_academy_rank", method = RequestMethod.POST)
     public  Integer getapp_book_academy_rank(@RequestBody  reader_report n){
         return readerReportservice.getapp_book_academy_rank(n);
+
+    }
+    // <!-- app需要 学院借阅排名-->
+    @RequestMapping(value = "/getapp_all_rank", method = RequestMethod.GET)
+    public   List<reader_report> getapp_all_rank(@RequestParam("account") String account){
+        System.out.println(account);
+        System.out.println(123);
+        reader_report n=new reader_report ();
+        n.setAccount(account);
+        List<reader_report> a=readerReportservice.getapp_bookandgctrl_rank(n);
+        if(a.size()==0)return null;
+        a.get(0).setMonth_gctrl_rank(readerReportservice.getapp_gctrl_academy_rank(n));
+        a.get(0).setMonth_lend_rank(readerReportservice.getapp_book_academy_rank(n));
+        return a;
 
     }
 

@@ -358,4 +358,10 @@
         ORDER BY amounttype DESC
         LIMIT 10
     </select>
+    <select id="getlibrary_identity_sum"  resultType="library_report_month_mankinds">
+        SELECT  year,identity,sum
+        FROM  library_report_identity_sum
+        ORDER BY  year ,identity
+    </select>
+
 </mapper>

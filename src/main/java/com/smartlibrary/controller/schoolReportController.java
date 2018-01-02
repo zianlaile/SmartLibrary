@@ -221,10 +221,16 @@ public class schoolReportController {
     public Map<String,List> getCollectionBycategory(){
         return schoolReportservice.getCollectionBycategory();
     }
-
     //品种前十的分类
     @RequestMapping(value = "/getTop10category",method = RequestMethod.GET)
     public Map<String,List> getTop10category(){
         return schoolReportservice.getTop10category();
     }
+    // 2012-2015 年各类型读者入馆总人次统计
+    @RequestMapping(value = "/library_report_identity_sum",method = RequestMethod.GET)
+    public Map<String,List> library_report_identity_sum(){
+        return schoolReportservice.library_report_identity_sum();
+    }
+
+
 }

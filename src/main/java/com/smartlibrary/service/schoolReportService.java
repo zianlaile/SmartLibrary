@@ -657,4 +657,24 @@ public class schoolReportService {
         Top10categorydata.put("amounttype",amounttype);
         return Top10categorydata;
     }
+    public Map<String,List> library_report_identity_sum(){
+        List<library_report_month_mankinds > library_report_identity_sum = schoolReportdao.getlibrary_identity_sum();
+        Map<String,List> library_report_identity_sum_result = new HashMap<>();
+        List<String>identity = new ArrayList<>();
+        List<Integer>year = new ArrayList<>();
+        List<Integer> sum= new ArrayList<>();
+        for(int i=0;i<library_report_identity_sum.size();i++){
+            if(!year.contains(library_report_identity_sum.get(i).getYear())){
+                year.add(library_report_identity_sum.get(i).getYear());
+            }
+            if(!identity.contains(library_report_identity_sum.get(i).getIdentity())){
+                identity.add(library_report_identity_sum.get(i).getIdentity());
+            }
+            sum.add(library_report_identity_sum.get(i).getSum());
+        }
+        library_report_identity_sum_result.put("identity",identity);
+        library_report_identity_sum_result.put("year",year);
+        library_report_identity_sum_result.put("sum",sum);
+        return library_report_identity_sum_result;
+    }
 }

@@ -95,4 +95,6 @@ public interface schoolReportDao {
     List<CollectionBook> getCollectionBycategory();
     //品种前十的分类
     List<CollectionBook> getTop10category();
+    //2012-2015 年度总馆上机总人次对比统计
+    List<library_report_month_mankinds> getlibrary_identity_sum();
 }

@@ -94,6 +94,17 @@ var amounteread=[];
 var amountcroom=[];
 var amountseat=[];
 var amountequipment=[];
+const url = "http://106.14.120.137:8080/SmartLibrary/report";
+var replace = {
+    "school":"西南政法",
+    "logo" : url+"/school-logo.jpg"
+}
+var data = new Date;
+var nowyear = data.getFullYear();
+var nowmonth = data.getMonth();
+if(nowmonth<3){
+    nowyear = nowyear-1;
+}
 function croomchart(chartid){
     var croom_count = echarts.init(document.getElementById(chartid));
     var  croom_count_option ={
@@ -1227,6 +1238,15 @@ function downloadword(){
         var eread =echarts.init(document.getElementById("eread")).getDataURL();
         var seat =echarts.init(document.getElementById("seat")).getDataURL();
         var equipment =echarts.init(document.getElementById("equipment")).getDataURL();
+        var typechart = echarts.init(document.getElementById("typechart")).getDataURL();
+        var typenumber = echarts.init(document.getElementById("typenumber")).getDataURL();
+        var getCollectionBycategorytype = echarts.init(document.getElementById("getCollectionBycategorytype")).getDataURL();
+        var getCollectionBycategorynumber = echarts.init(document.getElementById("getCollectionBycategorynumber")).getDataURL();
+        var getCollectionOverall = echarts.init(document.getElementById("getCollectionOverall")).getDataURL();
+        var getCollectionNewAdded = echarts.init(document.getElementById("getCollectionNewAdded")).getDataURL();
+        var getCollectionNewAddedByCate = echarts.init(document.getElementById("getCollectionNewAddedByCate")).getDataURL();
+        var getCollectionTuShuNewAddedByCate = echarts.init(document.getElementById("getCollectionTuShuNewAddedByCate")).getDataURL();
+        var getCollectionWaiWenNewAddedByCate = echarts.init(document.getElementById("getCollectionWaiWenNewAddedByCate")).getDataURL();
         var postdata = {
             "img_Book_Amount" :img_Book_Amount,
             "img_gctrl_amount" :img_gctrl_amount,
@@ -1255,21 +1275,72 @@ function downloadword(){
             "eread":eread,
             "seat":seat,
             "equipment":equipment,
+            "typechart":typechart,
+            "typenumber":typenumber,
+            "getCollectionBycategorytype":getCollectionBycategorytype,
+            "getCollectionBycategorynumber":getCollectionBycategorynumber,
+            "getCollectionOverall":getCollectionOverall,
+            "getCollectionNewAdded":getCollectionNewAdded,
+            "getCollectionNewAddedByCate":getCollectionNewAddedByCate,
+            "getCollectionTuShuNewAddedByCate":getCollectionTuShuNewAddedByCate,
+            "getCollectionWaiWenNewAddedByCate":getCollectionWaiWenNewAddedByCate,
         }
         $.ajax({
             type:"POST",
             contentType: 'application/json;charset=UTF-8',
             data:JSON.stringify(postdata),
-            url:"../../report/getreport",
+            url:"http://106.14.120.137:8080/SmartLibrary/report/getreport",
             dataType: 'json',
             success: function(data, textStatus, jqXHR){
-                try{
-                    var elemIF = document.createElement("iframe");
-                    elemIF.src = "../../report/2.docx";
-                    elemIF.style.display = "none";
-                    document.body.appendChild(elemIF);
-                }catch(e){
+                console.log(data);
+                if(data==1){
+                    try{
+                       /* 第一版导出word
+                       var elemIF = document.createElement("iframe");
+                        elemIF.src = "../../report/2.docx";
+                        elemIF.style.display = "none";
+                        document.body.appendChild(elemIF);*/
+                       replace["img_Book_Amount"] = url+"/reportpic/img_Book_Amount.jpg";
+                        replace["img_gctrl_amount"] = url+"/reportpic/img_gctrl_amount.jpg";
+                        replace["img_month_amount"] = url+"/reportpic/img_month_amount.jpg";
+                        replace["img_type_percent1"] = url+"/reportpic/img_type_percent1.jpg";
+                        replace["img_type_percent2"] = url+"/reportpic/img_type_percent2.jpg";
+                        replace["img_lend_yearamount"] = url+"/reportpic/img_lend_yearamount.jpg";
+                        replace["img_type_reader"] = url+"/reportpic/img_type_reader.jpg";
+                        replace["img_leader_img"] = url+"/reportpic/img_leader_img.jpg";
+                        replace["img_borrow_img1"] = url+"/reportpic/img_borrow_img1.jpg";
+                        replace["img_borrow_img2"] = url+"/reportpic/img_borrow_img2.jpg";
+                        replace["img_read_img"] = url+"/reportpic/img_read_img.jpg";
+                        replace["img_seat_img"] = url+"/reportpic/img_seat_img.jpg";
+                        replace["img_ebook_spend"] = url+"/reportpic/img_ebook_spend.jpg";
+                        replace["img_print_amount"] = url+"/reportpic/img_print_amount.jpg";
+                        replace["img_print_dy"] = url+"/reportpic/img_print_dy.jpg";
+                        replace["img_print_fy"] = url+"/reportpic/img_print_fy.jpg";
+                        replace["img_print_sm"] = url+"/reportpic/img_print_sm.jpg";
+                        replace["img_print_day"] = url+"/reportpic/img_print_day.jpg";
+                        replace["day_gctrl"] = url+"/reportpic/day_gctrl.jpg";
+                        replace["gctrl_top12"] = url+"/reportpic/gctrl_top12.jpg";
+                        replace["publisher_raking"] = url+"/reportpic/publisher_raking.jpg";
+                        replace["publisher_rating"] = url+"/reportpic/publisher_rating.jpg";
+                        replace["croom"] = url+"/reportpic/croom.jpg";
+                        replace["eread"] = url+"/reportpic/eread.jpg";
+                        replace["seat"] = url+"/reportpic/seat.jpg";
+                        replace["equipment"] = url+"/reportpic/equipment.jpg";
+                        replace["typechart"] = url+"/reportpic/typechart.jpg";
+                        replace["typenumber"] = url+"/reportpic/typenumber.jpg";
+                        replace["getCollectionBycategorytype"] = url+"/reportpic/getCollectionBycategorytype.jpg";
+                        replace["getCollectionBycategorynumber"] = url+"/reportpic/getCollectionBycategorynumber.jpg";
+                        replace["getCollectionOverall"] = url+"/reportpic/getCollectionOverall.jpg";
+                        replace["getCollectionNewAdded"] = url+"/reportpic/getCollectionNewAdded.jpg";
+                        replace["getCollectionNewAddedByCate"] = url+"/reportpic/getCollectionNewAddedByCate.jpg";
+                        replace["getCollectionTuShuNewAddedByCate"] = url+"/reportpic/getCollectionTuShuNewAddedByCate.jpg";
+                        replace["getCollectionWaiWenNewAddedByCate"] = url+"/reportpic/getCollectionWaiWenNewAddedByCate.jpg";
+                        replace["img_academy_img"] = url+"/reportpic/img_academy_img.jpg";
+                       XDoc.run("http://106.14.120.137:8080/SmartLibrary/report/88.docx","docx",
+                           replace ,"_blank");
+                    }catch(e){
 
+                    }
                 }
             }
         });
@@ -1377,6 +1448,10 @@ function getGctrlsCountBy_year() {
             $(".gctrl-intro").find(".last-year").text(data[data.length - 1].year);
             $(".gctrl-intro").find(".max-year").text(year[parseInt(max.p)]);
             $(".gctrl-intro").find(".max-num").text(max.num);
+            replace["gctrl_year1"] = data[0].year;
+            replace["gctrl_year2"] = data[data.length - 1].year;
+            replace["gctrl_year3"] = year[parseInt(max.p)];
+            replace["gctrl_amount"] = max.num;
             var getgetGctrlsCountBy_year = echarts.init(document.getElementById('getGctrlsCountBy_year'));
             var GctrlsCountBy_yearoption = {
                 animation:false,
@@ -1470,6 +1545,13 @@ function getGctrlsCountBy_month() {
             $(".month-gctrl").find(".last-month").text(data[data.length - 1].month);
             $(".month-gctrl").find(".total").text(Sum(gctrl_times));
             $(".month-gctrl").find(".max-month").text(month[parseInt(max.p)]);
+            replace["gctrl_month_year1"] = data[0].year;
+            replace["gctrl_month_month1"] = data[0].month;
+            replace["gctrl_month_year2"] = data[data.length - 1].year;
+            replace["gctrl_month_month2"] = data[data.length - 1].month;
+            replace["gctrl_month_amount"] = Sum(gctrl_times);
+            replace["gctrl_month_month3"] = month[parseInt(max.p)];
+            replace["img_title_year"] = data[0].year;
             var getGctrlsCountBy_month = echarts.init(document.getElementById('getGctrlsCountBy_month'));
             var getGctrlsCountBy_monthoption = {
                 animation:false,
@@ -1548,6 +1630,10 @@ function getmankindGctrl_Byoneyear() {
             var total = Sum(gctrlNum);
             $(".gctrl-type").find(".max-type").text(type[parseInt(max.p)]);
             $(".gctrl-type").find(".max-num").text((max.num/total*100).toFixed(2));
+            replace["gctrl_type_year1"] = data[0].year;
+            replace["gctrl_type_student"] = type[parseInt(max.p)];
+            replace["gctrl_type_percent"] = (max.num/total*100).toFixed(2);
+            replace["img_type_year"] = data[0].year;
             var getmankindGctrl_Byoneyear = echarts.init(document.getElementById('getmankindGctrl_Byoneyear'));
             var getmankindGctrl_Byoneyearoption = {
                 animation:false,
@@ -1676,6 +1762,8 @@ function getBook_LendCountBy_year() {
             var max= Max(book_total);
             $(".lend-return").find(".max-year").text(book_lend_year[max.p]);
             $(".lend-return").find(".max-total").text(max.num);
+            replace["lend_top1_year"] = book_lend_year[max.p];
+            replace["lend_top1_amount"] = max.num;
             var secYear;
             var sortTotal = book_total.sort();
             for(var i=0;i<data.length;i++){
@@ -1685,6 +1773,8 @@ function getBook_LendCountBy_year() {
             }
             $(".lend-return").find(".sec-year").text(secYear);
             $(".lend-return").find(".sec-total").text(sortTotal[sortTotal.length-2]);
+            replace["lend_top2_year"] = secYear;
+            replace["lend_top2_amount"] = sortTotal[sortTotal.length-2];
             var getBook_LendCountBy_year = echarts.init(document.getElementById('getBook_LendCountBy_year'));
             var getBook_LendCountBy_yearoption ={
                 animation:false,
@@ -1770,6 +1860,13 @@ function getBookkindAllCount_Byyear() {
             var sortLend = sortByKey(data,'book_lend_times');
             $(".lend-type").find(".sec-type").text(sortLend[sortLend.length-2].book_kind);
             $(".lend-type").find(".sec-num").text(sortLend[sortLend.length-2].book_lend_times);
+
+            replace["lend_book_year"] = data[0].year;
+            replace["lend_book_type1"] = bookkind[parseInt(max.p)];
+            replace["lend_book_time1"] = max.num;
+            replace["lend_book_type2"] = sortLend[sortLend.length-2].book_kind;
+            replace["lend_book_time2"] = sortLend[sortLend.length-2].book_lend_times;
+            replace["img_type_year"] = data[0].year;
             var getBookkindAllCount_Byyear = echarts.init(document.getElementById('getBookkindAllCount_Byyear'));
             var getBookkindAllCount_Byyearoption = {
                 //color: ['#3398DB'],
@@ -1890,6 +1987,10 @@ function getBook_LendCountBy_academyAndyear() {
             $(".academy-lend").find(".max-name").text(academy[0]);
             $(".academy-lend").find(".sec-name").text(academy[1]);
             $(".academy-lend").find(".third-name").text(academy[2]);
+            replace["img_academy_year"] = data[0].year;
+            replace["lend_top3_accdemy1"] = academy[0];
+            replace["lend_top3_accdemy2"] = academy[1];
+            replace["lend_top3_accdemy3"] = academy[2];
             var getBook_LendCountBy_academyAndyear = echarts.init(document.getElementById('getBook_LendCountBy_academyAndyear'));
             var getBook_LendCountBy_academyAndyearoption = {
                 animation:false,
@@ -2008,6 +2109,14 @@ function getbooklendPeopleAndCount_Byhour() {
             $(".average-lend").find(".max-hour").text(people_hour);
             $(".average-lend").find(".second-hour").text(people_hour+1);
             $(".average-lend").find(".second-num").text(max_lend_people);
+            replace["library_leader_year"] = data[0].year;
+            replace["library_leader_clock1"] = lend_hour;
+            replace["library_leader_clock2"] = lend_hour+1;
+            replace["library_book_amount"] = max_lend;
+            replace["library_lead_clock3"] = people_hour;
+            replace["library_lead_clock4"] = people_hour+1;
+            replace["library_leader_amount"] = max_lend_people;
+            replace["img_leader_year"] = data[0].year;
             var getbooklendPeopleAndCount_Byhour = echarts.init(document.getElementById('getbooklendPeopleAndCount_Byhour'));
             var getbooklendPeopleAndCount_Byhouroption = {
                 animation:false,
@@ -2170,6 +2279,11 @@ function getlend_student_type(){
             var num = sortData[sortData.length-1].lend;
             $(".type-rate").find(".max-type").text(sortData[sortData.length-1].man_kind);
             $(".type-rate").find(".max-num").text((num/total.value*100).toFixed(2));
+            replace["student_borrow_type"] = sortData[sortData.length-1].man_kind;
+            replace["student_borrow_percent"] = (num/total.value*100).toFixed(2);
+            replace["student_borrow_year"] = data[0].year;
+            replace["img_borrow_year1"] = data[0].year;
+            replace["img_borrow_year2"] = data[0].year;
             echarts.util.each(originalData, function(item, index) {
                 item.itemStyle = {
                     normal: {
@@ -2353,6 +2467,10 @@ function geICdurationCountBy_year() {
             var sortData = sortByKey(data,'eread_times');
             $(".eread-info").find(".max-month").text(sortData[sortData.length-1].month);
             $(".eread-info").find(".max-num").text(sortData[sortData.length-1].eread_times);
+            replace["eread_read_year"] = data[0].year;
+            replace["img_read_year"] = data[0].year;
+            replace["eread_read_month"] = sortData[sortData.length-1].month;
+            replace["eread_read_time"] = sortData[sortData.length-1].eread_times;
             var geICdurationCountBy_year = echarts.init(document.getElementById('geICdurationCountBy_year'));
             var geICdurationCountBy_yearoption = {
                 animation:false,
@@ -2525,6 +2643,8 @@ function geteread_hour() {
             var ereads_hour =ereadshour[ereadshourtimes.indexOf(max_ereads)];//电子阅览室的高峰期 lend_hour点-lend_hour+1点
             $(".eread-info").find(".max-hour").text(ereads_hour);
             $(".eread-info").find(".next-hour").text(ereads_hour+1);
+            replace["ebook_spent_clock1"] = ereads_hour;
+            replace["ebook_spent_clock2"] = ereads_hour+1;
             var geteread_hour = echarts.init(document.getElementById('geteread_hour'));
             var geteread_houroption = {
                 animation:false,
@@ -2617,13 +2737,18 @@ function getprintsCountBy_year() {
             var variableNum = thisNum - beforeNum;
             if(variableNum<0){
                 $(".total-print").find(".variable-type").text("减少");
+                replace["print_amount_page2"] = "减少";
             }
             else if(variableNum>0){
                 $(".total-print").find(".variable-type").text("增加");
+                replace["print_amount_page2"] = "增加";
             }
             $(".total-print").find(".this-year").text(year[year.length-1]);
             $(".total-print").find(".this-num").text(num[num.length-1]);
             $(".total-print").find(".variable-num").text(Math.abs(variableNum));
+            replace["print_amount_year"] = year[year.length-1];
+            replace["print_amount_page1"] = num[num.length-1];
+            replace["print_amount_page3"] = Math.abs(variableNum);
             var getprintsCountBy_year = echarts.init(document.getElementById('getprintsCountBy_year'));
             var getprintsCountBy_yearoption = {
                 animation:false,
@@ -2962,6 +3087,8 @@ function getprints_hour() {
             var prints_hour =printshour[printshourtimes.indexOf(max_prints)];//自助文印设备的高峰期 lend_hour点-lend_hour+1点
             $(".print-info").find(".max-hour").text(prints_hour);
             $(".print-info").find(".next-hour").text(parseInt(prints_hour) + 1);
+            replace["print_day_clock1"] = prints_hour;
+            replace["print_day_clock2"] = parseInt(prints_hour) + 1;
             var getprints_hour = echarts.init(document.getElementById('getprints_hour'));
             var getprints_houroption = {
                 animation:false,
@@ -3048,6 +3175,20 @@ function readerLend() {
         $(".reader-info").find(".max-num").text(info[0].all_lend_times);
         $(".reader-info").find(".sec-num").text(info[1].all_lend_times);
         $(".reader-info").find(".third-num").text(info[2].all_lend_times);
+        replace["lend_reader_year1"] = info[0].year;
+        replace["lend_reader_name1"] = info[0].name;
+        replace["lend_reader_name2"] = info[1].name;
+        replace["lend_reader_name3"] = info[2].name;
+        replace["lend_reader_times1"] = info[0].all_lend_times;
+        replace["lend_reader_times2"] = info[1].all_lend_times;
+        replace["lend_reader_times3"] = info[2].all_lend_times;
+        replace["form_top10_year"] = info[0].year;
+        for(var i=0;i<info.length;i++){
+            replace["1-"+(i+1)+"-1"] = info[i].account;
+            replace["1-"+(i+1)+"-2"] = info[i].name;
+            replace["1-"+(i+1)+"-3"] = info[i].academy;
+            replace["1-"+(i+1)+"-4"] = info[i].all_lend_times;
+        }
         var html = template('readerLend',{param:info});
         $(".reader-lend").html(html);
     })
@@ -3056,16 +3197,34 @@ function bookLend1() {
     $.get('../../schoolReport/getop20authorBy_year',function (info) {
         $(".book-info").find(".max-name").text(info[0].book_name);
         $(".book-info").find(".max-num").text(info[0].lend_times);
+        replace["top_book_name"] = info[0].book_name;
+        replace["top_book_times"] = info[0].lend_times;
+        replace["form_numbertop15_year"] = info[0].year;
         var item = cutArray(info);
         var html = template('bookLend1',{param:item});
+        for(var i=0;i<item.length;i++){
+            replace["2-"+(i+1)+"-1"] = item[i].book_name;
+            replace["2-"+(i+1)+"-2"] = item[i].author;
+            replace["2-"+(i+1)+"-3"] = item[i].book_pubyear;
+            replace["2-"+(i+1)+"-4"] = item[i].lend_times;
+        }
         $(".book-lend1").html(html);
     })
 }
 function bookLend2() {
     $.get('../../schoolReport/getop20bookBy_year',function (info) {
         $(".book-info2").find(".max-name").text(info[0].book_name);
+        replace["fav_book_name"] = info[0].book_name;
+        replace["fav_book_author"] = info[0].author;
+        replace["form_typetop15_year"] = info[0].year;
         var item = cutArray(info);
         var html = template('bookLend2',{param:item});
+        for(var i=0;i<item.length;i++){
+            replace["3-"+(i+1)+"-1"] = item[i].book_name;
+            replace["3-"+(i+1)+"-2"] = item[i].author;
+            replace["3-"+(i+1)+"-3"] = item[i].book_pubyear;
+            replace["3-"+(i+1)+"-4"] = item[i].lend_times;
+        }
         $(".book-lend2").html(html);
     })
 }
@@ -3098,6 +3257,16 @@ function staffLend() {
             item.year.push(info['11-20册'][i].year);
         }
         var html = template('staffLend',{param:item});
+        console.log(2);
+        console.log(item);
+        for(var i=1;i<=item.dat.length;i++){
+            replace["4-"+i+"-1"] = item.dat[i-1].data1;
+            replace["4-"+i+"-2"] = item.dat[i-1].data2;
+            replace["4-"+i+"-3"] = item.dat[i-1].data3;
+        }
+        replace["chart_year1"] = item.year[0];
+        replace["chart_year2"] = item.year[1];
+        replace["chart_year3"] = item.year[2];
         $(".staff-lend").html(html);
     })
 }
@@ -3157,6 +3326,10 @@ function sortByKey(array,key){
      success: function(data, textStatus, jqXHR){
          var html = template('getCollectionOveralltable',{param:data.object});
          $(".getCollectionOveralltable").html(html);
+         for(var i=0;i<data.object.length;i++){
+             replace["13-"+(i+1)+"-1"] = data.object[i].stack;
+             replace["13-"+(i+1)+"-2"] = data.object[i].amount;
+         }
      dataAll=data.amount;
      yAxisData=data.stack;
      for(var i=0;i<dataAll.length;i++){
@@ -3174,7 +3347,7 @@ function sortByKey(array,key){
 
          ],
          grid: [
-         {x: '50%', y: '7%', width: '45%', height: '90%'},
+         {x: '65%', y: '7%', width: '30%', height: '90%'},
          ],
          tooltip: {
          formatter: '{b} ({c})'
@@ -3193,12 +3366,12 @@ function sortByKey(array,key){
          name: '各馆藏书占比',
          type: 'pie',
          radius : '30%',
-         center: ['20%', '50%'],
+         center: ['25%', '50%'],
          color:['#86c9f4','#4da8ec','#3a91d2','#005fa6','#315f97'],
          data:piedata,
-         label:{normal:{show:false,position:'inside'}},
-         labelLine:{normal:{show:false} },
-         itemStyle: {normal: {label:{ show: true,  formatter: '{b} \n ({d}%)', textStyle:{color:'#B1B9D3'}} },},
+         label:{normal:{show:true,position:'outside',fontSize:12}},
+         labelLine:{normal:{show:true} },
+         itemStyle: {normal: {label:{ show: true,  formatter: '({d}%)', textStyle:{color:'#B1B9D3'}} },},
          },
 
          {
@@ -3231,6 +3404,10 @@ function getCollectionNewAdded(){
         success: function(data, textStatus, jqXHR){
             var html = template('getCollectionOveralltable',{param:data.object});
             $(".getCollectionNewAddedtable").html(html);
+            for(var i=0;i<data.object.length;i++){
+                replace["10-"+(i+1)+"-1"] = data.object[i].stack;
+                replace["10-"+(i+1)+"-2"] = data.object[i].amount;
+            }
             dataAll=data.amount;
             yAxisData=data.stack;
             for(var i=0;i<dataAll.length;i++){
@@ -3248,7 +3425,7 @@ function getCollectionNewAdded(){
 
                 ],
                 grid: [
-                    {x: '50%', y: '7%', width: '45%', height: '90%'},
+                    {x: '65%', y: '7%', width: '30%', height: '90%'},
                 ],
                 tooltip: {
                     formatter: '{b} ({c})'
@@ -3267,12 +3444,12 @@ function getCollectionNewAdded(){
                         name: '各馆新增藏书占比',
                         type: 'pie',
                         radius : '30%',
-                        center: ['20%', '50%'],
+                        center: ['25%', '50%'],
                         color:['#86c9f4','#4da8ec','#3a91d2','#005fa6','#315f97'],
                         data:piedata,
-                        label:{normal:{show:false,position:'inside'}},
-                        labelLine:{normal:{show:false} },
-                        itemStyle: {normal: {label:{ show: true,  formatter: '{b} \n ({d}%)', textStyle:{color:'#B1B9D3'}} },},
+                        label:{normal:{show:true,position:'outside',fontSize:12}},
+                        labelLine:{normal:{show:true} },
+                        itemStyle: {normal: {label:{ show: true,  formatter: '({d}%)', textStyle:{color:'#B1B9D3'}} },},
                     },
 
                     {
@@ -3303,9 +3480,23 @@ function getCollectionNewAddedByCate(){
         async:false,
         dataType: 'json',
         success: function(data, textStatus, jqXHR){
-            console.log(data.ob)
             var html = template('getCollectionNewAddedByCatetable',{param:data.ob});
             $(".getCollectionNewAddedByCatetable").html(html);
+            for(var i=0;i<data.ob.length;i++){
+                replace["11-"+(i+2)+"-1"] = data.ob[i].category;
+                replace["11-"+(i+2)+"-2"] = data.ob[i].zwts;
+                replace["11-"+(i+2)+"-3"] = data.ob[i].xwlw;
+                replace["11-"+(i+2)+"-4"] = data.ob[i].tcts;
+                replace["11-"+(i+2)+"-5"] = data.ob[i].gtts;
+                replace["11-"+(i+2)+"-6"] = data.ob[i].zwzs;
+                replace["11-"+(i+2)+"-7"] = data.ob[i].wkhdb;
+                replace["11-"+(i+2)+"-8"] = data.ob[i].qt;
+                replace["11-"+(i+2)+"-9"] = data.ob[i].wwts;
+
+            }
+            for(var i=0;i<data.booktype.length;i++){
+                replace["11-1-"+(i+2)] = data.booktype[i];
+            }
             booktype=data.booktype;
             category=data.category;
             for(var key in data){
@@ -3316,6 +3507,7 @@ function getCollectionNewAddedByCate(){
             }
             var getCollectionNewAddedByCate = echarts.init(document.getElementById('getCollectionNewAddedByCate'));
             var getCollectionNewAddedByCateoption = {
+                animation:false,
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: { // 坐标轴指示器，坐标轴触发有效
@@ -3366,6 +3558,22 @@ function getCollectionTuShuNewAddedByCatetable(){
         success: function(data, textStatus, jqXHR){
             var html = template('getCollectionTuShuNewAddedByCatetable',{param:data.ob});
             $(".getCollectionTuShuNewAddedByCatetable").html(html);
+            console.log(data.ob);
+            for(var i=0;i<data.ob.length;i++){
+                replace["12-"+(i+2)+"-1"] = data.ob[i].category;
+                replace["12-"+(i+2)+"-2"] = data.ob[i].zwts;
+                replace["12-"+(i+2)+"-3"] = data.ob[i].xwlw;
+                replace["12-"+(i+2)+"-4"] = data.ob[i].tcts;
+                replace["12-"+(i+2)+"-5"] = data.ob[i].gtts;
+                replace["12-"+(i+2)+"-6"] = data.ob[i].zwzs;
+                replace["12-"+(i+2)+"-7"] = data.ob[i].wkhdb;
+                replace["12-"+(i+2)+"-8"] = data.ob[i].qt;
+                replace["12-"+(i+2)+"-9"] = data.ob[i].wwts;
+
+            }
+            for(var i=0;i<data.booktype.length;i++){
+                replace["12-1-"+(i+2)] = data.booktype[i];
+            }
             booktype=data.booktype;
             category=data.category;
             for(var key in data){
@@ -3376,6 +3584,7 @@ function getCollectionTuShuNewAddedByCatetable(){
             }
             var getCollectionTuShuNewAddedByCate = echarts.init(document.getElementById('getCollectionTuShuNewAddedByCate'));
             var getCollectionTuShuNewAddedByCateoption = {
+                animation:false,
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: { // 坐标轴指示器，坐标轴触发有效
@@ -3412,6 +3621,7 @@ function getCollectionTuShuNewAddedByCatetable(){
 
 
 }
+
 function getCollectionTuShuNewAddedByCate(){
     var booktype=[];
     var category=[];
@@ -3425,6 +3635,22 @@ function getCollectionTuShuNewAddedByCate(){
         success: function(data, textStatus, jqXHR){
             var html = template('getCollectionTuShuNewAddedByCatetable',{param:data.ob});
             $(".getCollectionTuShuNewAddedByCatetable").html(html);
+            console.log(data.ob);
+            for(var i=0;i<data.ob.length;i++){
+                replace["12-"+(i+2)+"-1"] = data.ob[i].category;
+                replace["12-"+(i+2)+"-2"] = data.ob[i].zwts;
+                replace["12-"+(i+2)+"-3"] = data.ob[i].xwlw;
+                replace["12-"+(i+2)+"-4"] = data.ob[i].tcts;
+                replace["12-"+(i+2)+"-5"] = data.ob[i].gtts;
+                replace["12-"+(i+2)+"-6"] = data.ob[i].zwzs;
+                replace["12-"+(i+2)+"-7"] = data.ob[i].wkhdb;
+                replace["12-"+(i+2)+"-8"] = data.ob[i].qt;
+                replace["12-"+(i+2)+"-9"] = data.ob[i].wwts;
+
+            }
+            for(var i=0;i<data.booktype.length;i++){
+                replace["12-1-"+(i+2)] = data.booktype[i];
+            }
             booktype=data.booktype;
             category=data.category;
             for(var key in data){
@@ -3435,6 +3661,7 @@ function getCollectionTuShuNewAddedByCate(){
             }
             var getCollectionTuShuNewAddedByCate = echarts.init(document.getElementById('getCollectionTuShuNewAddedByCate'));
             var getCollectionTuShuNewAddedByCateoption = {
+                animation:false,
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: { // 坐标轴指示器，坐标轴触发有效
@@ -3471,6 +3698,7 @@ function getCollectionTuShuNewAddedByCate(){
 
 
 }
+
 function getCollectionWaiWenNewAddedByCate(){
     var lengthdata=[];
     var servicedata=[];
@@ -3554,12 +3782,13 @@ function getCollectionWaiWenNewAddedByCate(){
                     );
             }
             var getCollectionWaiWenNewAddedByCateoption = {
+                animation:false,
                 legend: {
                     x : 'center',
                     y : 'center',
                     data:lengthdata
                 },
-                toolbox: {
+               /* toolbox: {
                     show : true,
                     feature : {
                         dataView : {show: true, readOnly: false},
@@ -3588,7 +3817,7 @@ function getCollectionWaiWenNewAddedByCate(){
                         restore : {show: true},
                         saveAsImage : {show: true}
                     }
-                },
+                },*/
                 series : servicedata
             };
             var getCollectionWaiWenNewAddedByCate = echarts.init(document.getElementById('getCollectionWaiWenNewAddedByCate'));
@@ -3631,15 +3860,25 @@ function getCollectionAmountType() {
                 amount2+=basedata.amounttypePubyear;
                 amount3+=basedata.amounttypeYear;
                 param.push(basedata);
+                replace["5-"+(i+1)+"-1"] = basedata.stack;
+                replace["5-"+(i+1)+"-2"] = basedata.amounttype;
+                replace["5-"+(i+1)+"-3"] = basedata.amounttypePubyear;
+                replace["5-"+(i+1)+"-4"] = basedata.amounttypeYear;
             }
             var html = template('getCollectionAmountType',{param:param,amount1:amount1,amount2:amount2,amount3:amount3});
+            replace["5-36-2"] = amount1;
+            replace["5-36-3"] = amount2;
+            replace["5-36-4"] = amount3;
             $(".getCollectionAmountTypeTable").html(html);
-            var data = new Date;
-            var year = data.getFullYear();
-            $(".collectionyear").text(year);
+            $(".collectionyear").text(nowyear);
             $(".amount1").text(amount1);
             $(".amount2").text(amount2);
             $(".amount3").text(amount3);
+            replace["collection-year"] = nowyear;
+            replace["collection-amount-type"] = amount1;
+            replace["collection-amount-add"] = amount2;
+            replace["collection-amount-pub"] = amount3;
+
         }
     })
 }
@@ -3660,10 +3899,13 @@ function getCollectionByStackAndBooktype() {
                 var amount=0;
                 for(var j=0;j<data.bookType.length;j++){
                     arr.push(data.amounttype[i*data.bookType.length+j]);
+                    replace["6-"+(i+2)+"-"+(j+2)] = data.amounttype[i*data.bookType.length+j];
                     amount+=data.amounttype[i*data.bookType.length+j];
                 }
                 basedata.amounttype = arr;
                 basedata.amount=amount;
+                replace["6-"+(i+2)+"-"+"1"] = data.stack[i];
+                replace["6-"+(i+2)+"-"+(data.bookType.length+2)] = amount;
                 param.push(basedata);
             }
             var arr1 = [];
@@ -3682,6 +3924,12 @@ function getCollectionByStackAndBooktype() {
                 else{
                     arr1[param[i].amounttype.length] += param[i].amount;
                 }
+            }
+            for(var i = 0;i<data.bookType.length;i++){
+                replace["6-1"+"-"+(i+2)] = data.bookType[i];
+            }
+            for(var i=0;i<arr1.length;i++){
+                replace["6-"+(data.stack.length+2)+"-"+(i+2)] = arr1[i];
             }
             var html = template('getCollectionByStackAndBooktype',{param:param,bookType:data.bookType,arr1:arr1});
             $(".getCollectionByStackAndBooktype").html(html);
@@ -3741,7 +3989,13 @@ function getCollectionByPubyear() {
                 param[i].numberpecent = parseFloat(param[i].amountnumber/amountnumber)*100;
                 param[i].typepecent = param[i].typepecent.toFixed(2)+"%";
                 param[i].numberpecent = param[i].numberpecent.toFixed(2)+"%";
+                replace["7-"+(i+1)+"-1"] = param[i].amounttype;
+                replace["7-"+(i+1)+"-2"] = param[i].typepecent;
+                replace["7-"+(i+1)+"-3"] = param[i].amountnumber;
+                replace["7-"+(i+1)+"-4"] = param[i].numberpecent;
             }
+            replace["7-"+(param.length+1)+"-1"] = amounttype;
+            replace["7-"+(param.length+1)+"-3"] = amountnumber;
             var html = template('getCollectionByPubyear',{param:param,amounttype:amounttype,amountnumber:amountnumber});
             $(".getCollectionByPubyear").html(html);
             var typeoption = {
@@ -3983,6 +4237,8 @@ function getTop10category(){
         success:function (data){
             var param = [];
             for(var i=0;i<data.category.length;i++){
+                replace["8-"+(i+1)+"-1"] = data.category[i];
+                replace["8-"+(i+1)+"-2"] = data.amounttype[i];
                 param.push({
                     "category" : data.category[i],
                     "amounttype" : data.amounttype[i]

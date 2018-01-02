@@ -52,6 +52,25 @@ public class readerReportService {
     public   List<reader_report> getReaderEreadHourInfo(reader_report n){
         return readerReportdao.getReaderEreadHourInfo(n);
 
-    };
+    }
+
+    //  <!-- app需要 全校进馆 借阅排名-->
+    public   List<reader_report> getapp_bookandgctrl_rank(reader_report n){
+        return readerReportdao.getapp_bookandgctrl_rank(n);
+
+    }
+
+    //<!-- app需要 学院进馆排名-->
+    public  Integer getapp_gctrl_academy_rank(reader_report n){
+        return readerReportdao.getapp_gctrl_academy_rank(n);
+
+    }
+    // <!-- app需要 学院借阅排名-->
+    public  Integer getapp_book_academy_rank(reader_report n){
+        return readerReportdao.getapp_book_academy_rank(n);
+
+    }
+
+
 
 }

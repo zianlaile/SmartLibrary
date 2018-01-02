@@ -53,9 +53,26 @@ public class reader_report{
     int  longgest_eread_hours;//电子阅览室使用时间最长的时间
     int  all_eread_times;//电子阅览室使用总次数
     int all_eread_hours;//电子阅览室使用总时长
-
+    int month_lend_rank;//借阅月总量排名
+    int month_gctrl_rank;//借阅月量排名
 
     double per_gctrl_times;//进馆百分比
+
+    public int getMonth_lend_rank() {
+        return month_lend_rank;
+    }
+
+    public void setMonth_lend_rank(int month_lend_rank) {
+        this.month_lend_rank = month_lend_rank;
+    }
+
+    public int getMonth_gctrl_rank() {
+        return month_gctrl_rank;
+    }
+
+    public void setMonth_gctrl_rank(int month_gctrl_rank) {
+        this.month_gctrl_rank = month_gctrl_rank;
+    }
 
     public String getGender() {
         return gender;

@@ -9,10 +9,30 @@ public class library_report_month_mankinds {
     int year;
     int month;
     String man_kind;
+
+    public String getIdentity() {
+        return identity;
+    }
+
+    public int getSum() {
+        return sum;
+    }
+
+    public void setSum(int sum) {
+        this.sum = sum;
+    }
+
+    public void setIdentity(String identity) {
+        this.identity = identity;
+    }
+
+    String identity;
     int lend;
     int back;
     int renew;
     int gctrl;
+    int sum;
+
 // library_report_month_teacher
     String account;
     String name;

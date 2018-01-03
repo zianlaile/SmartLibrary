@@ -99,4 +99,6 @@ public interface schoolReportDao {
     //  得到各个学院借阅的前三各类总数
     List<Book_Lend> getYearTop3CategoryByAcademy();     // 小章定义
     List<Book_Lend>getSingleBookLendTop100();           // 小章定义
+    //2012-2015 年度总馆上机总人次对比统计
+    List<library_report_month_mankinds> getlibrary_identity_sum();
 }

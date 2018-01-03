@@ -1,5 +1,5 @@
 $(function () {
-    getBookLendByAcademy();///888888888888888888
+    getBookLendByAcademy();
     getResourceCountBy_year();//历年馆藏资源统计
     getCollectionOverall();
     getCollectionNewAdded();
@@ -2725,7 +2725,7 @@ function geteread_hour() {
         }
     })
 }
-function getprintsCountBy_year() {   // ***
+function getprintsCountBy_year() {
     $.ajax({
         type:'get',
         url:'../../printtimes/byyear',
@@ -2825,8 +2825,7 @@ function getprintsCountBy_year() {   // ***
     });
 
 }
-// 引用样例
-function getprinttimesCountBy_year() {    //******
+function getprinttimesCountBy_year() {
     $.ajax({
         type:'get',
         url:'../../schoolReport/gettypeprints',
@@ -2911,7 +2910,7 @@ function getprinttimesCountBy_year() {    //******
         }
     });
 }
-function getcopytimesCountBy_year() {  // ****
+function getcopytimesCountBy_year() {
     $.ajax({
         type:'get',
         url:'../../schoolReport/gettypeprints',
@@ -4273,7 +4272,7 @@ function getTop10category(){
 
 //  小章 以下是小章代码
 
-function getBookLendByAcademy() {   // ***
+function getBookLendByAcademy() {
     $.ajax({
         type:'get',
         url:'../../schoolReport/getYearTop3CategoryByAcademy',
@@ -4336,11 +4335,9 @@ function getBookLendByAcademy() {   // ***
                 ]
             };
             getprintsCountBy_year3.setOption(getBookLendByAcademyThird);
-            //----------------------------------------------------------
             document.getElementById("FirstAcademyTitle").innerHTML =data["1"].readerAcademy + "借阅分布";
             var getprintsCountBy_year1 = echarts.init(document.getElementById('getBookLendByAcademyFirst'));
             var getBookLendByAcademyFirst = {
-          //      color: ['#000000'],
                 tooltip : {
                     trigger: 'axis',
                     axisPointer : {            // 坐标轴指示器，坐标轴触发有效
@@ -4392,11 +4389,9 @@ function getBookLendByAcademy() {   // ***
                 ]
             };
             getprintsCountBy_year1.setOption(getBookLendByAcademyFirst);
-            // ---------------------------------------------------------
             document.getElementById("SecondAcademyTitle").innerHTML =data["2"].readerAcademy + "借阅分布";
             var getprintsCountBy_year2 = echarts.init(document.getElementById('getBookLendByAcademySecond'));
             var getBookLendByAcademySecond = {
-            //     color: ['#000000'],
                 tooltip : {
                     trigger: 'axis',
                     axisPointer : {            // 坐标轴指示器，坐标轴触发有效
@@ -4448,7 +4443,6 @@ function getBookLendByAcademy() {   // ***
                 ]
             };
             getprintsCountBy_year2.setOption(getBookLendByAcademySecond);
-            //----------------------------------------------------------
         }
     });
 

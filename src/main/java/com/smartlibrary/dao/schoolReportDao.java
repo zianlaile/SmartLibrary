@@ -1,6 +1,7 @@
 package com.smartlibrary.dao;
 
 import com.smartlibrary.domain.*;
+import com.sun.xml.internal.org.jvnet.fastinfoset.stax.LowLevelFastInfosetStreamWriter;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -95,4 +96,7 @@ public interface schoolReportDao {
     List<CollectionBook> getCollectionBycategory();
     //品种前十的分类
     List<CollectionBook> getTop10category();
+    //  得到各个学院借阅的前三各类总数
+    List<Book_Lend> getYearTop3CategoryByAcademy();     // 小章定义
+    List<Book_Lend>getSingleBookLendTop100();           // 小章定义
 }

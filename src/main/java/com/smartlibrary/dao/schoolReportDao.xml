@@ -358,4 +358,13 @@
         ORDER BY amounttype DESC
         LIMIT 10
     </select>
+    <!-- 得到2015年的前3借阅学院的种类 数量 学院-->
+    <select id = "getYearTop3CategoryByAcademy" resultType="Book_Lend">
+       SELECT book_category, categoryAmount, reader_academy from  library_report_book_year_academy_lend_top3
+    </select>
+    
+    <select id="getSingleBookLendTop100"  resultType="Book_Lend">
+        SELECT book_name, publisher, book_lend_times,book_author FROM library_report_single_book_lend_top100
+    </select>
+
 </mapper>

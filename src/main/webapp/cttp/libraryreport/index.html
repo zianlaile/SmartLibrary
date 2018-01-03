@@ -49,6 +49,7 @@
             <a class="para-title" href="#24"><span class="first-catalog">2.2 图书借阅分类</span><div class="dot" style="width: 76%;"></div><div class="pageNum">24</div></a>
             <a class="para-title" href="#24"><span class="second-catalog">2.2.1 全校读者借阅分类统计</span><div class="dot" style="width: 70%;"></div><div class="pageNum">24</div></a>
             <a class="para-title" href="#25"><span class="first-catalog">2.3 读者借阅排名</span><div class="dot" style="width: 76%;"></div><div class="pageNum">25</div></a>
+
             </div>
     </div>
     <div class="page catalog">
@@ -66,6 +67,9 @@
             <a class="para-title" href="#36"><span class="first-catalog">3.4 IC空间使用量分析</span><div class="dot" style="width: 76%;"></div><div class="pageNum">36</div></a>
             <a class="para-title" href="#38"><span class="first-catalog">4.1 全馆自助文印统计</span><div class="dot" style="width: 76%;"></div><div class="pageNum">38</div></a>
             <a class="para-title" href="#41"><span class="first-catalog">4.2 自助文印每日各时段使用统计</span><div class="dot" style="width: 70%;"></div><div class="pageNum">41</div></a>
+            <!-- 小章代码 以下一行-->
+            <a class="para-title" href="#44"><span class="first-catalog">4.3 各学院读者借阅倾向</span><div class="dot" style="width: 70%;"></div><div class="pageNum">41</div></a>
+            <a class="para-title" href="#45"><span class="first-catalog">4.4 最受欢迎图书借阅排行前面100</span><div class="dot" style="width: 76%;"></div><div class="pageNum">44</div></a>
         </div>
     </div>
     <div class="page" id="1" style="overflow: hidden;">
@@ -433,8 +437,36 @@
         <div class="end-img"></div>
         <div class="pagination">41</div>
     </div>
+    <!-- 以下小章代码 -->
+    <div class="page chapter" id="42" style="height: 1300px">
+        <div class="first-title">4.3 借阅总量排名前三学院借阅分布 </div>
+        <div class="chart-title" id="FirstAcademyTitle"> </div>
+        <div class="chart chart-bigger" style="height: 310px">
+            <div id="getBookLendByAcademyFirst" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="chart-title" id="SecondAcademyTitle"> </div>
+        <div class="chart chart-bigger" style="height: 310px">
+            <div id="getBookLendByAcademySecond" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="chart-title" id="ThirdAcademyTitle"></div>
+        <div class="chart chart-bigger" style="height: 310px">
+            <div id="getBookLendByAcademyThird" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">43</div>
+    </div>
+    <div class="page chapter" id="44"style="height:6600px" >
+        <div class="first-title">4.4 最受欢迎图书借阅排行前面100</div>
+        <div class="chart-title">图书借阅排行前100（按册）</div>
+        <div class="table book-lend3"></div>
+        <div class="pagination" style="bottom: 30px;">44</div>
+    </div>
+    <!-- a class="para-title" href="#45"><span class="first-catalog">4.4 最受欢迎图书借阅排行前面100</span><div class="dot" style="width: 76%;"></div><div class="pageNum">44</div></a>
+
+    <!-- 以上小章代码 -->
     <div class="btn-wrap"><button onclick="javascript:downloadword();">导出</button></div>
 </div>
+
+
 <script type="text/html" id="getCollectionOveralltable">
     <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
         <tr>
@@ -563,6 +595,29 @@
         {{/each}}
     </table>
 </script>
+<!-- 以下是小章代码-->
+<script type="text/html" id="bookLend3">
+    <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th width="8%">排序</th>
+            <th width="30%">书名</th>
+            <th width="35%">著者</th>
+            <th width="15%">出版社</th>
+            <th width="12%">借阅次数</th>
+        </tr>
+        {{each param as p index}}  <!- index i -->
+        <tr>
+            <td>{{index+1}}</td>
+            <td>{{p.bookName}}</td>
+            <td>{{p.bookAuthor}}</td>
+            <td>{{p.publisher}}</td>
+            <td>{{p.bookLendTimes}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</script>
+<!-- 以上是小章代码-->
+
 <script type="text/html" id="staffLend">
     <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
         <tr>

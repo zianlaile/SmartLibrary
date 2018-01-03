@@ -2,6 +2,7 @@ package com.smartlibrary.controller;
 
 import com.smartlibrary.domain.*;
 import com.smartlibrary.service.schoolReportService;
+import com.sun.javafx.collections.MappingChange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -226,5 +227,15 @@ public class schoolReportController {
     @RequestMapping(value = "/getTop10category",method = RequestMethod.GET)
     public Map<String,List> getTop10category(){
         return schoolReportservice.getTop10category();
+    }
+
+    // 学院借阅前三
+    @RequestMapping(value = "/getYearTop3CategoryByAcademy", method = RequestMethod.GET)
+    public Map<Integer,Map<String,List>> getYearTop3CategoryByAcademy(){
+        return schoolReportservice.getYearTop3CategoryByAcademy(); }
+    //  外接前100 的书本
+    @RequestMapping(value = "/getSingleBookLendTop100", method = RequestMethod.GET)
+    public Map<String,List> getSingleBookLendTop100(){
+        return schoolReportservice.getSingleBookLendTop100();
     }
 }

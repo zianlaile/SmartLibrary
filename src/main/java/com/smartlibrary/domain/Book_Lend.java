@@ -5,7 +5,7 @@ package com.smartlibrary.domain;
  * 图书借阅类
  */
 public class Book_Lend extends BaseObject{
-    int book_lend_times;
+    int book_lend_times;    // ------------------
     int m_book_lend_times;
     int f_book_lend_times;
     int book_back_times;
@@ -14,11 +14,40 @@ public class Book_Lend extends BaseObject{
     int month;
     int day;
     int hour;
+    int categoryAmount;     //  各类统计
+
+    String reader_academy;       //  读者学院
+    String book_category;        //  书本种类
     String time;//将年月日相连
+
     String academy;
     String book_kind;
-    String publisher;
+    String publisher;   // ----------------------
+    String  book_name;  // --------------------
+    String book_author; //---------------------
     Double book_lend_w;
+
+    public String getBook_author() { return book_author; }
+
+    public void setBook_author(String book_author) { this.book_author = book_author; }
+
+    public String getBook_name() { return book_name; }
+
+    public void setBook_name(String book_name) {  this.book_name = book_name; }
+
+    public int getCategoryAmount() {
+        return categoryAmount;
+    }
+
+    public void setCategoryAmount(int categoryAmount) { this.categoryAmount = categoryAmount; }
+
+    public String getReader_academy() {  return reader_academy;  }
+
+    public String getBook_category() {  return book_category; }
+
+    public void setBook_category(String book_category) { this.book_category = book_category; }
+
+    public void setReader_academy(String reader_academy) {  this.reader_academy = reader_academy; }
 
     public Double getBook_lend_w() {
         return book_lend_w;

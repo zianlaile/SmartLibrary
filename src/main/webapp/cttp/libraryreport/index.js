@@ -1,4 +1,5 @@
 $(function () {
+    getBookLendByAcademy();///888888888888888888
     getResourceCountBy_year();//历年馆藏资源统计
     getCollectionOverall();
     getCollectionNewAdded();
@@ -26,12 +27,14 @@ $(function () {
     readerLend();//读者借阅排名
     bookLend1();//图书借阅排名按册
     bookLend2(); //图书借阅排名按种
+    bookLend3();// 最受欢迎的前100本图书   小章定义
     staffLend(); //教职工借阅册数分类
     getpublish_raking();//借阅出版社排名
     getpublish_rating();//借阅出版社比例
     day_gctrl();//当年每日进馆
     dctrl_top12();//排名前12
     getCollectionByPubyear();//图书按出版年份统计表（种/ 册）
+    //getYearTop3CategoryByAcademy();
     $.ajax({
         type:"get",
         contentType: 'application/json',
@@ -2722,7 +2725,7 @@ function geteread_hour() {
         }
     })
 }
-function getprintsCountBy_year() {
+function getprintsCountBy_year() {   // ***
     $.ajax({
         type:'get',
         url:'../../printtimes/byyear',
@@ -2822,7 +2825,8 @@ function getprintsCountBy_year() {
     });
 
 }
-function getprinttimesCountBy_year() {
+// 引用样例
+function getprinttimesCountBy_year() {    //******
     $.ajax({
         type:'get',
         url:'../../schoolReport/gettypeprints',
@@ -2907,7 +2911,7 @@ function getprinttimesCountBy_year() {
         }
     });
 }
-function getcopytimesCountBy_year() {
+function getcopytimesCountBy_year() {  // ****
     $.ajax({
         type:'get',
         url:'../../schoolReport/gettypeprints',
@@ -3228,6 +3232,23 @@ function bookLend2() {
         $(".book-lend2").html(html);
     })
 }
+
+function bookLend3() {
+    $.get('../../schoolReport/getSingleBookLendTop100',function (info) {
+        var data = [];
+        for(var i = 0; i <info.bookName.length; i++){
+           var basedata = new Object();
+            basedata.publisher = info.publisher[i];
+            basedata.bookLendTimes = info.bookLendTimes[i];
+            basedata.bookAuthor = info.bookAuthor[i];
+            basedata.bookName = info.bookName[i];
+           data.push(basedata);
+        }
+        var html = template('bookLend3',{param:data});
+        $(".book-lend3").html(html);
+    })
+}
+
 function staffLend() {
     $.get('../../schoolReport/getTeacherCount_BycountAndyear',function (info) {
         var item ={
@@ -4249,3 +4270,188 @@ function getTop10category(){
         }
     });
 }
+
+//  小章 以下是小章代码
+
+function getBookLendByAcademy() {   // ***
+    $.ajax({
+        type:'get',
+        url:'../../schoolReport/getYearTop3CategoryByAcademy',
+        contentType:'application/json',
+        async:false,
+        dataType:'json',
+        success:function (data) {
+            document.getElementById("ThirdAcademyTitle").innerHTML =data["3"].readerAcademy + "借阅分布";
+            var getprintsCountBy_year3 = echarts.init(document.getElementById('getBookLendByAcademyThird'));
+            var getBookLendByAcademyThird = {
+              //  color: ['#000000'],
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                        type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                grid: {
+                    left: '6%',
+                    right: '6%',
+                    bottom: '6%',
+                    containLabel: true
+                },
+                xAxis : [
+                    {
+                        name : '种类',
+                        type : 'category',
+                        data : data["3"].bookCategory,
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }
+                ],
+                yAxis : [
+                    {
+                        name : '数量',
+                        type : 'value'
+                    }
+                ],
+                series : [
+                    {
+                        name:' 数量',
+                        type:'bar',
+                        barWidth: '60%',
+                        data : data["3"].categoryAmount,
+                        itemStyle:{
+                            normal:{
+                                color:'#3398DB'
+                            }
+                        },
+                        label: {
+                            normal: {
+                                color: ['#000000'],
+                                show: true,
+                                position: 'top',
+                                formatter: '{c}'
+                            }
+                        },
+                    }
+                ]
+            };
+            getprintsCountBy_year3.setOption(getBookLendByAcademyThird);
+            //----------------------------------------------------------
+            document.getElementById("FirstAcademyTitle").innerHTML =data["1"].readerAcademy + "借阅分布";
+            var getprintsCountBy_year1 = echarts.init(document.getElementById('getBookLendByAcademyFirst'));
+            var getBookLendByAcademyFirst = {
+          //      color: ['#000000'],
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                        type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                grid: {
+                    left: '6%',
+                    right: '6%',
+                    bottom: '6%',
+                    containLabel: true
+                },
+                xAxis : [
+                    {
+                        name : '种类',
+                        type : 'category',
+                        data : data["1"].bookCategory,
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }
+                ],
+                yAxis : [
+                    {
+                        name : '数量',
+                        type : 'value'
+                    }
+                ],
+                series : [
+                    {
+                        name:' 数量',
+                        type:'bar',
+                        barWidth: '60%',
+                        data : data["1"].categoryAmount,
+                        itemStyle:{
+                            normal:{
+                                color:'#FFC125'
+                            }
+                        },
+                        label: {
+                            normal: {
+                                color: ['#000000'],
+                                show: true,
+                                position: 'top',
+                                formatter: '{c}'
+                            }
+                        },
+                    }
+                ]
+            };
+            getprintsCountBy_year1.setOption(getBookLendByAcademyFirst);
+            // ---------------------------------------------------------
+            document.getElementById("SecondAcademyTitle").innerHTML =data["2"].readerAcademy + "借阅分布";
+            var getprintsCountBy_year2 = echarts.init(document.getElementById('getBookLendByAcademySecond'));
+            var getBookLendByAcademySecond = {
+            //     color: ['#000000'],
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                        type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                grid: {
+                    left: '6%',
+                    right: '6%',
+                    bottom: '6%',
+                    containLabel: true
+                },
+                xAxis : [
+                    {
+                        name : '种类',
+                        type : 'category',
+                        data : data["2"].bookCategory,
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }
+                ],
+                yAxis : [
+                    {
+                        name : '数量',
+                        type : 'value'
+                    }
+                ],
+                series : [
+                    {
+                        name:' 数量',
+                        type:'bar',
+                        barWidth: '60%',
+                        data : data["2"].categoryAmount,
+                        itemStyle:{
+                            normal:{
+                                color:'#9B30FF'
+                            }
+                        },
+                        label: {
+                            normal: {
+                                color: ['#000000'],
+                                show: true,
+                                position: 'top',
+                                formatter: '{c}'
+                            }
+                        },
+                    }
+                ]
+            };
+            getprintsCountBy_year2.setOption(getBookLendByAcademySecond);
+            //----------------------------------------------------------
+        }
+    });
+
+}
+
+

@@ -61,6 +61,9 @@ public class reportService {
         Map<String,Object> header34 = picture.returnpicture(json.getString("getCollectionNewAddedByCate"),"getCollectionNewAddedByCate");
         Map<String,Object> header35 = picture.returnpicture(json.getString("getCollectionTuShuNewAddedByCate"),"getCollectionTuShuNewAddedByCate");
         Map<String,Object> header36 = picture.returnpicture(json.getString("getCollectionWaiWenNewAddedByCate"),"getCollectionWaiWenNewAddedByCate");
+        Map<String,Object> header37 = picture.returnpicture(json.getString("img_academy_top1"),"img_academy_top1");
+        Map<String,Object> header38 = picture.returnpicture(json.getString("img_academy_top2"),"img_academy_top2");
+        Map<String,Object> header39 = picture.returnpicture(json.getString("img_academy_top3"),"img_academy_top3");
         Calendar date = Calendar.getInstance();
         String currentyear = String.valueOf(date.get(Calendar.YEAR));
         Interface_processing interface_processing = new Interface_processing();

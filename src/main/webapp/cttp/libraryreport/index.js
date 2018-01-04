@@ -102,12 +102,8 @@ var replace = {
     "school":"西南政法",
     "logo" : url+"/school-logo.jpg"
 }
-var data = new Date;
-var nowyear = data.getFullYear();
-var nowmonth = data.getMonth();
-if(nowmonth<3){
-    nowyear = nowyear-1;
-}
+
+var nowyear = 2017;
 function croomchart(chartid){
     var croom_count = echarts.init(document.getElementById(chartid));
     var  croom_count_option ={
@@ -1250,6 +1246,9 @@ function downloadword(){
         var getCollectionNewAddedByCate = echarts.init(document.getElementById("getCollectionNewAddedByCate")).getDataURL();
         var getCollectionTuShuNewAddedByCate = echarts.init(document.getElementById("getCollectionTuShuNewAddedByCate")).getDataURL();
         var getCollectionWaiWenNewAddedByCate = echarts.init(document.getElementById("getCollectionWaiWenNewAddedByCate")).getDataURL();
+        var img_academy_top1 = echarts.init(document.getElementById("getBookLendByAcademyFirst")).getDataURL();
+        var img_academy_top2 = echarts.init(document.getElementById("getBookLendByAcademySecond")).getDataURL();
+        var img_academy_top3 = echarts.init(document.getElementById("getBookLendByAcademyThird")).getDataURL();
         var postdata = {
             "img_Book_Amount" :img_Book_Amount,
             "img_gctrl_amount" :img_gctrl_amount,
@@ -1287,6 +1286,9 @@ function downloadword(){
             "getCollectionNewAddedByCate":getCollectionNewAddedByCate,
             "getCollectionTuShuNewAddedByCate":getCollectionTuShuNewAddedByCate,
             "getCollectionWaiWenNewAddedByCate":getCollectionWaiWenNewAddedByCate,
+            "img_academy_top1":img_academy_top1,
+            "img_academy_top2":img_academy_top2,
+            "img_academy_top3":img_academy_top3,
         }
         $.ajax({
             type:"POST",
@@ -1339,6 +1341,9 @@ function downloadword(){
                         replace["getCollectionTuShuNewAddedByCate"] = url+"/reportpic/getCollectionTuShuNewAddedByCate.jpg";
                         replace["getCollectionWaiWenNewAddedByCate"] = url+"/reportpic/getCollectionWaiWenNewAddedByCate.jpg";
                         replace["img_academy_img"] = url+"/reportpic/img_academy_img.jpg";
+                        replace["img_academy_top1"] = url+"/reportpic/img_academy_top1.jpg";
+                        replace["img_academy_top2"] = url+"/reportpic/img_academy_top2.jpg";
+                        replace["img_academy_top3"] = url+"/reportpic/img_academy_top3.jpg";
                        XDoc.run("http://106.14.120.137:8080/SmartLibrary/report/88.docx","docx",
                            replace ,"_blank");
                     }catch(e){
@@ -2646,8 +2651,8 @@ function geteread_hour() {
             var ereads_hour =ereadshour[ereadshourtimes.indexOf(max_ereads)];//电子阅览室的高峰期 lend_hour点-lend_hour+1点
             $(".eread-info").find(".max-hour").text(ereads_hour);
             $(".eread-info").find(".next-hour").text(ereads_hour+1);
-            replace["ebook_spent_clock1"] = ereads_hour;
-            replace["ebook_spent_clock2"] = ereads_hour+1;
+            replace["ebook_spent_clock1"] = ereads_hour+"点";
+            replace["ebook_spent_clock2"] = ereads_hour+1+"点";
             var geteread_hour = echarts.init(document.getElementById('geteread_hour'));
             var geteread_houroption = {
                 animation:false,
@@ -3090,8 +3095,8 @@ function getprints_hour() {
             var prints_hour =printshour[printshourtimes.indexOf(max_prints)];//自助文印设备的高峰期 lend_hour点-lend_hour+1点
             $(".print-info").find(".max-hour").text(prints_hour);
             $(".print-info").find(".next-hour").text(parseInt(prints_hour) + 1);
-            replace["print_day_clock1"] = prints_hour;
-            replace["print_day_clock2"] = parseInt(prints_hour) + 1;
+            replace["print_day_clock1"] = prints_hour+"点";
+            replace["print_day_clock2"] = parseInt(prints_hour) + 1+"点";
             var getprints_hour = echarts.init(document.getElementById('getprints_hour'));
             var getprints_houroption = {
                 animation:false,
@@ -3237,12 +3242,14 @@ function bookLend3() {
         var data = [];
         for(var i = 0; i <info.bookName.length; i++){
            var basedata = new Object();
+           basedata.index = i+1;
             basedata.publisher = info.publisher[i];
-            basedata.bookLendTimes = info.bookLendTimes[i];
+            basedata.times = info.bookLendTimes[i];
             basedata.bookAuthor = info.bookAuthor[i];
             basedata.bookName = info.bookName[i];
            data.push(basedata);
         }
+        replace.top100 = data;
         var html = template('bookLend3',{param:data});
         $(".book-lend3").html(html);
     })
@@ -4281,6 +4288,7 @@ function getBookLendByAcademy() {
         dataType:'json',
         success:function (data) {
             document.getElementById("ThirdAcademyTitle").innerHTML =data["3"].readerAcademy + "借阅分布";
+            replace["img_academy_top3title"] = data["3"].readerAcademy + "借阅分布";
             var getprintsCountBy_year3 = echarts.init(document.getElementById('getBookLendByAcademyThird'));
             var getBookLendByAcademyThird = {
               //  color: ['#000000'],
@@ -4308,13 +4316,13 @@ function getBookLendByAcademy() {
                 ],
                 yAxis : [
                     {
-                        name : '数量',
+                        name : '人次',
                         type : 'value'
                     }
                 ],
                 series : [
                     {
-                        name:' 数量',
+                        name:' 人次',
                         type:'bar',
                         barWidth: '60%',
                         data : data["3"].categoryAmount,
@@ -4336,6 +4344,7 @@ function getBookLendByAcademy() {
             };
             getprintsCountBy_year3.setOption(getBookLendByAcademyThird);
             document.getElementById("FirstAcademyTitle").innerHTML =data["1"].readerAcademy + "借阅分布";
+            replace["img_academy_top1title"] = data["1"].readerAcademy + "借阅分布";
             var getprintsCountBy_year1 = echarts.init(document.getElementById('getBookLendByAcademyFirst'));
             var getBookLendByAcademyFirst = {
                 tooltip : {
@@ -4362,13 +4371,13 @@ function getBookLendByAcademy() {
                 ],
                 yAxis : [
                     {
-                        name : '数量',
+                        name : '人次',
                         type : 'value'
                     }
                 ],
                 series : [
                     {
-                        name:' 数量',
+                        name:' 人次',
                         type:'bar',
                         barWidth: '60%',
                         data : data["1"].categoryAmount,
@@ -4390,6 +4399,7 @@ function getBookLendByAcademy() {
             };
             getprintsCountBy_year1.setOption(getBookLendByAcademyFirst);
             document.getElementById("SecondAcademyTitle").innerHTML =data["2"].readerAcademy + "借阅分布";
+            replace["img_academy_top2title"] = data["2"].readerAcademy + "借阅分布";
             var getprintsCountBy_year2 = echarts.init(document.getElementById('getBookLendByAcademySecond'));
             var getBookLendByAcademySecond = {
                 tooltip : {
@@ -4416,13 +4426,13 @@ function getBookLendByAcademy() {
                 ],
                 yAxis : [
                     {
-                        name : '数量',
+                        name : '人次',
                         type : 'value'
                     }
                 ],
                 series : [
                     {
-                        name:' 数量',
+                        name:' 人次',
                         type:'bar',
                         barWidth: '60%',
                         data : data["2"].categoryAmount,

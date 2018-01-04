@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -202,8 +203,8 @@ public class schoolReportController {
 
     //书目库书目记录总量
     @RequestMapping(value = "/getCollectionAmountType",method = RequestMethod.GET)
-    public Map<String,List> getCollectionAmountType(){
-        return schoolReportservice.getCollectionAmountType();
+    public Map<String,List> getCollectionAmountType(HttpServletRequest year){
+        return schoolReportservice.getCollectionAmountType(year.getQueryString());
     }
 
     //书目库书目记录类型统计

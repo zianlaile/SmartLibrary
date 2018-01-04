@@ -505,11 +505,10 @@ public class schoolReportService {
         return result;
     }
 
-    public Map<String, List> getCollectionAmountType(){
+    public Map<String, List> getCollectionAmountType(String year){
         Calendar now = Calendar.getInstance();
-        int year = now.get(Calendar.YEAR);
         List<CollectionBook> collectionList = schoolReportdao.getCollectionAmountType();
-        List<CollectionBook> thisyearCollection = schoolReportdao.getCollectionAmountTypeYear(year);
+        List<CollectionBook> thisyearCollection = schoolReportdao.getCollectionAmountTypeYear(Integer.valueOf(year));
         List<CollectionBook> pubyearCollection = schoolReportdao.getCollectionAmountTypePubyear();
         List<String> stack = new ArrayList<>();
         List<String> stackthisyear = new ArrayList<>();

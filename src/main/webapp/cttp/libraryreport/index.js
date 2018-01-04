@@ -3851,7 +3851,7 @@ function getCollectionWaiWenNewAddedByCate(){
 function getCollectionAmountType() {
     $.ajax({
         type:'get',
-        url:'../../schoolReport/getCollectionAmountType',
+        url:'../../schoolReport/getCollectionAmountType?'+nowyear,
         contentType:'application/json',
         async:false,
         dataType:'json',
@@ -3882,8 +3882,8 @@ function getCollectionAmountType() {
                 param.push(basedata);
                 replace["5-"+(i+1)+"-1"] = basedata.stack;
                 replace["5-"+(i+1)+"-2"] = basedata.amounttype;
-                replace["5-"+(i+1)+"-3"] = basedata.amounttypePubyear;
-                replace["5-"+(i+1)+"-4"] = basedata.amounttypeYear;
+                replace["5-"+(i+1)+"-4"] = basedata.amounttypePubyear;
+                replace["5-"+(i+1)+"-3"] = basedata.amounttypeYear;
             }
             var html = template('getCollectionAmountType',{param:param,amount1:amount1,amount2:amount2,amount3:amount3});
             replace["5-36-2"] = amount1;

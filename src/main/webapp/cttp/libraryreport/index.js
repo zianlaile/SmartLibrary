@@ -3860,35 +3860,44 @@ function getCollectionAmountType() {
             var amount1 = 0;
             var amount2 = 0;
             var amount3 = 0;
+            var chartdata = [];
             for(var i=0;i<data.stack.length;i++){
                 var basedata = new Object();
+                var basechartdata = new Object();
                 basedata.stack=data.stack[i];
+                basechartdata["5-1-1"]=data.stack[i];
                 basedata.amounttype=data.amounttype[i];
+                basechartdata["5-1-2"]=data.amounttype[i];
                 if(data.stackpubyear.indexOf(data.stack[i])!=-1){
                     basedata.amounttypePubyear = data.amounttypePubyear[data.stackpubyear.indexOf(data.stack[i])];
+                    basechartdata["5-1-4"] = data.amounttypePubyear[data.stackpubyear.indexOf(data.stack[i])];
                 }
                 else{
                     basedata.amounttypePubyear=0;
+                    basechartdata["5-1-4"]=0;
                 }
                 if(data.stackthisyear.indexOf(data.stack[i])!=-1){
                     basedata.amounttypeYear = data.amounttypeYear[data.stackthisyear.indexOf(data.stack[i])];
+                    basechartdata["5-1-3"] = data.amounttypeYear[data.stackthisyear.indexOf(data.stack[i])];
                 }
                 else{
                     basedata.amounttypeYear=0;
+                    basechartdata["5-1-3"]=0;
                 }
                 amount1+=basedata.amounttype;
                 amount2+=basedata.amounttypePubyear;
                 amount3+=basedata.amounttypeYear;
                 param.push(basedata);
-                replace["5-"+(i+1)+"-1"] = basedata.stack;
-                replace["5-"+(i+1)+"-2"] = basedata.amounttype;
-                replace["5-"+(i+1)+"-4"] = basedata.amounttypePubyear;
-                replace["5-"+(i+1)+"-3"] = basedata.amounttypeYear;
+                chartdata.push(basechartdata);
             }
             var html = template('getCollectionAmountType',{param:param,amount1:amount1,amount2:amount2,amount3:amount3});
-            replace["5-36-2"] = amount1;
-            replace["5-36-3"] = amount2;
-            replace["5-36-4"] = amount3;
+            var amountchart = new Object();
+            amountchart["5-1-1"] = "总计";
+            amountchart["5-1-2"] = amount1;
+            amountchart["5-1-3"] = amount2;
+            amountchart["5-1-4"] = amount3;
+            chartdata.push(amountchart);
+            replace["book_collection_amount_chart"] = chartdata;
             $(".getCollectionAmountTypeTable").html(html);
             $(".collectionyear").text(nowyear);
             $(".amount1").text(amount1);

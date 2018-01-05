@@ -135,11 +135,12 @@
     <!--2011年-2017年教职工借阅人数统计（包括：<10册, 11-20册, 21-30册, 31-50册, 51-100册, 101-200册, 201-300册, >300册）（表格）
       做起来麻烦点 ，循环一下，lend，back 借用一下做大小值-->
     <select id="getTeacherCount_BycountAndyear" parameterType="com.smartlibrary.domain.library_report_month_mankinds" resultType="com.smartlibrary.domain.library_report_month_mankinds">
-        SELECT DISTINCT(a.year), ifnull(b.lend,0) as lend from library_report_month_teacher a
-        left JOIN (SELECT`year`,count(1) as lend
+        select a.`year`, ifnull(b.lend,0) as lend from (SELECT DISTINCT(year) year from library_report_month_teacher where
+        `year` &gt; DATE_FORMAT(NOW(), '%Y')-4 and year &lt; DATE_FORMAT(NOW(), '%Y')) a
+        LEFT JOIN (SELECT`year`,count(1) as lend
         from library_report_month_teacher
-        WHERE lend &gt; #{lend} and lend &lt; #{back} and  year &lt; DATE_FORMAT(NOW(), '%Y')
-        GROUP BY `year`) b on a.year = b.year and  b.year &lt; DATE_FORMAT(NOW(), '%Y')
+        WHERE lend &gt; #{lend} and lend &lt; #{back} and  year &lt; DATE_FORMAT(NOW(), '%Y') and `year` &gt; DATE_FORMAT(NOW(), '%Y')-4
+        GROUP BY `year`) b on a.year = b.year and  b.year &lt; DATE_FORMAT(NOW(), '%Y')  and b.`year` &gt; DATE_FORMAT(NOW(), '%Y')-4
     </select>
 
     <!--  ?历年各大类图书借书比例趋势图（2011-2017年，包括：I文学、O数理化、F经济、TP计算机、K历史地理、B哲学宗教、D政治法律、H语言文字、其他）（折线图）（top5的类别数据）-->

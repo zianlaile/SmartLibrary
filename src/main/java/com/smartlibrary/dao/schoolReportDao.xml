@@ -168,7 +168,6 @@
     </select>
 
     <select id="getmankindCount_Byoneyear" parameterType="com.smartlibrary.domain.library_report_month_mankinds" resultType="com.smartlibrary.domain.library_report_month_mankinds">
-    <select id="getmankindCount_Byoneyear" parameterType="com.smartlibrary.domain.library_report_month_mankinds" resultType="com.smartlibrary.domain.library_report_month_mankinds">
         select `year` ,man_kind,sum(gctrl) as gctrl,SUM(lend) as lend,SUM(renew) as renew
         from library_report_month_mankinds
         where `year`=2017

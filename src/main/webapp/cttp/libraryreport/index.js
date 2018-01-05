@@ -3921,20 +3921,23 @@ function getCollectionByStackAndBooktype() {
         dataType:'json',
         success:function (data){
             var param = [];
+            var chartdata = [];
             for(var i=0;i<data.stack.length;i++){
+                var chartbase = new Object();
                 var basedata = new Object();
                 basedata.stack = data.stack[i];
+                chartbase["6-2-1"] = data.stack[i];
                 var arr = new Array;
                 var amount=0;
                 for(var j=0;j<data.bookType.length;j++){
                     arr.push(data.amounttype[i*data.bookType.length+j]);
-                    replace["6-"+(i+2)+"-"+(j+2)] = data.amounttype[i*data.bookType.length+j];
+                    chartbase["6-2-"+(j+2)] = data.amounttype[i*data.bookType.length+j];
                     amount+=data.amounttype[i*data.bookType.length+j];
                 }
                 basedata.amounttype = arr;
                 basedata.amount=amount;
-                replace["6-"+(i+2)+"-"+"1"] = data.stack[i];
-                replace["6-"+(i+2)+"-"+(data.bookType.length+2)] = amount;
+                chartbase["6-2-"+(data.bookType.length+2)] = amount;
+                chartdata.push(chartbase);
                 param.push(basedata);
             }
             var arr1 = [];
@@ -3954,12 +3957,17 @@ function getCollectionByStackAndBooktype() {
                     arr1[param[i].amounttype.length] += param[i].amount;
                 }
             }
+            var chartamount = new Object();
+            chartamount["6-2-1"] = "合计";
             for(var i = 0;i<data.bookType.length;i++){
                 replace["6-1"+"-"+(i+2)] = data.bookType[i];
             }
             for(var i=0;i<arr1.length;i++){
-                replace["6-"+(data.stack.length+2)+"-"+(i+2)] = arr1[i];
+                chartamount["6-2-"+(i+2)] = arr1[i];
             }
+            chartdata.push(chartamount);
+            console.log(chartdata);
+            replace.category_stack_amount = chartdata;
             var html = template('getCollectionByStackAndBooktype',{param:param,bookType:data.bookType,arr1:arr1});
             $(".getCollectionByStackAndBooktype").html(html);
         }

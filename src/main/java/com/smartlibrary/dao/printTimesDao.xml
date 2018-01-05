@@ -5,6 +5,7 @@
     <select id="getPrintTimesByyear" resultType="Print_Times">
         SELECT `year`,SUM(print_times) AS print_times
         FROM zz_time_month_count
+        where year &lt; DATE_FORMAT(NOW(), '%Y')
         GROUP BY `year`
         ORDER BY `year`
     </select>

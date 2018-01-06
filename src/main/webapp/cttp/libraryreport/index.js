@@ -3500,31 +3500,37 @@ function getCollectionNewAddedByCate(){
         async:false,
         dataType: 'json',
         success: function(data, textStatus, jqXHR){
-            var html = template('getCollectionNewAddedByCatetable',{param:data.ob});
-            $(".getCollectionNewAddedByCatetable").html(html);
-            for(var i=0;i<data.ob.length;i++){
-                replace["11-"+(i+2)+"-1"] = data.ob[i].category;
-                replace["11-"+(i+2)+"-2"] = data.ob[i].zwts;
-                replace["11-"+(i+2)+"-3"] = data.ob[i].xwlw;
-                replace["11-"+(i+2)+"-4"] = data.ob[i].tcts;
-                replace["11-"+(i+2)+"-5"] = data.ob[i].gtts;
-                replace["11-"+(i+2)+"-6"] = data.ob[i].zwzs;
-                replace["11-"+(i+2)+"-7"] = data.ob[i].wkhdb;
-                replace["11-"+(i+2)+"-8"] = data.ob[i].qt;
-                replace["11-"+(i+2)+"-9"] = data.ob[i].wwts;
+            var params={};
+            var obs=[];
+            params.booktype=data.booktype
+            for(var i=0;i<data.category.length;i++){
+                var ob={};ob["category"]=data.category[i];
+                for(var j=0;j<data.booktype.length;j++) {
+                    var bt=data.booktype[j];
+                    ob[bt]=data.values[0][data.booktype[j]][i];
+                }
+                obs.push(ob)
+            }
+            params.obs=obs;
+            params.keys=["category"].concat(data.booktype)
 
-            }
-            for(var i=0;i<data.booktype.length;i++){
-                replace["11-1-"+(i+2)] = data.booktype[i];
-            }
+            var html = template('getCollectionNewAddedByCatetable',{param:params});
+            $(".getCollectionNewAddedByCatetable").html(html);
+            
             booktype=data.booktype;
             category=data.category;
             for(var key in data){
-                if(key!="booktype"&&key!="category"&&key!="ob")
+                if(key=="values")
                 {
-                    servicedata.push({ name: key,type: 'bar',data:data[key]});
+                    var value=data.values;
+                    for(var b1=0;b1<booktype.length;b1++){
+                        var bt=booktype[b1];
+                    servicedata.push({ name:booktype[b1] ,type: 'bar',data:value[0][booktype[b1]]});
+                }
+
                 }
             }
+
             var getCollectionNewAddedByCate = echarts.init(document.getElementById('getCollectionNewAddedByCate'));
             var getCollectionNewAddedByCateoption = {
                 animation:false,
@@ -3565,83 +3571,6 @@ function getCollectionNewAddedByCate(){
 
 }
 
-function getCollectionTuShuNewAddedByCatetable(){
-    var booktype=[];
-    var category=[];
-    var servicedata=[];
-    $.ajax({
-        type:'get',
-        url:'../../schoolReport/getCollectionTuShuNewAddedByCate',
-        contentType: 'application/json',
-        async:false,
-        dataType: 'json',
-        success: function(data, textStatus, jqXHR){
-            var html = template('getCollectionTuShuNewAddedByCatetable',{param:data.ob});
-            $(".getCollectionTuShuNewAddedByCatetable").html(html);
-            console.log(data.ob);
-            for(var i=0;i<data.ob.length;i++){
-                replace["12-"+(i+2)+"-1"] = data.ob[i].category;
-                replace["12-"+(i+2)+"-2"] = data.ob[i].zwts;
-                replace["12-"+(i+2)+"-3"] = data.ob[i].xwlw;
-                replace["12-"+(i+2)+"-4"] = data.ob[i].tcts;
-                replace["12-"+(i+2)+"-5"] = data.ob[i].gtts;
-                replace["12-"+(i+2)+"-6"] = data.ob[i].zwzs;
-                replace["12-"+(i+2)+"-7"] = data.ob[i].wkhdb;
-                replace["12-"+(i+2)+"-8"] = data.ob[i].qt;
-                replace["12-"+(i+2)+"-9"] = data.ob[i].wwts;
-
-            }
-            for(var i=0;i<data.booktype.length;i++){
-                replace["12-1-"+(i+2)] = data.booktype[i];
-            }
-            booktype=data.booktype;
-            category=data.category;
-            for(var key in data){
-                if(key!="booktype"&&key!="category"&&key!="ob")
-                {
-                    servicedata.push({ name: key,type: 'bar',data:data[key]});
-                }
-            }
-            var getCollectionTuShuNewAddedByCate = echarts.init(document.getElementById('getCollectionTuShuNewAddedByCate'));
-            var getCollectionTuShuNewAddedByCateoption = {
-                animation:false,
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: { // 坐标轴指示器，坐标轴触发有效
-                        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-                    }
-                },
-                legend: {
-                    data:booktype,
-                    align: 'right',
-                    right: 10
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                xAxis: [{
-                    type: 'category',
-                    data: category
-                }],
-                yAxis: [{
-                    type: 'value',
-                    name: '总数(本)',
-                    axisLabel: {
-                        formatter: '{value}'
-                    }
-                }],
-                series: servicedata
-            };
-            getCollectionTuShuNewAddedByCate.setOption(getCollectionTuShuNewAddedByCateoption);
-        }
-    });
-
-
-}
-
 function getCollectionTuShuNewAddedByCate(){
     var booktype=[];
     var category=[];
@@ -3653,30 +3582,34 @@ function getCollectionTuShuNewAddedByCate(){
         async:false,
         dataType: 'json',
         success: function(data, textStatus, jqXHR){
-            var html = template('getCollectionTuShuNewAddedByCatetable',{param:data.ob});
-            $(".getCollectionTuShuNewAddedByCatetable").html(html);
-            console.log(data.ob);
-            for(var i=0;i<data.ob.length;i++){
-                replace["12-"+(i+2)+"-1"] = data.ob[i].category;
-                replace["12-"+(i+2)+"-2"] = data.ob[i].zwts;
-                replace["12-"+(i+2)+"-3"] = data.ob[i].xwlw;
-                replace["12-"+(i+2)+"-4"] = data.ob[i].tcts;
-                replace["12-"+(i+2)+"-5"] = data.ob[i].gtts;
-                replace["12-"+(i+2)+"-6"] = data.ob[i].zwzs;
-                replace["12-"+(i+2)+"-7"] = data.ob[i].wkhdb;
-                replace["12-"+(i+2)+"-8"] = data.ob[i].qt;
-                replace["12-"+(i+2)+"-9"] = data.ob[i].wwts;
+            var params={};
+            var obs=[];
+            params.booktype=data.booktype
+            for(var i=0;i<data.category.length;i++){
+                var ob={};ob["category"]=data.category[i];
+                for(var j=0;j<data.booktype.length;j++) {
+                    var bt=data.booktype[j];
+                    ob[bt]=data.values[0][data.booktype[j]][i];
+                }
+                obs.push(ob)
+            }
+            params.obs=obs;
+            params.keys=["category"].concat(data.booktype)
 
-            }
-            for(var i=0;i<data.booktype.length;i++){
-                replace["12-1-"+(i+2)] = data.booktype[i];
-            }
+            var html = template('getCollectionNewAddedByCatetable',{param:params});
+            $(".getCollectionTuShuNewAddedByCatetable").html(html);
+
             booktype=data.booktype;
             category=data.category;
             for(var key in data){
-                if(key!="booktype"&&key!="category"&&key!="ob")
+                if(key=="values")
                 {
-                    servicedata.push({ name: key,type: 'bar',data:data[key]});
+                    var value=data.values;
+                    for(var b1=0;b1<booktype.length;b1++){
+                        var bt=booktype[b1];
+                        servicedata.push({ name:booktype[b1] ,type: 'bar',data:value[0][booktype[b1]]});
+                    }
+
                 }
             }
             var getCollectionTuShuNewAddedByCate = echarts.init(document.getElementById('getCollectionTuShuNewAddedByCate'));

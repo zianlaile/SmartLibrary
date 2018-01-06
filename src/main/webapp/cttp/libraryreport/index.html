@@ -488,34 +488,21 @@
 <script type="text/html" id="getCollectionNewAddedByCatetable">
     <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
         <tr>
-            <th>序号</th>
             <th>分类</th>
-            <th>中文图书</th>
-            <th>学位论文</th>
-            <th>特藏图书</th>
-            <th>港台图书</th>
-            <th>中文赠书</th>
-            <th>外刊合订本</th>
-            <th>其他</th>
-            <th>外文图书</th>
+            {{each param.booktype as p}}
+            <th>{{p}}</th>
+            {{/each}}
         </tr>
-        {{each param as p index}}
+        {{each param.obs as m}}
         <tr>
-            <td>{{index+1}}</td>
-            <td>{{p.category}}</td>
-            <td>{{p.zwts}}</td>
-            <td>{{p.xwlw}}</td>
-            <td>{{p.tcts}}</td>
-            <td>{{p.gtts}}</td>
-            <td>{{p.zwzs}}</td>
-            <td>{{p.wkhdb}}</td>
-            <td>{{p.qt}}</td>
-            <td>{{p.wwts}}</td>
+            {{each param.keys as k}}
+            <td>{{m[k]}}</td>
+            {{/each}}
         </tr>
         {{/each}}
     </table>
 </script>
-<script type="text/html" id="getCollectionTuShuNewAddedByCatetable">
+<!--<script type="text/html" id="getCollectionTuShuNewAddedByCatetable">
     <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
         <tr>
             <th>序号</th>
@@ -536,7 +523,7 @@
         </tr>
         {{/each}}
     </table>
-</script>
+</script>-->
 <script type="text/html" id="readerLend">
     <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
         <tr>

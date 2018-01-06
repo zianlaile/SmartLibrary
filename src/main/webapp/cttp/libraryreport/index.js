@@ -3505,8 +3505,11 @@ function getCollectionNewAddedByCate(){
             params.booktype=data.booktype
             for(var i=0;i<data.category.length;i++){
                 var ob={};ob["category"]=data.category[i];
+                replace["11-"+(i+2)+"-1"] = data.category[i];
                 for(var j=0;j<data.booktype.length;j++) {
                     var bt=data.booktype[j];
+                    replace["11-1-"+(j+2)] = data.booktype[j];
+                    replace["11-"+(i+2)+"-"+(j+2)] = data.values[0][data.booktype[j]][i];
                     ob[bt]=data.values[0][data.booktype[j]][i];
                 }
                 obs.push(ob)
@@ -3587,8 +3590,11 @@ function getCollectionTuShuNewAddedByCate(){
             params.booktype=data.booktype
             for(var i=0;i<data.category.length;i++){
                 var ob={};ob["category"]=data.category[i];
+                replace["12-"+(i+2)+"-1"] = data.category[i];
                 for(var j=0;j<data.booktype.length;j++) {
                     var bt=data.booktype[j];
+                    replace["12-1-"+(j+2)] = data.booktype[j];
+                    replace["12-"+(i+2)+"-"+(j+2)] = data.values[0][data.booktype[j]][i];
                     ob[bt]=data.values[0][data.booktype[j]][i];
                 }
                 obs.push(ob)

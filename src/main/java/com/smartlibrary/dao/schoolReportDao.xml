@@ -223,6 +223,7 @@
                     sum(amount) amount
                 FROM
                     library_report_bookcollection_year
+                where  bookType like '%图书%'
                 GROUP BY
                     category,
                     bookType
@@ -234,19 +235,19 @@
                     sum(amount) amount
                 FROM
                     library_report_bookcollection_year
+            where  bookType like '%图书%'
                 GROUP BY
                     category
             ORDER BY amount DESC
                 limit 10
         ) b
-
-
         ) and a.bookType in ( select c.bookType from
 								(select
                     bookType,
                     sum(amount) amount
                 FROM
                     library_report_bookcollection_year
+								where  bookType like '%图书%'
                 GROUP BY
                     bookType
             ORDER BY amount DESC
@@ -298,10 +299,9 @@
         sum(amount) amount
         FROM
         library_report_bookcollection_year
-        where  bookType like '%外文%'
+        where  bookType not like '%中文%'
         GROUP BY
-        category,
-        bookType
+        category
         ) a
         WHERE a.category in (
         select b.category from(
@@ -310,7 +310,7 @@
         sum(amount) amount
         FROM
         library_report_bookcollection_year
-        where  bookType like '%外文%'
+        where  bookType not like '%中文%'
         GROUP BY
         category
         ORDER BY amount DESC

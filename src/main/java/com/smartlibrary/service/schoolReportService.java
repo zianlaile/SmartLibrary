@@ -356,14 +356,8 @@ public class schoolReportService {
                 booktype.add(bk);
             }
             int  am=data.get(i).getAmount();
-            switch(bk){
-
-                case "外文图书":
-                    WWTS.add(am);
-                    count=count+am;
-                    break;
-
-            }
+            WWTS.add(am);
+            count=count+am;
         }
         List<Integer> counts =new LinkedList<Integer>();
         counts.add(count);

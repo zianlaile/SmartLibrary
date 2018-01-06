@@ -239,7 +239,18 @@
             ORDER BY amount DESC
                 limit 10
         ) b
-        )
+
+
+        ) and a.bookType in ( select c.bookType from
+								(select
+                    bookType,
+                    sum(amount) amount
+                FROM
+                    library_report_bookcollection_year
+                GROUP BY
+                    bookType
+            ORDER BY amount DESC
+                limit 8 )c)
     </select>
 
     <!--馆藏基本情况  新增图书分类分布 类别太多 取前十-->

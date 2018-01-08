@@ -3176,14 +3176,14 @@ function readerLend() {
         $(".reader-info").find(".max-num").text(info[0].all_lend_times);
         $(".reader-info").find(".sec-num").text(info[1].all_lend_times);
         $(".reader-info").find(".third-num").text(info[2].all_lend_times);
-        replace["lend_reader_year1"] = info[0].year;
+        replace["lend_reader_year1"] = nowyear;
         replace["lend_reader_name1"] = info[0].name;
         replace["lend_reader_name2"] = info[1].name;
         replace["lend_reader_name3"] = info[2].name;
         replace["lend_reader_times1"] = info[0].all_lend_times;
         replace["lend_reader_times2"] = info[1].all_lend_times;
         replace["lend_reader_times3"] = info[2].all_lend_times;
-        replace["form_top10_year"] = info[0].year;
+        replace["form_top10_year"] = nowyear;
         for(var i=0;i<info.length;i++){
             replace["1-"+(i+1)+"-1"] = info[i].account;
             replace["1-"+(i+1)+"-2"] = info[i].name;

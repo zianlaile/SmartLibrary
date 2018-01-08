@@ -20,9 +20,13 @@ $(function () {
     geICdurationBy_year();//座位在座时长
     geteread_hour();//电子阅览室各时段平均使用次数
     getprintsCountBy_year();//历年文印总量
+    getprintsAmountBy_year();
     getprinttimesCountBy_year();//历年打印次数
     getcopytimesCountBy_year();//历年复印次数
     getscantimesCountBy_year();//历年扫描次数
+    getprinttimesAmountBy_year();//历年打印次数
+    getcopytimesAmountBy_year();//历年复印次数
+    getscantimesAmountBy_year();//历年扫描次数
     getprints_hour();//自助文印各时段平均
     readerLend();//读者借阅排名
     bookLend1();//图书借阅排名按册
@@ -1221,6 +1225,10 @@ function downloadword(){
         var img_print_dy =echarts.init(document.getElementById("getprinttimesCountBy_year")).getDataURL();
         var img_print_fy =echarts.init(document.getElementById("getcopytimesCountBy_year")).getDataURL();
         var img_print_sm =echarts.init(document.getElementById("getscantimesCountBy_year")).getDataURL();
+        var img_print_pageamount =echarts.init(document.getElementById("getprintsAmountBy_year")).getDataURL();
+        var img_print_pagedy =echarts.init(document.getElementById("getprinttimesAmountBy_year")).getDataURL();
+        var img_print_pagefy =echarts.init(document.getElementById("getcopytimesAmountBy_year")).getDataURL();
+        var img_print_pagesm =echarts.init(document.getElementById("getscantimesAmountBy_year")).getDataURL();
         var img_print_day =echarts.init(document.getElementById("getprints_hour")).getDataURL();
         var publisher_rating =echarts.init(document.getElementById("publisher_rating")).getDataURL();
         var publisher_raking =echarts.init(document.getElementById("publisher_raking")).getDataURL();
@@ -1261,6 +1269,10 @@ function downloadword(){
             "img_print_dy":img_print_dy,
             "img_print_fy":img_print_fy,
             "img_print_sm":img_print_sm,
+            "img_print_pageamount":img_print_pageamount,
+            "img_print_pagedy":img_print_pagedy,
+            "img_print_pagefy":img_print_pagefy,
+            "img_print_pagesm":img_print_pagesm,
             "img_print_day" :img_print_day,
             "publisher_rating":publisher_rating,
             "publisher_raking":publisher_raking,
@@ -1315,6 +1327,10 @@ function downloadword(){
                         replace["img_print_dy"] = url+"/reportpic/img_print_dy.jpg";
                         replace["img_print_fy"] = url+"/reportpic/img_print_fy.jpg";
                         replace["img_print_sm"] = url+"/reportpic/img_print_sm.jpg";
+                        replace["img_print_pageamount"] = url+"/reportpic/img_print_pageamount.jpg";
+                        replace["img_print_pagedy"] = url+"/reportpic/img_print_pagedy.jpg";
+                        replace["img_print_pagefy"] = url+"/reportpic/img_print_pagefy.jpg";
+                        replace["img_print_pagesm"] = url+"/reportpic/img_print_pagesm.jpg";
                         replace["img_print_day"] = url+"/reportpic/img_print_day.jpg";
                         replace["day_gctrl"] = url+"/reportpic/day_gctrl.jpg";
                         replace["gctrl_top12"] = url+"/reportpic/gctrl_top12.jpg";
@@ -2823,6 +2839,106 @@ function getprintsCountBy_year() {
     });
 
 }
+function getprintsAmountBy_year() {
+    $.ajax({
+        type:'get',
+        url:'../../printtimes/amountbyyear',
+        contentType:'application/json',
+        async:false,
+        dataType:'json',
+        success:function (data) {
+            var year = data.year;
+            var num = data.printtimes;
+            var thisNum = num[num.length-1];
+            var beforeNum = num[num.length-2];
+            var variableNum = thisNum - beforeNum;
+            if(variableNum<0){
+                $(".total-print-amount").find(".variable-type-amount").text("减少");
+                replace["print_pageamount_page2"] = "减少";
+            }
+            else if(variableNum>0){
+                $(".total-print-amount").find(".variable-type-amount").text("增加");
+                replace["print_pageamount_page2"] = "增加";
+            }
+            $(".total-print-amount").find(".this-year-amount").text(year[year.length-1]);
+            $(".total-print-amount").find(".this-num-amount").text(num[num.length-1]);
+            $(".total-print-amount").find(".variable-num-amount").text(Math.abs(variableNum));
+            replace["print_pageamount_year"] = year[year.length-1];
+            replace["print_pageamount_page1"] = num[num.length-1];
+            replace["print_pageamount_page3"] = Math.abs(variableNum);
+            var getprintsAmountBy_year = echarts.init(document.getElementById('getprintsAmountBy_year'));
+            var getprintsAmountBy_yearoption = {
+                animation:false,
+                backgroundColor:'white',
+                color: ['#3398DB'],
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                        type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '8%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis : [
+                    {
+                        name:'年',
+                        type : 'category',
+                        data : data.year,
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }
+                ],
+                yAxis : [
+                    {
+                        // type : 'category',
+                        // data : ['10','20','30','40'],
+                        name:"页数",
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }
+                ],
+                series : [
+                    {
+                        name:'自主文印页数',
+                        type:'bar',
+                        barWidth: '40%',
+                        data:data.printtimes
+                    },
+
+                ],
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        formatter: '{c}'
+                    }
+                },
+                itemStyle: {
+                    normal: {
+
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgba(17, 168,171, 1)'
+                        }, {
+                            offset: 1,
+                            color: 'rgba(17, 168,171, 0.1)'
+                        }]),
+                        shadowColor: 'rgba(0, 0, 0, 0.1)',
+                        shadowBlur: 10
+                    }
+                }
+            };
+            getprintsAmountBy_year.setOption(getprintsAmountBy_yearoption);
+        }
+    });
+
+}
 function getprinttimesCountBy_year() {
     $.ajax({
         type:'get',
@@ -3067,6 +3183,253 @@ function getscantimesCountBy_year() {
                 ],
             };
             getscantimesCountBy_year.setOption(getscantimesCountBy_yearoption);
+        }
+    });
+}
+function getprinttimesAmountBy_year() {
+    $.ajax({
+        type:'get',
+        url:'../../schoolReport/gettypeprintsamount',
+        contentType: 'application/json',
+        async:false,
+        dataType: 'json',
+        success: function(data, textStatus, jqXHR){
+            var count = [];
+            for(var i=0;i<data.print.length;i++){
+                count.push({
+                    value:data.print[i],
+                    itemStyle:{
+                        normal:{
+                            color:'#C8B2F4'
+
+                        }
+                    }
+                });
+            }
+            var getprinttimesAmountBy_year = echarts.init(document.getElementById('getprinttimesAmountBy_year'));
+            var getprinttimesAmountBy_yearoption = {
+                animation:false,
+                backgroundColor:'white',
+                xAxis: [
+                    {
+                        name:'年',
+                        type: 'category',
+                        show:true,
+                        data: data.year,
+                        axisPointer: {
+                            type: 'shadow'
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: '打印页数',
+                        /*min: 0,
+                         max:100,
+                         interval: 20,*/
+                        axisLabel: {
+                            formatter: '{value}'
+                        },
+                        axisTick: {
+                            show: false
+                        }
+                    },
+
+                ],
+                grid:{
+                    left:'12%',
+                    right:'10%',
+                    bottom:'10%'
+                },
+                series: [
+                    {
+                        /*name:'保障率',*/
+                        type:'bar',
+                        barWidth: '30%',
+                        data:count,
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top',
+                                formatter: '{c}'
+                            }
+                        },
+                    },
+
+                    {
+                        type:'line',
+                        name:'占比',
+                        data:data.print
+                    }
+                ],
+            };
+            getprinttimesAmountBy_year.setOption(getprinttimesAmountBy_yearoption);
+        }
+    });
+}
+function getcopytimesAmountBy_year() {
+    $.ajax({
+        type:'get',
+        url:'../../schoolReport/gettypeprintsamount',
+        contentType: 'application/json',
+        async:false,
+        dataType: 'json',
+        success: function(data, textStatus, jqXHR){
+            var count = [];
+            for(var i=0;i<data.copy.length;i++){
+                count.push({
+                    value:data.copy[i],
+                    itemStyle:{
+                        normal:{
+                            color:'#32DADD'
+
+                        }
+                    }
+                });
+            }
+            var getcopytimesAmountBy_year = echarts.init(document.getElementById('getcopytimesAmountBy_year'));
+            var getcopytimesAmountBy_yearoption = {
+                backgroundColor:'white',
+                animation:false,
+                xAxis: [
+                    {
+                        name:'年',
+                        type: 'category',
+                        show:true,
+                        data: data.year,
+                        axisPointer: {
+                            type: 'shadow'
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                    }
+                ],
+
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: '复印页数',
+                        /*min: 0,
+                         max:100,
+                         interval: 20,*/
+                        axisLabel: {
+                            formatter: '{value}'
+                        },
+                        axisTick: {
+                            show: false
+                        }
+                    },
+
+                ],
+                series: [
+                    {
+                        /*name:'保障率',*/
+                        type:'bar',
+                        barWidth: '30%',
+                        data:count,
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top',
+                                formatter: '{c}'
+                            }
+                        },
+                    },
+
+                    {
+                        type:'line',
+                        name:'占比',
+                        data:data.copy
+                    }
+                ],
+            };
+            getcopytimesAmountBy_year.setOption(getcopytimesAmountBy_yearoption);
+        }
+    });
+}
+function getscantimesAmountBy_year() {
+    $.ajax({
+        type:'get',
+        url:'../../schoolReport/gettypeprintsamount',
+        contentType: 'application/json',
+        async:false,
+        dataType: 'json',
+        success: function(data, textStatus, jqXHR){
+            var count = [];
+            for(var i=0;i<data.scan.length;i++){
+                count.push({
+                    value:data.scan[i],
+                    itemStyle:{
+                        normal:{
+                            color:'#FF3292'
+
+                        }
+                    }
+                });
+            }
+            var getscantimesAmountBy_year = echarts.init(document.getElementById('getscantimesAmountBy_year'));
+            var getscantimesAmountBy_yearoption = {
+                animation:false,
+                backgroundColor:'white',
+                xAxis: [
+                    {
+                        name:'年',
+                        type: 'category',
+                        show:true,
+                        data: data.year,
+                        axisPointer: {
+                            type: 'shadow'
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                    }
+                ],
+
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: '扫描页数',
+                        /*min: 0,
+                         max:100,
+                         interval: 20,*/
+                        axisLabel: {
+                            formatter: '{value}'
+                        },
+                        axisTick: {
+                            show: false
+                        }
+                    },
+
+                ],
+                series: [
+                    {
+                        /*name:'保障率',*/
+                        type:'bar',
+                        barWidth: '30%',
+                        data:count,
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top',
+                                formatter: '{c}'
+                            }
+                        },
+                    },
+
+                    {
+                        type:'line',
+                        name:'占比',
+                        data:data.scan
+                    }
+                ],
+            };
+            getscantimesAmountBy_year.setOption(getscantimesAmountBy_yearoption);
         }
     });
 }

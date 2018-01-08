@@ -155,6 +155,10 @@ public class schoolReportController {
     public Map<String,List> gettypeprints(){
         return schoolReportservice.gettypeprints();
     }
+    @RequestMapping(value = "/gettypeprintsamount",method = RequestMethod.GET)
+    public Map<String,List> gettypeprintsamount(){
+        return schoolReportservice.gettypeprintsamount();
+    }
 
 
 

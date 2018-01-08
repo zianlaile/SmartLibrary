@@ -63,6 +63,7 @@ public interface schoolReportDao {
     List<library_report_month_mankinds> getmankindCount_Byyear(library_report_month_mankinds n);
     List<library_report_month_mankinds> getmankindCount_Byoneyear(library_report_month_mankinds n);
     List<Print_Times> gettypeprints();
+    List<Print_Times> gettypeprintsamount();
 
 
 

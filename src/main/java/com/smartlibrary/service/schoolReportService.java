@@ -132,7 +132,35 @@ public class schoolReportService {
     }
     public Map<String,List> gettypeprints(){
         Map<String,List> returntype = new HashMap<>();
-        List<Print_Times> gettypeList = schoolReportdao.gettypeprints();
+        List<Print_Times> gettypeList = schoolReportdao.gettypeprintsamount();
+        List<Integer> year = new ArrayList<>();
+        List<Integer> print = new ArrayList<>();
+        List<Integer> copy = new ArrayList<>();
+        List<Integer> scan = new ArrayList<>();
+        for(int i=0;i<gettypeList.size();i++){
+            if(!year.contains(gettypeList.get(i).getYear())){
+                year.add(gettypeList.get(i).getYear());
+            }
+            if(gettypeList.get(i).getPrint_type().equals("C")){
+                copy.add(gettypeList.get(i).getPrint_times());
+            }
+            else if(gettypeList.get(i).getPrint_type().equals("S")){
+                scan.add(gettypeList.get(i).getPrint_times());
+            }
+            else if(gettypeList.get(i).getPrint_type().equals("P")){
+                print.add(gettypeList.get(i).getPrint_times());
+            }
+        }
+        returntype.put("year",year);
+        returntype.put("print",print);
+        returntype.put("scan",scan);
+        returntype.put("copy",copy);
+        return returntype;
+    }
+
+    public Map<String,List> gettypeprintsamount(){
+        Map<String,List> returntype = new HashMap<>();
+        List<Print_Times> gettypeList = schoolReportdao.gettypeprintsamount();
         List<Integer> year = new ArrayList<>();
         List<Integer> print = new ArrayList<>();
         List<Integer> copy = new ArrayList<>();

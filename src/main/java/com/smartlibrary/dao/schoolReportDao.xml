@@ -226,7 +226,6 @@
                     sum(amount) amount
                 FROM
                     library_report_bookcollection_year
-                where  bookType like '%图书%'
                 GROUP BY
                     category,
                     bookType
@@ -238,7 +237,6 @@
                     sum(amount) amount
                 FROM
                     library_report_bookcollection_year
-            where  bookType like '%图书%'
                 GROUP BY
                     category
             ORDER BY amount DESC
@@ -250,7 +248,6 @@
                     sum(amount) amount
                 FROM
                     library_report_bookcollection_year
-								where  bookType like '%图书%'
                 GROUP BY
                     bookType
             ORDER BY amount DESC

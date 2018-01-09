@@ -17,7 +17,7 @@
     <select id="getGctrlsCountBy_month" parameterType="com.smartlibrary.domain.gctrl" resultType="com.smartlibrary.domain.gctrl">
         select ymdate as time,year,month,gctrl_times
         from zz_time_month_count
-        WHERE `year`= DATE_FORMAT('2017-01-01', '%Y')
+        WHERE `year`= 2015
         ORDER BY ymdate
     </select>
     <select id="getBook_LendCountBy_year" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
@@ -29,22 +29,22 @@
     <select id="getBook_LendCountBy_academyAndyear" parameterType="com.smartlibrary.domain.library_report_academy" resultType="com.smartlibrary.domain.library_report_academy">
         select year,academy,lend,back
         from library_report_academy
-        WHERE `year`= DATE_FORMAT('2017-01-01', '%Y')
+        WHERE `year`= 2015
         GROUP BY  academy
         ORDER BY lend DESC
     </select>
     <select id="getLendTop3By_academyAndyear" parameterType="com.smartlibrary.domain.library_report_academy" resultType="com.smartlibrary.domain.library_report_academy">
         select academy,lend
         from library_report_academy
-        WHERE `year`= DATE_FORMAT('2017-01-01', '%Y')
+        WHERE `year`= 2015
         GROUP BY  academy
         ORDER BY lend DESC
         LIMIT 3
     </select>
     <select id="getpreLendTop3By_academyAndyear" parameterType="com.smartlibrary.domain.library_report_academy" resultType="com.smartlibrary.domain.library_report_academy">
-      	select academy,lend/people_counts as prelend
+        select academy,lend/people_counts as prelend
         from library_report_academy
-        WHERE `year`= DATE_FORMAT('2017-01-01', '%Y')
+        WHERE `year`= 2015
         GROUP BY  academy
         ORDER BY prelend DESC
         LIMIT 3
@@ -52,31 +52,31 @@
     <select id="getLendratioBy_academyAndyear" parameterType="com.smartlibrary.domain.library_report_academy" resultType="com.smartlibrary.domain.library_report_academy">
         select academy,lend/people_counts as prelend
         from library_report_academy
-        WHERE `year`= DATE_FORMAT('2017-01-01', '%Y')
+        WHERE `year`= 2015
     </select>
     <select id="getop20bookBy_year" parameterType="com.smartlibrary.domain.library_report_ranking_book" resultType="com.smartlibrary.domain.library_report_ranking_book">
-		select year,book_name,author,book_pubyear,lend_times,id
+        select year,book_name,author,book_pubyear,lend_times,id
         from library_report_ranking_book
-        WHERE `year`= DATE_FORMAT('2017-01-01', '%Y')
-		ORDER BY lend_times DESC
-		limit 20
+        WHERE `year`= 2015
+        ORDER BY lend_times DESC
+        limit 20
     </select>
     <select id="getop20authorBy_year" parameterType="com.smartlibrary.domain.library_report_ranking_author" resultType="com.smartlibrary.domain.library_report_ranking_author">
         select year,book_name,author,book_pubyear,lend_times,id
         from library_report_ranking_author
-        WHERE `year`= DATE_FORMAT('2017-01-01', '%Y')
+        WHERE `year`= 2015
         ORDER BY lend_times DESC
         limit 20
     </select>
     <select id="geICdurationBy_year" parameterType="com.smartlibrary.domain.library_report_IC_duration" resultType="com.smartlibrary.domain.library_report_IC_duration">
-		select *
+        select *
         from library_report_IC_duration
-        WHERE `year`= DATE_FORMAT('2017-01-01', '%Y') and ic_type=8
+        WHERE `year`= 2015 and ic_type=8
     </select>
     <select id="geICdurationCountBy_year" parameterType="com.smartlibrary.domain.IC_Times" resultType="com.smartlibrary.domain.IC_Times">
-		select year,month,ymdate as time ,eread_times
+        select year,month,ymdate as time ,eread_times
         from zz_time_month_count
-        WHERE `year`= DATE_FORMAT('2017-01-01', '%Y')
+        WHERE `year`= 2015
     </select>
 
     <!--今年读者总借阅次数排名前10（包括学号、读者姓名、所属学院、总借阅次数）（表格）新表-学号-年份-->
@@ -90,7 +90,7 @@
     <select id="getDeviceCount_Byhour" parameterType="com.smartlibrary.domain.library_report_hour" resultType="com.smartlibrary.domain.library_report_hour">
         SELECT year ,hour ,sum(prints) as prints  ,sum(ereads) as ereads
         from library_report_hour
-        where `year`=2017
+        where `year`=2015
         GROUP BY `hour`
 
 
@@ -100,7 +100,7 @@
     <select id="getbooklendPeopleAndCount_Byhour" parameterType="com.smartlibrary.domain.library_report_hour" resultType="com.smartlibrary.domain.library_report_hour">
         SELECT year ,hour ,sum(lend_people) as lend_people  ,sum(lend) as lend
         from library_report_hour
-        where `year`=2017
+        where `year`=2015
         GROUP BY `hour`
     </select>
 
@@ -108,7 +108,7 @@
     <select id="getBookkindAllCount_Byyear" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
         SELECT year,book_kind,sum(m_book_lend_times+f_book_lend_times) as book_lend_times
         from zz_book_month_bookkinds_gender
-        where `year`=2017
+        where `year`=2015
         GROUP BY `book_kind`
         ORDER BY book_lend_times
     </select>
@@ -165,13 +165,13 @@
     8. 年度各类型读者借书比例（包括本科生、硕士生、教职工、其他）（柱状图）
     9. 年度各类型读者续借比例（包括本科生、硕士生、教职工、其他）（柱状图）-->
     <select id="getmankindCount_Byyear" parameterType="com.smartlibrary.domain.library_report_month_mankinds" resultType="com.smartlibrary.domain.library_report_month_mankinds">
-      select `year` ,man_kind,sum(gctrl) as gctrl,SUM(lend) as lend,SUM(renew) as renew from library_report_month_mankinds   where year &lt; DATE_FORMAT(NOW(), '%Y')   GROUP BY `year`,man_kind
+        select `year` ,man_kind,sum(gctrl) as gctrl,SUM(lend) as lend,SUM(renew) as renew from library_report_month_mankinds   where year &lt; DATE_FORMAT(NOW(), '%Y')   GROUP BY `year`,man_kind
     </select>
 
     <select id="getmankindCount_Byoneyear" parameterType="com.smartlibrary.domain.library_report_month_mankinds" resultType="com.smartlibrary.domain.library_report_month_mankinds">
         select `year` ,man_kind,sum(gctrl) as gctrl,SUM(lend) as lend,SUM(renew) as renew
         from library_report_month_mankinds
-        where `year`=2017
+        where `year`=2015
         GROUP BY man_kind
     </select>
 
@@ -186,11 +186,11 @@
 
 
 
-<!--研修间-使用量分析（一年，四个类别） 时间要改，暂时2015-->
+    <!--研修间-使用量分析（一年，四个类别） 时间要改，暂时2015-->
     <select id="getICTimesBYTypeOneyear" parameterType="com.smartlibrary.domain.IC_Times" resultType="com.smartlibrary.domain.IC_Times">
         SELECT `year`,`month`,user_type,SUM(croom_times) AS croom_times,SUM(eread_times) AS  eread_times,SUM(seat_times) AS seat_times,SUM(equipment_times) AS equipment_times
         FROM zz_ic_month_identity
-        where year=2017
+        where year=2015
         GROUP BY user_type,`year`,`month`
         ORDER BY user_type,`year`,`month`
     </select>
@@ -217,84 +217,84 @@
     <!--馆藏基本情况  新增馆藏分类分布 类别太多 取前十-->
     <select id="getCollectionNewAddedByCate" parameterType="com.smartlibrary.domain.CollectionBook" resultType="com.smartlibrary.domain.CollectionBook">
         SELECT
-            a.*
+        a.*
         FROM
-            (
-                SELECT
-                    category,
-                    bookType,
-                    sum(amount) amount
-                FROM
-                    library_report_bookcollection_year
-                GROUP BY
-                    category,
-                    bookType
-            ) a
+        (
+        SELECT
+        category,
+        bookType,
+        sum(amount) amount
+        FROM
+        library_report_bookcollection_year
+        GROUP BY
+        category,
+        bookType
+        ) a
         WHERE a.category in (
         select b.category from(
-                SELECT
-                    category,
-                    sum(amount) amount
-                FROM
-                    library_report_bookcollection_year
-                GROUP BY
-                    category
-            ORDER BY amount DESC
-                limit 10
+        SELECT
+        category,
+        sum(amount) amount
+        FROM
+        library_report_bookcollection_year
+        GROUP BY
+        category
+        ORDER BY amount DESC
+        limit 10
         ) b
         ) and a.bookType in ( select c.bookType from
-								(select
-                    bookType,
-                    sum(amount) amount
-                FROM
-                    library_report_bookcollection_year
-                GROUP BY
-                    bookType
-            ORDER BY amount DESC
-                limit 8  )c)
+        (select
+        bookType,
+        sum(amount) amount
+        FROM
+        library_report_bookcollection_year
+        GROUP BY
+        bookType
+        ORDER BY amount DESC
+        limit 8  )c)
     </select>
 
     <!--馆藏基本情况  新增图书分类分布 类别太多 取前十-->
     <select id="getCollectionTuShuNewAddedByCate" parameterType="com.smartlibrary.domain.CollectionBook" resultType="com.smartlibrary.domain.CollectionBook">
         SELECT
-            a.*
+        a.*
         FROM
-            (
-                SELECT
-                    category,
-                    bookType,
-                    sum(amount) amount
-                FROM
-                    library_report_bookcollection_year
-                where  bookType like '%图书%'
-                GROUP BY
-                    category,
-                    bookType
-            ) a
+        (
+        SELECT
+        category,
+        bookType,
+        sum(amount) amount
+        FROM
+        library_report_bookcollection_year
+        where  bookType like '%图书%'
+        GROUP BY
+        category,
+        bookType
+        ) a
         WHERE a.category in (
         select b.category from(
-                SELECT
-                    category,
-                    sum(amount) amount
-                FROM
-                    library_report_bookcollection_year
-            where  bookType like '%图书%'
-                GROUP BY
-                    category
-            ORDER BY amount DESC
-                limit 10
+        SELECT
+        category,
+        sum(amount) amount
+        FROM
+        library_report_bookcollection_year
+        where  bookType like '%图书%'
+        GROUP BY
+        category
+        ORDER BY amount DESC
+        limit 10
         ) b
         ) and a.bookType in ( select c.bookType from
-								(select
-                    bookType,
-                    sum(amount) amount
-                FROM
-                    library_report_bookcollection_year
-								where  bookType like '%图书%'
-                GROUP BY
-                    bookType
-            ORDER BY amount DESC
-                limit 8  )c)
+        (select
+        bookType,
+        sum(amount) amount
+        FROM
+        library_report_bookcollection_year
+        where  bookType like '%图书%'
+        GROUP BY
+        bookType
+        ORDER BY amount DESC
+        limit 8  )c)
     </select>
 
     <!--馆藏基本情况  新增外文分类分布 类别太多 取前十-->

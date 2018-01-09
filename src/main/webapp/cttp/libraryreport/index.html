@@ -51,7 +51,7 @@
             <a class="para-title" href="#24"><span class="second-catalog">2.2.1 全校读者借阅分类统计</span><div class="dot" style="width: 70%;"></div><div class="pageNum">24</div></a>
             <a class="para-title" href="#25"><span class="first-catalog">2.3 读者借阅排名</span><div class="dot" style="width: 76%;"></div><div class="pageNum">25</div></a>
 
-            </div>
+        </div>
     </div>
     <div class="page catalog">
         <div class="catalog-content" style="padding-top: 20px;">
@@ -72,7 +72,7 @@
             <a class="para-title" href="#43"><span class="first-catalog">4.1 全馆自助文印人次统计</span><div class="dot" style="width: 76%;"></div><div class="pageNum">43</div></a>
             <a class="para-title" href="#46"><span class="first-catalog">4.3 自助文印每日各时段使用统计</span><div class="dot" style="width: 70%;"></div><div class="pageNum">46</div></a>
             <!-- 小章代码 以下2行-->
-            </div>
+        </div>
     </div>
     <div class="page" id="1" style="overflow: hidden;">
         <div class="chapter-vertical"><div>01</div><div>馆</div><div>藏</div><div>与</div><div>进</div><div>馆</div></div>
@@ -105,7 +105,7 @@
         <div class="pagination">4</div>
     </div>
     <div class="page chapter" style="height: 1100px;" id="5">
-       <div class="chart-title">图书出版年分布（种）</div>
+        <div class="chart-title">图书出版年分布（种）</div>
         <div class="chart chart-big">
             <div id="typechart" style="width: 100%;height: 100%;"></div>
         </div>
@@ -493,7 +493,6 @@
     </div>
 
     <!-- a class="para-title" href="#45"><span class="first-catalog">4.4 最受欢迎图书借阅排行前面100</span><div class="dot" style="width: 76%;"></div><div class="pageNum">44</div></a>
-
     <!-- 以上小章代码 -->
     <div class="btn-wrap"><button onclick="javascript:downloadword();">导出</button></div>
 </div>
@@ -680,30 +679,30 @@
     </table>
 </script>
 <script type="text/html" id="getCollectionByStackAndBooktype">
-<table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
-    <tr>
-        <th style="width: 30%">书目库</th>
-        {{each bookType as p}}
-        <th>{{p}}</th>
+    <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th style="width: 30%">书目库</th>
+            {{each bookType as p}}
+            <th>{{p}}</th>
+            {{/each}}
+            <th>合计</th>
+        </tr>
+        {{each param as p}}
+        <tr>
+            <td style="padding: 5px 5px;">{{p.stack}}</td>
+            {{each p.amounttype as a}}
+            <td style="padding: 5px 5px;">{{a}}</td>
+            {{/each}}
+            <td style="padding: 5px 5px;">{{p.amount}}</td>
+        </tr>
         {{/each}}
-        <th>合计</th>
-    </tr>
-    {{each param as p}}
-    <tr>
-        <td style="padding: 5px 5px;">{{p.stack}}</td>
-        {{each p.amounttype as a}}
-        <td style="padding: 5px 5px;">{{a}}</td>
-        {{/each}}
-        <td style="padding: 5px 5px;">{{p.amount}}</td>
-    </tr>
-    {{/each}}
-    <tr>
-        <td>总计</td>
-        {{each arr1 as a}}
-        <td>{{a}}</td>
-        {{/each}}
-    </tr>
-</table>
+        <tr>
+            <td>总计</td>
+            {{each arr1 as a}}
+            <td>{{a}}</td>
+            {{/each}}
+        </tr>
+    </table>
 </script>
 <script type="text/html" id="getCollectionByPubyear">
     <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">

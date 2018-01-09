@@ -226,11 +226,13 @@ public class schoolReportController {
     public Map<String,List> getTop10category(){
         return schoolReportservice.getTop10category();
     }
-    // 2012-2015 年各类型读者入馆总人次统计
-    @RequestMapping(value = "/library_report_identity_sum",method = RequestMethod.GET)
-    public Map<String,List> library_report_identity_sum(){
-        return schoolReportservice.library_report_identity_sum();
+    //2011-2015 年每月上机人次折线图
+    @RequestMapping(value = "/library_report_ic_total",method = RequestMethod.GET)
+    public Map<Integer, Map<Integer, Integer>> getlibrary_report_ic_total(){ return schoolReportservice.library_report_ic_total();
     }
-
+    // 2012-2015 年度全馆扫描 打复印统计
+    @RequestMapping(value = "/library_report_add_times",method = RequestMethod.GET)
+    public  Map<Integer,Map<String,Integer>> getlibrary_report_add_times(){ return schoolReportservice.library_report_add_times();
+    }
 
 }

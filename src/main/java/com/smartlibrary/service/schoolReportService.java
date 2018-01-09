@@ -5,6 +5,7 @@ import com.smartlibrary.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.print.DocFlavor;
 import java.util.*;
 
 /**
@@ -643,7 +644,6 @@ public class schoolReportService {
         CollectionBycategorydata.put("amountnumber",amountnumber);
         return CollectionBycategorydata;
     }
-
     public Map<String,List> getTop10category(){
         List<CollectionBook> Top10category = schoolReportdao.getTop10category();
         Map<String,List> Top10categorydata = new HashMap<>();
@@ -657,24 +657,33 @@ public class schoolReportService {
         Top10categorydata.put("amounttype",amounttype);
         return Top10categorydata;
     }
-    public Map<String,List> library_report_identity_sum(){
-        List<library_report_month_mankinds > library_report_identity_sum = schoolReportdao.getlibrary_identity_sum();
-        Map<String,List> library_report_identity_sum_result = new HashMap<>();
-        List<String>identity = new ArrayList<>();
-        List<Integer>year = new ArrayList<>();
-        List<Integer> sum= new ArrayList<>();
-        for(int i=0;i<library_report_identity_sum.size();i++){
-            if(!year.contains(library_report_identity_sum.get(i).getYear())){
-                year.add(library_report_identity_sum.get(i).getYear());
+    public Map<Integer, Map<Integer, Integer>> library_report_ic_total(){
+        List<library_report_month_mankinds > library_report_ic_total = schoolReportdao.getlibrary_report_ic_total();
+        Map<Integer, Map<Integer, Integer> > years = new LinkedHashMap <Integer, Map<Integer, Integer>>();
+        for(int i = 0; i < library_report_ic_total.size(); i++) {
+            int y = library_report_ic_total.get(i).getYear();
+            int m = library_report_ic_total.get(i).getMonth();
+            int t = library_report_ic_total.get(i).getTotal();
+            if(!years.containsKey(y)){
+               years.put(y, new LinkedHashMap<>());
             }
-            if(!identity.contains(library_report_identity_sum.get(i).getIdentity())){
-                identity.add(library_report_identity_sum.get(i).getIdentity());
-            }
-            sum.add(library_report_identity_sum.get(i).getSum());
+            years.get(y).put(m,t);
         }
-        library_report_identity_sum_result.put("identity",identity);
-        library_report_identity_sum_result.put("year",year);
-        library_report_identity_sum_result.put("sum",sum);
-        return library_report_identity_sum_result;
+        return years;
     }
+    public Map<Integer,Map<String,Integer>> library_report_add_times(){
+        List<library_report_month_mankinds > library_report_add_times  = schoolReportdao.getlibrary_report_add_times();
+        Map<Integer,Map<String,Integer > >  small = new LinkedHashMap<Integer,Map<String,Integer>>();
+        Map <String,Integer> litter =new  LinkedHashMap<String,Integer>();
+        for(int i = 0; i < library_report_add_times.size(); i++){
+            int x = library_report_add_times.get(i).getYear();
+            String y = library_report_add_times.get(i).getPrint_type();
+            String k = library_report_add_times.get(i).getPrint_location();
+            int m = library_report_add_times.get(i).getTimes();
+            small.put(x, litter);
+            small.get(x).put(y,litter.put(k,m));
+        }
+        return  small;
+    }
+
 }

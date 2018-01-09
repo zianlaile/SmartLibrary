@@ -132,7 +132,7 @@ public class schoolReportService {
     }
     public Map<String,List> gettypeprints(){
         Map<String,List> returntype = new HashMap<>();
-        List<Print_Times> gettypeList = schoolReportdao.gettypeprintsamount();
+        List<Print_Times> gettypeList = schoolReportdao.gettypeprints();
         List<Integer> year = new ArrayList<>();
         List<Integer> print = new ArrayList<>();
         List<Integer> copy = new ArrayList<>();

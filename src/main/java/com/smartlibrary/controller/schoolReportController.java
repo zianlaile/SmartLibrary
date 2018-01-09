@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -202,8 +203,8 @@ public class schoolReportController {
 
     //书目库书目记录总量
     @RequestMapping(value = "/getCollectionAmountType",method = RequestMethod.GET)
-    public Map<String,List> getCollectionAmountType(){
-        return schoolReportservice.getCollectionAmountType();
+    public Map<String,List> getCollectionAmountType(HttpServletRequest year){
+        return schoolReportservice.getCollectionAmountType(year.getQueryString());
     }
 
     //书目库书目记录类型统计
@@ -221,6 +222,7 @@ public class schoolReportController {
     public Map<String,List> getCollectionBycategory(){
         return schoolReportservice.getCollectionBycategory();
     }
+
     //品种前十的分类
     @RequestMapping(value = "/getTop10category",method = RequestMethod.GET)
     public Map<String,List> getTop10category(){
@@ -235,4 +237,14 @@ public class schoolReportController {
     public  Map<Integer,Map<String,Integer>> getlibrary_report_add_times(){ return schoolReportservice.library_report_add_times();
     }
 
+
+    // 学院借阅前三
+    @RequestMapping(value = "/getYearTop3CategoryByAcademy", method = RequestMethod.GET)
+    public Map<Integer,Map<String,List>> getYearTop3CategoryByAcademy(){
+        return schoolReportservice.getYearTop3CategoryByAcademy(); }
+    //  外接前100 的书本
+    @RequestMapping(value = "/getSingleBookLendTop100", method = RequestMethod.GET)
+    public Map<String,List> getSingleBookLendTop100(){
+        return schoolReportservice.getSingleBookLendTop100();
+    }
 }

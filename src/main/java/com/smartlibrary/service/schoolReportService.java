@@ -2,12 +2,13 @@ package com.smartlibrary.service;
 
 import com.smartlibrary.dao.schoolReportDao;
 import com.smartlibrary.domain.*;
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.print.DocFlavor;
 import java.util.*;
-
+import java.util.HashSet;
 /**
  * Created by tt on 2017/10/17.
  */
@@ -505,11 +506,10 @@ public class schoolReportService {
         return result;
     }
 
-    public Map<String, List> getCollectionAmountType(){
+    public Map<String, List> getCollectionAmountType(String year){
         Calendar now = Calendar.getInstance();
-        int year = now.get(Calendar.YEAR);
         List<CollectionBook> collectionList = schoolReportdao.getCollectionAmountType();
-        List<CollectionBook> thisyearCollection = schoolReportdao.getCollectionAmountTypeYear(year);
+        List<CollectionBook> thisyearCollection = schoolReportdao.getCollectionAmountTypeYear(Integer.valueOf(year));
         List<CollectionBook> pubyearCollection = schoolReportdao.getCollectionAmountTypePubyear();
         List<String> stack = new ArrayList<>();
         List<String> stackthisyear = new ArrayList<>();
@@ -657,6 +657,94 @@ public class schoolReportService {
         Top10categorydata.put("amounttype",amounttype);
         return Top10categorydata;
     }
+
+    /*
+    int book_categoryAmount;     //  各类统计
+    String reader_academy;       //  读者学院
+    String book_category;        //  书本种类
+    */
+    public  Map<Integer, Map<String,List>>getYearTop3CategoryByAcademy(){
+        List<Book_Lend> getYearTop3CategoryByAcademy = schoolReportdao.getYearTop3CategoryByAcademy();  // 得到数据
+        Map<Integer, Map<String,List>> yearTop3CategoryByAcademy = new HashMap<>();                     // 返回值
+        List<String> bookCategory = new ArrayList<>();                                                  // 种类数据
+        List<String> readerAcademy = new ArrayList<>();                                                 // 读者学院
+        List<Integer> categoryAmount = new ArrayList<>();                                               // 种类统计
+        int  rankFlag = 1;  // 标记读者排名
+        for(int i = 1; i < getYearTop3CategoryByAcademy.size(); i ++ ){
+            bookCategory.add(getYearTop3CategoryByAcademy.get(i-1).getBook_category());
+            if(!readerAcademy.contains(getYearTop3CategoryByAcademy.get(i-1).getReader_academy())){
+                readerAcademy.add(getYearTop3CategoryByAcademy.get(i-1).getReader_academy());
+            }
+            categoryAmount.add(getYearTop3CategoryByAcademy.get(i-1).getCategoryAmount());
+            if(!(getYearTop3CategoryByAcademy.get(i).getReader_academy().equals(getYearTop3CategoryByAcademy.get(i-1).getReader_academy()))) {
+                Map<String,List> temp =  new HashMap<>();
+                temp.put("bookCategory",new ArrayList<String>(bookCategory));
+                temp.put("readerAcademy",new ArrayList<String>(readerAcademy));
+                temp.put("categoryAmount",new ArrayList<Integer>(categoryAmount));
+                yearTop3CategoryByAcademy.put(rankFlag,copyList(temp));
+                bookCategory.clear();
+                readerAcademy.clear();
+                categoryAmount.clear();
+                rankFlag++;
+            }
+        }
+        // 处理最后一条数据
+        if(!readerAcademy.contains(getYearTop3CategoryByAcademy.get(getYearTop3CategoryByAcademy.size()-1).getReader_academy())){
+            readerAcademy.add(getYearTop3CategoryByAcademy.get(getYearTop3CategoryByAcademy.size()-1).getReader_academy());
+        }
+
+        if(!readerAcademy.contains(getYearTop3CategoryByAcademy.get(getYearTop3CategoryByAcademy.size()-1).getReader_academy())){
+            readerAcademy.add(getYearTop3CategoryByAcademy.get(getYearTop3CategoryByAcademy.size()-1).getReader_academy());
+        }
+
+        bookCategory.add(getYearTop3CategoryByAcademy.get(getYearTop3CategoryByAcademy.size()-1).getBook_category());
+        categoryAmount.add(getYearTop3CategoryByAcademy.get(getYearTop3CategoryByAcademy.size()-1).getCategoryAmount());
+        Map<String,List> temp =  new HashMap<>();
+        temp.put("bookCategory",new ArrayList<String>(bookCategory));
+        temp.put("readerAcademy",new ArrayList<String>(readerAcademy));
+        temp.put("categoryAmount",new ArrayList<Integer>(categoryAmount));
+        yearTop3CategoryByAcademy.put(rankFlag,copyList(temp));
+        return  yearTop3CategoryByAcademy;
+    }
+    // 深拷贝代码
+    public Map<String, List> copyList(Map<String, List> temp) {
+        Map<String, List> result = new HashMap<>();
+        for (Map.Entry<String, List> entry : temp.entrySet()) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+        return result;
+    }
+    public Map<String,List> getSingleBookLendTop100(){
+        List<Book_Lend> getSingleBookLendTop100 = schoolReportdao.getSingleBookLendTop100();
+        Map<String,List> SingleBookLendTop100 = new HashMap<>();
+
+        List<String> bookName = new ArrayList<>();
+        List<String> bookAuthor = new ArrayList<>();
+        List<String> publisher = new ArrayList<>();
+        List<Integer> bookLendTimes = new ArrayList<>();
+
+        for(int i=0;i<getSingleBookLendTop100.size();i++){
+            bookName.add(getSingleBookLendTop100.get(i).getBook_name());
+            bookAuthor.add(getSingleBookLendTop100.get(i).getBook_author());
+            publisher.add(getSingleBookLendTop100.get(i).getPublisher());
+            bookLendTimes.add(getSingleBookLendTop100.get(i).getBook_lend_times());
+        }
+
+        SingleBookLendTop100.put("bookName",bookName);
+        SingleBookLendTop100.put("bookAuthor",bookAuthor);
+        SingleBookLendTop100.put("publisher",publisher);
+        SingleBookLendTop100.put("bookLendTimes",bookLendTimes);
+        return SingleBookLendTop100;
+    }
+    public Map<String,List> library_report_identity_sum(){
+        List<library_report_month_mankinds > library_report_identity_sum = schoolReportdao.getlibrary_identity_sum();
+        Map<String,List> library_report_identity_sum_result = new HashMap<>();
+        List<String>identity = new ArrayList<>();
+        List<Integer>year = new ArrayList<>();
+        List<Integer> sum= new ArrayList<>();
+        for(int i=0;i<library_report_identity_sum.size();i++){
+            if(!year.contains(library_report_identity_sum.get(i).getYear())){
+                year.add(library_report_identity_sum.get(i).getYear());
     public Map<Integer, Map<Integer, Integer>> library_report_ic_total(){
         List<library_report_month_mankinds > library_report_ic_total = schoolReportdao.getlibrary_report_ic_total();
         Map<Integer, Map<Integer, Integer> > years = new LinkedHashMap <Integer, Map<Integer, Integer>>();

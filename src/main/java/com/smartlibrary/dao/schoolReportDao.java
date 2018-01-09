@@ -1,6 +1,7 @@
 package com.smartlibrary.dao;
 
 import com.smartlibrary.domain.*;
+import com.sun.xml.internal.org.jvnet.fastinfoset.stax.LowLevelFastInfosetStreamWriter;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -95,6 +96,11 @@ public interface schoolReportDao {
     List<CollectionBook> getCollectionBycategory();
     //品种前十的分类
     List<CollectionBook> getTop10category();
+    //  得到各个学院借阅的前三各类总数
+    List<Book_Lend> getYearTop3CategoryByAcademy();     // 小章定义
+    List<Book_Lend>getSingleBookLendTop100();           // 小章定义
+    //2012-2015 年度总馆上机总人次对比统计
+    List<library_report_month_mankinds> getlibrary_identity_sum();
     //2011-2015 年每月上机人次折线图
     List<library_report_month_mankinds> getlibrary_report_ic_total();
     //2012-2015 年度全馆扫描 打复印统计

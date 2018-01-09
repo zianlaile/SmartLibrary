@@ -1,4 +1,5 @@
 $(function () {
+    getBookLendByAcademy();
     getResourceCountBy_year();//历年馆藏资源统计
     getCollectionOverall();
     getCollectionNewAdded();
@@ -26,12 +27,14 @@ $(function () {
     readerLend();//读者借阅排名
     bookLend1();//图书借阅排名按册
     bookLend2(); //图书借阅排名按种
+    bookLend3();// 最受欢迎的前100本图书   小章定义
     staffLend(); //教职工借阅册数分类
     getpublish_raking();//借阅出版社排名
     getpublish_rating();//借阅出版社比例
     day_gctrl();//当年每日进馆
     dctrl_top12();//排名前12
     getCollectionByPubyear();//图书按出版年份统计表（种/ 册）
+    //getYearTop3CategoryByAcademy();
     $.ajax({
         type:"get",
         contentType: 'application/json',
@@ -94,17 +97,6 @@ var amounteread=[];
 var amountcroom=[];
 var amountseat=[];
 var amountequipment=[];
-const url = "http://106.14.120.137:8080/SmartLibrary/report";
-var replace = {
-    "school":"西南政法",
-    "logo" : url+"/school-logo.jpg"
-}
-var data = new Date;
-var nowyear = data.getFullYear();
-var nowmonth = data.getMonth();
-if(nowmonth<3){
-    nowyear = nowyear-1;
-}
 function croomchart(chartid){
     var croom_count = echarts.init(document.getElementById(chartid));
     var  croom_count_option ={
@@ -1247,6 +1239,9 @@ function downloadword(){
         var getCollectionNewAddedByCate = echarts.init(document.getElementById("getCollectionNewAddedByCate")).getDataURL();
         var getCollectionTuShuNewAddedByCate = echarts.init(document.getElementById("getCollectionTuShuNewAddedByCate")).getDataURL();
         var getCollectionWaiWenNewAddedByCate = echarts.init(document.getElementById("getCollectionWaiWenNewAddedByCate")).getDataURL();
+        var img_academy_top1 = echarts.init(document.getElementById("getBookLendByAcademyFirst")).getDataURL();
+        var img_academy_top2 = echarts.init(document.getElementById("getBookLendByAcademySecond")).getDataURL();
+        var img_academy_top3 = echarts.init(document.getElementById("getBookLendByAcademyThird")).getDataURL();
         var postdata = {
             "img_Book_Amount" :img_Book_Amount,
             "img_gctrl_amount" :img_gctrl_amount,
@@ -1284,6 +1279,9 @@ function downloadword(){
             "getCollectionNewAddedByCate":getCollectionNewAddedByCate,
             "getCollectionTuShuNewAddedByCate":getCollectionTuShuNewAddedByCate,
             "getCollectionWaiWenNewAddedByCate":getCollectionWaiWenNewAddedByCate,
+            "img_academy_top1":img_academy_top1,
+            "img_academy_top2":img_academy_top2,
+            "img_academy_top3":img_academy_top3,
         }
         $.ajax({
             type:"POST",
@@ -1336,6 +1334,9 @@ function downloadword(){
                         replace["getCollectionTuShuNewAddedByCate"] = url+"/reportpic/getCollectionTuShuNewAddedByCate.jpg";
                         replace["getCollectionWaiWenNewAddedByCate"] = url+"/reportpic/getCollectionWaiWenNewAddedByCate.jpg";
                         replace["img_academy_img"] = url+"/reportpic/img_academy_img.jpg";
+                        replace["img_academy_top1"] = url+"/reportpic/img_academy_top1.jpg";
+                        replace["img_academy_top2"] = url+"/reportpic/img_academy_top2.jpg";
+                        replace["img_academy_top3"] = url+"/reportpic/img_academy_top3.jpg";
                        XDoc.run("http://106.14.120.137:8080/SmartLibrary/report/88.docx","docx",
                            replace ,"_blank");
                     }catch(e){
@@ -2643,8 +2644,8 @@ function geteread_hour() {
             var ereads_hour =ereadshour[ereadshourtimes.indexOf(max_ereads)];//电子阅览室的高峰期 lend_hour点-lend_hour+1点
             $(".eread-info").find(".max-hour").text(ereads_hour);
             $(".eread-info").find(".next-hour").text(ereads_hour+1);
-            replace["ebook_spent_clock1"] = ereads_hour;
-            replace["ebook_spent_clock2"] = ereads_hour+1;
+            replace["ebook_spent_clock1"] = ereads_hour+"点";
+            replace["ebook_spent_clock2"] = ereads_hour+1+"点";
             var geteread_hour = echarts.init(document.getElementById('geteread_hour'));
             var geteread_houroption = {
                 animation:false,
@@ -3087,8 +3088,8 @@ function getprints_hour() {
             var prints_hour =printshour[printshourtimes.indexOf(max_prints)];//自助文印设备的高峰期 lend_hour点-lend_hour+1点
             $(".print-info").find(".max-hour").text(prints_hour);
             $(".print-info").find(".next-hour").text(parseInt(prints_hour) + 1);
-            replace["print_day_clock1"] = prints_hour;
-            replace["print_day_clock2"] = parseInt(prints_hour) + 1;
+            replace["print_day_clock1"] = prints_hour+"点";
+            replace["print_day_clock2"] = parseInt(prints_hour) + 1+"点";
             var getprints_hour = echarts.init(document.getElementById('getprints_hour'));
             var getprints_houroption = {
                 animation:false,
@@ -3175,14 +3176,14 @@ function readerLend() {
         $(".reader-info").find(".max-num").text(info[0].all_lend_times);
         $(".reader-info").find(".sec-num").text(info[1].all_lend_times);
         $(".reader-info").find(".third-num").text(info[2].all_lend_times);
-        replace["lend_reader_year1"] = info[0].year;
+        replace["lend_reader_year1"] = nowyear;
         replace["lend_reader_name1"] = info[0].name;
         replace["lend_reader_name2"] = info[1].name;
         replace["lend_reader_name3"] = info[2].name;
         replace["lend_reader_times1"] = info[0].all_lend_times;
         replace["lend_reader_times2"] = info[1].all_lend_times;
         replace["lend_reader_times3"] = info[2].all_lend_times;
-        replace["form_top10_year"] = info[0].year;
+        replace["form_top10_year"] = nowyear;
         for(var i=0;i<info.length;i++){
             replace["1-"+(i+1)+"-1"] = info[i].account;
             replace["1-"+(i+1)+"-2"] = info[i].name;
@@ -3228,6 +3229,25 @@ function bookLend2() {
         $(".book-lend2").html(html);
     })
 }
+
+function bookLend3() {
+    $.get('../../schoolReport/getSingleBookLendTop100',function (info) {
+        var data = [];
+        for(var i = 0; i <info.bookName.length; i++){
+           var basedata = new Object();
+           basedata.index = i+1;
+            basedata.publisher = info.publisher[i];
+            basedata.times = info.bookLendTimes[i];
+            basedata.bookAuthor = info.bookAuthor[i];
+            basedata.bookName = info.bookName[i];
+           data.push(basedata);
+        }
+        replace.top100 = data;
+        var html = template('bookLend3',{param:data});
+        $(".book-lend3").html(html);
+    })
+}
+
 function staffLend() {
     $.get('../../schoolReport/getTeacherCount_BycountAndyear',function (info) {
         var item ={
@@ -3831,7 +3851,7 @@ function getCollectionWaiWenNewAddedByCate(){
 function getCollectionAmountType() {
     $.ajax({
         type:'get',
-        url:'../../schoolReport/getCollectionAmountType',
+        url:'../../schoolReport/getCollectionAmountType?'+nowyear,
         contentType:'application/json',
         async:false,
         dataType:'json',
@@ -3862,8 +3882,8 @@ function getCollectionAmountType() {
                 param.push(basedata);
                 replace["5-"+(i+1)+"-1"] = basedata.stack;
                 replace["5-"+(i+1)+"-2"] = basedata.amounttype;
-                replace["5-"+(i+1)+"-3"] = basedata.amounttypePubyear;
-                replace["5-"+(i+1)+"-4"] = basedata.amounttypeYear;
+                replace["5-"+(i+1)+"-4"] = basedata.amounttypePubyear;
+                replace["5-"+(i+1)+"-3"] = basedata.amounttypeYear;
             }
             var html = template('getCollectionAmountType',{param:param,amount1:amount1,amount2:amount2,amount3:amount3});
             replace["5-36-2"] = amount1;
@@ -4249,3 +4269,186 @@ function getTop10category(){
         }
     });
 }
+
+//  小章 以下是小章代码
+
+function getBookLendByAcademy() {
+    $.ajax({
+        type:'get',
+        url:'../../schoolReport/getYearTop3CategoryByAcademy',
+        contentType:'application/json',
+        async:false,
+        dataType:'json',
+        success:function (data) {
+            document.getElementById("ThirdAcademyTitle").innerHTML =data["3"].readerAcademy + "借阅分布";
+            replace["img_academy_top3title"] = data["3"].readerAcademy + "借阅分布";
+            var getprintsCountBy_year3 = echarts.init(document.getElementById('getBookLendByAcademyThird'));
+            var getBookLendByAcademyThird = {
+              //  color: ['#000000'],
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                        type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                grid: {
+                    left: '6%',
+                    right: '6%',
+                    bottom: '6%',
+                    containLabel: true
+                },
+                xAxis : [
+                    {
+                        name : '种类',
+                        type : 'category',
+                        data : data["3"].bookCategory,
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }
+                ],
+                yAxis : [
+                    {
+                        name : '人次',
+                        type : 'value'
+                    }
+                ],
+                series : [
+                    {
+                        name:' 人次',
+                        type:'bar',
+                        barWidth: '60%',
+                        data : data["3"].categoryAmount,
+                        itemStyle:{
+                            normal:{
+                                color:'#3398DB'
+                            }
+                        },
+                        label: {
+                            normal: {
+                                color: ['#000000'],
+                                show: true,
+                                position: 'top',
+                                formatter: '{c}'
+                            }
+                        },
+                    }
+                ]
+            };
+            getprintsCountBy_year3.setOption(getBookLendByAcademyThird);
+            document.getElementById("FirstAcademyTitle").innerHTML =data["1"].readerAcademy + "借阅分布";
+            replace["img_academy_top1title"] = data["1"].readerAcademy + "借阅分布";
+            var getprintsCountBy_year1 = echarts.init(document.getElementById('getBookLendByAcademyFirst'));
+            var getBookLendByAcademyFirst = {
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                        type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                grid: {
+                    left: '6%',
+                    right: '6%',
+                    bottom: '6%',
+                    containLabel: true
+                },
+                xAxis : [
+                    {
+                        name : '种类',
+                        type : 'category',
+                        data : data["1"].bookCategory,
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }
+                ],
+                yAxis : [
+                    {
+                        name : '人次',
+                        type : 'value'
+                    }
+                ],
+                series : [
+                    {
+                        name:' 人次',
+                        type:'bar',
+                        barWidth: '60%',
+                        data : data["1"].categoryAmount,
+                        itemStyle:{
+                            normal:{
+                                color:'#FFC125'
+                            }
+                        },
+                        label: {
+                            normal: {
+                                color: ['#000000'],
+                                show: true,
+                                position: 'top',
+                                formatter: '{c}'
+                            }
+                        },
+                    }
+                ]
+            };
+            getprintsCountBy_year1.setOption(getBookLendByAcademyFirst);
+            document.getElementById("SecondAcademyTitle").innerHTML =data["2"].readerAcademy + "借阅分布";
+            replace["img_academy_top2title"] = data["2"].readerAcademy + "借阅分布";
+            var getprintsCountBy_year2 = echarts.init(document.getElementById('getBookLendByAcademySecond'));
+            var getBookLendByAcademySecond = {
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                        type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                grid: {
+                    left: '6%',
+                    right: '6%',
+                    bottom: '6%',
+                    containLabel: true
+                },
+                xAxis : [
+                    {
+                        name : '种类',
+                        type : 'category',
+                        data : data["2"].bookCategory,
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }
+                ],
+                yAxis : [
+                    {
+                        name : '人次',
+                        type : 'value'
+                    }
+                ],
+                series : [
+                    {
+                        name:' 人次',
+                        type:'bar',
+                        barWidth: '60%',
+                        data : data["2"].categoryAmount,
+                        itemStyle:{
+                            normal:{
+                                color:'#9B30FF'
+                            }
+                        },
+                        label: {
+                            normal: {
+                                color: ['#000000'],
+                                show: true,
+                                position: 'top',
+                                formatter: '{c}'
+                            }
+                        },
+                    }
+                ]
+            };
+            getprintsCountBy_year2.setOption(getBookLendByAcademySecond);
+        }
+    });
+
+}
+
+

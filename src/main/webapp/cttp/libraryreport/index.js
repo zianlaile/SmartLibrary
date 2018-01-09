@@ -75,6 +75,7 @@ $(function () {
     getCollectionByStackAndBooktype();
     getCollectionBycategory();
     getTop10category();
+    library_report_identity_sum(); //各类型读者入馆总人次统计
 });
 var month;
 var ereadtimesg;
@@ -4451,4 +4452,208 @@ function getBookLendByAcademy() {
 
 }
 
-
+function library_report_identity_sum() {
+    $.get('../../schoolReport/library_report_identity_sum',function (info) {
+        var tabledata = [];
+        var barchartdata = [];
+        var tablehead = [];
+        var ii = 0;
+        for(var i = 0; i < info.year.length; i++){
+            var basedata1 = [];
+            var data = [];
+            var sum = 0;
+            basedata1.year = info.year[i];
+            for(var iii = 0 ; iii < info.identity.length; iii++) {
+                var basedata3 = new Object();
+                sum += info.sum[ii];
+                basedata3.value = info.sum[ii++];
+                basedata3.name = info.identity[iii];
+                data.push(basedata3);
+            }
+            basedata1.push(data);
+            basedata1.sum = sum; //合计
+            tabledata.push(basedata1);
+        }
+        for(var j = 0; j < info.identity.length; j++) {
+            var basedata2 = []; //[[其他], [教职工], [本科生], [研究生]]
+            basedata2.push(info.sum[j]);
+            basedata2.push(info.sum[j + info.identity.length]);
+            basedata2.push(info.sum[j + info.identity.length * 2]);
+            barchartdata.push(basedata2);
+        }
+        tablehead.push(info.identity[2]);
+        tablehead.push(info.identity[3]);
+        tablehead.push(info.identity[1]);
+        tablehead.push(info.identity[0]);
+        var param = {
+            tablehead: tablehead,
+            tabledata: tabledata
+        };
+        console.log(param);
+        var html = template('table_library_report_identity_sum',{param:param});
+        $(".table_library_report_identity_sum").html(html);
+        $("#piechart1_library_report_identity_sum_title").text(info.year[0] + "年度各类型读者占入馆总人次百分比");
+        $("#piechart2_library_report_identity_sum_title").text(info.year[1] + "年度各类型读者占入馆总人次百分比");
+        $("#piechart3_library_report_identity_sum_title").text(info.year[2] + "年度各类型读者占入馆总人次百分比");
+        var barchart_library_report_identity_sum = echarts.init(document.getElementById('barchart_library_report_identity_sum'));
+        var barchart_library_report_identity_sum_option = {
+            animation:false,
+            backgroundColor:'white',
+            tooltip : {
+                trigger: 'axis'
+            },
+            calculable : true,
+            xAxis : [
+                {
+                    type : 'category',
+                    data : info.year,
+                    name : "年"
+                }
+            ],
+            yAxis : [
+                {
+                    name : "人次",
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name:'其他',
+                    type:'bar',
+                    data:barchartdata[0],
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{c}'
+                        }
+                    }
+                },
+                {
+                    name:'教职工',
+                    type:'bar',
+                    data:barchartdata[1],
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{c}'
+                        }
+                    }
+                },
+                {
+                    name:'本科生',
+                    type:'bar',
+                    data:barchartdata[2],
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{c}'
+                        }
+                    }
+                },
+                {
+                    name:'研究生',
+                    type:'bar',
+                    data:barchartdata[3],
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{c}'
+                        }
+                    }
+                }
+            ]
+        };
+        barchart_library_report_identity_sum.setOption(barchart_library_report_identity_sum_option);
+        var piechart1_library_report_identity_sum = echarts.init(document.getElementById('piechart1_library_report_identity_sum'));
+        var piechart1_library_report_identity_sum_option = {
+            animation:false,
+            backgroundColor:'white',
+            calculable : true,
+            series : [
+                {
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['50%', '50%'],
+                    data:tabledata[0][0],
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{b} {d}%'
+                        }
+                    },
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        piechart1_library_report_identity_sum.setOption(piechart1_library_report_identity_sum_option);
+        var piechart2_library_report_identity_sum = echarts.init(document.getElementById('piechart2_library_report_identity_sum'));
+        var piechart2_library_report_identity_sum_option = {
+            animation:false,
+            backgroundColor:'white',
+            calculable : true,
+            series : [
+                {
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['50%', '50%'],
+                    data:tabledata[1][0],
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{b} {d}%'
+                        }
+                    },
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        piechart2_library_report_identity_sum.setOption(piechart2_library_report_identity_sum_option);
+        var piechart3_library_report_identity_sum = echarts.init(document.getElementById('piechart3_library_report_identity_sum'));
+        var piechart3_library_report_identity_sum_option = {
+            animation:false,
+            backgroundColor:'white',
+            calculable : true,
+            series : [
+                {
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['50%', '50%'],
+                    data:tabledata[2][0],
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{b} {d}%'
+                        }
+                    },
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        piechart3_library_report_identity_sum.setOption(piechart3_library_report_identity_sum_option);
+    })
+}

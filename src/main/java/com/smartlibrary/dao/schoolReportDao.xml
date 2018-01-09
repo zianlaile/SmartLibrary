@@ -358,16 +358,18 @@
         ORDER BY amounttype DESC
         LIMIT 10
     </select>
-    <select id="getlibrary_report_ic_total" resultType="library_report_month_mankinds">
-       SELECT year,month,total
+    <select id="getlibrary_report_ic_total" resultType ="library_report_month_mankinds">
+       SELECT year,MONTH,total
        FROM library_report_ic_total
-       GROUP BY  year,month;
+       GROUP BY year,month;
     </select>
     <select id="getlibrary_report_add_times" resultType="library_report_month_mankinds">
         SELECT year,print_type,print_location,times
         FROM library_report_add_times
         GROUP BY year,print_type,print_location;
+    </select>
     <!-- 得到2015年的前3借阅学院的种类 数量 学院-->
+
     <select id = "getYearTop3CategoryByAcademy" resultType="Book_Lend">
        SELECT book_category, categoryAmount, reader_academy from  library_report_book_year_academy_lend_top3
     </select>
@@ -379,6 +381,7 @@
     <select id="getlibrary_identity_sum"  resultType="library_report_month_mankinds">
         SELECT  year,identity,sum
         FROM  library_report_identity_sum
-        ORDER BY  year ,identity
+        ORDER BY  year ,identity;
     </select>
+
 </mapper>

@@ -236,12 +236,9 @@ public class schoolReportController {
     @RequestMapping(value = "/library_report_add_times",method = RequestMethod.GET)
     public  Map<Integer,Map<String,Integer>> getlibrary_report_add_times(){ return schoolReportservice.library_report_add_times();
     }
-
-
     // 学院借阅前三
     @RequestMapping(value = "/getYearTop3CategoryByAcademy", method = RequestMethod.GET)
-    public Map<Integer,Map<String,List>> getYearTop3CategoryByAcademy(){
-        return schoolReportservice.getYearTop3CategoryByAcademy(); }
+    public Map<Integer,Map<String,List>> getYearTop3CategoryByAcademy(){ return schoolReportservice.getYearTop3CategoryByAcademy(); }
     //  外接前100 的书本
     @RequestMapping(value = "/getSingleBookLendTop100", method = RequestMethod.GET)
     public Map<String,List> getSingleBookLendTop100(){

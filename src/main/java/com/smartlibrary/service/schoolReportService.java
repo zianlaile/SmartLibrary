@@ -736,15 +736,7 @@ public class schoolReportService {
         SingleBookLendTop100.put("bookLendTimes",bookLendTimes);
         return SingleBookLendTop100;
     }
-    public Map<String,List> library_report_identity_sum(){
-        List<library_report_month_mankinds > library_report_identity_sum = schoolReportdao.getlibrary_identity_sum();
-        Map<String,List> library_report_identity_sum_result = new HashMap<>();
-        List<String>identity = new ArrayList<>();
-        List<Integer>year = new ArrayList<>();
-        List<Integer> sum= new ArrayList<>();
-        for(int i=0;i<library_report_identity_sum.size();i++){
-            if(!year.contains(library_report_identity_sum.get(i).getYear())){
-                year.add(library_report_identity_sum.get(i).getYear());
+
     public Map<Integer, Map<Integer, Integer>> library_report_ic_total(){
         List<library_report_month_mankinds > library_report_ic_total = schoolReportdao.getlibrary_report_ic_total();
         Map<Integer, Map<Integer, Integer> > years = new LinkedHashMap <Integer, Map<Integer, Integer>>();
@@ -759,6 +751,7 @@ public class schoolReportService {
         }
         return years;
     }
+
     public Map<Integer,Map<String,Integer>> library_report_add_times(){
         List<library_report_month_mankinds > library_report_add_times  = schoolReportdao.getlibrary_report_add_times();
         Map<Integer,Map<String,Integer > >  small = new LinkedHashMap<Integer,Map<String,Integer>>();

@@ -4489,7 +4489,6 @@ function library_report_identity_sum() {
             tablehead: tablehead,
             tabledata: tabledata
         };
-        console.log(param);
         var html = template('table_library_report_identity_sum',{param:param});
         $(".table_library_report_identity_sum").html(html);
         $("#piechart1_library_report_identity_sum_title").text(info.year[0] + "年度各类型读者占入馆总人次百分比");
@@ -4503,6 +4502,11 @@ function library_report_identity_sum() {
                 trigger: 'axis'
             },
             calculable : true,
+            legend: {
+                data: tablehead,
+                align: 'right',
+                left: 10
+            },
             xAxis : [
                 {
                     type : 'category',
@@ -4518,7 +4522,7 @@ function library_report_identity_sum() {
             ],
             series : [
                 {
-                    name:'其他',
+                    name:tablehead[3],
                     type:'bar',
                     data:barchartdata[0],
                     label: {
@@ -4530,7 +4534,7 @@ function library_report_identity_sum() {
                     }
                 },
                 {
-                    name:'教职工',
+                    name:tablehead[2],
                     type:'bar',
                     data:barchartdata[1],
                     label: {
@@ -4542,7 +4546,7 @@ function library_report_identity_sum() {
                     }
                 },
                 {
-                    name:'本科生',
+                    name:tablehead[0],
                     type:'bar',
                     data:barchartdata[2],
                     label: {
@@ -4554,7 +4558,7 @@ function library_report_identity_sum() {
                     }
                 },
                 {
-                    name:'研究生',
+                    name:tablehead[1],
                     type:'bar',
                     data:barchartdata[3],
                     label: {

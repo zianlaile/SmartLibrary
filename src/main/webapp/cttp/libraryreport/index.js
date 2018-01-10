@@ -34,7 +34,9 @@ $(function () {
     day_gctrl();//当年每日进馆
     dctrl_top12();//排名前12
     getCollectionByPubyear();//图书按出版年份统计表（种/ 册）
-    //getYearTop3CategoryByAcademy();
+    yearUnderGraduatBookLendTop10();  //  本科生借阅最多的10本书
+    bookLendFinalRankTop10InGraduate();  // 研究生借阅最多的10本书
+    yearLibraryClassifyRankInUndergraduate() // 年度本科生借阅分类排行
     $.ajax({
         type:"get",
         contentType: 'application/json',
@@ -2839,7 +2841,6 @@ function getprinttimesCountBy_year() {
                     itemStyle:{
                         normal:{
                             color:'#C8B2F4'
-
                         }
                     }
                 });
@@ -3248,6 +3249,84 @@ function bookLend3() {
         $(".book-lend3").html(html);
     })
 }
+// 以下小章代码
+function yearUnderGraduatBookLendTop10() {
+    $.get('../../schoolReport/getLibraryReportGeneralRankingTop10InUndergraduate',function (info) {
+        var data = [];
+        for(var i = 0; i <info.length; i++){
+            var basedata = new Object();
+            basedata.index = i+1;
+            basedata.book_publisher = info[i].book_publisher;
+            basedata.book_lend_times = info[i].book_lend_times;
+            basedata.book_author = info[i].book_author;
+            basedata.book_name = info[i].book_name;
+            data.push(basedata);
+        }
+        var html = template('bookLendFinalRankUndergraduate',{param:data});
+        $(".yearUnderGraduatBookLendTop10").html(html);
+    })
+}
+
+function yearLibraryClassifyRankInUndergraduate() {
+    $.get('../../schoolReport/getLibraryClassifyRankInUndergraduate',function (info) {
+
+        var bookCategory = ["0","A","B","C","D","E","F","G","H","I","J","K","N","O","P","Q","R","S","T","U","V","X","Z"];
+        var  data = [];
+        var  j ;
+        var  tableFlag = 0;
+        for(j = 0; j < info.length-1; j ++){
+            if((j+1< info.length) && !(info[j].book_category == info[j+1].book_category)) {
+                var html = template('bookLendFinalRankUndergraduate',{param:data});
+                console.log(info[j].book_category);
+                // $(".table " + bookCategory[tableFlag]).html(html);
+                $("."+ bookCategory[tableFlag]).html(html);
+                data.splice(0,data.length);//清空数组
+                tableFlag ++;
+            }
+            var basedata = new Object();
+            basedata.index = j+1;
+            basedata.book_publisher = info[j].book_publisher;
+            basedata.book_lend_times = info[j].book_lend_times;
+            basedata.book_author = info[j].book_author;
+            basedata.book_name = info[j].book_name;
+            basedata.book_category = info[j].book_category;
+            data.push(basedata);
+
+        }
+        basedata.index = j+1;
+        basedata.book_publisher = info[j].book_publisher;
+        basedata.book_lend_times = info[j].book_lend_times;
+        basedata.book_author = info[j].book_author;
+        basedata.book_name = info[j].book_name;
+        basedata.book_category = info[j].book_category;
+        data.push(basedata);
+         console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+         console.log(info[j].book_category);
+        var html = template('bookLendFinalRankUndergraduate',{param:data});
+        // $(".table " + bookCategory[tableFlag]).html(html);
+        $("." + bookCategory[tableFlag]).html(html);
+    })
+}
+// 以上小章代码
+
+function bookLendFinalRankTop10InGraduate() {
+    $.get('../../schoolReport/getLibraryReportGeneralRankingTop10InGraduate',function (info1) {
+        var data1 = [];
+        for(var i = 0; i <info1.length; i++){
+            var basedata1 = new Object();
+            basedata1.index = i+1;
+            basedata1.book_publisher = info1[i].book_publisher;
+            basedata1.book_lend_times = info1[i].book_lend_times;
+            basedata1.book_author = info1[i].book_author;
+            basedata1.book_name = info1[i].book_name;
+            data1.push(basedata1);
+        }
+        var html = template('bookLendFinalRankUndergraduate',{param:data1});
+        $(".yearGraduatBookLendTop10").html(html);
+    })
+}
+
+
 
 function staffLend() {
     $.get('../../schoolReport/getTeacherCount_BycountAndyear',function (info) {

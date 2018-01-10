@@ -507,10 +507,11 @@ public class schoolReportService {
         return result;
     }
 
-    public Map<String, List> getCollectionAmountType(String year){
+    public Map<String, List> getCollectionAmountType(){
         Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
         List<CollectionBook> collectionList = schoolReportdao.getCollectionAmountType();
-        List<CollectionBook> thisyearCollection = schoolReportdao.getCollectionAmountTypeYear(Integer.valueOf(year));
+        List<CollectionBook> thisyearCollection = schoolReportdao.getCollectionAmountTypeYear(year);
         List<CollectionBook> pubyearCollection = schoolReportdao.getCollectionAmountTypePubyear();
         List<String> stack = new ArrayList<>();
         List<String> stackthisyear = new ArrayList<>();
@@ -645,6 +646,7 @@ public class schoolReportService {
         CollectionBycategorydata.put("amountnumber",amountnumber);
         return CollectionBycategorydata;
     }
+
     public Map<String,List> getTop10category(){
         List<CollectionBook> Top10category = schoolReportdao.getTop10category();
         Map<String,List> Top10categorydata = new HashMap<>();
@@ -776,6 +778,15 @@ public class schoolReportService {
         return years;
     }
 
+    // 研究生最受欢迎的十本书
+    public  List<library_report_ranking_book> getLibraryReportGeneralRankingTop10InGraduate(library_report_ranking_book n){
+        return schoolReportdao.getLibraryReportGeneralRankingTop10InGraduate(n);
+    }
+    // 本科生最受欢迎的十本书
+    public  List<library_report_ranking_book> getLibraryReportGeneralRankingTop10InUndergraduate(library_report_ranking_book n){
+        return schoolReportdao.getLibraryReportGeneralRankingTop10InUndergraduate(n);
+    }
+
     public Map<Integer,Map<String,Integer>> library_report_add_times(){
         List<library_report_month_mankinds > library_report_add_times  = schoolReportdao.getlibrary_report_add_times();
         Map<Integer,Map<String,Integer > >  small = new LinkedHashMap<Integer,Map<String,Integer>>();
@@ -792,3 +803,11 @@ public class schoolReportService {
     }
 
 }
+
+    // 本科生分类排行
+    public  List<library_report_ranking_book> getLibraryClassifyRankInUndergraduate(library_report_ranking_book n){
+        return schoolReportdao.getLibraryClassifyRankInUndergraduate(n);
+    }
+}
+
+

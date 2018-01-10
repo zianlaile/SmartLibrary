@@ -93,10 +93,6 @@ public class schoolReportController {
         return schoolReportservice.geICdurationCountBy_year(n);
     }
 
-
-
-
-
     //<!--今年读者总借阅次数排名前10（包括学号、读者姓名、所属学院、总借阅次数）（表格）新表-学号-年份-->
     @RequestMapping(value = "/getReder_booklendCount_Byyear", method = RequestMethod.GET)
     public List<reader_report> getReder_booklendCount_Byyear(reader_report n){
@@ -156,17 +152,12 @@ public class schoolReportController {
         return schoolReportservice.gettypeprints();
     }
 
-
-
-
-
     //研修间-使用量分析（一年，四个类别(本科，研究生，教师，其他) ，四种IC资源）
     @RequestMapping(value = "/getICTimesBYTypeOneyear",method = RequestMethod.GET)
     public Map<String,List> getICTimesBYTypeOneyear(){
         IC_Times i=new IC_Times();
         return schoolReportservice.getICTimesBYTypeOneyear(i);
     }
-
 
     // <!--馆藏基本情况  总体情况 馆数量太多 取前十-->
     @RequestMapping(value = "/getCollectionOverall",method = RequestMethod.GET)
@@ -236,6 +227,7 @@ public class schoolReportController {
     @RequestMapping(value = "/library_report_add_times",method = RequestMethod.GET)
     public  Map<Integer,Map<String,Integer>> getlibrary_report_add_times(){ return schoolReportservice.library_report_add_times();
     }
+
     // 学院借阅前三
     @RequestMapping(value = "/getYearTop3CategoryByAcademy", method = RequestMethod.GET)
     public Map<Integer,Map<String,List>> getYearTop3CategoryByAcademy(){ return schoolReportservice.getYearTop3CategoryByAcademy(); }
@@ -247,4 +239,19 @@ public class schoolReportController {
     @RequestMapping(value = "/library_report_identity_sum", method = RequestMethod.GET)
     public Map<String,List> getlibrary_report_identity_sum(){ return schoolReportservice.getlibrary_report_identity_sum();
     }
+
+    // 研究生接借书最受欢迎的前十
+    @RequestMapping(value = "/getLibraryReportGeneralRankingTop10InGraduate", method = RequestMethod.GET)
+    public List<library_report_ranking_book> getLibraryReportGeneralRankingTop10InGraduate(library_report_ranking_book n){
+        return schoolReportservice.getLibraryReportGeneralRankingTop10InGraduate(n); }
+
+    // 本科生接借书最受欢迎的前十
+    @RequestMapping(value = "/getLibraryReportGeneralRankingTop10InUndergraduate", method = RequestMethod.GET)
+    public List<library_report_ranking_book> getLibraryReportGeneralRankingTop10InUndergraduate(library_report_ranking_book n){
+        return schoolReportservice.getLibraryReportGeneralRankingTop10InUndergraduate(n); }
+    // 本科生分类排行
+    @RequestMapping(value = "/getLibraryClassifyRankInUndergraduate", method = RequestMethod.GET)
+    public List<library_report_ranking_book> getLibraryClassifyRankInUndergraduate(library_report_ranking_book n){
+        return schoolReportservice.getLibraryClassifyRankInUndergraduate(n); }
 }
+

@@ -381,4 +381,17 @@
         ORDER BY  year ;
     </select>
 
+    <select id="getLibraryReportGeneralRankingTop10InGraduate" resultType="library_report_ranking_book" >
+            SELECT book_name,book_author,book_publisher,reader_identity,book_lend_times
+            FROM library_report_general_ranking_top10
+            WHERE reader_identity = '研究生'
+    </select>
+    <select id="getLibraryReportGeneralRankingTop10InUndergraduate" resultType="library_report_ranking_book" >
+        SELECT book_name,book_author,book_publisher,reader_identity,book_lend_times
+        FROM library_report_general_ranking_top10
+        WHERE reader_identity = '本科生'
+    </select>
+    <select id="getLibraryClassifyRankInUndergraduate" resultType="library_report_ranking_book">
+        SELECT book_name,book_author,book_publisher,book_lend_times,book_category,name FROM  library_report_classify_ranking_undergraduate
+    </select>
 </mapper>

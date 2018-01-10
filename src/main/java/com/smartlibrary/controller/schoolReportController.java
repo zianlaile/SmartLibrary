@@ -241,7 +241,10 @@ public class schoolReportController {
     public Map<Integer,Map<String,List>> getYearTop3CategoryByAcademy(){ return schoolReportservice.getYearTop3CategoryByAcademy(); }
     //  外接前100 的书本
     @RequestMapping(value = "/getSingleBookLendTop100", method = RequestMethod.GET)
-    public Map<String,List> getSingleBookLendTop100(){
-        return schoolReportservice.getSingleBookLendTop100();
+    public Map<String,List> getSingleBookLendTop100(){ return schoolReportservice.getSingleBookLendTop100();
+    }
+    //  2012-2015 年各类型读者入馆总人次统计
+    @RequestMapping(value = "/library_report_identity_sum", method = RequestMethod.GET)
+    public Map<String,List> getlibrary_report_identity_sum(){ return schoolReportservice.getlibrary_report_identity_sum();
     }
 }

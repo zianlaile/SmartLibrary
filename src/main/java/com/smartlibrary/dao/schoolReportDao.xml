@@ -369,19 +369,16 @@
         GROUP BY year,print_type,print_location;
     </select>
     <!-- 得到2015年的前3借阅学院的种类 数量 学院-->
-
     <select id = "getYearTop3CategoryByAcademy" resultType="Book_Lend">
        SELECT book_category, categoryAmount, reader_academy from  library_report_book_year_academy_lend_top3
     </select>
-
     <select id="getSingleBookLendTop100"  resultType="Book_Lend">
         SELECT book_name, publisher, book_lend_times,book_author FROM library_report_single_book_lend_top100
     </select>
-
-    <select id="getlibrary_identity_sum"  resultType="library_report_month_mankinds">
+    <select id="getlibrary_report_identity_sum"  resultType="library_report_month_mankinds">
         SELECT  year,identity,sum
         FROM  library_report_identity_sum
-        ORDER BY  year ,identity;
+        ORDER BY  year ;
     </select>
 
 </mapper>

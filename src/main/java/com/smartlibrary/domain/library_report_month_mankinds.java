@@ -73,6 +73,7 @@ public class library_report_month_mankinds {
         this.sum = sum;
     }
 
+
     public void setIdentity(String identity) {
         this.identity = identity;
     }

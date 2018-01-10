@@ -5,6 +5,7 @@ import com.smartlibrary.domain.*;
 import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedCaseInsensitiveMap;
 
 import javax.print.DocFlavor;
 import java.util.*;
@@ -735,6 +736,26 @@ public class schoolReportService {
         SingleBookLendTop100.put("publisher",publisher);
         SingleBookLendTop100.put("bookLendTimes",bookLendTimes);
         return SingleBookLendTop100;
+    }
+    public Map<String,List> getlibrary_report_identity_sum(){
+        List<library_report_month_mankinds> getlibrary_report_identity_sum = schoolReportdao.getlibrary_report_identity_sum();
+        Map<String,List > library_report_identity_sum =  new LinkedHashMap<>();
+
+        List<Integer> year = new ArrayList<>();
+        List<String> identity = new ArrayList<>();
+        List<Integer> sum= new ArrayList<>();
+
+        for(int i=0;i<getlibrary_report_identity_sum.size();i++){
+            if(!year.contains(getlibrary_report_identity_sum.get(i).getYear())){
+                year.add(getlibrary_report_identity_sum.get(i).getYear());
+            }
+            identity.add(getlibrary_report_identity_sum.get(i).getIdentity());
+            sum.add(getlibrary_report_identity_sum.get(i).getSum());
+            }
+        library_report_identity_sum.put("year",year);
+        library_report_identity_sum.put("idenyity",identity );
+        library_report_identity_sum.put("sum",sum);
+        return library_report_identity_sum;
     }
 
     public Map<Integer, Map<Integer, Integer>> library_report_ic_total(){

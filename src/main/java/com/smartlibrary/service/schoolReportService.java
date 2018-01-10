@@ -757,6 +757,7 @@ public class schoolReportService {
             }
             sum.add(getlibrary_report_identity_sum.get(i).getSum());
             }
+
         library_report_identity_sum.put("year",year);
         library_report_identity_sum.put("identity",identity );
         library_report_identity_sum.put("sum",sum);

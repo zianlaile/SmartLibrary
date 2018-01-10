@@ -228,21 +228,23 @@ public class schoolReportController {
     public Map<String,List> getTop10category(){
         return schoolReportservice.getTop10category();
     }
-    // 2012-2015 年各类型读者入馆总人次统计
-    @RequestMapping(value = "/library_report_identity_sum",method = RequestMethod.GET)
-    public Map<String,List> library_report_identity_sum(){
-        return schoolReportservice.library_report_identity_sum();
+    //2011-2015 年每月上机人次折线图
+    @RequestMapping(value = "/library_report_ic_total",method = RequestMethod.GET)
+    public Map<Integer, Map<Integer, Integer>> getlibrary_report_ic_total(){ return schoolReportservice.library_report_ic_total();
     }
-
-
-
+    // 2012-2015 年度全馆扫描 打复印统计
+    @RequestMapping(value = "/library_report_add_times",method = RequestMethod.GET)
+    public  Map<Integer,Map<String,Integer>> getlibrary_report_add_times(){ return schoolReportservice.library_report_add_times();
+    }
     // 学院借阅前三
     @RequestMapping(value = "/getYearTop3CategoryByAcademy", method = RequestMethod.GET)
-    public Map<Integer,Map<String,List>> getYearTop3CategoryByAcademy(){
-        return schoolReportservice.getYearTop3CategoryByAcademy(); }
+    public Map<Integer,Map<String,List>> getYearTop3CategoryByAcademy(){ return schoolReportservice.getYearTop3CategoryByAcademy(); }
     //  外接前100 的书本
     @RequestMapping(value = "/getSingleBookLendTop100", method = RequestMethod.GET)
-    public Map<String,List> getSingleBookLendTop100(){
-        return schoolReportservice.getSingleBookLendTop100();
+    public Map<String,List> getSingleBookLendTop100(){ return schoolReportservice.getSingleBookLendTop100();
+    }
+    //  2012-2015 年各类型读者入馆总人次统计
+    @RequestMapping(value = "/library_report_identity_sum", method = RequestMethod.GET)
+    public Map<String,List> getlibrary_report_identity_sum(){ return schoolReportservice.getlibrary_report_identity_sum();
     }
 }

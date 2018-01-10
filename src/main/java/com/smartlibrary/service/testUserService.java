@@ -13,7 +13,6 @@ import com.smartlibrary.domain.School;
 
 @Service
 public class testUserService {
-
 	private static final Logger logger = Logger.getLogger(testUserService.class);
 	@Autowired
 	private testUserDao testuserdao;

@@ -12,6 +12,8 @@ public class library_report_ranking_author {
     int lend_times;
     int year;
 
+
+
     public int getId() {
         return id;
     }

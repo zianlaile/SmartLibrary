@@ -425,7 +425,7 @@
         <div class="chapter-horizontal light-purple">04 文印分析</div>
         <div class="chapter-content">
             <div class="first-title">4.1 全馆自助文印统计</div>
-            <div class="para-txt total-print"><span class="emphases this-year"></span> 年全馆读者自助文印总量为 <span class="emphases this-num">xx</span> 页，比上一年 <span class="emphases variable-type"></span>了 <span class="emphases variable-num">xx</span> 页。</div>
+            <div class="para-txt total-print"><span class="emphases this-year"></span> 年全馆读者自助文印总量为 <span class="emphases this-num">xx</span> 人次，比上一年 <span class="emphases variable-type"></span>了 <span class="emphases variable-num">xx</span> 人次。</div>
             <div class="chart-title"><div class="chart-title">历年全馆读者自助文印总量统计</div></div>
             <div class="chart">
                 <div id="getprintsCountBy_year" style="width: 100%;height: 100%;"></div>
@@ -465,6 +465,29 @@
     <!-- a class="para-title" href="#45"><span class="first-catalog">4.4 最受欢迎图书借阅排行前面100</span><div class="dot" style="width: 76%;"></div><div class="pageNum">44</div></a>
 
     <!-- 以上小章代码 -->
+
+    <div class="page" id="56" style="height: 2200px;">
+        <div class="chapter-content">
+            <div class="first-title">6.1 历年各类型读者入馆总人次统计</div>
+            <div class="table table_library_report_identity_sum"></div>
+            <div class="chart">
+                <div id="barchart_library_report_identity_sum" style="width: 100%;height: 100%;"></div>
+            </div>
+            <div class="chart-title" id="piechart1_library_report_identity_sum_title"></div>
+            <div class="chart">
+                <div id="piechart1_library_report_identity_sum" style="width: 100%;height: 100%;"></div>
+            </div>
+            <div class="chart-title" id="piechart2_library_report_identity_sum_title"></div>
+            <div class="chart">
+                <div id="piechart2_library_report_identity_sum" style="width: 100%;height: 100%;"></div>
+            </div>
+            <div class="chart-title" id="piechart3_library_report_identity_sum_title"></div>
+            <div class="chart">
+                <div id="piechart3_library_report_identity_sum" style="width: 100%;height: 100%;"></div>
+            </div>
+        </div>
+        <div class="pagination">56</div>
+    </div>
     <div class="btn-wrap"><button onclick="javascript:downloadword();">导出</button></div>
 </div>
 
@@ -727,6 +750,27 @@
             <td>{{index+1}}</td>
             <td>{{p.category}}</td>
             <td>{{p.amounttype}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</script>
+<script type="text/html" id="table_library_report_identity_sum">
+    <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th width="14%">年份</th>
+            {{each param.tablehead as th index}}
+            <th width="14%">{{th}}</th>
+            {{/each}}
+            <th width="16%">合计</th>
+        </tr>
+        {{each param.tabledata as p}}
+        <tr>
+            <td>{{p.year}}</td>
+            <td>{{p[0][2].value}}</td>
+            <td>{{p[0][3].value}}</td>
+            <td>{{p[0][1].value}}</td>
+            <td>{{p[0][0].value}}</td>
+            <td>{{p.sum}}</td>
         </tr>
         {{/each}}
     </table>

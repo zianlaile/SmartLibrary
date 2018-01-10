@@ -64,6 +64,16 @@
         from reader_report r
         where r.account=#{account}
     </select>
+    <!-- 借阅图书使用时间最长书名、时长-->
+    <select id="getReaderlonggest_book_name_and_days" parameterType="com.smartlibrary.domain.reader_report" resultType="com.smartlibrary.domain.reader_report">
+        SELECT c.account,c.book_name as longgest_book_name ,c.book_no,MAX(days) longgest_book_days FROM (
+        SELECT a.account,a.book_name,a.book_no,MIN(a.operation_time) lend,max(b.operation_time) back,DATEDIFF(max(b.operation_time),MIN(a.operation_time)) days
+        FROM `z_book_lend_sys` a
+        LEFT JOIN z_book_back_sys b
+        ON a.book_no = b.book_no
+        WHERE a.account = #{account}  AND b.account = #{account} and a.`year` =  #{year} and b.year =  #{year}
+        GROUP BY a.book_no) c;
+    </select>
 
     <!-- app需要 全校进馆 借阅排名-->
     <select id="getapp_bookandgctrl_rank" parameterType="com.smartlibrary.domain.reader_report" resultType="com.smartlibrary.domain.reader_report">

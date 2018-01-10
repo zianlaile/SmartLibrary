@@ -746,14 +746,17 @@ public class schoolReportService {
         List<Integer> sum= new ArrayList<>();
 
         for(int i=0;i<getlibrary_report_identity_sum.size();i++){
+
             if(!year.contains(getlibrary_report_identity_sum.get(i).getYear())){
                 year.add(getlibrary_report_identity_sum.get(i).getYear());
             }
-            identity.add(getlibrary_report_identity_sum.get(i).getIdentity());
+            if(!identity.contains(getlibrary_report_identity_sum.get(i).getIdentity())){
+                identity.add(getlibrary_report_identity_sum.get(i).getIdentity());
+            }
             sum.add(getlibrary_report_identity_sum.get(i).getSum());
             }
         library_report_identity_sum.put("year",year);
-        library_report_identity_sum.put("idenyity",identity );
+        library_report_identity_sum.put("identity",identity );
         library_report_identity_sum.put("sum",sum);
         return library_report_identity_sum;
     }

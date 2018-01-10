@@ -378,7 +378,7 @@
     <select id="getlibrary_report_identity_sum"  resultType="library_report_month_mankinds">
         SELECT  year,identity,sum
         FROM  library_report_identity_sum
-        ORDER BY  year ;
+        GROUP BY  YEAR ,IDENTITY ,sum;
     </select>
 
 </mapper>

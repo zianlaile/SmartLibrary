@@ -24,6 +24,8 @@ public interface readerReportDao {
     List<reader_report> getReaderSeatandcroomInfo(reader_report n);
     // <!-- 电子阅览室使用时间最长时长及日期、电子阅览室使用总次数、使用总时长-->
     List<reader_report> getReaderEreadHourInfo(reader_report n);
+    //<!-- 借阅图书使用时间最长书名、时长-->
+    List<reader_report> getReaderlonggest_book_name_and_days(reader_report n);
 
     //  <!-- app需要 全校进馆 借阅排名-->
     List<reader_report> getapp_bookandgctrl_rank(reader_report n);

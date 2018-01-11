@@ -247,4 +247,8 @@ public class schoolReportController {
     @RequestMapping(value = "/library_report_identity_sum", method = RequestMethod.GET)
     public Map<String,List> getlibrary_report_identity_sum(){ return schoolReportservice.getlibrary_report_identity_sum();
     }
+    // 2012 年度全馆各地点自助扫描、打复印统计详表
+    @RequestMapping(value = "/library_report_max_times", method = RequestMethod.GET)
+    public Map<String,List> getlibrary_report_max_times(){ return schoolReportservice.getl();
+    }
 }

@@ -791,5 +791,20 @@ public class schoolReportService {
         }
         return  small;
     }
+    public Map<Integer,Map<String,Integer>>library_report_max_times (){
+        List<library_report_month_mankinds> library_report_max_times = schoolReportdao.getlibrary_report_max_times();
+        Map<Integer,Map<String,Integer> > max = new LinkedHashMap<>();
+        Map<String,Integer> big =new LinkedHashMap<>();
+        for(int i = 0; i < library_report_max_times.size(); i++){
+            if ()
+            int x = library_report_max_times.get(i).getYear();
+            String y = library_report_max_times.get(i).getPrint_type();
+            String k = library_report_max_times.get(i).getPrint_location();
+            int m = library_report_max_times.get(i).getTimes();
+            max.put(x, big);
+            max.get(x).put(y,big.put(k,m));
+        }
+        return  max;
+    }
 
 }

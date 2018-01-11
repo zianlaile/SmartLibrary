@@ -380,5 +380,10 @@
         FROM  library_report_identity_sum
         GROUP BY  YEAR ,IDENTITY ,sum;
     </select>
+    <select id="getlibrary_report_max_times"  resultType="library_report_month_mankinds">
+        SELECT   year,print_type,print_location,times
+        FROM  library_report_max_times
+        GROUP BY year,print_type,print_location;
+     </select>
 
 </mapper>

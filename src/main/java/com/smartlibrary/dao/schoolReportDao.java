@@ -105,4 +105,6 @@ public interface schoolReportDao {
     List<library_report_month_mankinds> getlibrary_report_ic_total();
     //2012-2015 年度全馆扫描 打复印统计
     List<library_report_month_mankinds> getlibrary_report_add_times();
+    //2012 年度全馆各地点自助扫描、打复印统计详表
+    List<library_report_month_mankinds> getlibrary_report_max_times();
 }

@@ -32,6 +32,19 @@ public class printTimesService {
         yeardata.put("printtimes",printtimes);
         return yeardata;
     }
+    public Map<String,List> getPrint_Amount_Byyear(){
+        Map yeardata =new HashMap<String,List>();
+        List year = new ArrayList<String>();
+        List printtimes = new ArrayList<String>();
+        List<Print_Times> printtimesdata= printtimesdao.getPrintAmountByyear();
+        for(int i=0;i<printtimesdata.size();i++){
+            year.add(String.valueOf(printtimesdata.get(i).getYear()));
+            printtimes.add(printtimesdata.get(i).getPrint_times());
+        }
+        yeardata.put("year",year);
+        yeardata.put("printtimes",printtimes);
+        return yeardata;
+    }
     public Map<String,List> getPrint_Times_Bymonth(){
         Map monthdata =new HashMap<String,List>();
         List month = new ArrayList<String>();

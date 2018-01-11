@@ -23,7 +23,6 @@
         <div class="detailed-time">xx年xx月</div>
     </div>
     <div class="page catalog">
-        <div class="catalog-title">目录</div>
         <div class="catalog-content">
             <a class="para-title" href="#1"><span class="first-catalog">1.1 馆藏文献资源变化趋势</span><div class="dot" style="width: 76%;"></div><div class="pageNum">1</div></a>
             <a class="para-title" href="#2"><span class="first-catalog">1.2 书目记录统计（种）</span><div class="dot" style="width: 76%;"></div><div class="pageNum">2</div></a>
@@ -51,7 +50,7 @@
             <a class="para-title" href="#24"><span class="second-catalog">2.2.1 全校读者借阅分类统计</span><div class="dot" style="width: 70%;"></div><div class="pageNum">24</div></a>
             <a class="para-title" href="#25"><span class="first-catalog">2.3 读者借阅排名</span><div class="dot" style="width: 76%;"></div><div class="pageNum">25</div></a>
 
-            </div>
+        </div>
     </div>
     <div class="page catalog">
         <div class="catalog-content" style="padding-top: 20px;">
@@ -68,10 +67,11 @@
             <a class="para-title" href="#36"><span class="first-catalog">3.2 座位在座时长统计</span><div class="dot" style="width: 76%;"></div><div class="pageNum">36</div></a>
             <a class="para-title" href="#37"><span class="first-catalog">3.3 电子阅览室平均每日使用统计</span><div class="dot" style="width: 70%;"></div><div class="pageNum">37</div></a>
             <a class="para-title" href="#38"><span class="first-catalog">3.4 IC空间使用量分析</span><div class="dot" style="width: 76%;"></div><div class="pageNum">38</div></a>
-            <a class="para-title" href="#40"><span class="first-catalog">4.1 全馆自助文印统计</span><div class="dot" style="width: 76%;"></div><div class="pageNum">40</div></a>
-            <a class="para-title" href="#43"><span class="first-catalog">4.2 自助文印每日各时段使用统计</span><div class="dot" style="width: 70%;"></div><div class="pageNum">43</div></a>
+            <a class="para-title" href="#40"><span class="first-catalog">4.1 全馆自助文印人次统计</span><div class="dot" style="width: 76%;"></div><div class="pageNum">40</div></a>
+            <a class="para-title" href="#43"><span class="first-catalog">4.2 全馆自助文印页数统计</span><div class="dot" style="width: 76%;"></div><div class="pageNum">43</div></a>
+            <a class="para-title" href="#46"><span class="first-catalog">4.3 自助文印每日各时段使用统计</span><div class="dot" style="width: 70%;"></div><div class="pageNum">46</div></a>
             <!-- 小章代码 以下2行-->
-            </div>
+        </div>
     </div>
     <div class="page" id="1" style="overflow: hidden;">
         <div class="chapter-vertical"><div>01</div><div>馆</div><div>藏</div><div>与</div><div>进</div><div>馆</div></div>
@@ -424,9 +424,9 @@
     <div class="page" id="40">
         <div class="chapter-horizontal light-purple">04 文印分析</div>
         <div class="chapter-content">
-            <div class="first-title">4.1 全馆自助文印统计</div>
+            <div class="first-title">4.1 全馆自助文印人次统计</div>
             <div class="para-txt total-print"><span class="emphases this-year"></span> 年全馆读者自助文印总量为 <span class="emphases this-num">xx</span> 人次，比上一年 <span class="emphases variable-type"></span>了 <span class="emphases variable-num">xx</span> 人次。</div>
-            <div class="chart-title"><div class="chart-title">历年全馆读者自助文印总量统计</div></div>
+            <div class="chart-title"><div class="chart-title">历年全馆读者自助文印人次统计</div></div>
             <div class="chart">
                 <div id="getprintsCountBy_year" style="width: 100%;height: 100%;"></div>
             </div>
@@ -434,36 +434,64 @@
         <div class="pagination">40</div>
     </div>
     <div class="page chapter" id="41">
-        <div class="chart-title">历年全馆读者自助打印量统计</div>
+        <div class="chart-title">历年全馆读者自助打印人次统计</div>
         <div class="chart chart-small">
             <div id="getprinttimesCountBy_year" style="width: 100%;height: 100%;"></div>
         </div>
-        <div class="chart-title">历年全馆读者自助复印量统计</div>
+        <div class="chart-title">历年全馆读者自助复印人次统计</div>
         <div class="chart chart-small">
             <div id="getcopytimesCountBy_year" style="width: 100%;height: 100%;"></div>
         </div>
         <div class="pagination">41</div>
     </div>
     <div class="page chapter" id="42">
-        <div class="chart-title">历年全馆读者自助扫描量统计</div>
+        <div class="chart-title">历年全馆读者自助扫描人次统计</div>
         <div class="chart chart">
             <div id="getscantimesCountBy_year" style="width: 100%;height: 100%;"></div>
         </div>
         <div class="pagination">42</div>
     </div>
-    <div class="page chapter" id="43">
-        <div class="first-title">4.2 自助文印每日各时段使用统计</div>
+    <div class="page" id="43">
+        <div class="chapter-content">
+            <div class="first-title">4.2 全馆自助文印页数统计</div>
+            <div class="para-txt total-print-amount"><span class="emphases this-year-amount"></span> 年全馆读者自助文印总量为 <span class="emphases this-num-amount">xx</span> 页，比上一年 <span class="emphases variable-type-amount"></span>了 <span class="emphases variable-num-amount">xx</span> 页。</div>
+            <div class="chart-title"><div class="chart-title">历年全馆读者自助文印页数统计</div></div>
+            <div class="chart">
+                <div id="getprintsAmountBy_year" style="width: 100%;height: 100%;"></div>
+            </div>
+        </div>
+        <div class="pagination">43</div>
+    </div>
+    <div class="page chapter" id="44">
+        <div class="chart-title">历年全馆读者自助打印页数统计</div>
+        <div class="chart chart-small">
+            <div id="getprinttimesAmountBy_year" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="chart-title">历年全馆读者自助复印页数统计</div>
+        <div class="chart chart-small">
+            <div id="getcopytimesAmountBy_year" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">44</div>
+    </div>
+    <div class="page chapter" id="45">
+        <div class="chart-title">历年全馆读者自助扫描页数统计</div>
+        <div class="chart chart">
+            <div id="getscantimesAmountBy_year" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">45</div>
+    </div>
+    <div class="page chapter" id="46">
+        <div class="first-title">4.3 自助文印每日各时段使用统计</div>
         <div class="para-txt print-info">自助文印设备的使用高峰时段在 <span class="emphases max-hour"></span>点- <span class="emphases next-hour"></span>点。</div>
         <div class="chart-title">自助文印设备平均每日各时段使用次数统计</div>
         <div class="chart chart-big">
             <div id="getprints_hour" style="width: 100%;height: 100%;"></div>
         </div>
         <div class="end-img"></div>
-        <div class="pagination">43</div>
+        <div class="pagination">46</div>
     </div>
 
     <!-- a class="para-title" href="#45"><span class="first-catalog">4.4 最受欢迎图书借阅排行前面100</span><div class="dot" style="width: 76%;"></div><div class="pageNum">44</div></a>
-
     <!-- 以上小章代码 -->
 
     <div class="page" id="56" style="height: 2200px;">
@@ -511,34 +539,21 @@
 <script type="text/html" id="getCollectionNewAddedByCatetable">
     <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
         <tr>
-            <th>序号</th>
             <th>分类</th>
-            <th>中文图书</th>
-            <th>学位论文</th>
-            <th>特藏图书</th>
-            <th>港台图书</th>
-            <th>中文赠书</th>
-            <th>外刊合订本</th>
-            <th>其他</th>
-            <th>外文图书</th>
+            {{each param.booktype as p}}
+            <th>{{p}}</th>
+            {{/each}}
         </tr>
-        {{each param as p index}}
+        {{each param.obs as m}}
         <tr>
-            <td>{{index+1}}</td>
-            <td>{{p.category}}</td>
-            <td>{{p.zwts}}</td>
-            <td>{{p.xwlw}}</td>
-            <td>{{p.tcts}}</td>
-            <td>{{p.gtts}}</td>
-            <td>{{p.zwzs}}</td>
-            <td>{{p.wkhdb}}</td>
-            <td>{{p.qt}}</td>
-            <td>{{p.wwts}}</td>
+            {{each param.keys as k}}
+            <td>{{m[k]}}</td>
+            {{/each}}
         </tr>
         {{/each}}
     </table>
 </script>
-<script type="text/html" id="getCollectionTuShuNewAddedByCatetable">
+<!--<script type="text/html" id="getCollectionTuShuNewAddedByCatetable">
     <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
         <tr>
             <th>序号</th>
@@ -559,7 +574,7 @@
         </tr>
         {{/each}}
     </table>
-</script>
+</script>-->
 <script type="text/html" id="readerLend">
     <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
         <tr>
@@ -686,30 +701,30 @@
     </table>
 </script>
 <script type="text/html" id="getCollectionByStackAndBooktype">
-<table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
-    <tr>
-        <th style="width: 30%">书目库</th>
-        {{each bookType as p}}
-        <th>{{p}}</th>
+    <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th style="width: 30%">书目库</th>
+            {{each bookType as p}}
+            <th>{{p}}</th>
+            {{/each}}
+            <th>合计</th>
+        </tr>
+        {{each param as p}}
+        <tr>
+            <td style="padding: 5px 5px;">{{p.stack}}</td>
+            {{each p.amounttype as a}}
+            <td style="padding: 5px 5px;">{{a}}</td>
+            {{/each}}
+            <td style="padding: 5px 5px;">{{p.amount}}</td>
+        </tr>
         {{/each}}
-        <th>合计</th>
-    </tr>
-    {{each param as p}}
-    <tr>
-        <td style="padding: 5px 5px;">{{p.stack}}</td>
-        {{each p.amounttype as a}}
-        <td style="padding: 5px 5px;">{{a}}</td>
-        {{/each}}
-        <td style="padding: 5px 5px;">{{p.amount}}</td>
-    </tr>
-    {{/each}}
-    <tr>
-        <td>总计</td>
-        {{each arr1 as a}}
-        <td>{{a}}</td>
-        {{/each}}
-    </tr>
-</table>
+        <tr>
+            <td>总计</td>
+            {{each arr1 as a}}
+            <td>{{a}}</td>
+            {{/each}}
+        </tr>
+    </table>
 </script>
 <script type="text/html" id="getCollectionByPubyear">
     <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">

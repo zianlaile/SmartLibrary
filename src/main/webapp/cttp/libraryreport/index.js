@@ -5032,19 +5032,16 @@ function library_report_ic_total() {
                 {
                     name:year[0],
                     type:'line',
-                    stack: '总量',
                     data:data[0]
                 },
                 {
                     name:year[1],
                     type:'line',
-                    stack: '总量',
                     data:data[1]
                 },
                 {
                     name:year[2],
                     type:'line',
-                    stack: '总量',
                     data:data[2]
                 }
             ]

@@ -3633,40 +3633,15 @@ function yearUnderGraduatBookLendTop10() {
 }
 
 function yearLibraryClassifyRankInUndergraduate() {
-    $.get('../../schoolReport/getLibraryClassifyRankInUndergraduate',function (info) {
-        var bookCategory = ["0","A","B","C","D","E","F","G","H","I","J","K","N","O","P","Q","R","S","T","U","V","X","Z"];
-        var  data = [];
-        var  j;
-        var  tableFlag = 0;
-        for(j = 0; j < info.length-1; j ++){
-            var basedata = new Object();
-            basedata.index = j+1;
-            basedata.book_publisher = info[j].book_publisher;
-            basedata.book_lend_times = info[j].book_lend_times;
-            basedata.book_author = info[j].book_author;
-            basedata.book_name = info[j].book_name;
-            basedata.book_category = info[j].book_category;
-            data.push(basedata);
-            if((j+1< info.length) && !(info[j].book_category == info[j+1].book_category)) {
-                var html = template('bookLendFinalRankUndergraduate',{param:data});
-                console.log(info[j].book_category);
-                $("."+ bookCategory[tableFlag]).html(html);
-                data.splice(0,data.length); //清空数组
-                tableFlag ++;
-            }
+    $.get('../../schoolReport/getLibraryClassifyRankInUndergraduate',function (data) {
+        for(var key in data){
+            console.log(key);
+            $("#49").append("<div style=\"text-align: center\">"+key+"</div><div class=' table "+key.substr(0, 1)+"'></div>");
+            console.log(data[key]);
+            var html = template('bookLendFinalRankUndergraduate',{param:data[key]});
+            $("."+ key.substr(0, 1)).html(html);
         }
-        basedata.index = j+1;
-        basedata.book_publisher = info[j].book_publisher;
-        basedata.book_lend_times = info[j].book_lend_times;
-        basedata.book_author = info[j].book_author;
-        basedata.book_name = info[j].book_name;
-        basedata.book_category = info[j].book_category;
-        data.push(basedata);
-        console.log(info[j].book_category);
-
-        var html = template('bookLendFinalRankUndergraduate',{param:data});
-        $("." + bookCategory[tableFlag]).html(html);
-    })
+    });
 }
 // 以上小章代码
 
@@ -3718,8 +3693,8 @@ function staffLend() {
             item.year.push(info['11-20册'][i].year);
         }
         var html = template('staffLend',{param:item});
-        console.log(2);
-        console.log(item);
+       // console.log(2);
+       // console.log(item);
         for(var i=1;i<=item.dat.length;i++){
             replace["4-"+i+"-1"] = item.dat[i-1].data1;
             replace["4-"+i+"-2"] = item.dat[i-1].data2;
@@ -4346,7 +4321,7 @@ function getCollectionByStackAndBooktype() {
                 chartamount["6-2-"+(i+2)] = arr1[i];
             }
             chartdata.push(chartamount);
-            console.log(chartdata);
+            //console.log(chartdata);
             replace.category_stack_amount = chartdata;
             var html = template('getCollectionByStackAndBooktype',{param:param,bookType:data.bookType,arr1:arr1});
             $(".getCollectionByStackAndBooktype").html(html);

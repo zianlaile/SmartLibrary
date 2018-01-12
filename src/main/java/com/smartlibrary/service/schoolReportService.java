@@ -2,14 +2,10 @@ package com.smartlibrary.service;
 
 import com.smartlibrary.dao.schoolReportDao;
 import com.smartlibrary.domain.*;
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedCaseInsensitiveMap;
 
-import javax.print.DocFlavor;
 import java.util.*;
-import java.util.HashSet;
 /**
  * Created by tt on 2017/10/17.
  */
@@ -714,8 +710,23 @@ public class schoolReportService {
 
 
     // 本科生分类排行
-    public  List<library_report_ranking_book> getLibraryClassifyRankInUndergraduate(library_report_ranking_book n){
-        return schoolReportdao.getLibraryClassifyRankInUndergraduate(n);
+    public   Map<String,ArrayList<library_report_ranking_book>>  getLibraryClassifyRankInUndergraduate(library_report_ranking_book n){
+        List<library_report_ranking_book> data = schoolReportdao.getLibraryClassifyRankInGraduate(n);
+        Map<String,ArrayList<library_report_ranking_book> > result =  new TreeMap<String,ArrayList<library_report_ranking_book> >();
+
+        for(int i=0;i<data.size();i++){
+            library_report_ranking_book a=data.get(i);
+            String cat=a.getBook_category()+" "+a.getName();
+            if(!result.containsKey(cat)){
+                ArrayList<library_report_ranking_book> datalist = new ArrayList<library_report_ranking_book>();
+                datalist.add(a);
+                result.put(cat,datalist);
+            }else{
+                result.get(cat).add(a);
+            }
+
+        }
+        return result;
     }
     // 研究生分类排行
     public  Map<String,ArrayList<library_report_ranking_book>> getLibraryClassifyRankInGraduate(library_report_ranking_book n){
@@ -725,8 +736,8 @@ public class schoolReportService {
 
         for(int i=0;i<data.size();i++){
             library_report_ranking_book a=data.get(i);
-            String cat=a.getBook_category();
-            if(result.containsKey(cat)){
+            String cat=a.getBook_category()+" "+a.getName();
+            if(!result.containsKey(cat)){
                 ArrayList<library_report_ranking_book> datalist = new ArrayList<library_report_ranking_book>();
                 datalist.add(a);
                 result.put(cat,datalist);

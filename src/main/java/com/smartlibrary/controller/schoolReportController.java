@@ -255,7 +255,7 @@ public class schoolReportController {
         return schoolReportservice.getLibraryReportGeneralRankingTop10InUndergraduate(n); }
     // 本科生分类排行
     @RequestMapping(value = "/getLibraryClassifyRankInUndergraduate", method = RequestMethod.GET)
-    public List<library_report_ranking_book> getLibraryClassifyRankInUndergraduate(library_report_ranking_book n){
+    public  Map<String,ArrayList<library_report_ranking_book>> getLibraryClassifyRankInUndergraduate(library_report_ranking_book n){
         return schoolReportservice.getLibraryClassifyRankInUndergraduate(n); }
 
     // 研究生分类排行

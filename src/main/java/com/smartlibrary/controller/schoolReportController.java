@@ -151,6 +151,10 @@ public class schoolReportController {
     public Map<String,List> gettypeprints(){
         return schoolReportservice.gettypeprints();
     }
+    @RequestMapping(value = "/gettypeprintsamount",method = RequestMethod.GET)
+    public Map<String,List> gettypeprintsamount(){
+        return schoolReportservice.gettypeprintsamount();
+    }
 
     //研修间-使用量分析（一年，四个类别(本科，研究生，教师，其他) ，四种IC资源）
     @RequestMapping(value = "/getICTimesBYTypeOneyear",method = RequestMethod.GET)
@@ -253,5 +257,9 @@ public class schoolReportController {
     @RequestMapping(value = "/getLibraryClassifyRankInUndergraduate", method = RequestMethod.GET)
     public List<library_report_ranking_book> getLibraryClassifyRankInUndergraduate(library_report_ranking_book n){
         return schoolReportservice.getLibraryClassifyRankInUndergraduate(n); }
+    // 2012 年度全馆各地点自助扫描、打复印统计详表
+    /*@RequestMapping(value = "/library_report_max_times", method = RequestMethod.GET)
+    public Map<String,List> getlibrary_report_max_times(){ return schoolReportservice.getl();
+    }*/
 }
 

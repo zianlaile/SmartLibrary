@@ -176,7 +176,9 @@
     <select id="gettypeprints" resultType="Print_Times">
         SELECT `year`,print_type,SUM(times) AS Print_times FROM `zz_print_day_printtype` GROUP BY `year`,print_type;
     </select>
-
+    <select id="gettypeprintsamount" resultType="Print_Times">
+        SELECT `year`,print_type,SUM(counts) AS Print_times FROM `zz_print_day_printtype` where year &lt; DATE_FORMAT(NOW(), '%Y') GROUP BY `year`,print_type;
+    </select>
 
 
 
@@ -212,65 +214,84 @@
     <!--馆藏基本情况  新增馆藏分类分布 类别太多 取前十-->
     <select id="getCollectionNewAddedByCate" parameterType="com.smartlibrary.domain.CollectionBook" resultType="com.smartlibrary.domain.CollectionBook">
         SELECT
-            a.*
+        a.*
         FROM
-            (
-                SELECT
-                    category,
-                    bookType,
-                    sum(amount) amount
-                FROM
-                    library_report_bookcollection_year
-                GROUP BY
-                    category,
-                    bookType
-            ) a
+        (
+        SELECT
+        category,
+        bookType,
+        sum(amount) amount
+        FROM
+        library_report_bookcollection_year
+        GROUP BY
+        category,
+        bookType
+        ) a
         WHERE a.category in (
         select b.category from(
-                SELECT
-                    category,
-                    sum(amount) amount
-                FROM
-                    library_report_bookcollection_year
-                GROUP BY
-                    category
-            ORDER BY amount DESC
-                limit 10
+        SELECT
+        category,
+        sum(amount) amount
+        FROM
+        library_report_bookcollection_year
+        GROUP BY
+        category
+        ORDER BY amount DESC
+        limit 10
         ) b
-        )
+        ) and a.bookType in ( select c.bookType from
+        (select
+        bookType,
+        sum(amount) amount
+        FROM
+        library_report_bookcollection_year
+        GROUP BY
+        bookType
+        ORDER BY amount DESC
+        limit 8  )c)
     </select>
 
     <!--馆藏基本情况  新增图书分类分布 类别太多 取前十-->
     <select id="getCollectionTuShuNewAddedByCate" parameterType="com.smartlibrary.domain.CollectionBook" resultType="com.smartlibrary.domain.CollectionBook">
         SELECT
-            a.*
+        a.*
         FROM
-            (
-                SELECT
-                    category,
-                    bookType,
-                    sum(amount) amount
-                FROM
-                    library_report_bookcollection_year
-                where  bookType like '%图书%'
-                GROUP BY
-                    category,
-                    bookType
-            ) a
+        (
+        SELECT
+        category,
+        bookType,
+        sum(amount) amount
+        FROM
+        library_report_bookcollection_year
+        where  bookType like '%图书%'
+        GROUP BY
+        category,
+        bookType
+        ) a
         WHERE a.category in (
         select b.category from(
-                SELECT
-                    category,
-                    sum(amount) amount
-                FROM
-                    library_report_bookcollection_year
-            where  bookType like '%图书%'
-                GROUP BY
-                    category
-            ORDER BY amount DESC
-                limit 10
+        SELECT
+        category,
+        sum(amount) amount
+        FROM
+        library_report_bookcollection_year
+        where  bookType like '%图书%'
+        GROUP BY
+        category
+        ORDER BY amount DESC
+        limit 10
         ) b
-        )
+        ) and a.bookType in ( select c.bookType from
+        (select
+        bookType,
+        sum(amount) amount
+        FROM
+        library_report_bookcollection_year
+        where  bookType like '%图书%'
+        GROUP BY
+        bookType
+        ORDER BY amount DESC
+        limit 8  )c)
     </select>
 
     <!--馆藏基本情况  新增外文分类分布 类别太多 取前十-->
@@ -285,10 +306,9 @@
         sum(amount) amount
         FROM
         library_report_bookcollection_year
-        where  bookType like '%外文%'
+        where  bookType not like '%中文%'
         GROUP BY
-        category,
-        bookType
+        category
         ) a
         WHERE a.category in (
         select b.category from(
@@ -297,7 +317,7 @@
         sum(amount) amount
         FROM
         library_report_bookcollection_year
-        where  bookType like '%外文%'
+        where  bookType not like '%中文%'
         GROUP BY
         category
         ORDER BY amount DESC
@@ -380,6 +400,11 @@
         FROM  library_report_identity_sum
         GROUP BY  YEAR ,IDENTITY ,sum;
     </select>
+    <select id="getlibrary_report_max_times"  resultType="library_report_month_mankinds">
+        SELECT   year,print_type,print_location,times
+        FROM  library_report_max_times
+        GROUP BY year,print_type,print_location;
+     </select>
 
     <select id="getLibraryReportGeneralRankingTop10InGraduate" resultType="library_report_ranking_book" >
             SELECT book_name,book_author,book_publisher,reader_identity,book_lend_times

@@ -63,6 +63,7 @@ public interface schoolReportDao {
     List<library_report_month_mankinds> getmankindCount_Byyear(library_report_month_mankinds n);
     List<library_report_month_mankinds> getmankindCount_Byoneyear(library_report_month_mankinds n);
     List<Print_Times> gettypeprints();
+    List<Print_Times> gettypeprintsamount();
 
 
 
@@ -115,4 +116,6 @@ public interface schoolReportDao {
 
     // 本科生分类排行
     List<library_report_ranking_book> getLibraryClassifyRankInUndergraduate(library_report_ranking_book n); // 小章定义
+    //2012 年度全馆各地点自助扫描、打复印统计详表
+    List<library_report_month_mankinds> getlibrary_report_max_times();
 }

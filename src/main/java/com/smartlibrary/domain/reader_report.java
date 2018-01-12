@@ -20,8 +20,9 @@ public class reader_report{
     String first_gctr_date;//第一次进馆时间
     int all_gctrl_times;//累计进馆次数
     int all_gctrl_rank;//进馆次数排名
-    int longgest_book_name;//借阅时间最长的书名
-    String longgest_book_days;//借阅时间最长的书的天数
+    String book_no;
+    String longgest_book_name;//借阅时间最长的书名
+    int longgest_book_days;//借阅时间最长的书的天数
     int all_lend_times;//借阅总量
     int all_lend_rank;//借阅总量排名
 
@@ -58,6 +59,13 @@ public class reader_report{
 
     double per_gctrl_times;//进馆百分比
 
+    public String getBook_no() {
+        return book_no;
+    }
+
+    public void setBook_no(String book_no) {
+        this.book_no = book_no;
+    }
     public int getMonth_lend_rank() {
         return month_lend_rank;
     }
@@ -200,22 +208,6 @@ public class reader_report{
 
     public void setAll_gctrl_rank(int all_gctrl_rank) {
         this.all_gctrl_rank = all_gctrl_rank;
-    }
-
-    public int getLonggest_book_name() {
-        return longgest_book_name;
-    }
-
-    public void setLonggest_book_name(int longgest_book_name) {
-        this.longgest_book_name = longgest_book_name;
-    }
-
-    public String getLonggest_book_days() {
-        return longgest_book_days;
-    }
-
-    public void setLonggest_book_days(String longgest_book_days) {
-        this.longgest_book_days = longgest_book_days;
     }
 
     public int getAll_lend_times() {
@@ -396,6 +388,23 @@ public class reader_report{
 
     public String getLonggest_eread_date() {
         return longgest_eread_date;
+    }
+
+    public String getLonggest_book_name() {
+        return longgest_book_name;
+    }
+
+    public int getLonggest_book_days() {
+        return longgest_book_days;
+    }
+
+    public void setLonggest_book_name(String longgest_book_name) {
+        this.longgest_book_name = longgest_book_name;
+
+    }
+
+    public void setLonggest_book_days(int longgest_book_days) {
+        this.longgest_book_days = longgest_book_days;
     }
 
     public void setLonggest_eread_date(String longgest_eread_date) {

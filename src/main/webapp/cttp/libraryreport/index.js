@@ -41,6 +41,7 @@ $(function () {
     yearUnderGraduatBookLendTop10();  //  本科生借阅最多的10本书
     bookLendFinalRankTop10InGraduate();  // 研究生借阅最多的10本书
     yearLibraryClassifyRankInUndergraduate() // 年度本科生借阅分类排行
+    yearLibraryClassifyRankInGraduate()  //  年度研究生借阅分类排行
     $.ajax({
         type:"get",
         contentType: 'application/json',
@@ -3635,9 +3636,20 @@ function yearUnderGraduatBookLendTop10() {
 function yearLibraryClassifyRankInUndergraduate() {
     $.get('../../schoolReport/getLibraryClassifyRankInUndergraduate',function (data) {
         for(var key in data){
-            console.log(key);
+            if(key.substr(0, 1) == '0') continue;
             $("#49").append("<div style=\"text-align: center\">"+key+"</div><div class=' table "+key.substr(0, 1)+"'></div>");
-            console.log(data[key]);
+            // console.log(data[key]);
+            var html = template('bookLendFinalRankUndergraduate',{param:data[key]});
+            $("."+ key.substr(0, 1)).html(html);
+        }
+    });
+}
+function yearLibraryClassifyRankInGraduate() {
+    $.get('../../schoolReport/getLibraryClassifyRankInGraduate',function (data) {
+        for(var key in data){
+            if(key.substr(0, 1) == '0') continue;
+            $("#50").append("<div style=\"text-align: center\">"+key+"</div><div class=' table "+key.substr(0, 1)+"'></div>");
+            // console.log(data[key]);
             var html = template('bookLendFinalRankUndergraduate',{param:data[key]});
             $("."+ key.substr(0, 1)).html(html);
         }
@@ -3661,8 +3673,6 @@ function bookLendFinalRankTop10InGraduate() {
         $(".yearGraduatBookLendTop10").html(html);
     })
 }
-
-
 
 function staffLend() {
     $.get('../../schoolReport/getTeacherCount_BycountAndyear',function (info) {

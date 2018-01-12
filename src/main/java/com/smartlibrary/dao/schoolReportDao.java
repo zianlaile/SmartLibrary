@@ -65,9 +65,6 @@ public interface schoolReportDao {
     List<Print_Times> gettypeprints();
     List<Print_Times> gettypeprintsamount();
 
-
-
-
     // <!--研修间-使用量分析（一年，四个类别） 时间要改，暂时2015-->
     List<IC_Times> getICTimesBYTypeOneyear( IC_Times i);
 
@@ -118,6 +115,7 @@ public interface schoolReportDao {
     List<library_report_ranking_book> getLibraryClassifyRankInUndergraduate(library_report_ranking_book n); // 小章定义
     // 研究生分类排行
     List<library_report_ranking_book> getLibraryClassifyRankInGraduate(library_report_ranking_book n);   // 小章定义
+
     //2012 年度全馆各地点自助扫描、打复印统计详表
     List<library_report_month_mankinds> getlibrary_report_max_times();
 }

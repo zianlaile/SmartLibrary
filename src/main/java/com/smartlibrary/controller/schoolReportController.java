@@ -262,6 +262,7 @@ public class schoolReportController {
     @RequestMapping(value = "/getLibraryClassifyRankInGraduate", method = RequestMethod.GET)
     public Map<String,ArrayList<library_report_ranking_book>> getLibraryClassifyRankInGraduate(library_report_ranking_book n){
         return schoolReportservice.getLibraryClassifyRankInGraduate(n); }
+
     // 2012 年度全馆各地点自助扫描、打复印统计详表
     /*@RequestMapping(value = "/library_report_max_times", method = RequestMethod.GET)
     public Map<String,List> getlibrary_report_max_times(){ return schoolReportservice.getl();

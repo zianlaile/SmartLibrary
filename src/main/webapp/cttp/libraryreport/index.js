@@ -3634,20 +3634,11 @@ function yearUnderGraduatBookLendTop10() {
 
 function yearLibraryClassifyRankInUndergraduate() {
     $.get('../../schoolReport/getLibraryClassifyRankInUndergraduate',function (info) {
-
         var bookCategory = ["0","A","B","C","D","E","F","G","H","I","J","K","N","O","P","Q","R","S","T","U","V","X","Z"];
         var  data = [];
-        var  j ;
+        var  j;
         var  tableFlag = 0;
         for(j = 0; j < info.length-1; j ++){
-            if((j+1< info.length) && !(info[j].book_category == info[j+1].book_category)) {
-                var html = template('bookLendFinalRankUndergraduate',{param:data});
-                console.log(info[j].book_category);
-                // $(".table " + bookCategory[tableFlag]).html(html);
-                $("."+ bookCategory[tableFlag]).html(html);
-                data.splice(0,data.length);//清空数组
-                tableFlag ++;
-            }
             var basedata = new Object();
             basedata.index = j+1;
             basedata.book_publisher = info[j].book_publisher;
@@ -3656,7 +3647,13 @@ function yearLibraryClassifyRankInUndergraduate() {
             basedata.book_name = info[j].book_name;
             basedata.book_category = info[j].book_category;
             data.push(basedata);
-
+            if((j+1< info.length) && !(info[j].book_category == info[j+1].book_category)) {
+                var html = template('bookLendFinalRankUndergraduate',{param:data});
+                console.log(info[j].book_category);
+                $("."+ bookCategory[tableFlag]).html(html);
+                data.splice(0,data.length); //清空数组
+                tableFlag ++;
+            }
         }
         basedata.index = j+1;
         basedata.book_publisher = info[j].book_publisher;
@@ -3665,10 +3662,9 @@ function yearLibraryClassifyRankInUndergraduate() {
         basedata.book_name = info[j].book_name;
         basedata.book_category = info[j].book_category;
         data.push(basedata);
-         console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-         console.log(info[j].book_category);
+        console.log(info[j].book_category);
+
         var html = template('bookLendFinalRankUndergraduate',{param:data});
-        // $(".table " + bookCategory[tableFlag]).html(html);
         $("." + bookCategory[tableFlag]).html(html);
     })
 }
@@ -4683,7 +4679,7 @@ function getBookLendByAcademy() {
         dataType:'json',
         success:function (data) {
             document.getElementById("ThirdAcademyTitle").innerHTML =data["3"].readerAcademy + "借阅分布";
-            replace["img_academy_top3title"] = data["3"].readerAcademy + "借阅分布";
+      //       replace["img_academy_top3title"] = data["3"].readerAcademy + "借阅分布";
             var getprintsCountBy_year3 = echarts.init(document.getElementById('getBookLendByAcademyThird'));
             var getBookLendByAcademyThird = {
               //  color: ['#000000'],
@@ -4739,7 +4735,7 @@ function getBookLendByAcademy() {
             };
             getprintsCountBy_year3.setOption(getBookLendByAcademyThird);
             document.getElementById("FirstAcademyTitle").innerHTML =data["1"].readerAcademy + "借阅分布";
-            replace["img_academy_top1title"] = data["1"].readerAcademy + "借阅分布";
+           // replace["img_academy_top1title"] = data["1"].readerAcademy + "借阅分布";
             var getprintsCountBy_year1 = echarts.init(document.getElementById('getBookLendByAcademyFirst'));
             var getBookLendByAcademyFirst = {
                 tooltip : {
@@ -4794,7 +4790,7 @@ function getBookLendByAcademy() {
             };
             getprintsCountBy_year1.setOption(getBookLendByAcademyFirst);
             document.getElementById("SecondAcademyTitle").innerHTML =data["2"].readerAcademy + "借阅分布";
-            replace["img_academy_top2title"] = data["2"].readerAcademy + "借阅分布";
+       //     replace["img_academy_top2title"] = data["2"].readerAcademy + "借阅分布";
             var getprintsCountBy_year2 = echarts.init(document.getElementById('getBookLendByAcademySecond'));
             var getBookLendByAcademySecond = {
                 tooltip : {

@@ -419,4 +419,7 @@
     <select id="getLibraryClassifyRankInUndergraduate" resultType="library_report_ranking_book">
         SELECT book_name,book_author,book_publisher,book_lend_times,book_category,name FROM  library_report_classify_ranking_undergraduate
     </select>
+    <select id="getLibraryClassifyRankInGraduate" resultType="library_report_ranking_book">
+         SELECT book_name,book_author,book_publisher,book_lend_times,book_category,name FROM  library_report_classify_ranking_graduate
+    </select>
 </mapper>

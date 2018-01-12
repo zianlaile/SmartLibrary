@@ -85,7 +85,7 @@ public interface schoolReportDao {
     //书目库书目记录总量
     List<CollectionBook> getCollectionAmountType();
     //当年新增种类
-    List<CollectionBook> getCollectionAmountTypeYear(int year);
+    List<CollectionBook> getCollectionAmountTypeYear(String year);
     //2010年后出版的
     List<CollectionBook> getCollectionAmountTypePubyear();
     //书目库书目记录类型统计
@@ -116,6 +116,8 @@ public interface schoolReportDao {
 
     // 本科生分类排行
     List<library_report_ranking_book> getLibraryClassifyRankInUndergraduate(library_report_ranking_book n); // 小章定义
+    // 研究生分类排行
+    List<library_report_ranking_book> getLibraryClassifyRankInGraduate(library_report_ranking_book n);   // 小章定义
     //2012 年度全馆各地点自助扫描、打复印统计详表
     List<library_report_month_mankinds> getlibrary_report_max_times();
 }

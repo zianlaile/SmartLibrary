@@ -401,9 +401,9 @@ public class schoolReportService {
         return result;
     }
 
-    public Map<String, List> getCollectionAmountType(){
+    public Map<String, List> getCollectionAmountType(String year){
         Calendar now = Calendar.getInstance();
-        int year = now.get(Calendar.YEAR);
+        //int year = now.get(Calendar.YEAR);
         List<CollectionBook> collectionList = schoolReportdao.getCollectionAmountType();
         List<CollectionBook> thisyearCollection = schoolReportdao.getCollectionAmountTypeYear(year);
         List<CollectionBook> pubyearCollection = schoolReportdao.getCollectionAmountTypePubyear();
@@ -712,11 +712,30 @@ public class schoolReportService {
         return  max;
     }*/
 
-}
 
     // 本科生分类排行
     public  List<library_report_ranking_book> getLibraryClassifyRankInUndergraduate(library_report_ranking_book n){
         return schoolReportdao.getLibraryClassifyRankInUndergraduate(n);
+    }
+    // 研究生分类排行
+    public  Map<String,ArrayList<library_report_ranking_book>> getLibraryClassifyRankInGraduate(library_report_ranking_book n){
+
+        List<library_report_ranking_book> data = schoolReportdao.getLibraryClassifyRankInGraduate(n);
+        Map<String,ArrayList<library_report_ranking_book> > result =  new TreeMap<String,ArrayList<library_report_ranking_book> >();
+
+        for(int i=0;i<data.size();i++){
+            library_report_ranking_book a=data.get(i);
+            String cat=a.getBook_category();
+            if(result.containsKey(cat)){
+                ArrayList<library_report_ranking_book> datalist = new ArrayList<library_report_ranking_book>();
+                datalist.add(a);
+                result.put(cat,datalist);
+            }else{
+                result.get(cat).add(a);
+            }
+
+        }
+        return result;
     }
 }
 

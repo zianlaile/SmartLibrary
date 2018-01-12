@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -196,7 +197,7 @@ public class schoolReportController {
         return schoolReportservice.getCollectionWaiWenNewAddedByCate(i);
     }
 
-    //书目库书目记录总量
+    //书目库书目记录总量  // 目前方法报错 暂时注释
     @RequestMapping(value = "/getCollectionAmountType",method = RequestMethod.GET)
     public Map<String,List> getCollectionAmountType(HttpServletRequest year){
         return schoolReportservice.getCollectionAmountType(year.getQueryString());
@@ -244,12 +245,11 @@ public class schoolReportController {
     public Map<String,List> getlibrary_report_identity_sum(){ return schoolReportservice.getlibrary_report_identity_sum();
     }
 
-    // 研究生接借书最受欢迎的前十
+    // 年度研究生接借书最受欢迎的前十
     @RequestMapping(value = "/getLibraryReportGeneralRankingTop10InGraduate", method = RequestMethod.GET)
     public List<library_report_ranking_book> getLibraryReportGeneralRankingTop10InGraduate(library_report_ranking_book n){
         return schoolReportservice.getLibraryReportGeneralRankingTop10InGraduate(n); }
-
-    // 本科生接借书最受欢迎的前十
+    // 年度本科生接借书最受欢迎的前十
     @RequestMapping(value = "/getLibraryReportGeneralRankingTop10InUndergraduate", method = RequestMethod.GET)
     public List<library_report_ranking_book> getLibraryReportGeneralRankingTop10InUndergraduate(library_report_ranking_book n){
         return schoolReportservice.getLibraryReportGeneralRankingTop10InUndergraduate(n); }
@@ -257,6 +257,11 @@ public class schoolReportController {
     @RequestMapping(value = "/getLibraryClassifyRankInUndergraduate", method = RequestMethod.GET)
     public List<library_report_ranking_book> getLibraryClassifyRankInUndergraduate(library_report_ranking_book n){
         return schoolReportservice.getLibraryClassifyRankInUndergraduate(n); }
+
+    // 研究生分类排行
+    @RequestMapping(value = "/getLibraryClassifyRankInGraduate", method = RequestMethod.GET)
+    public Map<String,ArrayList<library_report_ranking_book>> getLibraryClassifyRankInGraduate(library_report_ranking_book n){
+        return schoolReportservice.getLibraryClassifyRankInGraduate(n); }
     // 2012 年度全馆各地点自助扫描、打复印统计详表
     /*@RequestMapping(value = "/library_report_max_times", method = RequestMethod.GET)
     public Map<String,List> getlibrary_report_max_times(){ return schoolReportservice.getl();

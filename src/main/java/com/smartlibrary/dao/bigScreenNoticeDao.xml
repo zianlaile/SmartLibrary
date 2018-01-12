@@ -12,7 +12,7 @@
         limit #{offset},#{pageSize}
     </select>
     <insert id="add" parameterType="com.smartlibrary.domain2.app_notice">
-        insert into zz_bigscreen_notice(title,content,status,time)  values(#{title}, #{content},#{status},#{time})
+        insert into zz_bigscreen_notice(title,content,screen_type,status,time)  values(#{title}, #{content},#{screen_type},#{status},#{time})
     </insert>
     <!-- 批量删除 -->
     <delete id="deletebyids" parameterType="java.util.List">
@@ -31,7 +31,8 @@
         <set>
             <if test="title != null">title=#{title},</if>
             <if test="content != null">content=#{content},</if>
-            <if test="status != null">status=#{status}</if>
+            <if test="status != null">status=#{status},</if>
+            <if test="screen_type != null">screen_type=#{screen_type}</if>
         </set>
         where id=#{id}
     </update>

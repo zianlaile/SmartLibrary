@@ -80,6 +80,7 @@ $(function () {
     getCollectionBycategory();
     getTop10category();
     library_report_identity_sum(); //各类型读者入馆总人次统计
+    library_report_ic_total(); //每月上机人次折线图
 });
 var month;
 var ereadtimesg;
@@ -4980,5 +4981,88 @@ function library_report_identity_sum() {
             ]
         };
         piechart3_library_report_identity_sum.setOption(piechart3_library_report_identity_sum_option);
+    })
+}
+
+function library_report_ic_total() {
+    $.get('../../schoolReport/library_report_ic_total',function (info) {
+        var year = [];
+        var sum = [0, 0, 0];
+        var month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        var data = [];
+        var sumIndex = 0;
+        for(key in info) {
+            year.push(key);
+            var index = key;
+            var monthIndex = 0;
+            var tempdata = [];
+            for(key in info[index]) {
+                while(key != month[monthIndex]) {
+                    tempdata.push(0);
+                    monthIndex++;
+                }
+                tempdata.push(info[index][key]);
+                sum[sumIndex] += info[index][key];
+                monthIndex++;
+            }
+            sumIndex++;
+            for(var i = monthIndex; i < 12; i++){
+                tempdata.push(0);
+            }
+            data.push(tempdata);
+        }
+        var library_report_ic_total = echarts.init(document.getElementById('library_report_ic_total'));
+        library_report_ic_total_option = {
+            animation:false,
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data:year
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: month
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    name:year[0],
+                    type:'line',
+                    stack: '总量',
+                    data:data[0]
+                },
+                {
+                    name:year[1],
+                    type:'line',
+                    stack: '总量',
+                    data:data[1]
+                },
+                {
+                    name:year[2],
+                    type:'line',
+                    stack: '总量',
+                    data:data[2]
+                }
+            ]
+        };
+        library_report_ic_total.setOption(library_report_ic_total_option);
+        $(".ic_total").find(".max-year").text(year[2]);
+        $(".ic_total").find(".sec-year").text(year[1]);
+        $(".ic_total").find(".max-total").text(sum[2]);
+        $(".ic_total").find(".sec-total").text(sum[1]);
+        var change = sum[2] - sum[1];
+        if (change < 0) {
+            $(".ic_total").find(".change").text("减少");
+            $(".ic_total").find(".change-number").text(sum[1] - sum[2]);
+            $(".ic_total").find(".change-percent").text(((sum[1] - sum[2]) / sum[2] * 100).toFixed(2));
+        } else {
+            $(".ic_total").find(".change").text("增加");
+            $(".ic_total").find(".change-number").text(sum[2] - sum[1]);
+            $(".ic_total").find(".change-percent").text(((sum[2] - sum[1]) / sum[2] * 100).toFixed(2));
+        }
     })
 }

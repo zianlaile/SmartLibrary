@@ -8,10 +8,19 @@ public class CollectionBook {
     String  year;
     String  stack;
     String category;
+    String categoryname;
     String   bookType;
     int  amount;
     int amounttype;
     int amountnumber;
+
+    public String getCategoryname() {
+        return categoryname;
+    }
+
+    public void setCategoryname(String categoryname) {
+        this.categoryname = categoryname;
+    }
 
     public int getAmounttype() {
         return amounttype;

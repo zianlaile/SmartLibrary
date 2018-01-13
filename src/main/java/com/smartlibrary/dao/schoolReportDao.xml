@@ -375,11 +375,12 @@
         ORDER BY category ASC,bookType ASC
     </select>
     <select id="getTop10category" resultType="CollectionBook">
-        SELECT category,SUM(amounttype) amounttype
+        select a.category,a.amounttype,b.`name` categoryname FROM
+        (SELECT category,SUM(amounttype) amounttype
         FROM library_report_bookcollection_category_count
         GROUP BY category
         ORDER BY amounttype DESC
-        LIMIT 10
+        LIMIT 10) a LEFT JOIN z_book_category b on a.category = b.id
     </select>
     <!-- 得到2015年的前3借阅学院的种类 数量 学院-->
     <select id = "getYearTop3CategoryByAcademy" resultType="Book_Lend">

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +46,13 @@ public class gctrlController {
     @ResponseBody
     public Map<String ,List> getGctrlCountByDay2(HttpServletRequest request) {
         gctrl b=new gctrl();
+        Calendar now = Calendar.getInstance();
+        if(request.getQueryString()==null){
+            b.setYear(now.get(Calendar.YEAR));
+        }
+        else{
+            b.setYear(Integer.valueOf(request.getQueryString()));
+        }
         return gctrlservice.getGctrlCountByDay2(b);
     }
     @RequestMapping(method = { RequestMethod.GET },value = "ByIdentity")
@@ -72,6 +80,13 @@ public class gctrlController {
     @ResponseBody
     public  Map<String,List>  getBookkindCount(HttpServletRequest request){
         gctrl b=new gctrl();
+        Calendar now = Calendar.getInstance();
+        if(request.getQueryString()==null){
+            b.setYear(now.get(Calendar.YEAR));
+        }
+        else{
+            b.setYear(Integer.valueOf(request.getQueryString()));
+        }
         return gctrlservice.getBookkindCount(b);
     }
 

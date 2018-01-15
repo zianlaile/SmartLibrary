@@ -541,7 +541,12 @@ public class schoolReportService {
         List<String> category = new ArrayList<>();
         List<Integer> amounttype = new ArrayList<>();
         for(int i=0;i<Top10category.size();i++){
-            category.add(Top10category.get(i).getCategory());
+            if(Top10category.get(i).getCategoryname()!=null){
+                category.add(Top10category.get(i).getCategory()+"("+Top10category.get(i).getCategoryname()+")");
+            }
+            else{
+                category.add(Top10category.get(i).getCategory());
+            }
             amounttype.add(Top10category.get(i).getAmounttype());
         }
         Top10categorydata.put("category",category);

@@ -25,14 +25,14 @@
     <select id="getranking_gctrl_month" parameterType="com.smartlibrary.domain.ranking" resultType="com.smartlibrary.domain.ranking">
         SELECT `month`,sum(gctrl_times) as gctrl_times
         FROM zz_time_day_count
-        where year=2015
+        where year=#{year}
         group by `month`
         ORDER BY gctrl_times DESC
     </select>
     <select id="getranking_gctrl_day" parameterType="com.smartlibrary.domain.ranking" resultType="com.smartlibrary.domain.ranking">
         SELECT `month`,`day`,ymdchar,sum(gctrl_times) as gctrl_times
         FROM zz_time_day_count
-        where year=2015
+        where year=#{year}
         group by `month`,`day`
         ORDER BY gctrl_times DESC
         LIMIT 10
@@ -41,7 +41,7 @@
     <select id="getranking_gctrl_academy_month" parameterType="com.smartlibrary.domain.ranking" resultType="com.smartlibrary.domain.ranking">
         SELECT *
         FROM ranking_gctrl_academy_month
-        where `year`=2015
+        where `year`=#{year}
         ORDER BY academy ,gctrl_times
     </select>
     <select id="geranking_gctrl_academy_day" parameterType="com.smartlibrary.domain.ranking" resultType="com.smartlibrary.domain.ranking">
@@ -51,7 +51,7 @@
     <select id="getranking_print_year" parameterType="com.smartlibrary.domain.ranking" resultType="com.smartlibrary.domain.ranking">
         SELECT `month`,`day`,ymdchar,sum(print_times) as gctrl_times
         FROM zz_time_day_count
-        where year=2015
+        where year=#{year}
         group by `month`,`day`
         ORDER BY gctrl_times DESC
         LIMIT 10

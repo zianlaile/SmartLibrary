@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ import java.util.Map;
 public class rankingController {
     @Autowired
     private rankingService rankingservice;
-
+    private Calendar cal = Calendar.getInstance();
     @RequestMapping(method = { RequestMethod.GET },value = "lend_book_year")
     @ResponseBody
     public  Map<Integer ,Map>  getranking_lend_book_year(HttpServletRequest request){
@@ -55,6 +56,7 @@ public class rankingController {
     @ResponseBody
     public   Map<String,List>  getranking_gctrl_month(HttpServletRequest request){
         ranking b=new ranking();
+        b.setYear(cal.get(Calendar.YEAR));
         return rankingservice.getranking_gctrl_month(b);
     }
 
@@ -62,12 +64,14 @@ public class rankingController {
     @ResponseBody
     public   Map<String,List>  getranking_gctrl_day(HttpServletRequest request){
         ranking b=new ranking();
+        b.setYear(cal.get(Calendar.YEAR));
         return rankingservice.getranking_gctrl_day(b);
     }
     @RequestMapping(method = { RequestMethod.GET },value = "ranking_gctrl_academy_month")
     @ResponseBody
     public  Map<String ,Map>  getranking_gctrl_academy_month(HttpServletRequest request){
         ranking b=new ranking();
+        b.setYear(cal.get(Calendar.YEAR));
         return rankingservice.getranking_gctrl_academy_month(b);
     }
     @RequestMapping(method = { RequestMethod.GET },value = "ranking_gctrl_academy_day")
@@ -81,6 +85,7 @@ public class rankingController {
     @ResponseBody
     public  Map<String,List>   getranking_print_year(HttpServletRequest request){
         ranking b=new ranking();
+        b.setYear(cal.get(Calendar.YEAR));
         return rankingservice.getranking_print_year(b);
     }
 }

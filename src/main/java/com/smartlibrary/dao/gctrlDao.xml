@@ -23,7 +23,7 @@
     <select id="getGctrlCountByDay2" parameterType="com.smartlibrary.domain.gctrl" resultType="com.smartlibrary.domain.gctrl">
        select zztdc.`year`,zztdc.`month`,zztdc.`day`,zztdc.gctrl_times
         FROM zz_time_day_count zztdc
-	    WHERE zztdc.`year`= DATE_FORMAT(CURDATE(), '%Y')
+	    WHERE zztdc.`year`= #{year}
         GROUP BY zztdc.`year`,zztdc.`month`,zztdc.`day`
         ORDER BY zztdc.`year`,zztdc.`month`,zztdc.`day`
     </select>
@@ -56,7 +56,7 @@
     <select id="getGctrlCount2ByDay" parameterType="com.smartlibrary.domain.gctrl" resultType="com.smartlibrary.domain.gctrl">
        SELECT a.ymdchar AS time,gctrl_times
        FROM  zz_time_day_count a
-       WHERE a.`year` = DATE_FORMAT(CURDATE(), '%Y')
+       WHERE a.`year` = #{year}
        GROUP BY a.ymdchar
        ORDER BY gctrl_times DESC
        LIMIT 12

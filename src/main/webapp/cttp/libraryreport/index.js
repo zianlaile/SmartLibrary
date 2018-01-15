@@ -911,7 +911,7 @@ function equipmentchart(chartid){
     equipment_count.setOption(equipment_count_option);
 }
 function day_gctrl() {
-    $.get('../../gctrl/ByDay2').done(function (resultdata) {
+    $.get('../../gctrl/ByDay2?'+nowyear).done(function (resultdata) {
         // 填入数据
         var day_gctrl = echarts.init(document.getElementById('day_gctrl'));
         var gctrl_times=resultdata.gctrl_times;
@@ -1047,7 +1047,7 @@ function day_gctrl() {
 }
 function dctrl_top12() {
     var gctrl_top12 = echarts.init(document.getElementById('gctrl_top12'));
-    $.get('../../gctrl/ByDay_count2').done(function (resultdata) {
+    $.get('../../gctrl/ByDay_count2?'+nowyear).done(function (resultdata) {
         // 填入数据
         var day_count2_option = {
             animation:false,

@@ -29,7 +29,7 @@
     </select>
 
     <select id="getGctrlCountByIdentity" parameterType="com.smartlibrary.domain.gctrl" resultType="com.smartlibrary.domain.gctrl">
-        select `year`,academy ,undergraduate_times,graduate_times,teacher_times,other_times
+        select `year`,academy ,sum(undergraduate_times) undergraduate_times,sum(graduate_times) graduate_times,sum(teacher_times) teacher_times,sum(other_times) other_times
         FROM zz_gctrl_month_academy_identity
         GROUP BY `year` ,academy
         ORDER BY  `year` ,academy

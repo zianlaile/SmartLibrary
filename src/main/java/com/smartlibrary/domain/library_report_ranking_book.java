@@ -15,7 +15,24 @@ public class library_report_ranking_book {
     String name;  // 图书种类的名称
     int book_lend_times;
     int year;
+    String author;
+    String lend_times;
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getLend_times() {
+        return lend_times;
+    }
+
+    public void setLend_times(String lend_times) {
+        this.lend_times = lend_times;
+    }
 
     public String getName() { return name; }
 

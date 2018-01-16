@@ -4873,6 +4873,8 @@ function library_report_identity_sum() {
         };
         var html = template('table_library_report_identity_sum',{param:param});
         $(".table_library_report_identity_sum").html(html);
+        $("#table_library_report_identity_sum_title").text("历年各类型读者入馆总人次统计表");
+        $("#barchart_library_report_identity_sum_title").text(info.year[0] + "-" + info.year[2] + "年各类型读者入馆总人次统计");
         $("#piechart1_library_report_identity_sum_title").text(info.year[0] + "年度各类型读者占入馆总人次百分比");
         $("#piechart2_library_report_identity_sum_title").text(info.year[1] + "年度各类型读者占入馆总人次百分比");
         $("#piechart3_library_report_identity_sum_title").text(info.year[2] + "年度各类型读者占入馆总人次百分比");
@@ -4887,7 +4889,7 @@ function library_report_identity_sum() {
             legend: {
                 data: tablehead,
                 align: 'right',
-                left: 10
+                left: 'center'
             },
             xAxis : [
                 {
@@ -5074,6 +5076,7 @@ function library_report_ic_total() {
         var library_report_ic_total = echarts.init(document.getElementById('library_report_ic_total'));
         library_report_ic_total_option = {
             animation:false,
+            backgroundColor:'white',
             tooltip: {
                 trigger: 'axis'
             },
@@ -5083,10 +5086,12 @@ function library_report_ic_total() {
             xAxis: {
                 type: 'category',
                 boundaryGap: false,
-                data: month
+                data: month,
+                name: '月份'
             },
             yAxis: {
-                type: 'value'
+                type: 'value',
+                name: '人次'
             },
             series: [
                 {

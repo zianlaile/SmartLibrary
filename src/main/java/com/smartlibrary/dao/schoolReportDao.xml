@@ -217,7 +217,7 @@
     <!--馆藏基本情况  新增馆藏分类分布 类别太多 取前十-->
     <select id="getCollectionNewAddedByCate" parameterType="com.smartlibrary.domain.CollectionBook" resultType="com.smartlibrary.domain.CollectionBook">
         SELECT
-        a.*
+        a.*,z_book_category.name categoryname
         FROM
         (
         SELECT
@@ -230,6 +230,7 @@
         category,
         bookType
         ) a
+        LEFT JOIN z_book_category on a.category =z_book_category.id
         WHERE a.category in (
         select b.category from(
         SELECT
@@ -370,8 +371,10 @@
         WHERE `year` = '不详'
     </select>
     <select id="getCollectionBycategory" resultType="CollectionBook">
-        SELECT category,bookType,amounttype,amountnumber
+        SELECT category,bookType,amounttype,amountnumber,name categoryname
         FROM library_report_bookcollection_category_count
+        LEFT  JOIN  z_book_category
+        ON  library_report_bookcollection_category_count.category =z_book_category.id
         ORDER BY category ASC,bookType ASC
     </select>
     <select id="getTop10category" resultType="CollectionBook">

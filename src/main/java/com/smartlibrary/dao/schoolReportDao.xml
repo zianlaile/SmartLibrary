@@ -333,7 +333,7 @@
         ORDER BY stack ASC
     </select>
 
-    <select id="getCollectionAmountTypeYear" parameterType="int" resultType="CollectionBook">
+    <select id="getCollectionAmountTypeYear" parameterType="String" resultType="CollectionBook">
         SELECT stack,amounttype
         FROM library_report_bookcollection_addyear
         WHERE `year` = #{year}

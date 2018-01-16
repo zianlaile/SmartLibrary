@@ -11,6 +11,7 @@
     <select id="getGctrlsCountBy_year" parameterType="com.smartlibrary.domain.real_year_counts" resultType="com.smartlibrary.domain.real_year_counts">
         select year ,gctrls
         from real_year_counts
+        WHERE YEAR &lt;=2017
         ORDER BY year
     </select>
     <select id="getGctrlsCountBy_month" parameterType="com.smartlibrary.domain.gctrl" resultType="com.smartlibrary.domain.gctrl">

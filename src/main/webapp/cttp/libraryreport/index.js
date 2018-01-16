@@ -3811,7 +3811,7 @@ function getCollectionOverall(){
                     {
                         name: '各馆藏书占比',
                         type: 'pie',
-                        radius : '30%',
+                         radius : '30%',
                         center: ['25%', '50%'],
                         color:['#86c9f4','#4da8ec','#3a91d2','#005fa6','#315f97'],
                         data:piedata,

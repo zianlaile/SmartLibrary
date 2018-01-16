@@ -11,6 +11,7 @@ public class app_notice {
     String content;
     String pic_url;
     String status;
+    String screen_type;
     String time ;
     int pageSize;//一页多少数据
     int offset; //从第几条数据开始查
@@ -69,6 +70,14 @@ public class app_notice {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getScreen_type() {
+        return screen_type;
+    }
+
+    public void setScreen_type(String screen_type) {
+        this.screen_type = screen_type;
     }
 
     public String getTime() {

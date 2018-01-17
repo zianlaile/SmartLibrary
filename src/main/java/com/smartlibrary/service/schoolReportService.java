@@ -306,7 +306,7 @@ public class schoolReportService {
 
         Map<String ,List> result=new HashMap<String ,List>();
         for(int i=0;i<data.size();i++){
-            String  cate=data.get(i).getCategory();
+            String  cate=data.get(i).getCategory() +"("+data.get(i).getCategoryname()+")";
             String  bk=data.get(i).getBookType();
             if(!booktype.contains(bk)) {
                 booktype.add(bk);
@@ -519,8 +519,8 @@ public class schoolReportService {
         List<Integer> amounttype = new ArrayList<>();
         List<Integer> amountnumber = new ArrayList<>();
         for(int i=0;i<CollectionBycategory.size();i++){
-            if(!category.contains(CollectionBycategory.get(i).getCategory())){
-                category.add(CollectionBycategory.get(i).getCategory());
+            if(!category.contains(CollectionBycategory.get(i).getCategory()+"("+CollectionBycategory.get(i).getCategoryname()+")")){
+                category.add(CollectionBycategory.get(i).getCategory()+"("+CollectionBycategory.get(i).getCategoryname()+")");
             }
             if(!bookType.contains(CollectionBycategory.get(i).getBookType())){
                 bookType.add(CollectionBycategory.get(i).getBookType());

@@ -258,7 +258,7 @@
     <!--馆藏基本情况  新增图书分类分布 类别太多 取前十-->
     <select id="getCollectionTuShuNewAddedByCate" parameterType="com.smartlibrary.domain.CollectionBook" resultType="com.smartlibrary.domain.CollectionBook">
         SELECT
-        a.*
+        a.*,z_book_category.name categoryname
         FROM
         (
         SELECT
@@ -272,6 +272,7 @@
         category,
         bookType
         ) a
+        LEFT JOIN z_book_category on a.category =z_book_category.id
         WHERE a.category in (
         select b.category from(
         SELECT
@@ -301,7 +302,7 @@
     <!--馆藏基本情况  新增外文分类分布 类别太多 取前十-->
     <select id="getCollectionWaiWenNewAddedByCate" parameterType="com.smartlibrary.domain.CollectionBook" resultType="com.smartlibrary.domain.CollectionBook">
         SELECT
-        a.*
+        a.*,z_book_category.`name` categoryname
         FROM
         (
         SELECT
@@ -314,6 +315,7 @@
         GROUP BY
         category
         ) a
+        LEFT JOIN z_book_category on a.category=z_book_category.id
         WHERE a.category in (
         select b.category from(
         SELECT

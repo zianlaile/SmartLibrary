@@ -3940,12 +3940,16 @@ function getCollectionNewAddedByCate(){
                 grid: {
                     left: '3%',
                     right: '4%',
-                    bottom: '3%',
+                    bottom: '15%',
                     containLabel: true
                 },
                 xAxis: [{
                     type: 'category',
-                    data: category
+                    data: category,
+                    axisLabel:{
+                        interval:0,
+                        rotate:30
+                    }
                 }],
                 yAxis: [{
                     type: 'value',
@@ -4024,12 +4028,16 @@ function getCollectionTuShuNewAddedByCate(){
                 grid: {
                     left: '3%',
                     right: '4%',
-                    bottom: '3%',
+                    bottom: '15%',
                     containLabel: true
                 },
                 xAxis: [{
                     type: 'category',
-                    data: category
+                    data: category,
+                    axisLabel:{
+                        interval:0,
+                        rotate:30
+                    }
                 }],
                 yAxis: [{
                     type: 'value',

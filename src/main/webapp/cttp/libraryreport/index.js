@@ -3637,7 +3637,7 @@ function yearLibraryClassifyRankInUndergraduate() {
     $.get('../../schoolReport/getLibraryClassifyRankInUndergraduate',function (data) {
         for(var key in data){
             if(key.substr(0, 1) == '0') continue;
-            $("#49").append("<div style=\"text-align: center\">"+key+"</div><div class=' table "+key.substr(0, 1)+"'></div>");
+            $("#50").append("<div style=\"text-align: center\">"+key+"</div><div class=' table "+key.substr(0, 1)+"'></div>");
             // console.log(data[key]);
             var html = template('bookLendFinalRankUndergraduate',{param:data[key]});
             $("."+ key.substr(0, 1)).html(html);
@@ -3647,11 +3647,14 @@ function yearLibraryClassifyRankInUndergraduate() {
 function yearLibraryClassifyRankInGraduate() {
     $.get('../../schoolReport/getLibraryClassifyRankInGraduate',function (data) {
         for(var key in data){
-            if(key.substr(0, 1) == '0') continue;
-            $("#50").append("<div style=\"text-align: center\">"+key+"</div><div class=' table "+key.substr(0, 1)+"'></div>");
-            // console.log(data[key]);
+            var classKey;
+            classKey = key.substr(0, 1) + "yan";
+             console.log(classKey);
+            if(classKey.substr(0, 1) == '0') continue;
+            $("#49").append("<div style=\"text-align: center\">"+key+"</div><div class=' table "+classKey+"'></div>");
+
             var html = template('bookLendFinalRankUndergraduate',{param:data[key]});
-            $("."+ key.substr(0, 1)).html(html);
+            $("."+ classKey).html(html);
         }
     });
 }

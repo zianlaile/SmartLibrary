@@ -4250,8 +4250,8 @@ function getCollectionAmountType() {
                     basechartdata["5-1-3"]=0;
                 }
                 amount1+=basedata.amounttype;
-                amount2+=basedata.amounttypePubyear;
-                amount3+=basedata.amounttypeYear;
+                amount3+=basedata.amounttypePubyear;
+                amount2+=basedata.amounttypeYear;
                 param.push(basedata);
                 chartdata.push(basechartdata);
             }

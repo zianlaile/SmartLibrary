@@ -4874,8 +4874,8 @@ function library_report_identity_sum() {
             tablehead: tablehead,
             tabledata: tabledata
         };
-        var html = template('table_library_report_identity_sum',{param:param});
-        $(".table_library_report_identity_sum").html(html);
+        var html = template('tableLibraryReportIdentitySum',{param:param});
+        $(".tableLibraryReportIdentitySum").html(html);
         $("#table_library_report_identity_sum_title").text("历年各类型读者入馆总人次统计表");
         $("#barchart_library_report_identity_sum_title").text(info.year[0] + "-" + info.year[2] + "年各类型读者入馆总人次统计");
         $("#piechart1_library_report_identity_sum_title").text(info.year[0] + "年度各类型读者占入馆总人次百分比");
@@ -5051,6 +5051,7 @@ function library_report_identity_sum() {
 
 function library_report_ic_total() {
     $.get('../../schoolReport/library_report_ic_total',function (info) {
+        var param = [];
         var year = [];
         var sum = [0, 0, 0];
         var month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -5070,6 +5071,10 @@ function library_report_ic_total() {
                 sum[sumIndex] += info[index][key];
                 monthIndex++;
             }
+            param.push({
+                "year": index,
+                "sum": sum[sumIndex]
+            });
             sumIndex++;
             for(var i = monthIndex; i < 12; i++){
                 tempdata.push(0);
@@ -5115,19 +5120,64 @@ function library_report_ic_total() {
             ]
         };
         library_report_ic_total.setOption(library_report_ic_total_option);
-        $(".ic_total").find(".max-year").text(year[2]);
-        $(".ic_total").find(".sec-year").text(year[1]);
-        $(".ic_total").find(".max-total").text(sum[2]);
-        $(".ic_total").find(".sec-total").text(sum[1]);
+        $(".ic-total").find(".max-year").text(year[2]);
+        $(".ic-total").find(".sec-year").text(year[1]);
+        $(".ic-total").find(".max-total").text(sum[2]);
+        $(".ic-total").find(".sec-total").text(sum[1]);
         var change = sum[2] - sum[1];
         if (change < 0) {
-            $(".ic_total").find(".change").text("减少");
-            $(".ic_total").find(".change-number").text(sum[1] - sum[2]);
-            $(".ic_total").find(".change-percent").text(((sum[1] - sum[2]) / sum[2] * 100).toFixed(2));
+            $(".ic-total").find(".change").text("减少");
+            $(".ic-total").find(".change-number").text(sum[1] - sum[2]);
+            $(".ic-total").find(".change-percent").text(((sum[1] - sum[2]) / sum[2] * 100).toFixed(2));
         } else {
-            $(".ic_total").find(".change").text("增加");
-            $(".ic_total").find(".change-number").text(sum[2] - sum[1]);
-            $(".ic_total").find(".change-percent").text(((sum[2] - sum[1]) / sum[2] * 100).toFixed(2));
+            $(".ic-total").find(".change").text("增加");
+            $(".ic-total").find(".change-number").text(sum[2] - sum[1]);
+            $(".ic-total").find(".change-percent").text(((sum[2] - sum[1]) / sum[2] * 100).toFixed(2));
         }
+        $(".ic-total-year").text(year[0] + "-" + year[2]);
+        var html = template('tableLibraryReportIcTotal',{param:param}); //历年上机总人次统计表
+        $(".tableLibraryReportIcTotal").html(html);
+        var library_report_ic_total_2 = echarts.init(document.getElementById('library_report_ic_total_2'));
+        library_report_ic_total_option_2 = {
+            animation:false,
+            backgroundColor:'white',
+            color: ['#3398DB'],
+            tooltip : {
+                trigger: 'axis',
+            },
+            xAxis : [
+                {
+                    type : 'category',
+                    data : year,
+                    name : '年份',
+                    axisTick: {
+                        alignWithLabel: true
+                    }
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value',
+                    name : '人次'
+                }
+            ],
+            series : [
+                {
+                    name:'总人次',
+                    type:'bar',
+                    barWidth: '60%',
+                    data:sum,
+                    label: {
+                        normal: {
+                            show: true,
+                            color: 'black',
+                            position: 'top',
+                            formatter: '{c}'
+                        }
+                    }
+                }
+            ]
+        };
+        library_report_ic_total_2.setOption(library_report_ic_total_option_2);
     })
 }

@@ -424,4 +424,28 @@
     <select id="getLibraryClassifyRankInGraduate" resultType="library_report_ranking_book">
          SELECT book_name,book_author,book_publisher,book_lend_times,book_category,name FROM  library_report_classify_ranking_graduate
     </select>
+    <select id = "getDailyLendPeopleAndCount" resultType="Book_Lend">
+        SELECT ymddate, book_lend_times, book_lend_people
+        FROM  zz_time_day_count
+        WHERE year=2017
+        GROUP BY ymddate
+    </select>
+    <select id = "getCirculationByHour" resultType="Book_Lend">
+        SELECT hour, sum(lend) book_lend_times, sum(back) book_back_times,sum(renew) book_renew_times
+        FROM  library_report_hour
+        WHERE year=2017
+        GROUP BY hour
+    </select>
+    <select id = "getUndergraduateLendPercentByAcademy" resultType="Book_Lend">
+        SELECT academy, reader_number academy_people_count,lend_number book_lend_people,percent lend_percent
+        FROM  zz_borrowed_percentage_academy
+        WHERE identity="本科生"
+        GROUP BY academy
+    </select>
+    <select id = "getGraduateLendPercentByAcademy" resultType="Book_Lend">
+        SELECT academy, reader_number academy_people_count,lend_number book_lend_people,percent lend_percent
+        FROM  zz_borrowed_percentage_academy
+        WHERE identity="研究生"
+        GROUP BY academy
+    </select>
 </mapper>

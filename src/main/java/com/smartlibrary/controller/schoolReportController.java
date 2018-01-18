@@ -267,5 +267,18 @@ public class schoolReportController {
     /*@RequestMapping(value = "/library_report_max_times", method = RequestMethod.GET)
     public Map<String,List> getlibrary_report_max_times(){ return schoolReportservice.getl();
     }*/
+
+
+    @RequestMapping(value = "/getDailyLendPeopleAndCount", method = RequestMethod.GET)
+    public Map<String,List> getDailyLendPeopleAndCount(){ return schoolReportservice.getDailyLendPeopleAndCount();}
+
+    @RequestMapping(value = "/getCirculationByHour", method = RequestMethod.GET)
+    public Map<String,List> getCirculationByHour(){ return schoolReportservice.getCirculationByHour();}
+
+    @RequestMapping(value = "/getUndergraduateLendPercentByAcademy", method = RequestMethod.GET)
+    public Map<String,List> getUndergraduateLendPercentByAcademy(){ return schoolReportservice.getUndergraduateLendPercentByAcademy();}
+
+    @RequestMapping(value = "/getGraduateLendPercentByAcademy", method = RequestMethod.GET)
+    public Map<String,List> getGraduateLendPercentByAcademy(){ return schoolReportservice.getGraduateLendPercentByAcademy();}
 }
 

@@ -794,20 +794,17 @@ public class schoolReportService {
         List<Integer> academy_people_count = new ArrayList<>();
         List<Integer> book_lend_people = new ArrayList<>();
         List<String> lend_percent = new ArrayList<>();
-        List<String> identity = new ArrayList<>();
 
         for(int i=0;i<UndergraduateLendPercentByAcademy.size();i++){
             academy.add(UndergraduateLendPercentByAcademy.get(i).getAcademy());
             academy_people_count.add(UndergraduateLendPercentByAcademy.get(i).getAcademy_people_count());
             book_lend_people.add(UndergraduateLendPercentByAcademy.get(i).getBook_lend_people());
             lend_percent.add(UndergraduateLendPercentByAcademy.get(i).getLend_percent());
-            identity.add(UndergraduateLendPercentByAcademy.get(i).getIdentity());
         }
         UndergraduateLendPercentByAcademydata.put("academy",academy);
         UndergraduateLendPercentByAcademydata.put("academy_people_count",academy_people_count);
         UndergraduateLendPercentByAcademydata.put("book_lend_people",book_lend_people);
         UndergraduateLendPercentByAcademydata.put("lend_percent",lend_percent);
-        UndergraduateLendPercentByAcademydata.put("identity",identity);
         return UndergraduateLendPercentByAcademydata;}
 
     public Map<String,List> getGraduateLendPercentByAcademy(){
@@ -818,21 +815,18 @@ public class schoolReportService {
         List<Integer> academy_people_count = new ArrayList<>();
         List<Integer> book_lend_people = new ArrayList<>();
         List<String> lend_percent = new ArrayList<>();
-        List<String> identity = new ArrayList<>();
 
         for(int i=0;i<GraduateLendPercentByAcademy.size();i++){
             academy.add(GraduateLendPercentByAcademy.get(i).getAcademy());
             academy_people_count.add(GraduateLendPercentByAcademy.get(i).getAcademy_people_count());
             book_lend_people.add(GraduateLendPercentByAcademy.get(i).getBook_lend_people());
             lend_percent.add(GraduateLendPercentByAcademy.get(i).getLend_percent());
-            identity.add(GraduateLendPercentByAcademy.get(i).getIdentity());
 
         }
         GraduateLendPercentByAcademydata.put("academy",academy);
         GraduateLendPercentByAcademydata.put("academy_people_count",academy_people_count);
         GraduateLendPercentByAcademydata.put("book_lend_people",book_lend_people);
         GraduateLendPercentByAcademydata.put("lend_percent",lend_percent);
-        GraduateLendPercentByAcademydata.put("identity",identity);
         return GraduateLendPercentByAcademydata;}
 
 

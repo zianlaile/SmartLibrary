@@ -118,4 +118,13 @@ public interface schoolReportDao {
 
     //2012 年度全馆各地点自助扫描、打复印统计详表
     List<library_report_month_mankinds> getlibrary_report_max_times();
+
+    //每日借出人/ 册
+    List<Book_Lend> getDailyLendPeopleAndCount();
+    // 各时段流通情况（册）
+    List<Book_Lend> getCirculationByHour();
+    //本科生各学院学生借阅人数比例
+    List<Book_Lend> getUndergraduateLendPercentByAcademy();
+    //研究生各学院学生借阅人数比例
+    List<Book_Lend> getGraduateLendPercentByAcademy();
 }

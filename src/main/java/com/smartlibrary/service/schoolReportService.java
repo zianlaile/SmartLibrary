@@ -756,4 +756,97 @@ public class schoolReportService {
         library_report_identity_sum_result.put("sum",sum);
         return library_report_identity_sum_result;
     }
+
+    public Map<String,List> getDailyLendPeopleAndCount(){
+        List<Book_Lend> DailyLendPeopleAndCount = schoolReportdao.getDailyLendPeopleAndCount();
+        Map<String,List> DailyLendPeopleAndCountdata = new HashMap<>();
+
+        List<String> ymddate = new ArrayList<>();
+        List<Integer> book_lend_times = new ArrayList<>();
+        List<Integer> book_lend_people = new ArrayList<>();
+
+        for(int i=0;i<DailyLendPeopleAndCount.size();i++){
+            ymddate.add(DailyLendPeopleAndCount.get(i).getYmddate());
+            book_lend_times.add(DailyLendPeopleAndCount.get(i).getBook_lend_times());
+            book_lend_people.add(DailyLendPeopleAndCount.get(i).getBook_lend_people());
+        }
+        DailyLendPeopleAndCountdata.put("ymddate",ymddate);
+        DailyLendPeopleAndCountdata.put("book_lend_times",book_lend_times);
+        DailyLendPeopleAndCountdata.put("book_lend_people",book_lend_people);
+        return DailyLendPeopleAndCountdata;}
+
+
+    public Map<String,List> getCirculationByHour(){
+        List<Book_Lend> CirculationByHour = schoolReportdao.getCirculationByHour();
+        Map<String,List> CirculationByHourdata = new HashMap<>();
+
+        List<Integer> hour = new ArrayList<>();
+        List<Integer> book_lend_times = new ArrayList<>();
+        List<Integer> book_back_times = new ArrayList<>();
+        List<Integer> book_renew_times = new ArrayList<>();
+
+        for(int i=0;i<CirculationByHour.size();i++){
+            hour.add(CirculationByHour.get(i).getHour());
+            book_lend_times.add(CirculationByHour.get(i).getBook_lend_times());
+            book_back_times.add(CirculationByHour.get(i).getBook_back_times());
+            book_renew_times.add(CirculationByHour.get(i).getBook_renew_times());
+        }
+
+        CirculationByHourdata.put("hour",hour);
+        CirculationByHourdata.put("book_lend_times",book_lend_times);
+        CirculationByHourdata.put("book_back_times",book_back_times);
+        CirculationByHourdata.put("book_renew_times",book_renew_times);
+        return CirculationByHourdata;}
+
+
+    public Map<String,List> getUndergraduateLendPercentByAcademy(){
+        List<Book_Lend> UndergraduateLendPercentByAcademy = schoolReportdao.getUndergraduateLendPercentByAcademy();
+        Map<String,List> UndergraduateLendPercentByAcademydata = new HashMap<>();
+
+        List<String> academy = new ArrayList<>();
+        List<Integer> academy_people_count = new ArrayList<>();
+        List<Integer> book_lend_people = new ArrayList<>();
+        List<String> lend_percent = new ArrayList<>();
+        List<String> identity = new ArrayList<>();
+
+        for(int i=0;i<UndergraduateLendPercentByAcademy.size();i++){
+            academy.add(UndergraduateLendPercentByAcademy.get(i).getAcademy());
+            academy_people_count.add(UndergraduateLendPercentByAcademy.get(i).getAcademy_people_count());
+            book_lend_people.add(UndergraduateLendPercentByAcademy.get(i).getBook_lend_people());
+            lend_percent.add(UndergraduateLendPercentByAcademy.get(i).getLend_percent());
+            identity.add(UndergraduateLendPercentByAcademy.get(i).getIdentity());
+        }
+        UndergraduateLendPercentByAcademydata.put("academy",academy);
+        UndergraduateLendPercentByAcademydata.put("academy_people_count",academy_people_count);
+        UndergraduateLendPercentByAcademydata.put("book_lend_people",book_lend_people);
+        UndergraduateLendPercentByAcademydata.put("lend_percent",lend_percent);
+        UndergraduateLendPercentByAcademydata.put("identity",identity);
+        return UndergraduateLendPercentByAcademydata;}
+
+    public Map<String,List> getGraduateLendPercentByAcademy(){
+        List<Book_Lend> GraduateLendPercentByAcademy = schoolReportdao.getGraduateLendPercentByAcademy();
+        Map<String,List> GraduateLendPercentByAcademydata = new HashMap<>();
+
+        List<String> academy = new ArrayList<>();
+        List<Integer> academy_people_count = new ArrayList<>();
+        List<Integer> book_lend_people = new ArrayList<>();
+        List<String> lend_percent = new ArrayList<>();
+        List<String> identity = new ArrayList<>();
+
+        for(int i=0;i<GraduateLendPercentByAcademy.size();i++){
+            academy.add(GraduateLendPercentByAcademy.get(i).getAcademy());
+            academy_people_count.add(GraduateLendPercentByAcademy.get(i).getAcademy_people_count());
+            book_lend_people.add(GraduateLendPercentByAcademy.get(i).getBook_lend_people());
+            lend_percent.add(GraduateLendPercentByAcademy.get(i).getLend_percent());
+            identity.add(GraduateLendPercentByAcademy.get(i).getIdentity());
+
+        }
+        GraduateLendPercentByAcademydata.put("academy",academy);
+        GraduateLendPercentByAcademydata.put("academy_people_count",academy_people_count);
+        GraduateLendPercentByAcademydata.put("book_lend_people",book_lend_people);
+        GraduateLendPercentByAcademydata.put("lend_percent",lend_percent);
+        GraduateLendPercentByAcademydata.put("identity",identity);
+        return GraduateLendPercentByAcademydata;}
+
+
 }

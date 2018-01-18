@@ -101,4 +101,12 @@ public interface schoolReportDao {
     List<Book_Lend>getSingleBookLendTop100();           // 小章定义
     //2012-2015 年度总馆上机总人次对比统计
     List<library_report_month_mankinds> getlibrary_identity_sum();
+    //近一年每日借出人/册
+    List<Book_Lend>getDailyLendPeopleAndCount();
+    //各时段流通情况
+    List<Book_Lend>getCirculationByHour();
+    //本科生各学院学生借阅人数比例
+    List<Book_Lend>getUndergraduateLendPercentByAcademy();
+    //研究生各学院学生借阅人数比例
+    List<Book_Lend>getGraduateLendPercentByAcademy();
 }

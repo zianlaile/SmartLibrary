@@ -373,4 +373,31 @@
         ORDER BY  year ,identity
     </select>
 
+    <select id="getDailyLendPeopleAndCount" resultType="Book_Lend">
+        SELECT book_lend_times,book_lend_people,ymddate
+        FROM zz_time_day_count
+        WHERE year=2017
+        ORDER BY ymddate ASC
+    </select>
+
+    <select id="getCirculationByHour" resultType="Book_Lend">
+        SELECT hour, SUM(lend)book_lend_times, SUM(back)book_back_times, SUM(renew)book_renew_times
+        FROM library_report_hour
+        WHERE year=2017
+        GROUP BY hour
+    </select>
+
+    <select id="getUndergraduateLendPercentByAcademy" resultType="Book_Lend">
+       SELECT academy,reader_number academy_people_count,lend_number book_lend_people,percent lend_percent
+       FROM zz_borrowed_percentage_academy
+       WHERE identity='本科生'
+       GROUP BY academy
+    </select>
+
+    <select id="getGraduateLendPercentByAcademy" resultType="Book_Lend">
+        SELECT academy,reader_number academy_people_count,lend_number book_lend_people,percent lend_percent
+        FROM zz_borrowed_percentage_academy
+        WHERE identity='研究生'
+        GROUP BY academy
+    </select>
 </mapper>

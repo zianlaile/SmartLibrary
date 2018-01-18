@@ -245,4 +245,19 @@ public class schoolReportController {
     public Map<String,List> getSingleBookLendTop100(){
         return schoolReportservice.getSingleBookLendTop100();
     }
+
+    //近一年每日借出人/册
+    @RequestMapping(value = "/getDailyLendPeopleAndCount", method = RequestMethod.GET)
+    public  Map<String,List> getDailyLendPeopleAndCount(){ return schoolReportservice.getDailyLendPeopleAndCount();}
+
+    //各时段流通情况（册）
+    @RequestMapping(value = "/getCirculationByHour", method = RequestMethod.GET)
+    public  Map<String,List> getCirculationByHour(){ return schoolReportservice.getCirculationByHour();}
+
+    @RequestMapping(value = "/getUndergraduateLendPercentByAcademy", method = RequestMethod.GET)
+    public  Map<String,List> getUndergraduateLendPercentByAcademy(){ return schoolReportservice.getUndergraduateLendPercentByAcademy();}
+
+    @RequestMapping(value = "/getGraduateLendPercentByAcademy", method = RequestMethod.GET)
+    public  Map<String,List> getGraduateLendPercentByAcademy(){ return schoolReportservice.getGraduateLendPercentByAcademy();}
+
 }

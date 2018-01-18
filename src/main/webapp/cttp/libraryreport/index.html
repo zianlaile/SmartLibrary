@@ -524,11 +524,11 @@
     <!-- a class="para-title" href="#45"><span class="first-catalog">4.4 最受欢迎图书借阅排行前面100</span><div class="dot" style="width: 76%;"></div><div class="pageNum">44</div></a>
     <!-- 以上小章代码 -->
 
-    <div class="page" id="56" style="height: 2200px;">
+    <div class="page" id="56" style="height: 2300px;">
         <div class="chapter-content">
             <div class="first-title">6.1 历年各类型读者入馆总人次统计</div>
             <div class="chart-title" id="table_library_report_identity_sum_title"></div>
-            <div class="table table_library_report_identity_sum"></div>
+            <div class="table tableLibraryReportIdentitySum"></div>
             <div class="chart-title" id="barchart_library_report_identity_sum_title"></div>
             <div class="chart">
                 <div id="barchart_library_report_identity_sum" style="width: 100%;height: 100%;"></div>
@@ -549,12 +549,19 @@
         <div class="pagination">56</div>
     </div>
 
-    <div class="page chapter" id="57">
+    <div class="page chapter" id="57" style="height: 1400px;">
         <div class="first-title">6.2 读者自助上机</div>
-        <div class="para-txt ic_total"><span class="emphases max-year"></span>年电子阅览室学生自助上机人次（<span class="emphases max-total"></span>人次）比<span class="emphases sec-year"></span>年（<span class="emphases sec-total"></span>人次）<span class="change"></span><span class="emphases change-number"></span>人次，<span class="change"></span>比为<span class="emphases change-percent"></span>%</div>
-        <div class="chart-title">历年每月上机人次折线图</div>
+        <div class="para-txt ic-total"><span class="emphases max-year"></span>年电子阅览室学生自助上机人次（<span class="emphases max-total"></span>人次）比<span class="emphases sec-year"></span>年（<span class="emphases sec-total"></span>人次）<span class="change"></span><span class="emphases change-number"></span>人次，<span class="change"></span>比为<span class="emphases change-percent"></span>%</div>
+        <div class="second-title">6.2.1 <span class="ic-total-year"></span>年每月上机人次</div>
+        <div class="chart-title"><span class="ic-total-year"></span>年每月上机人次折线图</div>
         <div class="chart">
             <div id="library_report_ic_total" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="second-title">6.2.2 <span class="ic-total-year"></span>年度上机总人次对比统计</div>
+        <div class="table tableLibraryReportIcTotal"></div>
+        <div class="chart-title"><span class="ic-total-year"></span>年度上机总人次对比图</div>
+        <div class="chart">
+            <div id="library_report_ic_total_2" style="width: 100%;height: 100%;"></div>
         </div>
         <div class="pagination">57</div>
     </div>
@@ -857,7 +864,7 @@
         {{/each}}
     </table>
 </script>
-<script type="text/html" id="table_library_report_identity_sum">
+<script type="text/html" id="tableLibraryReportIdentitySum">
     <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
         <tr>
             <th width="14%">年份</th>
@@ -873,6 +880,20 @@
             <td>{{p[0][3].value}}</td>
             <td>{{p[0][1].value}}</td>
             <td>{{p[0][0].value}}</td>
+            <td>{{p.sum}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</script>
+<script type="text/html" id="tableLibraryReportIcTotal">
+    <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th width="50%">年份</th>
+            <th width="50%">上机总人次</th>
+        </tr>
+        {{each param as p i}}
+        <tr>
+            <td>{{p.year}}</td>
             <td>{{p.sum}}</td>
         </tr>
         {{/each}}

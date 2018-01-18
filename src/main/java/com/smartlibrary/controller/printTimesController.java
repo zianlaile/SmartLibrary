@@ -51,4 +51,9 @@ public class printTimesController {
     public Map<String,List> GetPrinttimesByprinttype(HttpServletRequest request){
         return printtimesservice.getPrint_Times_Byprinttype();
     }
+    @RequestMapping(method={RequestMethod.GET},value = "/amountbyyear")
+    @ResponseBody
+    public Map<String,List> GetPrintamountByYear(HttpServletRequest request){
+        return printtimesservice.getPrint_Amount_Byyear();
+    }
 }

@@ -51,6 +51,7 @@ public class bigScreenNoticeController {
             adddate.setTime(df.format(new Date()));
             bigscreennoticeservice.add(adddate);}
         else{
+          /*  System.out.println(adddate.getScreen_type());*/
             bigscreennoticeservice.update(adddate);}
         return true;
     }

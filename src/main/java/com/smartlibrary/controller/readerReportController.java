@@ -71,6 +71,13 @@ public class readerReportController {
 
     }
 
+    //<!-- 借阅图书使用时间最长书名、时长,传学号，年份-->
+    @RequestMapping(value = "/getReaderlonggest_book_name_and_days", method = RequestMethod.POST)
+    public List<reader_report> getReaderlonggest_book_name_and_days(@RequestBody reader_report n){
+        return readerReportservice.getReaderlonggest_book_name_and_days(n);
+    }
+
+
     //  <!-- app需要 全校进馆 借阅排名-->
     @RequestMapping(value = "/getapp_bookandgctrl_rank", method = RequestMethod.POST)
     public   List<reader_report> getapp_bookandgctrl_rank(@RequestBody   reader_report n){

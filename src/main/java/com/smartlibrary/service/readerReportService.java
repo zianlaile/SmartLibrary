@@ -53,7 +53,10 @@ public class readerReportService {
         return readerReportdao.getReaderEreadHourInfo(n);
 
     }
-
+    //<!-- 借阅图书使用时间最长书名、时长-->
+    public List<reader_report> getReaderlonggest_book_name_and_days(reader_report n){
+        return readerReportdao.getReaderlonggest_book_name_and_days(n);
+    }
     //  <!-- app需要 全校进馆 借阅排名-->
     public   List<reader_report> getapp_bookandgctrl_rank(reader_report n){
         return readerReportdao.getapp_bookandgctrl_rank(n);

@@ -2,12 +2,10 @@ package com.smartlibrary.service;
 
 import com.smartlibrary.dao.schoolReportDao;
 import com.smartlibrary.domain.*;
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.HashSet;
 /**
  * Created by tt on 2017/10/17.
  */
@@ -160,6 +158,35 @@ public class schoolReportService {
         return returntype;
     }
 
+    public Map<String,List> gettypeprintsamount(){
+        Map<String,List> returntype = new HashMap<>();
+        List<Print_Times> gettypeList = schoolReportdao.gettypeprintsamount();
+        List<Integer> year = new ArrayList<>();
+        List<Integer> print = new ArrayList<>();
+        List<Integer> copy = new ArrayList<>();
+        List<Integer> scan = new ArrayList<>();
+        for(int i=0;i<gettypeList.size();i++){
+            if(!year.contains(gettypeList.get(i).getYear())){
+                year.add(gettypeList.get(i).getYear());
+            }
+            if(gettypeList.get(i).getPrint_type().equals("C")){
+                copy.add(gettypeList.get(i).getPrint_times());
+            }
+            else if(gettypeList.get(i).getPrint_type().equals("S")){
+                scan.add(gettypeList.get(i).getPrint_times());
+            }
+            else if(gettypeList.get(i).getPrint_type().equals("P")){
+                print.add(gettypeList.get(i).getPrint_times());
+            }
+        }
+        returntype.put("year",year);
+        returntype.put("print",print);
+        returntype.put("scan",scan);
+        returntype.put("copy",copy);
+        return returntype;
+    }
+
+
 
 
 
@@ -275,18 +302,8 @@ public class schoolReportService {
     public Map<String,List> getCollectionNewAddedByCate(CollectionBook b) {
         List<CollectionBook> data= schoolReportdao.getCollectionNewAddedByCate(b);
         ArrayList<String> category=new  ArrayList<String>();
-        ArrayList<String> booktype=new  ArrayList<String>();
-        ArrayList<CollectionBook> ob=new  ArrayList<CollectionBook>();
-
-        ArrayList<Integer> ZWTS=new  ArrayList<Integer>();
-        ArrayList<Integer> ZWZS=new  ArrayList<Integer>();
-        ArrayList<Integer> QT=new  ArrayList<Integer>();
-        ArrayList<Integer> WKHDB=new  ArrayList<Integer>();
-        ArrayList<Integer> WWTS=new  ArrayList<Integer>();
-        ArrayList<Integer> XWLW=new  ArrayList<Integer>();
-        ArrayList<Integer> GTTS=new  ArrayList<Integer>();
-        ArrayList<Integer> TCTS=new  ArrayList<Integer>();
-
+        ArrayList<String> booktype=new ArrayList<String>();
+        TreeMap <String,ArrayList<Integer>> value=new TreeMap <String,ArrayList<Integer>>();
 
         Map<String ,List> result=new HashMap<String ,List>();
         for(int i=0;i<data.size();i++){
@@ -296,94 +313,22 @@ public class schoolReportService {
                 booktype.add(bk);
             }
             int  am=data.get(i).getAmount();
-            switch(bk){
-                case "中文图书":
-                    ZWTS.add(am);
-                    break;
-                case "中文赠书":
-                    ZWZS.add(am);
-                    break;
-                case "其他":
-                    QT.add(am);
-                    break;
-                case "外刊合订本":
-                    WKHDB.add(am);
-                    break;
-                case "外文图书":
-                    WWTS.add(am);
-                    break;
-                case "学位论文":
-                    XWLW.add(am);
-                    break;
-                case "港台图书":
-                    GTTS.add(am);
-                    break;
-                case "特藏图书":
-                    TCTS.add(am);
-                    break;
-
+            if(!value.containsKey(bk)) {
+                value.put(bk,new ArrayList<Integer>());
+                value.get(bk).add(am);
+            }else{
+                value.get(bk).add(am);
             }
             if(!category.contains(cate) ){
                 category.add(cate);
             }
         }
 
-
-
-
-        for(int k=0 ;k<category.size();k++){
-            CollectionBook c=new CollectionBook();
-            c.setCategory(category.get(k));
-            for(int i=0;i<data.size();i++)
-            {
-                String  cate=data.get(i).getCategory();
-                String  bk=data.get(i).getBookType();
-                int  am=data.get(i).getAmount();
-                if(cate.equals(category.get(k))){
-                    switch(bk){
-                        case "中文图书":
-                            c.setZWTS(am);
-                            break;
-                        case "中文赠书":
-                            c.setZWZS(am);
-                            break;
-                        case "其他":
-                            c.setQT(am);
-                            break;
-                        case "外刊合订本":
-                            c.setWKHDB(am);
-                            break;
-                        case "外文图书":
-                            c.setWWTS(am);
-                            break;
-                        case "学位论文":
-                            c.setXWLW(am);
-                            break;
-                        case "港台图书":
-                            c.setGTTS(am);
-                            break;
-                        case "特藏图书":
-                            c.setTCTS(am);
-                            break;
-                    }
-
-                }
-            }
-            ob.add(c);
-
-        }
+        ArrayList<Map> values=new ArrayList<Map>();
+        values.add(value);
         result.put("category",category);
         result.put("booktype",booktype);
-
-        result.put("中文图书",ZWTS);
-        result.put("中文赠书",ZWZS);
-        result.put("其他",QT);
-        result.put("外刊合订本",WKHDB);
-        result.put("外文图书",WWTS);
-        result.put("学位论文",XWLW);
-        result.put("港台图书",GTTS);
-        result.put("特藏图书",TCTS);
-        result.put("ob",ob);
+        result.put("values",values);
         return result;
     }
 
@@ -391,80 +336,33 @@ public class schoolReportService {
     public Map<String,List> getCollectionTuShuNewAddedByCate(CollectionBook b) {
         List<CollectionBook> data= schoolReportdao.getCollectionTuShuNewAddedByCate(b);
         ArrayList<String> category=new  ArrayList<String>();
-        ArrayList<String> booktype=new  ArrayList<String>();
-        ArrayList<CollectionBook> ob=new  ArrayList<CollectionBook>();
-        ArrayList<Integer> ZWTS=new  ArrayList<Integer>();
-        ArrayList<Integer> WWTS=new  ArrayList<Integer>();
-        ArrayList<Integer> GTTS=new  ArrayList<Integer>();
-        ArrayList<Integer> TCTS=new  ArrayList<Integer>();
-
+        ArrayList<String> booktype=new ArrayList<String>();
+        TreeMap <String,ArrayList<Integer>> value=new TreeMap <String,ArrayList<Integer>>();
 
         Map<String ,List> result=new HashMap<String ,List>();
         for(int i=0;i<data.size();i++){
             String  cate=data.get(i).getCategory();
-            if(!category.contains(cate) ){
-                category.add(cate);
-            }
             String  bk=data.get(i).getBookType();
             if(!booktype.contains(bk)) {
                 booktype.add(bk);
             }
             int  am=data.get(i).getAmount();
-            switch(bk){
-                case "中文图书":
-                    ZWTS.add(am);
-                    break;
-                case "外文图书":
-                    WWTS.add(am);
-                    break;
-                case "港台图书":
-                    GTTS.add(am);
-                    break;
-                case "特藏图书":
-                    TCTS.add(am);
-                    break;
-
+            if(!value.containsKey(bk)) {
+                value.put(bk,new ArrayList<Integer>());
+                value.get(bk).add(am);
+            }else{
+                value.get(bk).add(am);
+            }
+            if(!category.contains(cate) ){
+                category.add(cate);
             }
         }
 
-
-        for(int k=0 ;k<category.size();k++){
-            CollectionBook c=new CollectionBook();
-            c.setCategory(category.get(k));
-            for(int i=0;i<data.size();i++)
-            {
-                String  cate=data.get(i).getCategory();
-                String  bk=data.get(i).getBookType();
-                int  am=data.get(i).getAmount();
-                if(cate.equals(category.get(k))){
-                    switch(bk){
-                        case "中文图书":
-                            c.setZWTS(am);
-                            break;
-                        case "外文图书":
-                            c.setWWTS(am);
-                            break;
-                        case "港台图书":
-                            c.setGTTS(am);
-                            break;
-                        case "特藏图书":
-                            c.setTCTS(am);
-                            break;
-                    }
-
-                }
-            }
-            ob.add(c);
-
-        }
+        ArrayList<Map> values=new ArrayList<Map>();
+        values.add(value);
         result.put("category",category);
         result.put("booktype",booktype);
-
-        result.put("中文图书",ZWTS);
-        result.put("外文图书",WWTS);
-        result.put("港台图书",GTTS);
-        result.put("特藏图书",TCTS);
-        result.put("ob",ob);
+        result.put("values",values);
         return result;
     }
     // <!--馆藏基本情况  新增外文分类分布 类别太多 取前十-->
@@ -487,14 +385,8 @@ public class schoolReportService {
                 booktype.add(bk);
             }
             int  am=data.get(i).getAmount();
-            switch(bk){
-
-                case "外文图书":
-                    WWTS.add(am);
-                    count=count+am;
-                    break;
-
-            }
+            WWTS.add(am);
+            count=count+am;
         }
         List<Integer> counts =new LinkedList<Integer>();
         counts.add(count);
@@ -507,8 +399,9 @@ public class schoolReportService {
 
     public Map<String, List> getCollectionAmountType(String year){
         Calendar now = Calendar.getInstance();
+        //int year = now.get(Calendar.YEAR);
         List<CollectionBook> collectionList = schoolReportdao.getCollectionAmountType();
-        List<CollectionBook> thisyearCollection = schoolReportdao.getCollectionAmountTypeYear(Integer.valueOf(year));
+        List<CollectionBook> thisyearCollection = schoolReportdao.getCollectionAmountTypeYear(year);
         List<CollectionBook> pubyearCollection = schoolReportdao.getCollectionAmountTypePubyear();
         List<String> stack = new ArrayList<>();
         List<String> stackthisyear = new ArrayList<>();
@@ -736,25 +629,119 @@ public class schoolReportService {
         SingleBookLendTop100.put("bookLendTimes",bookLendTimes);
         return SingleBookLendTop100;
     }
-    public Map<String,List> library_report_identity_sum(){
-        List<library_report_month_mankinds > library_report_identity_sum = schoolReportdao.getlibrary_identity_sum();
-        Map<String,List> library_report_identity_sum_result = new HashMap<>();
-        List<String>identity = new ArrayList<>();
-        List<Integer>year = new ArrayList<>();
+    public Map<String,List> getlibrary_report_identity_sum(){
+        List<library_report_month_mankinds> getlibrary_report_identity_sum = schoolReportdao.getlibrary_report_identity_sum();
+        Map<String,List > library_report_identity_sum =  new LinkedHashMap<>();
+
+        List<Integer> year = new ArrayList<>();
+        List<String> identity = new ArrayList<>();
         List<Integer> sum= new ArrayList<>();
-        for(int i=0;i<library_report_identity_sum.size();i++){
-            if(!year.contains(library_report_identity_sum.get(i).getYear())){
-                year.add(library_report_identity_sum.get(i).getYear());
+
+        for(int i=0;i<getlibrary_report_identity_sum.size();i++){
+
+            if(!year.contains(getlibrary_report_identity_sum.get(i).getYear())){
+                year.add(getlibrary_report_identity_sum.get(i).getYear());
             }
-            if(!identity.contains(library_report_identity_sum.get(i).getIdentity())){
-                identity.add(library_report_identity_sum.get(i).getIdentity());
+            if(!identity.contains(getlibrary_report_identity_sum.get(i).getIdentity())){
+                identity.add(getlibrary_report_identity_sum.get(i).getIdentity());
             }
-            sum.add(library_report_identity_sum.get(i).getSum());
+            sum.add(getlibrary_report_identity_sum.get(i).getSum());
+            }
+
+        library_report_identity_sum.put("year",year);
+        library_report_identity_sum.put("identity",identity );
+        library_report_identity_sum.put("sum",sum);
+        return library_report_identity_sum;
+    }
+
+    public Map<Integer, Map<Integer, Integer>> library_report_ic_total(){
+        List<library_report_month_mankinds > library_report_ic_total = schoolReportdao.getlibrary_report_ic_total();
+        Map<Integer, Map<Integer, Integer> > years = new LinkedHashMap <Integer, Map<Integer, Integer>>();
+        for(int i = 0; i < library_report_ic_total.size(); i++) {
+            int y = library_report_ic_total.get(i).getYear();
+            int m = library_report_ic_total.get(i).getMonth();
+            int t = library_report_ic_total.get(i).getTotal();
+            if(!years.containsKey(y)){
+               years.put(y, new LinkedHashMap<>());
+            }
+            years.get(y).put(m,t);
         }
-        library_report_identity_sum_result.put("identity",identity);
-        library_report_identity_sum_result.put("year",year);
-        library_report_identity_sum_result.put("sum",sum);
-        return library_report_identity_sum_result;
+        return years;
+    }
+
+    // 研究生最受欢迎的十本书
+    public  List<library_report_ranking_book> getLibraryReportGeneralRankingTop10InGraduate(library_report_ranking_book n){
+        return schoolReportdao.getLibraryReportGeneralRankingTop10InGraduate(n);
+    }
+    // 本科生最受欢迎的十本书
+    public  List<library_report_ranking_book> getLibraryReportGeneralRankingTop10InUndergraduate(library_report_ranking_book n){
+        return schoolReportdao.getLibraryReportGeneralRankingTop10InUndergraduate(n);
+    }
+
+    public Map<Integer,Map<String,Integer>> library_report_add_times(){
+        List<library_report_month_mankinds > library_report_add_times  = schoolReportdao.getlibrary_report_add_times();
+        Map<Integer,Map<String,Integer > >  small = new LinkedHashMap<Integer,Map<String,Integer>>();
+        Map <String,Integer> litter =new  LinkedHashMap<String,Integer>();
+        for(int i = 0; i < library_report_add_times.size(); i++){
+            int x = library_report_add_times.get(i).getYear();
+            String y = library_report_add_times.get(i).getPrint_type();
+            String k = library_report_add_times.get(i).getPrint_location();
+            int m = library_report_add_times.get(i).getTimes();
+            small.put(x, litter);
+            small.get(x).put(y,litter.put(k,m));
+        }
+        return  small;
+    }
+   /* public Map<Integer,Map<String,Integer>>library_report_max_times (){
+        List<library_report_month_mankinds> library_report_max_times = schoolReportdao.getlibrary_report_max_times();
+        Map<Integer,Map<String,Integer> > max = new LinkedHashMap<>();
+        Map<String,Integer> big =new LinkedHashMap<>();
+        for(int i = 0; i < library_report_max_times.size(); i++){
+            if ()
+            int x = library_report_max_times.get(i).getYear();
+            String y = library_report_max_times.get(i).getPrint_type();
+            String k = library_report_max_times.get(i).getPrint_location();
+            int m = library_report_max_times.get(i).getTimes();
+            max.put(x, big);
+            max.get(x).put(y,big.put(k,m));
+        }
+        return  max;
+    }*/
+
+
+    // 本科生分类排行
+    public   Map<String,ArrayList<library_report_ranking_book>>getLibraryClassifyRankInUndergraduate(library_report_ranking_book n){
+        List<library_report_ranking_book> data = schoolReportdao.getLibraryClassifyRankInUndergraduate(n);
+        Map<String,ArrayList<library_report_ranking_book> > result =  new TreeMap<String,ArrayList<library_report_ranking_book> >();
+        for(int i=0;i<data.size();i++){
+            library_report_ranking_book a=data.get(i);
+            String cat=a.getBook_category()+" "+a.getName();
+            if(!result.containsKey(cat)){
+                ArrayList<library_report_ranking_book> datalist = new ArrayList<library_report_ranking_book>();
+                datalist.add(a);
+                result.put(cat,datalist);
+            }else{
+                result.get(cat).add(a);
+            }
+        }
+        return result;
+    }
+    // 研究生分类排行
+    public  Map<String,ArrayList<library_report_ranking_book>> getLibraryClassifyRankInGraduate(library_report_ranking_book n){
+        List<library_report_ranking_book> data = schoolReportdao.getLibraryClassifyRankInGraduate(n);
+        Map<String,ArrayList<library_report_ranking_book> > result =  new TreeMap<String,ArrayList<library_report_ranking_book> >();
+        for(int i=0;i<data.size();i++){
+            library_report_ranking_book a=data.get(i);
+            String cat=a.getBook_category()+" "+a.getName();
+            if(!result.containsKey(cat)){
+                ArrayList<library_report_ranking_book> datalist = new ArrayList<library_report_ranking_book>();
+                datalist.add(a);
+                result.put(cat,datalist);
+            }else{
+                result.get(cat).add(a);
+            }
+        }
+        return result;
     }
 
     public Map<String,List> getDailyLendPeopleAndCount(){
@@ -850,3 +837,5 @@ public class schoolReportService {
 
 
 }
+
+

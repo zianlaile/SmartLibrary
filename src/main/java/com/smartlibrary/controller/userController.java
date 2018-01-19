@@ -15,7 +15,7 @@ import java.util.List;
  * Created by tt on 2017/9/21.
  */
 @Controller
-@RequestMapping({ "/getUser" })
+@RequestMapping({ "/getTestUser" })
 public class userController {
     @Autowired
     private UserService userservice;

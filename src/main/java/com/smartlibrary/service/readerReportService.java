@@ -5,6 +5,7 @@ import com.smartlibrary.domain.reader_report;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,9 +58,16 @@ public class readerReportService {
     public List<reader_report> getReaderlonggest_book_name_and_days(reader_report n){
         return readerReportdao.getReaderlonggest_book_name_and_days(n);
     }
+
+
     //  <!-- app需要 全校进馆 借阅排名-->
     public   List<reader_report> getapp_bookandgctrl_rank(reader_report n){
-        return readerReportdao.getapp_bookandgctrl_rank(n);
+        List<reader_report> a=new ArrayList<reader_report>();
+        reader_report b=new reader_report();
+        b.setAll_lend_rank(readerReportdao.getapp_book_rank(n));
+        b.setAll_gctrl_rank(readerReportdao.getapp_gctrl_rank(n));
+        a.add(b);
+        return a;
 
     }
 

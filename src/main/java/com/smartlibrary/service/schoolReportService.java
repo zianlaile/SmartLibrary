@@ -658,11 +658,11 @@ public class schoolReportService {
         List<library_report_month_mankinds > library_report_ic_total = schoolReportdao.getlibrary_report_ic_total();
         Map<Integer, Map<Integer, Integer> > years = new LinkedHashMap <Integer, Map<Integer, Integer>>();
         for(int i = 0; i < library_report_ic_total.size(); i++) {
-            int y = library_report_ic_total.get(i).getYear();
-            int m = library_report_ic_total.get(i).getMonth();
-            int t = library_report_ic_total.get(i).getTotal();
+            Integer y = library_report_ic_total.get(i).getYear();
+            Integer m = library_report_ic_total.get(i).getMonth();
+            Integer t = library_report_ic_total.get(i).getTotal();
             if(!years.containsKey(y)){
-               years.put(y, new LinkedHashMap<>());
+               years.put(y, new LinkedHashMap<Integer, Integer>());
             }
             years.get(y).put(m,t);
         }

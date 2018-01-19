@@ -76,10 +76,50 @@
     </select>
 
     <!-- app需要 全校进馆 借阅排名-->
-    <select id="getapp_bookandgctrl_rank" parameterType="com.smartlibrary.domain.reader_report" resultType="com.smartlibrary.domain.reader_report">
-        select month_lend_rank as all_lend_rank,month_gctrl_rank as all_gctrl_rank
-        from reader_report
-        where account=#{account}
+    <select id="getapp_book_rank" parameterType="com.smartlibrary.domain.reader_report" resultType="Integer">
+         SELECT
+            count(1)+1
+        FROM
+            (
+                SELECT
+                    account,
+                    month_lend_times,
+                    academy
+                FROM
+                    reader_report
+            ) b
+        WHERE
+            b.month_lend_times > (
+                SELECT
+                    month_lend_times
+                FROM
+                    reader_report
+                WHERE
+                    account = #{account}
+            )
+    </select>
+
+    <select id="getapp_gctrl_rank" parameterType="com.smartlibrary.domain.reader_report" resultType="Integer">
+        SELECT
+            count(1)+1
+        FROM
+            (
+                SELECT
+                    account,
+                    month_gctrl_times,
+                    academy
+                FROM
+                    reader_report
+            ) b
+        WHERE
+            b.month_gctrl_times > (
+                SELECT
+                    month_gctrl_times
+                FROM
+                    reader_report
+                WHERE
+                    account = #{account}
+            )
     </select>
 
     <!-- app需要 学院进馆排名-->

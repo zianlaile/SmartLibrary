@@ -24,7 +24,6 @@
         SELECT zzbhalb.`hour`,zzbhalb.academy ,zzbhalb.book_lend_times ,zzbhalb.book_back_times
         FROM zz_book_hour_academy_lend_back  zzbhalb
         WHERE zzbhalb.ymdhdate  &gt;  DATE_SUB(CURDATE(),INTERVAL 2 DAY) AND zzbhalb.ymdhdate &lt;CURDATE()
-
         GROUP BY zzbhalb.hour ,zzbhalb.academy
         ORDER BY zzbhalb.hour ,zzbhalb.academy
     </select>

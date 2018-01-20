@@ -907,7 +907,7 @@ function equipmentchart(chartid){
     equipment_count.setOption(equipment_count_option);
 }
 function day_gctrl() {
-    $.get('../../gctrl/ByDay2').done(function (resultdata) {
+    $.get('../../gctrl/ByDay2?'+nowyear).done(function (resultdata) {
         // 填入数据
         var day_gctrl = echarts.init(document.getElementById('day_gctrl'));
         var gctrl_times=resultdata.gctrl_times;
@@ -1043,7 +1043,7 @@ function day_gctrl() {
 }
 function dctrl_top12() {
     var gctrl_top12 = echarts.init(document.getElementById('gctrl_top12'));
-    $.get('../../gctrl/ByDay_count2').done(function (resultdata) {
+    $.get('../../gctrl/ByDay_count2?'+nowyear).done(function (resultdata) {
         // 填入数据
         var day_count2_option = {
             animation:false,
@@ -2275,24 +2275,37 @@ function getlend_student_type(){
                 '#59c5a7', '#51b8fe', '#fa827d','#FFCC67'
             ];
             // 总和
+            var lendCount=0;
+            var originalData=[];
+            for(var i=0;i<data.length;i++){
+                lendCount +=data[i].lend;
+                var add ={value:data[i].lend,
+                    name:data[i].man_kind+':'+data[i].lend};
+                originalData.push(add);
+            }
+            // 总和
             var total = {
                 name: '总借阅数',
-                value: data[0].lend+data[1].lend+data[2].lend+data[3].lend
+                value: lendCount
             }
-            var originalData = [{
-                value: data[0].lend,
-                name: '其他：'+data[0].lend
-            }, {
-                value: data[1].lend,
-                name: '教职工：'+data[1].lend
-            }, {
-                value: data[2].lend,
-                name: "本科生："+data[2].lend
-            }, {
-                value: data[3].lend,
-                name: "研究生："+data[3].lend
-            }
-            ];
+            // var total = {
+            //     name: '总借阅数',
+            //     value: data[0].lend+data[1].lend+data[2].lend+data[3].lend
+            // }
+            // var originalData = [{
+            //     value: data[0].lend,
+            //     name: '其他：'+data[0].lend
+            // }, {
+            //     value: data[1].lend,
+            //     name: '教职工：'+data[1].lend
+            // }, {
+            //     value: data[2].lend,
+            //     name: "本科生："+data[2].lend
+            // }, {
+            //     value: data[3].lend,
+            //     name: "研究生："+data[3].lend
+            // }
+            // ];
             var sortData = sortByKey(data,'lend');
             var num = sortData[sortData.length-1].lend;
             $(".type-rate").find(".max-type").text(sortData[sortData.length-1].man_kind);
@@ -2379,27 +2392,39 @@ function getlendrenew_student_type(){
             var colorList = [
                 '#59c5a7', '#51b8fe', '#fa827d','#FFCC67'
             ];
-
+            var lendCount=0;
+            var originalData=[];
+            for(var i=0;i<data.length;i++){
+                lendCount +=data[i].renew;
+                var add ={value:data[i].renew,
+                    name:data[i].man_kind+':'+data[i].renew};
+                originalData.push(add);
+            }
             // 总和
             var total = {
                 name: '总续借数',
-                value: data[0].renew+data[1].renew+data[2].renew+data[3].renew
-            };
-
-            var originalData = [{
-                value: data[0].renew,
-                name: '其他：'+data[0].renew
-            }, {
-                value: data[1].renew,
-                name: '教职工：'+data[1].renew
-            }, {
-                value: data[2].renew,
-                name: "本科生："+data[2].renew
-            }, {
-                value: data[3].renew,
-                name: "研究生："+data[3].renew
-            },
-            ];
+                value: lendCount
+            }
+            // 总和
+            // var total = {
+            //     name: '总续借数',
+            //     value: data[0].renew+data[1].renew+data[2].renew+data[3].renew
+            // };
+            //
+            // var originalData = [{
+            //     value: data[0].renew,
+            //     name: '其他：'+data[0].renew
+            // }, {
+            //     value: data[1].renew,
+            //     name: '教职工：'+data[1].renew
+            // }, {
+            //     value: data[2].renew,
+            //     name: "本科生："+data[2].renew
+            // }, {
+            //     value: data[3].renew,
+            //     name: "研究生："+data[3].renew
+            // },
+            // ];
             echarts.util.each(originalData, function(item, index) {
                 item.itemStyle = {
                     normal: {
@@ -3915,12 +3940,16 @@ function getCollectionNewAddedByCate(){
                 grid: {
                     left: '3%',
                     right: '4%',
-                    bottom: '3%',
+                    bottom: '15%',
                     containLabel: true
                 },
                 xAxis: [{
                     type: 'category',
-                    data: category
+                    data: category,
+                    axisLabel:{
+                        interval:0,
+                        rotate:30
+                    }
                 }],
                 yAxis: [{
                     type: 'value',
@@ -3999,12 +4028,16 @@ function getCollectionTuShuNewAddedByCate(){
                 grid: {
                     left: '3%',
                     right: '4%',
-                    bottom: '3%',
+                    bottom: '15%',
                     containLabel: true
                 },
                 xAxis: [{
                     type: 'category',
-                    data: category
+                    data: category,
+                    axisLabel:{
+                        interval:0,
+                        rotate:30
+                    }
                 }],
                 yAxis: [{
                     type: 'value',
@@ -4188,8 +4221,8 @@ function getCollectionAmountType() {
                     basechartdata["5-1-3"]=0;
                 }
                 amount1+=basedata.amounttype;
-                amount2+=basedata.amounttypePubyear;
-                amount3+=basedata.amounttypeYear;
+                amount3+=basedata.amounttypePubyear;
+                amount2+=basedata.amounttypeYear;
                 param.push(basedata);
                 chartdata.push(basechartdata);
             }

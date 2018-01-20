@@ -28,7 +28,11 @@ public interface readerReportDao {
     List<reader_report> getReaderlonggest_book_name_and_days(reader_report n);
 
     //  <!-- app需要 全校进馆 借阅排名-->
-    List<reader_report> getapp_bookandgctrl_rank(reader_report n);
+    //List<reader_report> getapp_bookandgctrl_rank(reader_report n);
+    //<!-- app需要 进馆排名-->
+    Integer getapp_book_rank(reader_report n);
+    // <!-- app需要 借阅排名-->
+    Integer getapp_gctrl_rank(reader_report n);
     //<!-- app需要 学院进馆排名-->
     Integer getapp_gctrl_academy_rank(reader_report n);
    // <!-- app需要 学院借阅排名-->

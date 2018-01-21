@@ -268,16 +268,16 @@ public class schoolReportController {
     public Map<String,List> getlibrary_report_max_times(){ return schoolReportservice.getl();
     }*/
 
-
+    //每日借出人/册
     @RequestMapping(value = "/getDailyLendPeopleAndCount", method = RequestMethod.GET)
     public Map<String,List> getDailyLendPeopleAndCount(){ return schoolReportservice.getDailyLendPeopleAndCount();}
-
+    //各时段流通情况（册）
     @RequestMapping(value = "/getCirculationByHour", method = RequestMethod.GET)
     public Map<String,List> getCirculationByHour(){ return schoolReportservice.getCirculationByHour();}
-
+    //本科生借阅情况
     @RequestMapping(value = "/getUndergraduateLendPercentByAcademy", method = RequestMethod.GET)
     public Map<String,List> getUndergraduateLendPercentByAcademy(){ return schoolReportservice.getUndergraduateLendPercentByAcademy();}
-
+    //硕士生借阅情况
     @RequestMapping(value = "/getGraduateLendPercentByAcademy", method = RequestMethod.GET)
     public Map<String,List> getGraduateLendPercentByAcademy(){ return schoolReportservice.getGraduateLendPercentByAcademy();}
 }

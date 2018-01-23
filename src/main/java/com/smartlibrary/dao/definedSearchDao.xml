@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smartlibrary.dao.definedSearchDao">
+    <select id="getDefinedBook" parameterType="com.smartlibrary.domain.DefinedBookSearch" resultType="com.smartlibrary.domain.DefinedBookResult">
+        SELECT count(*) AS amount,z.`year`,z.`month`,z.`day`
+        FROM
+        <choose>
+            <when test="lend_style=='0'">
+                z_book_lend_sys AS z
+            </when>
+            <when test="lend_style=='1'">
+                z_book_back_sys AS z
+            </when>
+            <when test="lend_style=='2'">
+                z_book_renew_sys AS z
+            </when>
+            <otherwise>
+                z_book_lend_sys AS z
+            </otherwise>
+        </choose>
+        WHERE (z.operation_time BETWEEN #{start_time} AND #{end_time})
+        <if test="academy != null and academy != ''">
+            AND z.`reader_academy` = #{academy}
+        </if>
+        <if test="student_style != null and student_style != ''">
+            AND z.`reader_identity` = #{student_style}
+        </if>
+        <if test="student_sex != null and student_sex != ''">
+            AND z.`reader_gender` = #{student_sex}
+        </if>
+        <if test="publisher != null and publisher != ''">
+            AND z.`book_publisher` = #{publisher}
+        </if>
+        <if test="book_style != null and book_style != ''">
+            AND z.`book_category` = #{book_style}
+        </if>
+        GROUP BY z.`year`,z.`day`,z.`hour` ORDER BY z.`year`,z.`month`,z.`day`
+    </select>
+</mapper>

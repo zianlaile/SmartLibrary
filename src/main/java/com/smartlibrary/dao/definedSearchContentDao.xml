@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smartlibrary.dao.definedSearchContentDao">
+    <select id="getDefinedAcademyContent" resultType="com.smartlibrary.domain.DefinedSearchContent">
+        SELECT id AS id,academy AS name FROM z_academu_org
+    </select>
+    <select id="getDefinedStudentStyleContent" resultType="com.smartlibrary.domain.DefinedSearchContent">
+        SELECT id AS id,name AS name FROM z_identity
+    </select>
+    <select id="getDefinedStudentSexContent" resultType="com.smartlibrary.domain.DefinedSearchContent">
+
+    </select>
+    <select id="getDefinedPublisherContent" resultType="com.smartlibrary.domain.DefinedSearchContent">
+        SELECT zz.id AS id,zz.publisher AS name FROM zz_book_year_publisher zz where zz.publisher is not NULL
+    </select>
+    <select id="getDefinedBookStyleContent" resultType="com.smartlibrary.domain.DefinedSearchContent">
+        SELECT DISTINCT id AS id,name AS name FROM z_book_category
+    </select>
+</mapper>

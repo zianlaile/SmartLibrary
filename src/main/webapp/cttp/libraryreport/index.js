@@ -5193,7 +5193,11 @@ function getDailyLendPeopleAndCount() {
             xAxis: {
                 type: 'category',
                 data: info.ymddate,
-                name: '时间'
+                name: '时间',
+                axisLabel:{
+                    rotate: 45,
+                    interval: 10
+                }
             },
             yAxis: {
                 type: 'value',
@@ -5209,12 +5213,14 @@ function getDailyLendPeopleAndCount() {
                 {
                     data: info.book_lend_people,
                     type: 'line',
-                    name: '借阅人数'
+                    name: '借阅人数',
+                    showSymbol: false
                 },
                 {
                     data: info.book_lend_times,
                     type: 'line',
-                    name: '借阅册数'
+                    name: '借阅册数',
+                    showSymbol: false
                 }
             ]
         };
@@ -5289,11 +5295,11 @@ function getCirculationByHour() {
         param.push({
             hour: '总计',
             book_renew_times: temp_book_renew_times,
-            daily_average_book_renew_times:'',
+            daily_average_book_renew_times: (temp_book_renew_times / 365).toFixed(2),
             book_back_times: temp_book_back_times,
-            daily_average_book_back_times: '',
+            daily_average_book_back_times: (temp_book_back_times / 365).toFixed(2),
             book_lend_times: temp_book_lend_times,
-            daily_average_book_lend_times: ''
+            daily_average_book_lend_times: (temp_book_lend_times / 365).toFixed(2)
         });
         var html = template('tableGetCirculationByHour',{param:param});
         $(".tableGetCirculationByHour").html(html);
@@ -5304,7 +5310,10 @@ function getCirculationByHour() {
             xAxis: {
                 type: 'category',
                 data: hour,
-                boundaryGap : false,
+                axisLabel:{
+                    rotate: 45,
+                    interval: 0
+                },
                 axisLine: {onZero: true},
                 name: '时间',
             },

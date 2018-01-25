@@ -207,14 +207,11 @@ public class schoolReportController {
 
     //书目库书目记录总量
     @RequestMapping(value = "/getCollectionAmountType",method = RequestMethod.GET)
-    public Map<String,List> getCollectionAmountType(HttpServletRequest year){
-        return schoolReportservice.getCollectionAmountType(year.getQueryString());
+    public Map<String,List> getCollectionAmountType(HttpServletRequest year){ return schoolReportservice.getCollectionAmountType(year.getQueryString());
     }
-
     //书目库书目记录类型统计
     @RequestMapping(value = "/getCollectionByStackAndBooktype",method = RequestMethod.GET)
-    public Map<String,List> getCollectionByStackAndBooktype(){
-        return schoolReportservice.getCollectionByStackAndBooktype();
+    public Map<String,List> getCollectionByStackAndBooktype(){ return schoolReportservice.getCollectionByStackAndBooktype();
     }
     //图书按出版年份统计
     @RequestMapping(value = "/getCollectionByPubyear",method = RequestMethod.GET)
@@ -232,27 +229,31 @@ public class schoolReportController {
     public Map<String,List> getTop10category(){
         return schoolReportservice.getTop10category();
     }
-    //2011-2015 年每月上机人次折线图
+    //2015-2017 年每月上机人次折线图
     @RequestMapping(value = "/library_report_ic_total",method = RequestMethod.GET)
     public Map<Integer, Map<Integer, Integer>> getlibrary_report_ic_total(){ return schoolReportservice.library_report_ic_total();
     }
-    // 2012-2015 年度全馆扫描 打复印统计
+    // 2015-2017 年度全馆扫描 打复印统计
     @RequestMapping(value = "/library_report_add_times",method = RequestMethod.GET)
-    public  Map<Integer,Map<String,Integer>> getlibrary_report_add_times(){ return schoolReportservice.library_report_add_times();
+    public String[][] getlibrary_report_add_times(){ return schoolReportservice.library_report_add_times();
     }
     // 学院借阅前三
     @RequestMapping(value = "/getYearTop3CategoryByAcademy", method = RequestMethod.GET)
     public Map<Integer,Map<String,List>> getYearTop3CategoryByAcademy(){ return schoolReportservice.getYearTop3CategoryByAcademy(); }
     //  外接前100 的书本
-    @RequestMapping(value = "/getSingleBookLendTop100", method = RequestMethod.GET)
+    @RequestMapping(value = "/SingleBookLendTop100", method = RequestMethod.GET)
     public Map<String,List> getSingleBookLendTop100(){ return schoolReportservice.getSingleBookLendTop100();
     }
-    //  2012-2015 年各类型读者入馆总人次统计
+    //  2015-2017 年各类型读者入馆总人次统计
     @RequestMapping(value = "/library_report_identity_sum", method = RequestMethod.GET)
     public Map<String,List> getlibrary_report_identity_sum(){ return schoolReportservice.getlibrary_report_identity_sum();
     }
-    // 2012 年度全馆各地点自助扫描、打复印统计详表
-    /*@RequestMapping(value = "/library_report_max_times", method = RequestMethod.GET)
-    public Map<String,List> getlibrary_report_max_times(){ return schoolReportservice.getl();
-    }*/
+    // 2015-2017年度全馆各地点自助扫描、打复印统计详表
+   @RequestMapping(value = "/getLibraryTypeTimes", method = RequestMethod.GET)
+    public Map<String,List> getLibraryTypeTimes (HttpServletRequest year) { return schoolReportservice.getlibraryTypeTimes(year.getQueryString());
+    }
 }
+
+
+
+

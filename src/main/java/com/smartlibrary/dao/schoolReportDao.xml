@@ -325,21 +325,18 @@
         ) b
         )
     </select>
-
     <select id="getCollectionAmountType" resultType="CollectionBook">
         SELECT stack,SUM(amounttype) amounttype
         FROM library_report_bookcollection_stack_count
         GROUP BY stack
         ORDER BY stack ASC
     </select>
-
     <select id="getCollectionAmountTypeYear" parameterType="int" resultType="CollectionBook">
         SELECT stack,amounttype
         FROM library_report_bookcollection_addyear
         WHERE `year` = #{year}
         ORDER BY stack ASC
     </select>
-
     <select id="getCollectionAmountTypePubyear" resultType="CollectionBook">
         SELECT stack,SUM(amounttype) amounttype
         FROM library_report_bookcollection_pubyear
@@ -400,10 +397,11 @@
         FROM  library_report_identity_sum
         GROUP BY  YEAR ,IDENTITY ,sum;
     </select>
-    <select id="getlibrary_report_max_times"  resultType="library_report_month_mankinds">
-        SELECT   year,print_type,print_location,times
-        FROM  library_report_max_times
-        GROUP BY year,print_type,print_location;
-     </select>
-
+    <select id="getlibraryTypeTimes" parameterType="int" resultType="CollectionBook">
+        SELECT year,print_location,print_type,times
+        FROM library_report_add_times
+        WHERE  year = #{year}
+        GROUP BY year,print_location,print_type
+        ORDER BY year,print_location,print_type
+    </select>
 </mapper>

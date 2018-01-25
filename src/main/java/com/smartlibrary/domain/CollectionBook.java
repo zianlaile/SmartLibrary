@@ -9,6 +9,40 @@ public class CollectionBook {
     String  stack;
     String category;
     String   bookType;
+
+    public String getPrint_type() {
+        return print_type;
+    }
+
+    public void setPrint_type(String print_type) {
+        this.print_type = print_type;
+    }
+
+    String print_type;
+
+    String  print_location;
+
+    int times;
+
+
+    public String getPrint_location() {
+        return print_location;
+    }
+
+    public void setPrint_location(String print_location) {
+        this.print_location = print_location;
+    }
+
+    public int getTimes() {
+        return times;
+    }
+
+    public void setTimes(int times) {
+        this.times = times;
+    }
+
+
+
     int  amount;
     int amounttype;
     int amountnumber;

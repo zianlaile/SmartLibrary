@@ -29,7 +29,7 @@ public class library_report_month_mankinds {
         this.print_type = print_type;
     }
 
-    String print_type;
+    String  print_type;
 
     public String getPrint_location() {
         return print_location;

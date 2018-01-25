@@ -30,10 +30,11 @@ public class DefinedSearchService {
         ArrayList<Integer> amounts=new  ArrayList<Integer>();
         ArrayList<String> times=new  ArrayList<String>();
         for(int i=0;i<definedBookResultList.size();i++){
-            definedBookResultList.get(i).setTime();
+            /*definedBookResultList.get(i).setTime();*/
             amounts.add(definedBookResultList.get(i).getAmount());
             times.add(String.valueOf(definedBookResultList.get(i).getTime()));
         }
+        System.out.println("OK");
         data.put("amounts",amounts);
         data.put("times",times);
         return data;

@@ -35,18 +35,140 @@
     <!-- 引入 ECharts 文件 -->
     <script src="../../js/echarts.min.js"></script>
 </head>
-<!--//getlarge_year-->
+
 <script type="application/javascript">
-    function getlarge_year(){
-        $(".chart_title p").text("历年-借阅统计");
+    var excel_data;
+    $(function(){
+        $(".remove").click(function(){
+            $(".mask").css("display","none");
+        });
+        var start=moment().subtract(29,'days');
+        var end=moment();
+        $('#daterange').daterangepicker({
+
+            startDate: start,
+            endDate: end,
+            //minDate: '01/01/2012',    //最小时间
+            maxDate : moment(), //最大时间
+            /*dateLimit : {
+                days : 60
+            }, //起止时间的最大间隔*/
+            showDropdowns : true,
+            showWeekNumbers : false, //是否显示第几周
+            timePicker : false, //是否显示小时和分钟
+            timePickerSeconds:false,
+            //timePickerIncrement : 1, //时间的增量，单位为分钟
+            timePicker12Hour : false, //是否使用12小时制来显示时间
+            ranges : {
+                //'最近1小时': [moment().subtract('hours',1), moment()],
+                '今日': [moment().startOf('day'), moment()],
+                '昨日': [moment().subtract(1,'days').startOf('day'), moment().subtract(1,'days').endOf('day')],
+                '最近7日': [moment().subtract(6,'days'), moment()],
+                '最近30日': [moment().subtract(29,'days'), moment()]
+            },
+            opens : 'right', //日期选择框的弹出位置
+            buttonClasses : [ 'btn btn-default' ],
+            applyClass : 'btn-small btn-primary blue',
+            cancelClass : 'btn-small',
+            format : 'YYYY/MM/DD', //控件中from和to 显示的日期格式
+            separator : ' to ',
+            locale : {
+                applyLabel : '确定',
+                cancelLabel : '取消',
+                fromLabel : '起始时间',
+                toLabel : '结束时间',
+                customRangeLabel : '自定义',
+                daysOfWeek : [ '日', '一', '二', '三', '四', '五', '六' ],
+                monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月',
+                    '七月', '八月', '九月', '十月', '十一月', '十二月' ],
+                firstDay : 1
+            }
+        }, function (start, end, label) {
+            $('#timeSection').val(start.format('YYYY/MM/DD') + ' - ' + end.format('YYYY/MM/DD'));
+        });
+        $('#timeSection').val(start.format('YYYY/MM/DD') + ' - ' + end.format('YYYY/MM/DD'));
+        /*//$("#series").chained("#markmy");  //注：#series是二级的id,#mark是一级的id
+        $('#series').remoteChained({
+            parents: '#markmy',
+            url: 'mytest.json',
+            loading: '--',
+            bootstrap : {
+                '': 'ALL',
+                'series-3': '3系',
+                'series-5': '5系',
+                'series-6': '6系',
+                'selected': 'series-3'
+            }
+        });*/
+    });
+
+</script>
+
+<script type="application/javascript">
+    function getFormContent(formItems){
+        var param="";
+        var itemindex=0;
+        if(formItems.length>=1){
+            param = '?' + formItems[itemindex]+'='+$("#"+formItems[itemindex]).val();
+            itemindex++;
+            for(;itemindex<formItems.length;itemindex++){
+                param +='&'+formItems[itemindex]+'='+$("#"+formItems[itemindex]).val();
+            }
+        }
+        console.info(param);
+        return param;
+    }
+</script>
+
+<!--createExcel()-->
+<script type="application/javascript">
+    function createExcel () {
+        /*var eleForm = $("<form method='get'></form>");
+
+        eleForm.attr("action","/definedExportExcel/exportRecords?timeSection=123"
+            );
+
+        $(document.body).append(eleForm);
+        //提交表单，实现下载
+        eleForm.submit();*/
+        /*window.open('definedExportExcel/exportRecords');*/
+        /*var oReq = new XMLHttpRequest();
+        oReq.open("GET", "../../definedExportExcel/exportRecords"+getFormContent(["timeSection", "academy", "student_style", "student_sex", "publisher", "book_style", "lend_style"]), true);
+        oReq.responseType = "blob";
+        oReq.onload = function (oEvent) {
+            var content = oReq.response;
+
+            var elink = document.createElement('a');
+            elink.download = "excel.xlsx";
+            elink.style.display = 'none';
+
+            var blob = new Blob([content]);
+            elink.href = URL.createObjectURL(blob);
+
+            document.body.appendChild(elink);
+            elink.click();
+
+            document.body.removeChild(elink);
+        };
+        oReq.send();*/
+        var elink = document.createElement('a');
+        elink.style.display = 'none';
+        elink.href = "../../definedExportExcel/exportRecords"+getFormContent(["timeSection", "academy", "student_style", "student_sex", "publisher", "book_style", "lend_style"]);
+        document.body.appendChild(elink);
+        elink.click();
+        document.body.removeChild(elink);
+    };
+</script>
+
+<!--getLargeChart()-->
+<script type="application/javascript">
+    function getLargeChart(){
+        $(".chart_title p").text("借阅数据分析");
         $(".mask").css("display","block");
-        /*$("#largemonth").css("display","none");
-        $("#largeday").css("display","none");
-        $("#largeday").css("display","none");*/
         $(".large_chart").css("display",'none');
-        $("#largeyear").css("display","block");
-        var year_count = echarts.init(document.getElementById('largeyear'));
-        var  year_count_option = {
+        $("#largeChart").css("display","block");
+        var largeChart = echarts.init(document.getElementById('largeChart'));
+        var  largeChart_option = {
             color: ['#3398DB'],
             tooltip : {
                 trigger: 'axis',
@@ -56,7 +178,7 @@
             },
             legend: {
 
-                data:['借阅每年统计']
+                data:['借阅每日统计']
             },
             toolbox: {
                 show: true,
@@ -98,7 +220,7 @@
             ],
             series : [
                 {
-                    name:'借阅每年统计',
+                    name:'借阅每日统计',
                     type:'bar',
                     barWidth: '40%',
                     data:[],
@@ -139,339 +261,86 @@
             }
         };
         // 使用刚指定的配置项和数据显示图表。
-        year_count.setOption(year_count_option);
+        largeChart.setOption(largeChart_option);
         // 异步加载数据
-        $.get('../../bookLend/ByYear').done(function (data) {
-            // 填入数据
-            console.log(data);
-            year_count.setOption({
-                xAxis: {
-                    data: data.times
-                },
-                series: [{
-                    // 根据名字对应到相应的系列
-                    name: '借阅每年统计',
-                    data: data.lend_times
-                }]
-            });
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../definedSearch/getDefinedBookSearch',
+            data: $('#searchForm').serialize(),
+            dataType:'json',
+            cache: false,
+            async:true,
+            success:function(data){
+                console.info(data);
+                largeChart.setOption({
+                    xAxis: {
+                        data: data.times
+                    },
+                    series: [{
+                        // 根据名字对应到相应的系列
+                        name: '借阅每日统计',
+                        data: data.amounts
+                    }]
+                });
+            },
+            error:function(data){
+                console.info(data);
+            }
         });
     }
     $(function(){
         $(".remove").click(function(){
             $(".mask").css("display","none");
         });
-        var start=moment().subtract(29, 'days');
-        var end=moment();
-        $('#daterange').daterangepicker({
-
-            startDate: start,
-            endDate: end,
-            //minDate: '01/01/2012',    //最小时间
-            maxDate : moment(), //最大时间
-            /*dateLimit : {
-                days : 60
-            }, //起止时间的最大间隔*/
-            showDropdowns : true,
-            showWeekNumbers : false, //是否显示第几周
-            timePicker : false, //是否显示小时和分钟
-            timePickerSeconds:false,
-            //timePickerIncrement : 1, //时间的增量，单位为分钟
-            timePicker12Hour : false, //是否使用12小时制来显示时间
-            ranges : {
-                //'最近1小时': [moment().subtract('hours',1), moment()],
-                '今日': [moment().startOf('day'), moment()],
-                '昨日': [moment().subtract('days', 1).startOf('day'), moment().subtract('days', 1).endOf('day')],
-                '最近7日': [moment().subtract('days', 6), moment()],
-                '最近30日': [moment().subtract('days', 29), moment()]
-            },
-            opens : 'right', //日期选择框的弹出位置
-            buttonClasses : [ 'btn btn-default' ],
-            applyClass : 'btn-small btn-primary blue',
-            cancelClass : 'btn-small',
-            format : 'YYYY/MM/DD', //控件中from和to 显示的日期格式
-            separator : ' to ',
-            locale : {
-                applyLabel : '确定',
-                cancelLabel : '取消',
-                fromLabel : '起始时间',
-                toLabel : '结束时间',
-                customRangeLabel : '自定义',
-                daysOfWeek : [ '日', '一', '二', '三', '四', '五', '六' ],
-                monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月',
-                    '七月', '八月', '九月', '十月', '十一月', '十二月' ],
-                firstDay : 1
-            }
-        }, function (start, end, label) {
-            $('#searchDateRange').val(start.format('YYYY/MM/DD') + ' - ' + end.format('YYYY/MM/DD'));
-        });
-        $('#searchDateRange').val(start.format('YYYY/MM/DD') + ' - ' + end.format('YYYY/MM/DD'));
-        //$("#series").chained("#markmy");  //注：#series是二级的id,#mark是一级的id
-        $('#series').remoteChained({
-            parents: '#markmy',
-            url: 'mytest.json',
-            loading: '--',
-            bootstrap : {
-                '': 'ALL',
-                'series-3': '3系',
-                'series-5': '5系',
-                'series-6': '6系',
-                'selected': 'series-3'
-            }
-        });
     });
 </script>
 
-<!--//getlarge_month-->
+<!--submitSearchData()提交表单函数-->
 <script type="application/javascript">
-    function getlarge_month(){
-        $(".chart_title p").text("历年每月-借阅统计");
-        $(".mask").css("display","block");
-        /*$("#largeyear").css("display","none");
-        $("#largeday").css("display","none");*/
-        $(".large_chart").css("display",'none');
-        $("#largemonth").css("display","block");
-        var month_count = echarts.init(document.getElementById('largemonth'));
-        var  month_count_option = {
-
-            tooltip: {
-                trigger: 'axis',
-                position: function (pt) {
-                    return [pt[0], '10%'];
-                }
+    function submitSearchData(){
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../definedSearch/getDefinedBookSearch',
+            data: $('#searchForm').serialize(),
+            dataType:'json',
+            cache: true,
+            async:true,
+            success:function(data){
+                excel_data=data;
+                console.info(data);
+                setChartData(data);
             },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '20%',
-                containLabel: true
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    dataZoom: {},
-                    dataView: {readOnly: false},
-                    magicType: {type: ['line', 'bar']},
-                    restore: {},
-                    saveAsImage: {}
-                }
-            },
-            legend: {
-                data:['借阅每月统计']
-            },
-            xAxis: {
-                type: 'category',
-                boundaryGap: false,
-                data: []
-            },
-            yAxis: {
-                type: 'value',
-                "axisLabel": {
-                    "interval": 0,
-                    formatter: '{value}次',
-                },
-            },
-            dataZoom: [{
-                type: 'inside',
-                start: 0,
-                end: 80
-            }, {
-                start: 0,
-                end: 80,
-                bottom:'10%',
-                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                handleSize: '80%',
-                handleStyle: {
-                    color: '#fff',
-                    shadowBlur: 3,
-                    shadowColor: 'rgba(0, 0, 0, 0.6)',
-                    shadowOffsetX: 2,
-                    shadowOffsetY: 2
-                }
-            }],
-            series: [
-                {
-                    name:'借阅每月统计',
-                    type:'line',
-                    smooth:true,
-                    symbol: 'none',
-                    sampling: 'average',
-                    itemStyle: {
-                        normal: {
-                            color: 'rgb(255, 70, 131)'
-                        }
-                    },
-                    areaStyle: {
-                        normal: {
-                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                offset: 0,
-                                color: 'rgb(255, 158, 68)'
-                            }, {
-                                offset: 1,
-                                color: 'rgb(255, 70, 131)'
-                            }])
-                        }
-                    },
-                    data: [],
-                    markPoint: {
-                        data: [
-                            {type: 'max', name: '最大值'},
-                            {type: 'min', name: '最小值'}
-                        ]
-                    },
-                    markLine: {
-                        data: [
-                            {type: 'average', name: '平均值'}
-                        ]
-                    }
-                }
-            ]
-        };
-        // 使用刚指定的配置项和数据显示图表。
-        month_count.setOption(month_count_option);
-        // 异步加载数据
-        $.get('../../bookLend/ByMonth').done(function (data) {
-            console.log(data);
-            // 填入数据
-            month_count.setOption({
-                xAxis: {
-                    data: data.times
-                },
-                series: [{
-                    // 根据名字对应到相应的系列
-                    name: '借阅每月统计',
-                    data: data.lend_times
-                }]
-            });
+            error:function(data){
+                console.info(data);
+            }
         });
     }
-
 </script>
 
-<!--//getlarge_day()-->
+<!--setSelect(obj,data,isId)设置下拉框-->
 <script type="application/javascript">
-    function getlarge_day(){
-        $(".chart_title p").text("历年每日-借阅统计");
-        $(".mask").css("display","block");
-        /* $("#largeyear").css("display","none");
-         $("#largemonth").css("display","none");*/
-        $(".large_chart").css("display",'none');
-        $("#largeday").css("display","block");
-        var day_count = echarts.init(document.getElementById('largeday'));
-        var  day_count_option = {
-
-            tooltip: {
-                trigger: 'axis',
-                position: function (pt) {
-                    return [pt[0], '10%'];
-                }
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '20%',
-                containLabel: true
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    dataZoom: {},
-                    dataView: {readOnly: false},
-                    magicType: {type: ['line', 'bar']},
-                    restore: {},
-                    saveAsImage: {}
-                }
-            },
-            legend: {
-
-                data:['借阅每日统计']
-            },
-            xAxis: {
-                type: 'category',
-                boundaryGap: false,
-                data: []
-            },
-            yAxis: {
-                type: 'value',
-                "axisLabel": {
-                    "interval": 0,
-                    formatter: '{value}次',
-                },
-            },
-            dataZoom: [{
-                type: 'inside',
-                start: 60,
-                end: 100
-            }, {
-                start: 0,
-                end: 10,
-                bottom: '10%',
-                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                handleSize: '80%',
-                handleStyle: {
-                    color: '#fff',
-                    shadowBlur: 3,
-                    shadowColor: 'rgba(0, 0, 0, 0.6)',
-                    shadowOffsetX: 2,
-                    shadowOffsetY: 2
-                }
-            }],
-            series: [
-                {
-                    name:'借阅每日统计',
-                    type:'line',
-                    smooth:true,
-                    symbol: 'none',
-                    sampling: 'average',
-                    itemStyle: {
-                        normal: {
-                            color: 'rgb(255, 70, 131)'
-                        }
-                    },
-                    areaStyle: {
-                        normal: {
-                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                offset: 0,
-                                color: 'rgb(255, 158, 68)'
-                            }, {
-                                offset: 1,
-                                color: 'rgb(255, 70, 131)'
-                            }])
-                        }
-                    },
-                    data: [],
-                    markPoint: {
-                        data: [
-                            {type: 'max', name: '最大值'},
-                            {type: 'min', name: '最小值'}
-                        ]
-                    },
-                    markLine: {
-                        data: [
-                            {type: 'average', name: '平均值'}
-                        ]
-                    }
-                }
-            ]
-        };
-        // 使用刚指定的配置项和数据显示图表。
-        day_count.setOption(day_count_option);
-        // 异步加载数据
-        $.get('../../bookLend/ByDay').done(function (data) {
-            // 填入数据
-            day_count.setOption({
-                xAxis: {
-                    data: data.times
-                },
-                series: [{
-                    // 根据名字对应到相应的系列
-                    name: '借阅每日统计',
-                    data: data.lend_times
-                }]
-            });
-        });
-    }
-
+    function setSelect(obj,data,isId){{
+        var index=0;
+        var flag=false;
+        var varItem;
+        for(var i=0;i<data.length;i++){
+            if(data[i].name=="其他"||data[i].name=="其它"){
+                index=i;
+                flag=true;
+                continue;
+            }
+            varItem = new Option(data[i].name,(isId ? data[i].id:data[i].name));
+            obj.options.add(varItem);
+        }
+        if(flag){
+            varItem = new Option(data[index].name,(isId ? data[index].id:data[index].name));
+            obj.options.add(varItem);
+        }
+    }}
 </script>
+
 <!--getSearchContent()获取下拉框内容-->
 <script type="application/javascript">
     function getSearchContent(){
@@ -480,317 +349,53 @@
             contentType:'application/json',
             url:'../../definedSearchContent/getDefinedContent',
             dataType:'json',
-            async:false,
+            async:true,
             success:function (data) {
-                var obj=document.getElementById('academy');
-                for(var i=0;i<data.academy.length;i++){
-                    var varItem = new Option(data.academy[i].name,data.academy[i].name);
-                    obj.options.add(varItem);
-                }
-                obj=document.getElementById('student_style');
-                for(var i=0;i<data.student_style.length;i++){
-                    var varItem = new Option(data.student_style[i].name,data.student_style[i].name);
-                    obj.options.add(varItem);
-                }
-                obj=document.getElementById('publisher');
-                for(var i=0;i<data.publisher.length;i++){
-                    var varItem = new Option(data.publisher[i].name,data.publisher[i].name);
-                    obj.options.add(varItem);
-                }
-                obj=document.getElementById('book_style');
-                for(var i=0;i<data.book_style.length;i++){
-                    var varItem = new Option(data.book_style[i].name,data.book_style[i].name);
-                    obj.options.add(varItem);
-                }
+                console.info(data);
+                setSelect(document.getElementById('academy'),data.academy,false);
+                setSelect(document.getElementById('student_style'),data.student_style,false);
+                setSelect(document.getElementById('publisher'),data.publisher,false);
+                setSelect(document.getElementById('book_style'),data.book_style,false);
+                $("#academy").selectpicker('render');
+                $("#academy").selectpicker('refresh');
+                $("#academy").selectpicker();
+                $("#student_style").selectpicker('render');
+                $("#student_style").selectpicker('refresh');
+                $("#student_style").selectpicker();
+                $("#publisher").selectpicker('render');
+                $("#publisher").selectpicker('refresh');
+                $("#publisher").selectpicker();
+                $("#book_style").selectpicker('render');
+                $("#book_style").selectpicker('refresh');
+                $("#book_style").selectpicker();
             }
-        })
+        });
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../definedSearch/getDefinedBookSearch',
+            data: $('#searchForm').serialize(),
+            dataType:'json',
+            cache: true,
+            async:true,
+            success:function(data){
+                excel_data=data;
+                console.info(data);
+                setChartData(data);
+            },
+            error:function(data){
+                console.info(data);
+            }
+        });
+
     }
 </script>
 
 <!--屏幕适配-->
 <script type="application/javascript">
-    function jsAddItemToSelect(objSelect, objItemText, objItemValue) {
-        if (jsSelectIsExitItem(objSelect, objItemValue)) {
-
-        } else {
-            var varItem = new Option(objItemText, objItemValue);
-            objSelect.options.add(varItem);
-        }
-    }
-
-    function getbooklendPeopleAndCount_Byhour(chartid) {
-        $.ajax({
-            type:'get',
-            contentType:'application/json',
-            url:'../../schoolReport/getbooklendPeopleAndCount_Byhour',
-            dataType:'json',
-            async:false,
-            success:function (data) {
-                var booklendhour = [];
-                var lendpeople = [];
-                var lendbookdata = [];
-                $("#year_hour_lend_title").text(data[0].year+'年各时段图书平均借出册数及人数');
-                for(var i=0;i<data.length;i++){
-                    booklendhour.push(data[i].hour+"点");
-                    lendpeople.push(data[i].lend_people);
-                    lendbookdata.push(data[i].lend);
-                }
-                var getbooklendPeopleAndCount_Byhour = echarts.init(document.getElementById(chartid));
-                var getbooklendPeopleAndCount_Byhouroption = {
-                    animation:false,
-                    backgroundColor: 'white',
-                    tooltip: {
-                        trigger: 'axis',
-                        axisPointer: {
-                            lineStyle: {
-                                color: '#57617B'
-                            }
-                        }
-                    },
-                    toolbox: {
-                        show: true,
-                        feature: {
-                            dataZoom: {},
-                            dataView: {readOnly: false},
-                            magicType: {type: ['line', 'bar']},
-                            restore: {},
-                            saveAsImage: {}
-                        }
-                    },
-                    legend: {
-                        icon: 'rect',
-                        itemWidth: 14,
-                        itemHeight: 5,
-                        itemGap: 13,
-                        data: ['借出册数', '借出人数'],
-                    },
-                    grid: {
-                        left: '3%',
-                        right: '6%',
-                        bottom: '3%',
-                        containLabel: true
-                    },
-                    xAxis: [{
-                        name:'小时',
-                        type: 'category',
-                        boundaryGap: false,
-                        axisLine: {
-                            lineStyle: {
-                                color: '#57617B'
-                            }
-                        },
-                        data: booklendhour
-                    }],
-                    yAxis: [{
-                        type: 'value',
-                        axisTick: {
-                            show: false
-                        },
-                        axisLine: {
-                            lineStyle: {
-                                color: '#57617B'
-                            }
-                        },
-                        axisLabel: {
-                            margin: 10,
-                            textStyle: {
-                                fontSize: 14
-                            }
-                        },
-                        splitLine: {
-                            lineStyle: {
-                                color: '#57617B'
-                            },
-                            show:false,
-                        }
-                    }],
-                    series: [{
-                        name: '借出册数',
-                        type: 'line',
-                        smooth: true,
-                        lineStyle: {
-                            normal: {
-                                width: 1
-                            }
-                        },
-                        areaStyle: {
-                            normal: {
-                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                    offset: 0,
-                                    color: 'rgba(17, 168, 171, 1)'
-                                }, {
-                                    offset: 0.8,
-                                    color: 'rgba(17, 168, 171, 0.3)'
-                                }], false),
-                                shadowColor: 'rgba(0, 0, 0, 0.1)',
-                                shadowBlur: 10
-                            }
-                        },
-                        itemStyle: {
-                            normal: {
-                                color: 'rgb(17, 168, 171)',
-                                borderColor: 'rgba(17,168,171,0.27)',
-                                borderWidth: 6
-                            }
-                        },
-                        data: lendbookdata
-                    }, {
-                        name: '借出人数',
-                        type: 'line',
-                        smooth: true,
-                        lineStyle: {
-                            normal: {
-                                width: 1
-                            }
-                        },
-                        areaStyle: {
-                            normal: {
-                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                    offset: 0,
-                                    color: 'rgba(255, 69, 0, 1)'
-                                }, {
-                                    offset: 0.8,
-                                    color: 'rgba(255, 69, 0, 0.3)'
-                                }], false),
-                                shadowColor: 'rgba(0, 0, 0, 0.1)',
-                                shadowBlur: 10
-                            }
-                        },
-                        itemStyle: {
-                            normal: {
-                                color: 'rgb(255,69,0)',
-                                borderColor: 'rgba(255,69,0,0.2)',
-                                borderWidth: 6
-
-                            }
-                        },
-                        data: lendpeople
-                    } ]
-                };
-                getbooklendPeopleAndCount_Byhour.setOption(getbooklendPeopleAndCount_Byhouroption);
-            }
-        })
-    }
-    function getBook_LendCountBy_year(chartid) {
-        $.ajax({
-            type:'get',
-            contentType:'application/json',
-            url:'../../schoolReport/getBook_LendCountBy_year',
-            async:false,
-            dataType:'json',
-            success:function (data) {
-                var book_lend_year = [];
-                var book_lend_times = [];
-                var book_return_times = [];
-                for(var i=0;i<data.length;i++){
-                    book_lend_year.push(data[i].year);
-                    book_lend_times.push(data[i].book_lend_times);
-                    book_return_times.push(data[i].book_return_times);
-                }
-                var getBook_LendCountBy_year = echarts.init(document.getElementById(chartid));
-                var getBook_LendCountBy_yearoption ={
-                    animation:false,
-                    backgroundColor:'white',
-                    tooltip : {
-                        trigger: 'axis',
-                        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                        }
-                    },
-                    legend: {
-                        data: ['借书', '还书']
-                    },
-                    toolbox: {
-                        show: true,
-                        feature: {
-                            dataZoom: {},
-                            dataView: {readOnly: false},
-                            magicType: {type: ['line', 'bar']},
-                            restore: {},
-                            saveAsImage: {}
-                        }
-                    },
-                    grid: {
-                        left: '3%',
-                        right: '4%',
-                        bottom: '3%',
-                        containLabel: true
-                    },
-                    yAxis:  {
-                        name:'册',
-                        type: 'value'
-                    },
-                    xAxis: {
-                        name:'年',
-                        type: 'category',
-                        data: book_lend_year
-                    },
-                    series: [
-                        {
-                            name: '借书',
-                            type: 'bar',
-                            stack: '总量',
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'inside'
-                                }
-                            },
-                            data: book_lend_times
-                        },
-                        {
-                            name: '还书',
-                            type: 'bar',
-                            stack: '总量',
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'inside'
-                                }
-                            },
-                            data: book_return_times
-                        }
-                    ]
-                };
-                getBook_LendCountBy_year.setOption(getBook_LendCountBy_yearoption);
-            }
-        })
-    }
-    function getlargeyear_hour_lend(){
-        var title = $("#year_hour_lend_title").text();
-        $(".chart_title p").text(title);
-        $(".mask").css("display","block");
-        /*$("#largemonth").css("display","none");
-         $("#largeday").css("display","none");
-         $("#largeday").css("display","none");*/
-        $(".large_chart").css("display",'none');
-        $("#largeyear_hour_lend").css("display","block");
-        getbooklendPeopleAndCount_Byhour('largeyear_hour_lend');
-    }
-    function getlargeyear_lend_back() {
-        $(".chart_title p").text('历年全馆图书借还总次数统计图');
-        $(".mask").css("display","block");
-        /*$("#largemonth").css("display","none");
-         $("#largeday").css("display","none");
-         $("#largeday").css("display","none");*/
-        $(".large_chart").css("display",'none');
-        $("#largeyear_lend_back").css("display","block");
-        getBook_LendCountBy_year('largeyear_lend_back');
-    }
     $(function(){
-        /*var left=$(".left_col").height();
-        left=left-17;
-        $(".right_col").height(left);
-        var height=left/2-$(".x_title").height()-90;
-        $("#year_count").height(height);
-        $("#month_count").height(height);
-        $("#day_count").height(height);*/
+        setChart();
         getSearchContent();
-        yearchart();
-        monthchart();
-        daychart();
-        getbooklendPeopleAndCount_Byhour('getbooklendPeopleAndCount_Byhour');
-        getBook_LendCountBy_year('getBook_LendCountBy_year');
     });
 </script>
 
@@ -965,23 +570,23 @@
 
         <!--选择栏-->
         <div class="right_col">
-            <form action="../../definedSearch/getDefinedBookSearch">
+            <form id="searchForm">
                 <div class="form-inline">
                     <div class="form-group">
-                        <label for="searchDateRange" class="control-label" style="height:34px">
+                        <label for="timeSection" class="control-label" style="height:34px">
                             开始时间-结束时间
                         </label>
                         <div id="daterange" class="input-prepend input-group"  data-date-format="yyyy/mm/dd">
-                    <span class="add-on input-group-addon">
-                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                    </span>
-                            <input type="text" name="timeSection" id="searchDateRange" class="form-control span4"/>
+                            <span class="add-on input-group-addon">
+                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                            </span>
+                            <input type="text" name="timeSection" id="timeSection" class="form-control span4"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="academy" class="control-label" style="height:34px">学院</label>
                         <div class="input-prepend input-group">
-                            <select id="academy" name="academy" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
+                            <select id="academy" name="academy" class="selectpicker show-tick form-control" data-width="auto" data-size="5" data-live-search="true">
                                 <option value="">所有</option>
                             </select>
                         </div>
@@ -1007,7 +612,7 @@
                     <div class="form-group">
                         <label for="publisher" class="control-label" style="height:34px">出版社</label>
                         <div class="input-prepend input-group">
-                            <select id="publisher" name="publisher" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
+                            <select id="publisher" name="publisher" class="selectpicker show-tick form-control" data-width="auto" data-size="5" data-live-search="true">
                                 <option value="">所有</option>
                             </select>
                         </div>
@@ -1016,7 +621,7 @@
                     <div class="form-group">
                         <label for="book_style" class="control-label" style="height:34px">图书种类</label>
                         <div class="input-prepend input-group">
-                            <select id="book_style" name="book_style" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
+                            <select id="book_style" name="book_style" class="selectpicker show-tick form-control" data-width="auto" data-size="5" data-live-search="true">
                                 <option value="">所有</option>
                             </select>
                         </div>
@@ -1032,374 +637,27 @@
                             </select>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-default" style="vertical-align:top">确定</button>
+                    <div class="form-group" style="vertical-align:top">
+                        <button type="button" class="btn btn-default" onclick="submitSearchData();">确定</button>
+                    </div>
                 </div>
             </form>
         </div>
-
-
+            <div class="right_col" >
+                <input id="export" type="button" value="导出EXCEL" onclick = "createExcel()"/>
+            </div>
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="clearfix"></div>
-            <div class="row">
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="x_panel">
-                        <div class="x_title"  style="padding:0px;" >
-                            <h2>历年-借阅统计</h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
-                                <li><a class="" href="javascript:getlarge_year()"><i class="fa icon-resize-full"></i></a>
-                                </li>
-                                <li><a class="close-link"><i class="fa fa-close"></i></a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content" >
-                            <div id="year_count"  style="height: 250px"></div>
-                        </div>
-                    </div>
-                </div>
-                <script type="text/javascript">
-                    function yearchart() {
-                        /*app.title = '坐标轴刻度与标签对齐';*/
-
-                        /* option = {
-                             color: ['#3398DB'],
-                             tooltip : {
-                                 trigger: 'axis',
-                                 axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                                     type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                                 }
-                             },
-                             grid: {
-                                 left: '3%',
-                                 right: '4%',
-                                 bottom: '3%',
-                                 containLabel: true
-                             },
-                             xAxis : [
-                                 {
-                                     type : 'category',
-                                     data : ['13:00', '13:05', '13:10', '13:15', '13:20', '13:25', '13:30','13:35','13:40','13:45','13:50','13:55'],
-                                     axisTick: {
-                                         alignWithLabel: true
-                                     }
-                                 }
-                             ],
-                             yAxis : [
-                                 {
-                                     // type : 'category',
-                                     // data : ['10','20','30','40'],
-                                     axisTick: {
-                                         alignWithLabel: true
-                                     }
-                                 }
-                             ],
-                             series : [
-                                 {
-                                     name:'直接访问',
-                                     type:'bar',
-                                     barWidth: '40%',
-                                     data:[1, 3, 2, 3, 4, 2, 1,3,3,2,3,2],
-                                     markPoint: {
-                                         data: [{type: 'max', name: '最大值'},{type: 'min', name: '最小值'}]
-                                     },
-                                     markLine: {
-                                         data: [{type: 'average', name: '平均值'} ]
-                                     }
-                                 },
-
-                             ],
-                             label: {
-                                 normal: {
-                                     show: true,
-                                     position: 'top',
-                                     rotate: 90,
-                                     align: 'left',
-                                     verticalAlign: 'middle',
-                                     position: 'insideBottom',
-                                     distance: 15,
-                                     formatter: '{c}'
-                                 }
-                             },
-                             itemStyle: {
-                                 normal: {
-
-                                     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                         offset: 0,
-                                         color: 'rgba(17, 168,171, 1)'
-                                     }, {
-                                         offset: 1,
-                                         color: 'rgba(17, 168,171, 0.1)'
-                                     }]),
-                                     shadowColor: 'rgba(0, 0, 0, 0.1)',
-                                     shadowBlur: 10
-                                 }
-                             }
-                         };*/
-                        var year_count = echarts.init(document.getElementById('year_count'));
-                        var year_count_option = {
-                            color: ['#3398DB'],
-                            tooltip: {
-                                trigger: 'axis',
-                                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                                }
-                            },
-                            legend: {
-
-                                data: ['借阅每年统计']
-                            },
-                            toolbox: {
-                                show: true,
-                                feature: {
-                                    dataZoom: {},
-                                    dataView: {readOnly: false},
-                                    magicType: {type: ['line', 'bar']},
-                                    restore: {},
-                                    saveAsImage: {}
-                                }
-                            },
-                            grid: {
-                                left: '3%',
-                                right: '10%',
-                                bottom: '3%',
-                                containLabel: true
-                            },
-                            xAxis: [
-                                {
-                                    type: 'category',
-                                    data: [],
-                                    axisTick: {
-                                        alignWithLabel: true
-                                    }
-                                }
-                            ],
-                            yAxis: [
-                                {
-                                    // type : 'category',
-                                    // data : ['10','20','30','40'],
-                                    //  type: 'value',
-                                    "axisLabel": {
-                                        "interval": 0,
-                                        formatter: '{value}次',
-                                    },
-                                    axisTick: {
-                                        alignWithLabel: true
-                                    }
-                                }
-                            ],
-                            series: [
-                                {
-                                    name: '借阅每年统计',
-                                    type: 'bar',
-                                    barWidth: '40%',
-                                    data: [],
-                                    markPoint: {
-                                        data: [
-                                            {type: 'max', name: '最大值'},
-                                            {type: 'min', name: '最小值'}
-                                        ]
-                                    },
-                                    markLine: {
-                                        data: [
-                                            {type: 'average', name: '平均值'}
-                                        ]
-                                    }
-                                },
-
-                            ],
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'top',
-                                    formatter: '{c}'
-                                }
-                            },
-                            itemStyle: {
-                                normal: {
-
-                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                        offset: 0,
-                                        color: 'rgba(17, 168,171, 1)'
-                                    }, {
-                                        offset: 1,
-                                        color: 'rgba(17, 168,171, 0.1)'
-                                    }]),
-                                    shadowColor: 'rgba(0, 0, 0, 0.1)',
-                                    shadowBlur: 10
-                                }
-                            }
-                        };
-                        // 使用刚指定的配置项和数据显示图表。
-                        year_count.setOption(year_count_option);
-                        // 异步加载数据
-                        $.get('../../bookLend/ByYear').done(function (data) {
-                            // 填入数据
-                            //console.log(data);
-                            year_count.setOption({
-                                xAxis: {
-                                    data: data.times
-                                },
-                                series: [{
-                                    // 根据名字对应到相应的系列
-                                    name: '借阅每年统计',
-                                    data: data.lend_times
-                                }]
-                            });
-                        });
-                    }
-
-                </script>
-
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="x_panel">
-                        <div class="x_title"   style="padding:0px;" >
-                            <h2>历年每月-借阅统计</h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
-                                <li><a class="" href="javascript:getlarge_month()"><i class="fa icon-resize-full"></i></a>
-                                </li>
-                                <li><a class="close-link"><i class="fa fa-close"></i></a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content" >
-                            <div id="month_count"  style="height: 250px"></div>
-                        </div>
-                    </div>
-                </div>
-                <script type="text/javascript">
-                    // 基于月统计
-                    function monthchart() {
-                        var month_count = echarts.init(document.getElementById('month_count'));
-                        var  month_count_option = {
-
-                            tooltip: {
-                                trigger: 'axis',
-                                position: function (pt) {
-                                    return [pt[0], '10%'];
-                                }
-                            },
-                            toolbox: {
-                                show: true,
-                                feature: {
-                                    dataZoom: {},
-                                    dataView: {readOnly: false},
-                                    magicType: {type: ['line', 'bar']},
-                                    restore: {},
-                                    saveAsImage: {}
-                                }
-                            },
-                            legend: {
-                                data:['借阅每月统计']
-                            },
-                            grid: {
-                                left: '3%',
-                                right: '10%',
-                                containLabel: true
-                            },
-                            xAxis: {
-                                type: 'category',
-                                boundaryGap: false,
-                                data: []
-                            },
-                            yAxis: {
-                                type: 'value',
-                                "axisLabel": {
-                                    "interval": 0,
-                                    formatter: '{value}次',
-                                },
-                            },
-                            dataZoom: [{
-                                type: 'inside',
-                                start: 0,
-                                end: 80
-                            }, {
-                                start: 0,
-                                end: 10,
-                                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                                handleSize: '80%',
-                                handleStyle: {
-                                    color: '#fff',
-                                    shadowBlur: 3,
-                                    shadowColor: 'rgba(0, 0, 0, 0.6)',
-                                    shadowOffsetX: 2,
-                                    shadowOffsetY: 2
-                                }
-                            }],
-                            series: [
-                                {
-                                    name:'借阅每月统计',
-                                    type:'line',
-                                    smooth:true,
-                                    symbol: 'none',
-                                    sampling: 'average',
-                                    itemStyle: {
-                                        normal: {
-                                            color: 'rgb(255, 70, 131)'
-                                        }
-                                    },
-                                    areaStyle: {
-                                        normal: {
-                                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                                offset: 0,
-                                                color: 'rgb(255, 158, 68)'
-                                            }, {
-                                                offset: 1,
-                                                color: 'rgb(255, 70, 131)'
-                                            }])
-                                        }
-                                    },
-                                    data: [],
-                                    markPoint: {
-                                        data: [
-                                            {type: 'max', name: '最大值'},
-                                            {type: 'min', name: '最小值'}
-                                        ]
-                                    },
-                                    markLine: {
-                                        data: [
-                                            {type: 'average', name: '平均值'}
-                                        ]
-                                    }
-                                }
-                            ]
-                        };
-                        // 使用刚指定的配置项和数据显示图表。
-                        month_count.setOption(month_count_option);
-                        // 异步加载数据
-                        $.get('../../bookLend/ByMonth').done(function (data) {
-                            // console.log(data);
-                            // 填入数据
-                            month_count.setOption({
-                                xAxis: {
-                                    data: data.times
-                                },
-                                series: [{
-                                    // 根据名字对应到相应的系列
-                                    name: '借阅每月统计',
-                                    data: data.lend_times
-                                }]
-                            });
-                        });
-                    }
-                </script>
-            </div>
-            <div class="clearfix"></div>
-            <div class="row"  >
+            <div class="row" >
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title"   style="padding:0px;" >
-                            <h2>历年每日-借阅统计</h2>
+                            <h2>借阅数据分析</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
-                                <li><a class="" href="javascript:getlarge_day()"><i class="fa icon-resize-full"></i></a>
+                                <li><a class="" href="javascript:getLargeChart()"><i class="fa icon-resize-full"></i></a>
                                 </li>
                                 <li><a class="close-link"><i class="fa fa-close"></i></a>
                                 </li>
@@ -1407,389 +665,124 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="day_count" style="height:250px;"></div>
+                            <div id="searchEcharts" style="height:250px;"></div>
                         </div>
                     </div>
                 </div>
-                <script type="text/javascript">
-                    // 基于月统计
-                    function daychart() {
-                        var day_count = echarts.init(document.getElementById('day_count'));
-                        var  day_count_option = {
-
-                            tooltip: {
-                                trigger: 'axis',
-                                position: function (pt) {
-                                    return [pt[0], '10%'];
-                                }
-                            },
-                            toolbox: {
-                                show: true,
-                                feature: {
-                                    dataZoom: {},
-                                    dataView: {readOnly: false},
-                                    magicType: {type: ['line', 'bar']},
-                                    restore: {},
-                                    saveAsImage: {}
-                                }
-                            },
-                            legend: {
-
-                                data:['借阅每日统计']
-                            },
-                            xAxis: {
-                                type: 'category',
-                                boundaryGap: false,
-                                data: []
-                            },
-                            yAxis: {
-                                type: 'value',
-                                "axisLabel": {
-                                    "interval": 0,
-                                    formatter: '{value}次',
-                                },
-                            },
-                            dataZoom: [{
-                                type: 'inside',
-                                start: 60,
-                                end: 100
-                            }, {
-                                start: 0,
-                                end: 10,
-                                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                                handleSize: '80%',
-                                handleStyle: {
-                                    color: '#fff',
-                                    shadowBlur: 3,
-                                    shadowColor: 'rgba(0, 0, 0, 0.6)',
-                                    shadowOffsetX: 2,
-                                    shadowOffsetY: 2
-                                }
-                            }],
-                            series: [
-                                {
-                                    name:'借阅每日统计',
-                                    type:'line',
-                                    smooth:true,
-                                    symbol: 'none',
-                                    sampling: 'average',
-                                    itemStyle: {
-                                        normal: {
-                                            color: 'rgb(255, 70, 131)'
-                                        }
-                                    },
-                                    areaStyle: {
-                                        normal: {
-                                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                                offset: 0,
-                                                color: 'rgb(255, 158, 68)'
-                                            }, {
-                                                offset: 1,
-                                                color: 'rgb(255, 70, 131)'
-                                            }])
-                                        }
-                                    },
-                                    data: [],
-                                    markPoint: {
-                                        data: [
-                                            {type: 'max', name: '最大值'},
-                                            {type: 'min', name: '最小值'}
-                                        ]
-                                    },
-                                    markLine: {
-                                        data: [
-                                            {type: 'average', name: '平均值'}
-                                        ]
-                                    }
-                                }
-                            ]
-                        };
-                        // 使用刚指定的配置项和数据显示图表。
-                        day_count.setOption(day_count_option);
-                        // 异步加载数据
-                        $.get('../../bookLend/ByDay').done(function (data) {
-                            // 填入数据
-                            day_count.setOption({
-                                xAxis: {
-                                    data: data.times
-                                },
-                                series: [{
-                                    // 根据名字对应到相应的系列
-                                    name: '借阅每日统计',
-                                    data: data.lend_times
-                                }]
-                            });
-                        });
-                    }
-                </script>
-            </div>
-            <div class="clearfix"></div>
-            <div class="row"  >
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="x_panel">
-                        <div class="x_title"   style="padding:0px;" >
-                            <h2 id="year_hour_lend_title"></h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
-                                <li><a class="" href="javascript:getlargeyear_hour_lend()"><i class="fa icon-resize-full"></i></a>
-                                </li>
-                                <li><a class="close-link"><i class="fa fa-close"></i></a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content">
-                            <div id="getbooklendPeopleAndCount_Byhour" style="height:250px;"></div>
-                        </div>
-                    </div>
-                </div>
-                <script type="text/javascript">
-                    // 基于月统计
-                    function daychart() {
-                        var day_count = echarts.init(document.getElementById('day_count'));
-                        var  day_count_option = {
-
-                            tooltip: {
-                                trigger: 'axis',
-                                position: function (pt) {
-                                    return [pt[0], '10%'];
-                                }
-                            },
-                            toolbox: {
-                                show: true,
-                                feature: {
-                                    dataZoom: {},
-                                    dataView: {readOnly: false},
-                                    magicType: {type: ['line', 'bar']},
-                                    restore: {},
-                                    saveAsImage: {}
-                                }
-                            },
-                            legend: {
-
-                                data:['借阅每日统计']
-                            },
-                            xAxis: {
-                                type: 'category',
-                                boundaryGap: false,
-                                data: []
-                            },
-                            yAxis: {
-                                type: 'value',
-                                "axisLabel": {
-                                    "interval": 0,
-                                    formatter: '{value}次',
-                                },
-                            },
-                            dataZoom: [{
-                                type: 'inside',
-                                start: 60,
-                                end: 100
-                            }, {
-                                start: 0,
-                                end: 10,
-                                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                                handleSize: '80%',
-                                handleStyle: {
-                                    color: '#fff',
-                                    shadowBlur: 3,
-                                    shadowColor: 'rgba(0, 0, 0, 0.6)',
-                                    shadowOffsetX: 2,
-                                    shadowOffsetY: 2
-                                }
-                            }],
-                            series: [
-                                {
-                                    name:'借阅每日统计',
-                                    type:'line',
-                                    smooth:true,
-                                    symbol: 'none',
-                                    sampling: 'average',
-                                    itemStyle: {
-                                        normal: {
-                                            color: 'rgb(255, 70, 131)'
-                                        }
-                                    },
-                                    areaStyle: {
-                                        normal: {
-                                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                                offset: 0,
-                                                color: 'rgb(255, 158, 68)'
-                                            }, {
-                                                offset: 1,
-                                                color: 'rgb(255, 70, 131)'
-                                            }])
-                                        }
-                                    },
-                                    data: [],
-                                    markPoint: {
-                                        data: [
-                                            {type: 'max', name: '最大值'},
-                                            {type: 'min', name: '最小值'}
-                                        ]
-                                    },
-                                    markLine: {
-                                        data: [
-                                            {type: 'average', name: '平均值'}
-                                        ]
-                                    }
-                                }
-                            ]
-                        };
-                        // 使用刚指定的配置项和数据显示图表。
-                        day_count.setOption(day_count_option);
-                        // 异步加载数据
-                        $.get('../../bookLend/ByDay').done(function (data) {
-                            // 填入数据
-                            day_count.setOption({
-                                xAxis: {
-                                    data: data.times
-                                },
-                                series: [{
-                                    // 根据名字对应到相应的系列
-                                    name: '借阅每日统计',
-                                    data: data.lend_times
-                                }]
-                            });
-                        });
-                    }
-                </script>
-            </div>
-            <div class="clearfix"></div>
-            <div class="row"  >
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="x_panel">
-                        <div class="x_title"   style="padding:0px;" >
-                            <h2>历年全馆图书借还总次数统计图</h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
-                                <li><a class="" href="javascript:getlargeyear_lend_back()"><i class="fa icon-resize-full"></i></a>
-                                </li>
-                                <li><a class="close-link"><i class="fa fa-close"></i></a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content">
-                            <div id="getBook_LendCountBy_year" style="height:300px;"></div>
-                        </div>
-                    </div>
-                </div>
-                <script type="text/javascript">
-                    // 基于月统计
-                    function daychart() {
-                        var day_count = echarts.init(document.getElementById('day_count'));
-                        var  day_count_option = {
-
-                            tooltip: {
-                                trigger: 'axis',
-                                position: function (pt) {
-                                    return [pt[0], '10%'];
-                                }
-                            },
-                            toolbox: {
-                                show: true,
-                                feature: {
-                                    dataZoom: {},
-                                    dataView: {readOnly: false},
-                                    magicType: {type: ['line', 'bar']},
-                                    restore: {},
-                                    saveAsImage: {}
-                                }
-                            },
-                            legend: {
-
-                                data:['借阅每日统计']
-                            },
-                            xAxis: {
-                                type: 'category',
-                                boundaryGap: false,
-                                data: []
-                            },
-                            yAxis: {
-                                type: 'value',
-                                "axisLabel": {
-                                    "interval": 0,
-                                    formatter: '{value}次',
-                                },
-                            },
-                            dataZoom: [{
-                                type: 'inside',
-                                start: 60,
-                                end: 100
-                            }, {
-                                start: 0,
-                                end: 10,
-                                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                                handleSize: '80%',
-                                handleStyle: {
-                                    color: '#fff',
-                                    shadowBlur: 3,
-                                    shadowColor: 'rgba(0, 0, 0, 0.6)',
-                                    shadowOffsetX: 2,
-                                    shadowOffsetY: 2
-                                }
-                            }],
-                            series: [
-                                {
-                                    name:'借阅每日统计',
-                                    type:'line',
-                                    smooth:true,
-                                    symbol: 'none',
-                                    sampling: 'average',
-                                    itemStyle: {
-                                        normal: {
-                                            color: 'rgb(255, 70, 131)'
-                                        }
-                                    },
-                                    areaStyle: {
-                                        normal: {
-                                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                                offset: 0,
-                                                color: 'rgb(255, 158, 68)'
-                                            }, {
-                                                offset: 1,
-                                                color: 'rgb(255, 70, 131)'
-                                            }])
-                                        }
-                                    },
-                                    data: [],
-                                    markPoint: {
-                                        data: [
-                                            {type: 'max', name: '最大值'},
-                                            {type: 'min', name: '最小值'}
-                                        ]
-                                    },
-                                    markLine: {
-                                        data: [
-                                            {type: 'average', name: '平均值'}
-                                        ]
-                                    }
-                                }
-                            ]
-                        };
-                        // 使用刚指定的配置项和数据显示图表。
-                        day_count.setOption(day_count_option);
-                        // 异步加载数据
-                        $.get('../../bookLend/ByDay').done(function (data) {
-                            // 填入数据
-                            day_count.setOption({
-                                xAxis: {
-                                    data: data.times
-                                },
-                                series: [{
-                                    // 根据名字对应到相应的系列
-                                    name: '借阅每日统计',
-                                    data: data.lend_times
-                                }]
-                            });
-                        });
-                    }
-                </script>
             </div>
         </div>
+        <script type="text/javascript">
+            // 基于月统计
+            function setChart() {
+                var searchEcharts = echarts.init(document.getElementById('searchEcharts'));
+                var  searchEcharts_option = {
+
+                    tooltip: {
+                        trigger: 'axis',
+                        position: function (pt) {
+                            return [pt[0], '10%'];
+                        }
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataZoom: {},
+                            dataView: {readOnly: false},
+                            magicType: {type: ['line', 'bar']},
+                            restore: {},
+                            saveAsImage: {}
+                        }
+                    },
+                    legend: {
+
+                        data:['借阅每日统计']
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: []
+                    },
+                    yAxis: {
+                        type: 'value',
+                        "axisLabel": {
+                            "interval": 0,
+                            formatter: '{value}次',
+                        },
+                    },
+                    dataZoom: [{
+                        type: 'inside',
+                        start: 60,
+                        end: 100
+                    }, {
+                        start: 0,
+                        end: 10,
+                        handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                        handleSize: '80%',
+                        handleStyle: {
+                            color: '#fff',
+                            shadowBlur: 3,
+                            shadowColor: 'rgba(0, 0, 0, 0.6)',
+                            shadowOffsetX: 2,
+                            shadowOffsetY: 2
+                        }
+                    }],
+                    series: [
+                        {
+                            name:'借阅每日统计',
+                            type:'line',
+                            smooth:true,
+                            symbol: 'none',
+                            sampling: 'average',
+                            itemStyle: {
+                                normal: {
+                                    color: 'rgb(255, 70, 131)'
+                                }
+                            },
+                            areaStyle: {
+                                normal: {
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                        offset: 0,
+                                        color: 'rgb(255, 158, 68)'
+                                    }, {
+                                        offset: 1,
+                                        color: 'rgb(255, 70, 131)'
+                                    }])
+                                }
+                            },
+                            data: [],
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine: {
+                                data: [
+                                    {type: 'average', name: '平均值'}
+                                ]
+                            }
+                        }
+                    ]
+                };
+                // 使用刚指定的配置项和数据显示图表。
+                searchEcharts.setOption(searchEcharts_option);
+            }
+
+            function setChartData(data){
+                // 填入数据
+                var searchEcharts = echarts.init(document.getElementById('searchEcharts'));
+                searchEcharts.setOption({
+                    xAxis: {
+                        data: data.times
+                    },
+                    series: [{
+                        // 根据名字对应到相应的系列
+                        name: '借阅每日统计',
+                        data: data.amounts,
+                    }]
+                });
+            }
+        </script>
     </div>
 </div>
 <div class="mask" style="display: none">
@@ -1800,11 +793,7 @@
         <div class="chart_title">
             <p></p>
         </div>
-        <div id="largeyear" class="large_chart"  style="display: none"></div>
-        <div id="largemonth" class="large_chart"  style="display: none"></div>
-        <div id="largeday" class="large_chart"  style="display: none"></div>
-        <div id="largeyear_hour_lend" class="large_chart"  style="display: none"></div>
-        <div id="largeyear_lend_back" class="large_chart"  style="display: none"></div>
+        <div id="largeChart" class="large_chart"  style="display: none"></div>
     </div>
 </div>
 
@@ -1843,6 +832,8 @@
 <!-- bootstrap-daterangepicker -->
 <script src="../vendors/moment/min/moment.min.js"></script>
 <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!--JsonExportExcel-->
+<script src="../vendors/JsonExportExcel/JsonExportExcel.min.js"></script>
 <!-- bootstrap-select -->
 <script src="../vendors/bootstrap-select/js/bootstrap-select.min.js"></script>
 <script src="../vendors/bootstrap-select/js/bootstrap-select.js"></script>

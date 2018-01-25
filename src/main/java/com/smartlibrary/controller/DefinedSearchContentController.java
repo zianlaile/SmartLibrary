@@ -17,7 +17,7 @@ import java.util.Map;
 @Controller
 @RequestMapping({ "/definedSearchContent" })
 public class DefinedSearchContentController {
-    private static final Logger logger = Logger.getLogger(bookLendController.class);
+    private static final Logger logger = Logger.getLogger(DefinedSearchContentController.class);
     @Autowired
     private DefinedSearchContentService definedSearchContentService;
 

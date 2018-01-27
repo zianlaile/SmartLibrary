@@ -5360,6 +5360,7 @@ function getLibraryTypeTimes() {
     $.get('../../schoolReport/getLibraryTypeTimes', paramYear, function (info) {
         var arrayYear = [year, year - 1, year - 2];
         var param = [];
+        var tempdata = [];
         var index = 0;
         for(var ii = 0; ii < 3; ii++) {
             index = 3 * ii;
@@ -5369,14 +5370,19 @@ function getLibraryTypeTimes() {
                     data.push(info[i][j][2]);
                 }
             }
-            param.push({
+            tempdata.push({
                 address: info[ii][index][1],
                 data: data
             });
         }
         param.push({
-            year: arrayYear
+            year: arrayYear,
+            dataArray: tempdata
         });
         console.log(param);
+        var html = template('tableGetLibraryTypeTimes',{param:param});
+        $(".tableGetLibraryTypeTimes").html(html);
+        $(".library-type-times").find(".max-year").text(arrayYear[0]);
+        $(".library-type-times").find(".sec-year").text(arrayYear[2]);
     })
 }

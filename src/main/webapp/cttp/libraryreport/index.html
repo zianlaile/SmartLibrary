@@ -586,9 +586,15 @@
     </div>
 
     <div class="page chapter" id="60">
-        <div class="first-title">6.5 各学院学生借阅人数比例</div>
-        <div class="second-title">6.5.1 本科生借阅情况</div>
+        <div class="first-title library-type-times">6.5 <span class="emphases sec-year"></span>-<span class="emphases max-year"></span>年度扫描、打复印统计</div>
+        <div class="table tableGetLibraryTypeTimes"></div>
         <div class="pagination">60</div>
+    </div>
+
+    <div class="page chapter" id="61">
+        <div class="first-title">6.6 各学院学生借阅人数比例</div>
+        <div class="second-title">6.6.1 本科生借阅情况</div>
+        <div class="pagination">61</div>
     </div>
 
     <div class="btn-wrap"><button onclick="javascript:downloadword();">导出</button></div>
@@ -952,29 +958,33 @@
     <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
         <tr>
             <th width="19%" rowspan="2">地点</th>
-            {{each param.year as p}}
-            <th width="27%" colspan="3">{{p}}</th>
+            {{each param[0].year as p1}}
+            <th width="27%" colspan="3">{{p1}}</th>
             {{/each}}
         </tr>
         <tr>
-        {{for(int i = 0; i < 3; i++){ }}
+            <th width="9%" style="background-color: #F8F8F8;color: #000;">复印</th>
+            <th width="9%">打印</th>
+            <th width="9%">扫描</th>
             <th width="9%">复印</th>
             <th width="9%">打印</th>
             <th width="9%">扫描</th>
-        {{ } }}
+            <th width="9%">复印</th>
+            <th width="9%">打印</th>
+            <th width="9%">扫描</th>
         </tr>
-        {{each param.data as pp}}
+        {{each param[0].dataArray as p2}}
         <tr>
-            <td>pp.address</td>
-            <td>pp.data[0]</td>
-            <td>pp.data[1]</td>
-            <td>pp.data[2]</td>
-            <td>pp.data[3]</td>
-            <td>pp.data[4]</td>
-            <td>pp.data[5]</td>
-            <td>pp.data[6]</td>
-            <td>pp.data[7]</td>
-            <td>pp.data[8]</td>
+            <td>{{p2.address}}</td>
+            <td>{{p2.data[0]}}</td>
+            <td>{{p2.data[1]}}</td>
+            <td>{{p2.data[2]}}</td>
+            <td>{{p2.data[3]}}</td>
+            <td>{{p2.data[4]}}</td>
+            <td>{{p2.data[5]}}</td>
+            <td>{{p2.data[6]}}</td>
+            <td>{{p2.data[7]}}</td>
+            <td>{{p2.data[8]}}</td>
         </tr>
         {{/each}}
     </table>

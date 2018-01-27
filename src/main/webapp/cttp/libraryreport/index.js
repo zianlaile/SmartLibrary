@@ -4467,8 +4467,8 @@ function getCollectionBycategory() {
                 arr[i] = [];
                 arr1[i] = [];
                 for(var j=0;j<data.category.length;j++){
-                    arr[i].push(data.amounttype[i*data.category.length+j]);
-                    arr1[i].push(data.amountnumber[i*data.category.length+j]);
+                    arr[i].push(data.amounttype[j*data.bookType.length+i]);
+                    arr1[i].push(data.amountnumber[j*data.bookType.length+i]);
                 }
             }
             var itemcolor = ['#FF7F0E','#2CA02C','#6ca7e2','#00CCFF','#915872','#3077b7','#9a8169','#3f8797'];

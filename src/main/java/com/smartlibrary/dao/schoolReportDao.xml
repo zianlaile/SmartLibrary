@@ -448,4 +448,11 @@
         WHERE identity="研究生"
         GROUP BY academy
     </select>
+    <select id="getlibraryTypeTimes" parameterType="int" resultType="CollectionBook">
+        SELECT year,print_location,print_type,times
+        FROM library_report_add_times
+        WHERE  year = #{year}
+        GROUP BY year,print_location,print_type
+        ORDER BY year,print_location,print_type
+    </select>
 </mapper>

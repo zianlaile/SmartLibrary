@@ -84,6 +84,8 @@ $(function () {
     getTop10category();
     library_report_identity_sum(); //各类型读者入馆总人次统计
     library_report_ic_total(); //每月上机人次折线图
+    getDailyLendPeopleAndCount(); //每日借出人/册
+    getCirculationByHour(); //各时段流通情况（册）
 });
 var month;
 var ereadtimesg;
@@ -5082,7 +5084,7 @@ function library_report_ic_total() {
             data.push(tempdata);
         }
         var library_report_ic_total = echarts.init(document.getElementById('library_report_ic_total'));
-        library_report_ic_total_option = {
+        var library_report_ic_total_option = {
             animation:false,
             backgroundColor:'white',
             tooltip: {
@@ -5138,7 +5140,7 @@ function library_report_ic_total() {
         var html = template('tableLibraryReportIcTotal',{param:param}); //历年上机总人次统计表
         $(".tableLibraryReportIcTotal").html(html);
         var library_report_ic_total_2 = echarts.init(document.getElementById('library_report_ic_total_2'));
-        library_report_ic_total_option_2 = {
+        var library_report_ic_total_option_2 = {
             animation:false,
             backgroundColor:'white',
             color: ['#3398DB'],
@@ -5179,5 +5181,170 @@ function library_report_ic_total() {
             ]
         };
         library_report_ic_total_2.setOption(library_report_ic_total_option_2);
+    })
+}
+
+function getDailyLendPeopleAndCount() {
+    $.get('../../schoolReport/getDailyLendPeopleAndCount',function (info) {
+        var getDailyLendPeopleAndCount = echarts.init(document.getElementById('getDailyLendPeopleAndCount'));
+        var getDailyLendPeopleAndCount_option = {
+            animation:false,
+            backgroundColor:'white',
+            xAxis: {
+                type: 'category',
+                data: info.ymddate,
+                name: '时间',
+                axisLabel:{
+                    rotate: 45,
+                    interval: 10
+                }
+            },
+            yAxis: {
+                type: 'value',
+                name: '数量'
+            },
+            legend: {
+                data:['借阅人数','借阅册数']
+            },
+            tooltip : {
+                trigger: 'axis'
+            },
+            series: [
+                {
+                    data: info.book_lend_people,
+                    type: 'line',
+                    name: '借阅人数',
+                    showSymbol: false
+                },
+                {
+                    data: info.book_lend_times,
+                    type: 'line',
+                    name: '借阅册数',
+                    showSymbol: false
+                }
+            ]
+        };
+        getDailyLendPeopleAndCount.setOption(getDailyLendPeopleAndCount_option);
+    });
+}
+
+function getCirculationByHour() {
+    $.get('../../schoolReport/getCirculationByHour',function (info) {
+        var param = [];
+        var hour = [];
+        var book_renew_times = [];
+        var book_back_times = [];
+        var book_lend_times = [];
+        var temp_book_renew_times = 0;
+        var temp_book_back_times = 0;
+        var temp_book_lend_times = 0;
+        for(var i = 0; i < info.hour.length; i++) {
+            if(info.hour[i] < 8) {
+                temp_book_renew_times += info.book_renew_times[i];
+                temp_book_back_times += info.book_back_times[i];
+                temp_book_lend_times += info.book_lend_times[i];
+            } else if(info.hour[i] == 8) {
+                param.push({
+                    hour: '8:00以前',
+                    book_renew_times: temp_book_renew_times,
+                    daily_average_book_renew_times: (temp_book_renew_times / 365).toFixed(2),
+                    book_back_times: temp_book_back_times,
+                    daily_average_book_back_times: (temp_book_back_times / 365).toFixed(2),
+                    book_lend_times: temp_book_lend_times,
+                    daily_average_book_lend_times: (temp_book_lend_times / 365).toFixed(2)
+                });
+                hour.push('8:00以前');
+                book_renew_times.push(temp_book_renew_times);
+                book_back_times.push(temp_book_back_times);
+                book_lend_times.push(temp_book_lend_times);
+                temp_book_renew_times += info.book_renew_times[i];
+                temp_book_back_times += info.book_back_times[i];
+                temp_book_lend_times += info.book_lend_times[i];
+                param.push({
+                    hour: '8:00-8:59',
+                    book_renew_times: info.book_renew_times[i],
+                    daily_average_book_renew_times: (info.book_renew_times[i] / 365).toFixed(2),
+                    book_back_times: info.book_back_times[i],
+                    daily_average_book_back_times: (info.book_back_times[i] / 365).toFixed(2),
+                    book_lend_times: info.book_lend_times[i],
+                    daily_average_book_lend_times: (info.book_lend_times[i] / 365).toFixed(2)
+                });
+                hour.push('8:00-8:59');
+                book_renew_times.push(info.book_renew_times[i]);
+                book_back_times.push(info.book_back_times[i]);
+                book_lend_times.push(info.book_lend_times[i]);
+            } else {
+                temp_book_renew_times += info.book_renew_times[i];
+                temp_book_back_times += info.book_back_times[i];
+                temp_book_lend_times += info.book_lend_times[i];
+                param.push({
+                    hour: info.hour[i] + ':00' + '-' + info.hour[i] + ':59',
+                    book_renew_times: info.book_renew_times[i],
+                    daily_average_book_renew_times: (info.book_renew_times[i] / 365).toFixed(2),
+                    book_back_times: info.book_back_times[i],
+                    daily_average_book_back_times: (info.book_back_times[i] / 365).toFixed(2),
+                    book_lend_times: info.book_lend_times[i],
+                    daily_average_book_lend_times: (info.book_lend_times[i] / 365).toFixed(2)
+                });
+                hour.push(info.hour[i] + ':00' + '-' + info.hour[i] + ':59');
+                book_renew_times.push(info.book_renew_times[i]);
+                book_back_times.push(info.book_back_times[i]);
+                book_lend_times.push(info.book_lend_times[i]);
+            }
+        }
+        param.push({
+            hour: '总计',
+            book_renew_times: temp_book_renew_times,
+            daily_average_book_renew_times: (temp_book_renew_times / 365).toFixed(2),
+            book_back_times: temp_book_back_times,
+            daily_average_book_back_times: (temp_book_back_times / 365).toFixed(2),
+            book_lend_times: temp_book_lend_times,
+            daily_average_book_lend_times: (temp_book_lend_times / 365).toFixed(2)
+        });
+        var html = template('tableGetCirculationByHour',{param:param});
+        $(".tableGetCirculationByHour").html(html);
+        var getCirculationByHour = echarts.init(document.getElementById('getCirculationByHour'));
+        var getCirculationByHour_option = {
+            animation:false,
+            backgroundColor:'white',
+            xAxis: {
+                type: 'category',
+                data: hour,
+                axisLabel:{
+                    rotate: 45,
+                    interval: 0
+                },
+                axisLine: {onZero: true},
+                name: '时间',
+            },
+            yAxis: {
+                type: 'value',
+                name: '册数'
+            },
+            legend: {
+                data:['借出','还回','续借']
+            },
+            tooltip : {
+                trigger: 'axis',
+            },
+            series: [
+                {
+                    data: book_lend_times,
+                    type: 'line',
+                    name: '借出'
+                },
+                {
+                    data: book_back_times,
+                    type: 'line',
+                    name: '还回'
+                },
+                {
+                    data: book_renew_times,
+                    type: 'line',
+                    name: '续借'
+                }
+            ]
+        };
+        getCirculationByHour.setOption(getCirculationByHour_option);
     })
 }

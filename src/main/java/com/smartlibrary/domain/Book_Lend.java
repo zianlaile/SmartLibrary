@@ -8,24 +8,31 @@ public class Book_Lend extends BaseObject{
     int book_lend_times;    // ------------------
     int m_book_lend_times;
     int f_book_lend_times;
-    int book_back_times;
+    int book_back_times; //
     int book_return_times;
+    int book_lend_people;   //图书借出人数
+    int book_renew_times;
+    int academy_people_count;
     int year;
     int month;
     int day;
     int hour;
     int categoryAmount;     //  各类统计
 
+    String lend_percent;
+    String ymddate;//借阅日期
     String reader_academy;       //  读者学院
     String book_category;        //  书本种类
     String time;//将年月日相连
 
+    String identity;
     String academy;
     String book_kind;
     String publisher;   // ----------------------
     String  book_name;  // --------------------
     String book_author; //---------------------
     Double book_lend_w;
+
 
     public String getBook_author() { return book_author; }
 
@@ -160,4 +167,29 @@ public class Book_Lend extends BaseObject{
     public void setHour(int hour) {
         this.hour = hour;
     }
+
+    public int getBook_lend_people() { return book_lend_people; }
+
+    public void setBook_lend_people(int book_lend_people) { this.book_lend_people = book_lend_people; }
+
+    public String getYmddate() { return ymddate; }
+
+    public void setYmddate(String ymddate) { this.ymddate = ymddate; }
+
+    public int getBook_renew_times() { return book_renew_times; }
+
+    public void setBook_renew_times(int book_renew_times) { this.book_renew_times = book_renew_times; }
+
+    public int getAcademy_people_count() { return academy_people_count; }
+
+    public void setAcademy_people_count(int academy_people_count) { this.academy_people_count = academy_people_count; }
+
+    public String getLend_percent() { return lend_percent; }
+
+    public void setLend_percent(String lend_percent) { this.lend_percent = lend_percent; }
+
+    public String getIdentity() { return identity; }
+
+    public void setIdentity(String identity) { this.identity = identity; }
+
 }

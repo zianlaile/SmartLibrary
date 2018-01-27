@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -93,10 +94,6 @@ public class schoolReportController {
         return schoolReportservice.geICdurationCountBy_year(n);
     }
 
-
-
-
-
     //<!--今年读者总借阅次数排名前10（包括学号、读者姓名、所属学院、总借阅次数）（表格）新表-学号-年份-->
     @RequestMapping(value = "/getReder_booklendCount_Byyear", method = RequestMethod.GET)
     public List<reader_report> getReder_booklendCount_Byyear(reader_report n){
@@ -160,17 +157,12 @@ public class schoolReportController {
         return schoolReportservice.gettypeprintsamount();
     }
 
-
-
-
-
     //研修间-使用量分析（一年，四个类别(本科，研究生，教师，其他) ，四种IC资源）
     @RequestMapping(value = "/getICTimesBYTypeOneyear",method = RequestMethod.GET)
     public Map<String,List> getICTimesBYTypeOneyear(){
         IC_Times i=new IC_Times();
         return schoolReportservice.getICTimesBYTypeOneyear(i);
     }
-
 
     // <!--馆藏基本情况  总体情况 馆数量太多 取前十-->
     @RequestMapping(value = "/getCollectionOverall",method = RequestMethod.GET)
@@ -205,13 +197,16 @@ public class schoolReportController {
         return schoolReportservice.getCollectionWaiWenNewAddedByCate(i);
     }
 
-    //书目库书目记录总量
+    //书目库书目记录总量  // 目前方法报错 暂时注释
     @RequestMapping(value = "/getCollectionAmountType",method = RequestMethod.GET)
-    public Map<String,List> getCollectionAmountType(HttpServletRequest year){ return schoolReportservice.getCollectionAmountType(year.getQueryString());
+    public Map<String,List> getCollectionAmountType(HttpServletRequest year){
+        return schoolReportservice.getCollectionAmountType(year.getQueryString());
     }
+
     //书目库书目记录类型统计
     @RequestMapping(value = "/getCollectionByStackAndBooktype",method = RequestMethod.GET)
-    public Map<String,List> getCollectionByStackAndBooktype(){ return schoolReportservice.getCollectionByStackAndBooktype();
+    public Map<String,List> getCollectionByStackAndBooktype(){
+        return schoolReportservice.getCollectionByStackAndBooktype();
     }
     //图书按出版年份统计
     @RequestMapping(value = "/getCollectionByPubyear",method = RequestMethod.GET)
@@ -229,31 +224,61 @@ public class schoolReportController {
     public Map<String,List> getTop10category(){
         return schoolReportservice.getTop10category();
     }
-    //2015-2017 年每月上机人次折线图
+    //2011-2015 年每月上机人次折线图
     @RequestMapping(value = "/library_report_ic_total",method = RequestMethod.GET)
     public Map<Integer, Map<Integer, Integer>> getlibrary_report_ic_total(){ return schoolReportservice.library_report_ic_total();
     }
-    // 2015-2017 年度全馆扫描 打复印统计
+    // 2012-2015 年度全馆扫描 打复印统计
     @RequestMapping(value = "/library_report_add_times",method = RequestMethod.GET)
-    public String[][] getlibrary_report_add_times(){ return schoolReportservice.library_report_add_times();
+    public  Map<Integer,Map<String,Integer>> getlibrary_report_add_times(){ return schoolReportservice.library_report_add_times();
     }
+
     // 学院借阅前三
     @RequestMapping(value = "/getYearTop3CategoryByAcademy", method = RequestMethod.GET)
     public Map<Integer,Map<String,List>> getYearTop3CategoryByAcademy(){ return schoolReportservice.getYearTop3CategoryByAcademy(); }
     //  外接前100 的书本
-    @RequestMapping(value = "/SingleBookLendTop100", method = RequestMethod.GET)
+    @RequestMapping(value = "/getSingleBookLendTop100", method = RequestMethod.GET)
     public Map<String,List> getSingleBookLendTop100(){ return schoolReportservice.getSingleBookLendTop100();
     }
-    //  2015-2017 年各类型读者入馆总人次统计
+    //  2012-2015 年各类型读者入馆总人次统计
     @RequestMapping(value = "/library_report_identity_sum", method = RequestMethod.GET)
     public Map<String,List> getlibrary_report_identity_sum(){ return schoolReportservice.getlibrary_report_identity_sum();
     }
-    // 2015-2017年度全馆各地点自助扫描、打复印统计详表
-   @RequestMapping(value = "/getLibraryTypeTimes", method = RequestMethod.GET)
-    public List<String[][]> getLibraryTypeTimes (HttpServletRequest year) { return schoolReportservice.getlibraryTypeTimes(year.getQueryString());
-    }
+
+    // 年度研究生接借书最受欢迎的前十
+    @RequestMapping(value = "/getLibraryReportGeneralRankingTop10InGraduate", method = RequestMethod.GET)
+    public List<library_report_ranking_book> getLibraryReportGeneralRankingTop10InGraduate(library_report_ranking_book n){
+        return schoolReportservice.getLibraryReportGeneralRankingTop10InGraduate(n); }
+    // 年度本科生接借书最受欢迎的前十
+    @RequestMapping(value = "/getLibraryReportGeneralRankingTop10InUndergraduate", method = RequestMethod.GET)
+    public List<library_report_ranking_book> getLibraryReportGeneralRankingTop10InUndergraduate(library_report_ranking_book n){
+        return schoolReportservice.getLibraryReportGeneralRankingTop10InUndergraduate(n); }
+    // 本科生分类排行
+    @RequestMapping(value = "/getLibraryClassifyRankInUndergraduate", method = RequestMethod.GET)
+    public  Map<String,ArrayList<library_report_ranking_book>> getLibraryClassifyRankInUndergraduate(library_report_ranking_book n){
+        return schoolReportservice.getLibraryClassifyRankInUndergraduate(n); }
+
+    // 研究生分类排行
+    @RequestMapping(value = "/getLibraryClassifyRankInGraduate", method = RequestMethod.GET)
+    public Map<String,ArrayList<library_report_ranking_book>> getLibraryClassifyRankInGraduate(library_report_ranking_book n){
+        return schoolReportservice.getLibraryClassifyRankInGraduate(n); }
+
+    // 2012 年度全馆各地点自助扫描、打复印统计详表
+    /*@RequestMapping(value = "/library_report_max_times", method = RequestMethod.GET)
+    public Map<String,List> getlibrary_report_max_times(){ return schoolReportservice.getl();
+    }*/
+
+
+    @RequestMapping(value = "/getDailyLendPeopleAndCount", method = RequestMethod.GET)
+    public Map<String,List> getDailyLendPeopleAndCount(){ return schoolReportservice.getDailyLendPeopleAndCount();}
+
+    @RequestMapping(value = "/getCirculationByHour", method = RequestMethod.GET)
+    public Map<String,List> getCirculationByHour(){ return schoolReportservice.getCirculationByHour();}
+
+    @RequestMapping(value = "/getUndergraduateLendPercentByAcademy", method = RequestMethod.GET)
+    public Map<String,List> getUndergraduateLendPercentByAcademy(){ return schoolReportservice.getUndergraduateLendPercentByAcademy();}
+
+    @RequestMapping(value = "/getGraduateLendPercentByAcademy", method = RequestMethod.GET)
+    public Map<String,List> getGraduateLendPercentByAcademy(){ return schoolReportservice.getGraduateLendPercentByAcademy();}
 }
-
-
-
 

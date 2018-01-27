@@ -38,7 +38,10 @@ $(function () {
     day_gctrl();//当年每日进馆
     dctrl_top12();//排名前12
     getCollectionByPubyear();//图书按出版年份统计表（种/ 册）
-    //getYearTop3CategoryByAcademy();
+    yearUnderGraduatBookLendTop10();  //  本科生借阅最多的10本书
+    bookLendFinalRankTop10InGraduate();  // 研究生借阅最多的10本书
+    yearLibraryClassifyRankInUndergraduate() // 年度本科生借阅分类排行
+    yearLibraryClassifyRankInGraduate()  //  年度研究生借阅分类排行
     $.ajax({
         type:"get",
         contentType: 'application/json',
@@ -80,6 +83,7 @@ $(function () {
     getCollectionBycategory();
     getTop10category();
     library_report_identity_sum(); //各类型读者入馆总人次统计
+    library_report_ic_total(); //每月上机人次折线图
 });
 var month;
 var ereadtimesg;
@@ -908,7 +912,7 @@ function equipmentchart(chartid){
     equipment_count.setOption(equipment_count_option);
 }
 function day_gctrl() {
-    $.get('../../gctrl/ByDay2').done(function (resultdata) {
+    $.get('../../gctrl/ByDay2?'+nowyear).done(function (resultdata) {
         // 填入数据
         var day_gctrl = echarts.init(document.getElementById('day_gctrl'));
         var gctrl_times=resultdata.gctrl_times;
@@ -1044,7 +1048,7 @@ function day_gctrl() {
 }
 function dctrl_top12() {
     var gctrl_top12 = echarts.init(document.getElementById('gctrl_top12'));
-    $.get('../../gctrl/ByDay_count2').done(function (resultdata) {
+    $.get('../../gctrl/ByDay_count2?'+nowyear).done(function (resultdata) {
         // 填入数据
         var day_count2_option = {
             animation:false,
@@ -2956,7 +2960,6 @@ function getprinttimesCountBy_year() {
                     itemStyle:{
                         normal:{
                             color:'#C8B2F4'
-
                         }
                     }
                 });
@@ -3612,6 +3615,67 @@ function bookLend3() {
         $(".book-lend3").html(html);
     })
 }
+// 以下小章代码
+function yearUnderGraduatBookLendTop10() {
+    $.get('../../schoolReport/getLibraryReportGeneralRankingTop10InUndergraduate',function (info) {
+        var data = [];
+        for(var i = 0; i <info.length; i++){
+            var basedata = new Object();
+            basedata.index = i+1;
+            basedata.book_publisher = info[i].book_publisher;
+            basedata.book_lend_times = info[i].book_lend_times;
+            basedata.book_author = info[i].book_author;
+            basedata.book_name = info[i].book_name;
+            data.push(basedata);
+        }
+        var html = template('bookLendFinalRankUndergraduate',{param:data});
+        $(".yearUnderGraduatBookLendTop10").html(html);
+    })
+}
+
+function yearLibraryClassifyRankInUndergraduate() {
+    $.get('../../schoolReport/getLibraryClassifyRankInUndergraduate',function (data) {
+        for(var key in data){
+            if(key.substr(0, 1) == '0') continue;
+            $("#50").append("<div style=\"text-align: center\">"+key+"</div><div class=' table "+key.substr(0, 1)+"'></div>");
+            // console.log(data[key]);
+            var html = template('bookLendFinalRankUndergraduate',{param:data[key]});
+            $("."+ key.substr(0, 1)).html(html);
+        }
+    });
+}
+function yearLibraryClassifyRankInGraduate() {
+    $.get('../../schoolReport/getLibraryClassifyRankInGraduate',function (data) {
+        for(var key in data){
+            var classKey;
+            classKey = key.substr(0, 1) + "yan";
+             console.log(classKey);
+            if(classKey.substr(0, 1) == '0') continue;
+            $("#49").append("<div style=\"text-align: center\">"+key+"</div><div class=' table "+classKey+"'></div>");
+
+            var html = template('bookLendFinalRankUndergraduate',{param:data[key]});
+            $("."+ classKey).html(html);
+        }
+    });
+}
+// 以上小章代码
+
+function bookLendFinalRankTop10InGraduate() {
+    $.get('../../schoolReport/getLibraryReportGeneralRankingTop10InGraduate',function (info1) {
+        var data1 = [];
+        for(var i = 0; i <info1.length; i++){
+            var basedata1 = new Object();
+            basedata1.index = i+1;
+            basedata1.book_publisher = info1[i].book_publisher;
+            basedata1.book_lend_times = info1[i].book_lend_times;
+            basedata1.book_author = info1[i].book_author;
+            basedata1.book_name = info1[i].book_name;
+            data1.push(basedata1);
+        }
+        var html = template('bookLendFinalRankUndergraduate',{param:data1});
+        $(".yearGraduatBookLendTop10").html(html);
+    })
+}
 
 function staffLend() {
     $.get('../../schoolReport/getTeacherCount_BycountAndyear',function (info) {
@@ -3642,8 +3706,8 @@ function staffLend() {
             item.year.push(info['11-20册'][i].year);
         }
         var html = template('staffLend',{param:item});
-        console.log(2);
-        console.log(item);
+       // console.log(2);
+       // console.log(item);
         for(var i=1;i<=item.dat.length;i++){
             replace["4-"+i+"-1"] = item.dat[i-1].data1;
             replace["4-"+i+"-2"] = item.dat[i-1].data2;
@@ -3750,7 +3814,7 @@ function getCollectionOverall(){
                     {
                         name: '各馆藏书占比',
                         type: 'pie',
-                        radius : '30%',
+                         radius : '30%',
                         center: ['25%', '50%'],
                         color:['#86c9f4','#4da8ec','#3a91d2','#005fa6','#315f97'],
                         data:piedata,
@@ -4189,8 +4253,8 @@ function getCollectionAmountType() {
                     basechartdata["5-1-3"]=0;
                 }
                 amount1+=basedata.amounttype;
-                amount2+=basedata.amounttypePubyear;
-                amount3+=basedata.amounttypeYear;
+                amount3+=basedata.amounttypePubyear;
+                amount2+=basedata.amounttypeYear;
                 param.push(basedata);
                 chartdata.push(basechartdata);
             }
@@ -4270,7 +4334,7 @@ function getCollectionByStackAndBooktype() {
                 chartamount["6-2-"+(i+2)] = arr1[i];
             }
             chartdata.push(chartamount);
-            console.log(chartdata);
+            //console.log(chartdata);
             replace.category_stack_amount = chartdata;
             var html = template('getCollectionByStackAndBooktype',{param:param,bookType:data.bookType,arr1:arr1});
             $(".getCollectionByStackAndBooktype").html(html);
@@ -4467,8 +4531,8 @@ function getCollectionBycategory() {
                 arr[i] = [];
                 arr1[i] = [];
                 for(var j=0;j<data.category.length;j++){
-                    arr[i].push(data.amounttype[j*data.bookType.length+i]);
-                    arr1[i].push(data.amountnumber[j*data.bookType.length+i]);
+                    arr[i].push(data.amounttype[i*data.category.length+j]);
+                    arr1[i].push(data.amountnumber[i*data.category.length+j]);
                 }
             }
             var itemcolor = ['#FF7F0E','#2CA02C','#6ca7e2','#00CCFF','#915872','#3077b7','#9a8169','#3f8797'];
@@ -4603,7 +4667,7 @@ function getBookLendByAcademy() {
         dataType:'json',
         success:function (data) {
             document.getElementById("ThirdAcademyTitle").innerHTML =data["3"].readerAcademy + "借阅分布";
-            replace["img_academy_top3title"] = data["3"].readerAcademy + "借阅分布";
+      //       replace["img_academy_top3title"] = data["3"].readerAcademy + "借阅分布";
             var getprintsCountBy_year3 = echarts.init(document.getElementById('getBookLendByAcademyThird'));
             var getBookLendByAcademyThird = {
               //  color: ['#000000'],
@@ -4659,7 +4723,7 @@ function getBookLendByAcademy() {
             };
             getprintsCountBy_year3.setOption(getBookLendByAcademyThird);
             document.getElementById("FirstAcademyTitle").innerHTML =data["1"].readerAcademy + "借阅分布";
-            replace["img_academy_top1title"] = data["1"].readerAcademy + "借阅分布";
+           // replace["img_academy_top1title"] = data["1"].readerAcademy + "借阅分布";
             var getprintsCountBy_year1 = echarts.init(document.getElementById('getBookLendByAcademyFirst'));
             var getBookLendByAcademyFirst = {
                 tooltip : {
@@ -4714,7 +4778,7 @@ function getBookLendByAcademy() {
             };
             getprintsCountBy_year1.setOption(getBookLendByAcademyFirst);
             document.getElementById("SecondAcademyTitle").innerHTML =data["2"].readerAcademy + "借阅分布";
-            replace["img_academy_top2title"] = data["2"].readerAcademy + "借阅分布";
+       //     replace["img_academy_top2title"] = data["2"].readerAcademy + "借阅分布";
             var getprintsCountBy_year2 = echarts.init(document.getElementById('getBookLendByAcademySecond'));
             var getBookLendByAcademySecond = {
                 tooltip : {
@@ -4810,8 +4874,10 @@ function library_report_identity_sum() {
             tablehead: tablehead,
             tabledata: tabledata
         };
-        var html = template('table_library_report_identity_sum',{param:param});
-        $(".table_library_report_identity_sum").html(html);
+        var html = template('tableLibraryReportIdentitySum',{param:param});
+        $(".tableLibraryReportIdentitySum").html(html);
+        $("#table_library_report_identity_sum_title").text("历年各类型读者入馆总人次统计表");
+        $("#barchart_library_report_identity_sum_title").text(info.year[0] + "-" + info.year[2] + "年各类型读者入馆总人次统计");
         $("#piechart1_library_report_identity_sum_title").text(info.year[0] + "年度各类型读者占入馆总人次百分比");
         $("#piechart2_library_report_identity_sum_title").text(info.year[1] + "年度各类型读者占入馆总人次百分比");
         $("#piechart3_library_report_identity_sum_title").text(info.year[2] + "年度各类型读者占入馆总人次百分比");
@@ -4826,7 +4892,7 @@ function library_report_identity_sum() {
             legend: {
                 data: tablehead,
                 align: 'right',
-                left: 10
+                left: 'center'
             },
             xAxis : [
                 {
@@ -4980,5 +5046,138 @@ function library_report_identity_sum() {
             ]
         };
         piechart3_library_report_identity_sum.setOption(piechart3_library_report_identity_sum_option);
+    })
+}
+
+function library_report_ic_total() {
+    $.get('../../schoolReport/library_report_ic_total',function (info) {
+        var param = [];
+        var year = [];
+        var sum = [0, 0, 0];
+        var month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        var data = [];
+        var sumIndex = 0;
+        for(key in info) {
+            year.push(key);
+            var index = key;
+            var monthIndex = 0;
+            var tempdata = [];
+            for(key in info[index]) {
+                while(key != month[monthIndex]) {
+                    tempdata.push(0);
+                    monthIndex++;
+                }
+                tempdata.push(info[index][key]);
+                sum[sumIndex] += info[index][key];
+                monthIndex++;
+            }
+            param.push({
+                "year": index,
+                "sum": sum[sumIndex]
+            });
+            sumIndex++;
+            for(var i = monthIndex; i < 12; i++){
+                tempdata.push(0);
+            }
+            data.push(tempdata);
+        }
+        var library_report_ic_total = echarts.init(document.getElementById('library_report_ic_total'));
+        library_report_ic_total_option = {
+            animation:false,
+            backgroundColor:'white',
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data:year
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: month,
+                name: '月份'
+            },
+            yAxis: {
+                type: 'value',
+                name: '人次'
+            },
+            series: [
+                {
+                    name:year[0],
+                    type:'line',
+                    data:data[0]
+                },
+                {
+                    name:year[1],
+                    type:'line',
+                    data:data[1]
+                },
+                {
+                    name:year[2],
+                    type:'line',
+                    data:data[2]
+                }
+            ]
+        };
+        library_report_ic_total.setOption(library_report_ic_total_option);
+        $(".ic-total").find(".max-year").text(year[2]);
+        $(".ic-total").find(".sec-year").text(year[1]);
+        $(".ic-total").find(".max-total").text(sum[2]);
+        $(".ic-total").find(".sec-total").text(sum[1]);
+        var change = sum[2] - sum[1];
+        if (change < 0) {
+            $(".ic-total").find(".change").text("减少");
+            $(".ic-total").find(".change-number").text(sum[1] - sum[2]);
+            $(".ic-total").find(".change-percent").text(((sum[1] - sum[2]) / sum[2] * 100).toFixed(2));
+        } else {
+            $(".ic-total").find(".change").text("增加");
+            $(".ic-total").find(".change-number").text(sum[2] - sum[1]);
+            $(".ic-total").find(".change-percent").text(((sum[2] - sum[1]) / sum[2] * 100).toFixed(2));
+        }
+        $(".ic-total-year").text(year[0] + "-" + year[2]);
+        var html = template('tableLibraryReportIcTotal',{param:param}); //历年上机总人次统计表
+        $(".tableLibraryReportIcTotal").html(html);
+        var library_report_ic_total_2 = echarts.init(document.getElementById('library_report_ic_total_2'));
+        library_report_ic_total_option_2 = {
+            animation:false,
+            backgroundColor:'white',
+            color: ['#3398DB'],
+            tooltip : {
+                trigger: 'axis',
+            },
+            xAxis : [
+                {
+                    type : 'category',
+                    data : year,
+                    name : '年份',
+                    axisTick: {
+                        alignWithLabel: true
+                    }
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value',
+                    name : '人次'
+                }
+            ],
+            series : [
+                {
+                    name:'总人次',
+                    type:'bar',
+                    barWidth: '60%',
+                    data:sum,
+                    label: {
+                        normal: {
+                            show: true,
+                            color: 'black',
+                            position: 'top',
+                            formatter: '{c}'
+                        }
+                    }
+                }
+            ]
+        };
+        library_report_ic_total_2.setOption(library_report_ic_total_option_2);
     })
 }

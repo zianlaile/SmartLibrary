@@ -98,7 +98,7 @@ public interface schoolReportDao {
     //品种前十的分类
     List<CollectionBook> getTop10category();
     //  得到各个学院借阅的前三各类总数
-    List<Book_Lend> getYearTop3CategoryByAcademy();     // 小章定义F
+    List<Book_Lend> getYearTop3CategoryByAcademy();     // 小章定义
     List<Book_Lend>getSingleBookLendTop100();           // 小章定义
     //2015-2017 年各类型读者入馆总人次统计
     List<library_report_month_mankinds> getlibrary_report_identity_sum();
@@ -107,5 +107,5 @@ public interface schoolReportDao {
     //2015-2017 年度全馆扫描 打复印统计
     List<library_report_month_mankinds> getlibrary_report_add_times();
     //2015-2017 年度全馆各地点自助扫描、打复印统计详表
-    List<CollectionBook >  getlibraryTypeTimes (int year);
+    List<CollectionBook>  getlibraryTypeTimes (int year);
 }

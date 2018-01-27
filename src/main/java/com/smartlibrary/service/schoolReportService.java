@@ -766,48 +766,32 @@ public class schoolReportService {
         }
         return lines;
     }
-    public Map<String,List> getlibraryTypeTimes(String year) {
-        List<CollectionBook>  data    = schoolReportdao.getlibraryTypeTimes(Integer.valueOf(year));
-        List<CollectionBook>  data1   = schoolReportdao.getlibraryTypeTimes(Integer.valueOf(year)-1);
-        List<CollectionBook>  data2   = schoolReportdao.getlibraryTypeTimes(Integer.valueOf(year)-2);
-        List<String> print_type = new ArrayList<>();
-        List<String> print_typethisyear = new ArrayList<>();
-        List<String> print_typepubyear = new ArrayList<>();
-        List<String> print_location = new ArrayList< >();
-        List<String> print_locationthisyear = new ArrayList<>();
-        List<String> print_locationpubyear = new ArrayList<>();
-        List<Integer> times = new ArrayList<>();
-        List<Integer> timesthisyear = new ArrayList<>();
-        List<Integer> timespubyear = new ArrayList<>();
-        Map<String,List> libraryTypeTimes = new HashMap<>();
-
-        for (int i = 0; i < data.size(); i++) {
-            print_type.add(data.get(i).getPrint_type());
-            print_location.add(data.get(i).getPrint_location());
-            times.add(data.get(i).getTimes());
-        }
-        for (int i = 0; i < data1.size(); i++) {
-            print_typethisyear.add(data1.get(i).getPrint_type());
-            print_location.add(data1.get(i).getPrint_location());
-            timesthisyear.add(data1.get(i).getTimes());
-        }
-        for (int i = 0; i < data2.size(); i++) {
-            print_typepubyear.add(data2.get(i).getPrint_type());
-            print_locationpubyear.add(data2.get(i).getPrint_location());
-            timespubyear.add(data2.get(i).getTimes());
-        }
-
-        libraryTypeTimes.put("print_type",print_type);
-        libraryTypeTimes.put("print_location",print_location);
-        libraryTypeTimes.put("times", times);
-        libraryTypeTimes.put("print_typethisyear", print_typethisyear);
-        libraryTypeTimes.put("print_locationthisyear",print_locationthisyear );
-        libraryTypeTimes.put("timesthisyear", timesthisyear);
-        libraryTypeTimes.put("print_typepubyear", print_typepubyear);
-        libraryTypeTimes.put("print_locationpubyear", print_locationpubyear);
-        libraryTypeTimes.put("timespubyear", timespubyear);
-
-        return  libraryTypeTimes;
+    public List<String[][]> getlibraryTypeTimes(String year) {
+        List<CollectionBook >  data    = schoolReportdao.getlibraryTypeTimes(Integer.valueOf(year));
+        List<CollectionBook >  data1   =  schoolReportdao.getlibraryTypeTimes(Integer.valueOf(year)-1);
+        List<CollectionBook >  data2   = schoolReportdao.getlibraryTypeTimes(Integer.valueOf(year)-2);
+        String [][] o1 = func(data);
+        String [][] o2 = func(data1);
+        String [][] o3 = func(data2);
+        List<String[][] > lst = new ArrayList<String[][]>();
+        lst.add(o1);
+        lst.add(o2);
+        lst.add(o3);
+        return lst ;
     }
+    public String[][] func(List<CollectionBook> data) {
+        String[][] ok = new String[data.size()][3];
+        for (int i = 0; i < data.size(); i++) {
+            String[] items = new String[3];
+            items[0] = data.get(i).getPrint_type();
+            items[1] = data.get(i).getPrint_location();
+            items[2] = String.valueOf(data.get(i).getTimes());
+            ok [i][0] = items[0];
+            ok [i][1] = items[1];
+            ok [i][2] = items[2];
+        }
+        return ok;
+    }
+
 }
 

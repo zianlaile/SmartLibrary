@@ -250,7 +250,7 @@ public class schoolReportController {
     }
     // 2015-2017年度全馆各地点自助扫描、打复印统计详表
    @RequestMapping(value = "/getLibraryTypeTimes", method = RequestMethod.GET)
-    public Map<String,List> getLibraryTypeTimes (HttpServletRequest year) { return schoolReportservice.getlibraryTypeTimes(year.getQueryString());
+    public List<String[][]> getLibraryTypeTimes (HttpServletRequest year) { return schoolReportservice.getlibraryTypeTimes(year.getQueryString());
     }
 }
 

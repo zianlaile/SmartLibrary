@@ -829,7 +829,32 @@ public class schoolReportService {
         GraduateLendPercentByAcademydata.put("lend_percent",lend_percent);
         return GraduateLendPercentByAcademydata;}
 
-
+    public List<String[][]> getlibraryTypeTimes(String year) {
+        List<CollectionBook >  data    = schoolReportdao.getlibraryTypeTimes(Integer.valueOf(year));
+        List<CollectionBook >  data1   =  schoolReportdao.getlibraryTypeTimes(Integer.valueOf(year)-1);
+        List<CollectionBook >  data2   = schoolReportdao.getlibraryTypeTimes(Integer.valueOf(year)-2);
+        String [][] o1 = func(data);
+        String [][] o2 = func(data1);
+        String [][] o3 = func(data2);
+        List<String[][] > lst = new ArrayList<String[][]>();
+        lst.add(o1);
+        lst.add(o2);
+        lst.add(o3);
+        return lst ;
+    }
+    public String[][] func(List<CollectionBook> data) {
+        String[][] ok = new String[data.size()][3];
+        for (int i = 0; i < data.size(); i++) {
+            String[] items = new String[3];
+            items[0] = data.get(i).getPrint_type();
+            items[1] = data.get(i).getPrint_location();
+            items[2] = String.valueOf(data.get(i).getTimes());
+            ok [i][0] = items[0];
+            ok [i][1] = items[1];
+            ok [i][2] = items[2];
+        }
+        return ok;
+    }
 }
 
 

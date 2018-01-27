@@ -948,5 +948,36 @@
         {{/each}}
     </table>
 </script>
+<script type="text/html" id="tableGetLibraryTypeTimes">
+    <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th width="19%" rowspan="2">地点</th>
+            {{each param.year as p}}
+            <th width="27%" colspan="3">{{p}}</th>
+            {{/each}}
+        </tr>
+        <tr>
+        {{for(int i = 0; i < 3; i++){ }}
+            <th width="9%">复印</th>
+            <th width="9%">打印</th>
+            <th width="9%">扫描</th>
+        {{ } }}
+        </tr>
+        {{each param.data as pp}}
+        <tr>
+            <td>pp.address</td>
+            <td>pp.data[0]</td>
+            <td>pp.data[1]</td>
+            <td>pp.data[2]</td>
+            <td>pp.data[3]</td>
+            <td>pp.data[4]</td>
+            <td>pp.data[5]</td>
+            <td>pp.data[6]</td>
+            <td>pp.data[7]</td>
+            <td>pp.data[8]</td>
+        </tr>
+        {{/each}}
+    </table>
+</script>
 </body>
 </html>

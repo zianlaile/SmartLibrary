@@ -86,6 +86,8 @@ $(function () {
     library_report_ic_total(); //每月上机人次折线图
     getDailyLendPeopleAndCount(); //每日借出人/册
     getCirculationByHour(); //各时段流通情况（册）
+    getLibraryTypeTimes(); //年度全馆扫描、打复印统计
+
 });
 var month;
 var ereadtimesg;
@@ -3651,7 +3653,7 @@ function yearLibraryClassifyRankInGraduate() {
         for(var key in data){
             var classKey;
             classKey = key.substr(0, 1) + "yan";
-             console.log(classKey);
+             // console.log(classKey);
             if(classKey.substr(0, 1) == '0') continue;
             $("#49").append("<div style=\"text-align: center\">"+key+"</div><div class=' table "+classKey+"'></div>");
 
@@ -5346,5 +5348,35 @@ function getCirculationByHour() {
             ]
         };
         getCirculationByHour.setOption(getCirculationByHour_option);
+    })
+}
+
+function getLibraryTypeTimes() {
+    var date=new Date;
+    var year=date.getFullYear();
+    var month=date.getMonth()+1;
+    if(month < 9) year = year - 1;
+    var paramYear = year.toString();
+    $.get('../../schoolReport/getLibraryTypeTimes', paramYear, function (info) {
+        var arrayYear = [year, year - 1, year - 2];
+        var param = [];
+        var index = 0;
+        for(var ii = 0; ii < 3; ii++) {
+            index = 3 * ii;
+            var data = [];
+            for (var i = 0; i < info.length; i++) {
+                for (var j = index; j < index + 3; j++) {
+                    data.push(info[i][j][2]);
+                }
+            }
+            param.push({
+                address: info[ii][index][1],
+                data: data
+            });
+        }
+        param.push({
+            year: arrayYear
+        });
+        console.log(param);
     })
 }

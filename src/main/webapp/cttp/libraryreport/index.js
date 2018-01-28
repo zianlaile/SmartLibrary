@@ -5361,6 +5361,7 @@ function getLibraryTypeTimes() {
         var arrayYear = [year, year - 1, year - 2];
         var param = [];
         var tempdata = [];
+        var address = [];
         var index = 0;
         for(var ii = 0; ii < 3; ii++) {
             index = 3 * ii;
@@ -5370,6 +5371,7 @@ function getLibraryTypeTimes() {
                     data.push(info[i][j][2]);
                 }
             }
+            address.push(info[ii][index][1]);
             tempdata.push({
                 address: info[ii][index][1],
                 data: data
@@ -5379,10 +5381,134 @@ function getLibraryTypeTimes() {
             year: arrayYear,
             dataArray: tempdata
         });
-        console.log(param);
         var html = template('tableGetLibraryTypeTimes',{param:param});
         $(".tableGetLibraryTypeTimes").html(html);
         $(".library-type-times").find(".max-year").text(arrayYear[0]);
         $(".library-type-times").find(".sec-year").text(arrayYear[2]);
+
+        var sumCopyByYear = [0, 0, 0];
+        var sumPrintByYear = [0, 0, 0];
+        var sumScanningByYear = [0, 0, 0];
+        for(var n = 0; n < 3; n++) {
+            for (var i = 0; i < tempdata.length; i++) {
+                for (var j = n * 3; j < n * 3 + 3; j++) {
+                    if (j % 3 == 0) {
+                        sumCopyByYear[n] += Number(tempdata[i].data[j]);
+                    } else if (j % 3 == 1) {
+                        sumPrintByYear[n] += Number(tempdata[i].data[j]);
+                    } else if (j % 3 == 2) {
+                        sumScanningByYear[n] += Number(tempdata[i].data[j]);
+                    }
+                }
+            }
+        }
+        var chartSumCopyByYear = echarts.init(document.getElementById('getSumCopyByYear'));
+        var chartSumCopyByYear_option = {
+            animation:false,
+            backgroundColor:'white',
+            color: ['#3398DB'],
+            xAxis: {
+                type: 'category',
+                data: arrayYear,
+                axisLine: {onZero: true},
+                name: '年',
+            },
+            yAxis: {
+                type: 'value',
+                name: '人次'
+            },
+            tooltip : {
+                trigger: 'axis',
+            },
+            series: [
+                {
+                    data: sumCopyByYear,
+                    name: '总人次',
+                    type: 'bar',
+                    barWidth: '60%',
+                    label: {
+                        normal: {
+                            show: true,
+                            color: 'black',
+                            position: 'top',
+                            formatter: '{c}'
+                        }
+                    }
+                }
+            ]
+        };
+        chartSumCopyByYear.setOption(chartSumCopyByYear_option);
+        var chartPrintCopyByYear = echarts.init(document.getElementById('getSumPrintByYear'));
+        var chartPrintCopyByYear_option = {
+            animation:false,
+            backgroundColor:'white',
+            color: ['#3398DB'],
+            xAxis: {
+                type: 'category',
+                data: arrayYear,
+                axisLine: {onZero: true},
+                name: '年',
+            },
+            yAxis: {
+                type: 'value',
+                name: '人次'
+            },
+            tooltip : {
+                trigger: 'axis',
+            },
+            series: [
+                {
+                    data: sumPrintByYear,
+                    name: '总人次',
+                    type: 'bar',
+                    barWidth: '60%',
+                    label: {
+                        normal: {
+                            show: true,
+                            color: 'black',
+                            position: 'top',
+                            formatter: '{c}'
+                        }
+                    }
+                }
+            ]
+        };
+        chartPrintCopyByYear.setOption(chartPrintCopyByYear_option);
+        var chartScanningCopyByYear = echarts.init(document.getElementById('getSumScanningByYear'));
+        var chartScanningCopyByYear_option = {
+            animation:false,
+            backgroundColor:'white',
+            color: ['#3398DB'],
+            xAxis: {
+                type: 'category',
+                data: arrayYear,
+                axisLine: {onZero: true},
+                name: '年',
+            },
+            yAxis: {
+                type: 'value',
+                name: '人次'
+            },
+            tooltip : {
+                trigger: 'axis',
+            },
+            series: [
+                {
+                    data: sumScanningByYear,
+                    name: '总人次',
+                    type: 'bar',
+                    barWidth: '60%',
+                    label: {
+                        normal: {
+                            show: true,
+                            color: 'black',
+                            position: 'top',
+                            formatter: '{c}'
+                        }
+                    }
+                }
+            ]
+        };
+        chartScanningCopyByYear.setOption(chartScanningCopyByYear_option);
     })
 }

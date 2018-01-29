@@ -23,7 +23,7 @@
     <select id="getBook_LendCountBy_year" parameterType="com.smartlibrary.domain.Book_Lend" resultType="com.smartlibrary.domain.Book_Lend">
         select year,SUM(book_lend_times) book_lend_times,SUM(book_return_times) book_return_times
         from zz_time_month_count
-
+        WHERE `year` &lt; DATE_FORMAT(NOW(), '%Y')
         GROUP BY `year`
     </select>
     <select id="getBook_LendCountBy_academyAndyear" parameterType="com.smartlibrary.domain.library_report_academy" resultType="com.smartlibrary.domain.library_report_academy">
@@ -176,7 +176,7 @@
     </select>
 
     <select id="gettypeprints" resultType="Print_Times">
-        SELECT `year`,print_type,SUM(times) AS Print_times FROM `zz_print_day_printtype` GROUP BY `year`,print_type;
+        SELECT `year`,print_type,SUM(times) AS Print_times FROM `zz_print_day_printtype` WHERE  year &lt; DATE_FORMAT(NOW(), '%Y') GROUP BY `year`,print_type;
     </select>
     <select id="gettypeprintsamount" resultType="Print_Times">
         SELECT `year`,print_type,SUM(counts) AS Print_times FROM `zz_print_day_printtype` where year &lt; DATE_FORMAT(NOW(), '%Y') GROUP BY `year`,print_type;

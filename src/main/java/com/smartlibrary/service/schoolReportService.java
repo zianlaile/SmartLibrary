@@ -786,48 +786,6 @@ public class schoolReportService {
         return CirculationByHourdata;}
 
 
-    public Map<String,List> getUndergraduateLendPercentByAcademy(){
-        List<Book_Lend> UndergraduateLendPercentByAcademy = schoolReportdao.getUndergraduateLendPercentByAcademy();
-        Map<String,List> UndergraduateLendPercentByAcademydata = new HashMap<>();
-
-        List<String> academy = new ArrayList<>();
-        List<Integer> academy_people_count = new ArrayList<>();
-        List<Integer> book_lend_people = new ArrayList<>();
-        List<String> lend_percent = new ArrayList<>();
-
-        for(int i=0;i<UndergraduateLendPercentByAcademy.size();i++){
-            academy.add(UndergraduateLendPercentByAcademy.get(i).getAcademy());
-            academy_people_count.add(UndergraduateLendPercentByAcademy.get(i).getAcademy_people_count());
-            book_lend_people.add(UndergraduateLendPercentByAcademy.get(i).getBook_lend_people());
-            lend_percent.add(UndergraduateLendPercentByAcademy.get(i).getLend_percent());
-        }
-        UndergraduateLendPercentByAcademydata.put("academy",academy);
-        UndergraduateLendPercentByAcademydata.put("academy_people_count",academy_people_count);
-        UndergraduateLendPercentByAcademydata.put("book_lend_people",book_lend_people);
-        UndergraduateLendPercentByAcademydata.put("lend_percent",lend_percent);
-        return UndergraduateLendPercentByAcademydata;}
-
-    public Map<String,List> getGraduateLendPercentByAcademy(){
-        List<Book_Lend> GraduateLendPercentByAcademy = schoolReportdao.getGraduateLendPercentByAcademy();
-        Map<String,List> GraduateLendPercentByAcademydata = new HashMap<>();
-
-        List<String> academy = new ArrayList<>();
-        List<Integer> academy_people_count = new ArrayList<>();
-        List<Integer> book_lend_people = new ArrayList<>();
-        List<String> lend_percent = new ArrayList<>();
-
-        for(int i=0;i<GraduateLendPercentByAcademy.size();i++){
-            academy.add(GraduateLendPercentByAcademy.get(i).getAcademy());
-            academy_people_count.add(GraduateLendPercentByAcademy.get(i).getAcademy_people_count());
-            book_lend_people.add(GraduateLendPercentByAcademy.get(i).getBook_lend_people());
-            lend_percent.add(GraduateLendPercentByAcademy.get(i).getLend_percent());
-
-        }
-        GraduateLendPercentByAcademydata.put("academy",academy);
-        GraduateLendPercentByAcademydata.put("academy_people_count",academy_people_count);
-        GraduateLendPercentByAcademydata.put("book_lend_people",book_lend_people);
-        GraduateLendPercentByAcademydata.put("lend_percent",lend_percent);
-        return GraduateLendPercentByAcademydata;}
 
     public List<String[][]> getlibraryTypeTimes(String year) {
         List<CollectionBook >  data    = schoolReportdao.getlibraryTypeTimes(Integer.valueOf(year));
@@ -856,8 +814,27 @@ public class schoolReportService {
         return ok;
     }
     public  List<library_report_lend_condition>getUndergraduateBorrowingSituation(library_report_lend_condition n) {
-        return schoolReportdao.getUndergraduateBorrowingSituation(n);
-    }
+        return schoolReportdao.getUndergraduateBorrowingSituation(n); }
+
+    public  List<library_report_lend_condition>getGraduateBorrowingSituation(library_report_lend_condition n) {
+        return schoolReportdao.getGraduateBorrowingSituation(n); }
+
+    public  List<library_report_lend_condition>getPerCapitaBorrowingAmount(library_report_lend_condition n) {
+        return schoolReportdao.getPerCapitaBorrowingAmount(n); }
+
+    public  List<library_report_lend_condition>getUndergraduatePerCapitaBorrowingAmount(library_report_lend_condition n) {
+        return schoolReportdao.getUndergraduatePerCapitaBorrowingAmount(n); }
+
+    public  List<library_report_lend_condition>getGraduatePerCapitaBorrowingAmount(library_report_lend_condition n) {
+        return schoolReportdao.getGraduatePerCapitaBorrowingAmount(n); }
+
+    public  List<library_report_lend_condition>getUndergraduateAnnualComparisonofBorrowings(library_report_lend_condition n) {
+        return schoolReportdao.getUndergraduateAnnualComparisonofBorrowings(n); }
+
+    public  List<library_report_lend_condition>getGraduateAnnualComparisonofBorrowings(library_report_lend_condition n) {
+        return schoolReportdao.getGraduateAnnualComparisonofBorrowings(n); }
+
+
 }
 
 

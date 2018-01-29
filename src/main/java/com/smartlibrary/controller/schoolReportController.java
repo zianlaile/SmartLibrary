@@ -277,15 +277,28 @@ public class schoolReportController {
     //各时段流通情况（册）
     @RequestMapping(value = "/getCirculationByHour", method = RequestMethod.GET)
     public Map<String,List> getCirculationByHour(){ return schoolReportservice.getCirculationByHour();}
-    //本科生借阅情况
-    @RequestMapping(value = "/getUndergraduateLendPercentByAcademy", method = RequestMethod.GET)
-    public Map<String,List> getUndergraduateLendPercentByAcademy(){ return schoolReportservice.getUndergraduateLendPercentByAcademy();}
-    //硕士生借阅情况
-    @RequestMapping(value = "/getGraduateLendPercentByAcademy", method = RequestMethod.GET)
-    public Map<String,List> getGraduateLendPercentByAcademy(){ return schoolReportservice.getGraduateLendPercentByAcademy();}
-
+    //年度各学院本科生借阅情况
     @RequestMapping(value = "/getUndergraduateBorrowingSituation", method = RequestMethod.GET)
     public List<library_report_lend_condition> getUndergraduateBorrowingSituation(library_report_lend_condition n){ return schoolReportservice.getUndergraduateBorrowingSituation(n);}
+    //年度各学院研究生借阅情况
+    @RequestMapping(value = "/getGraduateBorrowingSituation", method = RequestMethod.GET)
+    public List<library_report_lend_condition> getGraduateBorrowingSituation(library_report_lend_condition n){ return schoolReportservice.getGraduateBorrowingSituation(n);}
+    //年度人均借阅量
+    @RequestMapping(value = "/getPerCapitaBorrowingAmount", method = RequestMethod.GET)
+    public List<library_report_lend_condition> getPerCapitaBorrowingAmount(library_report_lend_condition n){ return schoolReportservice.getPerCapitaBorrowingAmount(n);}
+    //年度各学院本科生人均借阅量
+    @RequestMapping(value = "/getUndergraduatePerCapitaBorrowingAmount", method = RequestMethod.GET)
+    public List<library_report_lend_condition> getUndergraduatePerCapitaBorrowingAmount(library_report_lend_condition n){ return schoolReportservice.getUndergraduatePerCapitaBorrowingAmount(n);}
+    //年度各学院研究生人均借阅量
+    @RequestMapping(value = "/getGraduatePerCapitaBorrowingAmount", method = RequestMethod.GET)
+    public List<library_report_lend_condition> getGraduatePerCapitaBorrowingAmount(library_report_lend_condition n){ return schoolReportservice.getGraduatePerCapitaBorrowingAmount(n);}
+    //本科生借阅量年度对比
+    @RequestMapping(value = "/getUndergraduateAnnualComparisonofBorrowings", method = RequestMethod.GET)
+    public List<library_report_lend_condition> getUndergraduateAnnualComparisonofBorrowings(library_report_lend_condition n){ return schoolReportservice.getUndergraduateAnnualComparisonofBorrowings(n);}
+    //研究生借阅量年度对比
+    @RequestMapping(value = "/getGraduateAnnualComparisonofBorrowings", method = RequestMethod.GET)
+    public List<library_report_lend_condition> getGraduateAnnualComparisonofBorrowings(library_report_lend_condition n){ return schoolReportservice.getGraduateAnnualComparisonofBorrowings(n);}
+
 
 }
 

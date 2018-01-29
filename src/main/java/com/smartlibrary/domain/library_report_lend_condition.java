@@ -3,12 +3,12 @@ package com.smartlibrary.domain;
 public class library_report_lend_condition {
     String academy;
     String identity;
-    int reader_number;
-    int lend_number;
-    int lend_total;
+    int reader_number;//读者总数
+    int lend_number;//借阅人数
+    int lend_total;//借阅册数
     int year;
-    float reader_per_person;
-    float academy_per_person;
+    float reader_per_person;//有借阅记录的人均借阅册数
+    float academy_per_person;//总人均借阅册数
     float percentage_of_borrowing;
 
     public String getIdentity() {return identity; }

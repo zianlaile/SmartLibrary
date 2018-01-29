@@ -427,26 +427,14 @@
     <select id = "getDailyLendPeopleAndCount" resultType="Book_Lend">
         SELECT ymddate, book_lend_times, book_lend_people
         FROM  zz_time_day_count
-        WHERE year=2017
+        WHERE IF(MONTH(NOW()) > 9 , `year` = YEAR(NOW()), `year` = YEAR(NOW()) - 1)
         GROUP BY ymddate
     </select>
     <select id = "getCirculationByHour" resultType="Book_Lend">
         SELECT hour, sum(lend) book_lend_times, sum(back) book_back_times,sum(renew) book_renew_times
         FROM  library_report_hour
-        WHERE year=2017
+        WHERE IF(MONTH(NOW()) > 9 , `year` = YEAR(NOW()), `year` = YEAR(NOW()) - 1)
         GROUP BY hour
-    </select>
-    <select id = "getUndergraduateLendPercentByAcademy" resultType="Book_Lend">
-        SELECT academy, reader_number academy_people_count,lend_number book_lend_people,percent lend_percent
-        FROM  zz_borrowed_percentage_academy
-        WHERE identity="本科生"
-        GROUP BY academy
-    </select>
-    <select id = "getGraduateLendPercentByAcademy" resultType="Book_Lend">
-        SELECT academy, reader_number academy_people_count,lend_number book_lend_people,percent lend_percent
-        FROM  zz_borrowed_percentage_academy
-        WHERE identity="研究生"
-        GROUP BY academy
     </select>
     <select id="getlibraryTypeTimes" parameterType="int" resultType="CollectionBook">
         SELECT year,print_location,print_type,times
@@ -456,7 +444,43 @@
         ORDER BY year,print_location,print_type
     </select>
     <select id="getUndergraduateBorrowingSituation" resultType = "library_report_lend_condition">
-        SELECT academy,reader_number,lend_number,percentage_of_borrowing FROM zz_borrowed_percentage_academy
+        SELECT academy,reader_number,lend_number,percentage_of_borrowing
+        FROM zz_borrowed_percentage_academy
         WHERE IF(MONTH(NOW()) > 9 , `year` = YEAR(NOW()), `year` = YEAR(NOW()) - 1) AND identity = '本科生'
+    </select>
+    <select id="getGraduateBorrowingSituation" resultType = "library_report_lend_condition">
+        SELECT academy,reader_number,lend_number,percentage_of_borrowing
+        FROM zz_borrowed_percentage_academy
+        WHERE IF(MONTH(NOW()) > 9 , `year` = YEAR(NOW()), `year` = YEAR(NOW()) - 1) AND identity = '研究生'
+    </select>
+    <select id="getPerCapitaBorrowingAmount" resultType = "library_report_lend_condition">
+    SELECT identity,sum(reader_number) reader_number,sum(lend_number) lend_number,sum(lend_total) lend_total,FORMAT(SUM(lend_total)/SUM(reader_number),2) academy_per_person, FORMAT(SUM(lend_total)/SUM(lend_number),2) reader_per_person
+    FROM zz_borrowed_percentage_academy
+    WHERE IF(MONTH(NOW()) > 9 , `year` = YEAR(NOW()), `year` = YEAR(NOW()) - 1)
+    GROUP BY identity
+    </select>
+    <select id="getUndergraduatePerCapitaBorrowingAmount" resultType = "library_report_lend_condition">
+    SELECT academy,reader_number,lend_number,lend_total,reader_per_person,academy_per_person
+    FROM zz_borrowed_percentage_academy
+    WHERE IF(MONTH(NOW()) > 9 , `year` = YEAR(NOW()), `year` = YEAR(NOW()) - 1) AND identity='本科生'
+    GROUP BY academy
+    </select>
+    <select id="getGraduatePerCapitaBorrowingAmount" resultType = "library_report_lend_condition">
+    SELECT academy,reader_number,lend_number,lend_total,reader_per_person,academy_per_person
+    FROM zz_borrowed_percentage_academy
+    WHERE IF(MONTH(NOW()) > 9 , `year` = YEAR(NOW()), `year` = YEAR(NOW()) - 1) AND identity='研究生'
+    GROUP BY academy
+    </select>
+    <select id="getUndergraduateAnnualComparisonofBorrowings" resultType = "library_report_lend_condition">
+    SELECT SUM(reader_number) reader_number, SUM(lend_number) lend_number, SUM(lend_total) lend_total,FORMAT(SUM(lend_total)/SUM(reader_number),2) academy_per_person, FORMAT(SUM(lend_total)/SUM(lend_number),2) reader_per_person,year
+    FROM zz_borrowed_percentage_academy
+    WHERE identity='本科生'
+    GROUP BY year
+    </select>
+    <select id="getGraduateAnnualComparisonofBorrowings" resultType = "library_report_lend_condition">
+    SELECT SUM(reader_number) reader_number, SUM(lend_number) lend_number, SUM(lend_total) lend_total,FORMAT(SUM(lend_total)/SUM(reader_number),2) academy_per_person, FORMAT(SUM(lend_total)/SUM(lend_number),2) reader_per_person,year
+    FROM zz_borrowed_percentage_academy
+    WHERE identity='研究生'
+    GROUP BY year
     </select>
 </mapper>

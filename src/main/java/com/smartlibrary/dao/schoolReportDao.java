@@ -125,10 +125,19 @@ public interface schoolReportDao {
     List<Book_Lend> getDailyLendPeopleAndCount();
     // 各时段流通情况（册）
     List<Book_Lend> getCirculationByHour();
-    //本科生各学院学生借阅人数比例
-    List<Book_Lend> getUndergraduateLendPercentByAcademy();
-    //研究生各学院学生借阅人数比例
-    List<Book_Lend> getGraduateLendPercentByAcademy();
-    // 年度本科生借阅情况
+    // 年度各学院本科生借阅情况
     List<library_report_lend_condition> getUndergraduateBorrowingSituation(library_report_lend_condition n);
+    // 年度各学院研究生借阅情况
+    List<library_report_lend_condition> getGraduateBorrowingSituation(library_report_lend_condition n);
+    //年度人均借阅量
+    List<library_report_lend_condition> getPerCapitaBorrowingAmount(library_report_lend_condition n);
+    //年度各学院本科生人均借阅量
+    List<library_report_lend_condition> getUndergraduatePerCapitaBorrowingAmount(library_report_lend_condition n);
+    //年度各学院研究生人均借阅量
+    List<library_report_lend_condition> getGraduatePerCapitaBorrowingAmount(library_report_lend_condition n);
+    //本科生借阅量年度对比
+    List<library_report_lend_condition> getUndergraduateAnnualComparisonofBorrowings(library_report_lend_condition n);
+    //研究生借阅量年度对比
+    List<library_report_lend_condition> getGraduateAnnualComparisonofBorrowings(library_report_lend_condition n);
+
 }

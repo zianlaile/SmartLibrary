@@ -129,4 +129,6 @@ public interface schoolReportDao {
     List<Book_Lend> getUndergraduateLendPercentByAcademy();
     //研究生各学院学生借阅人数比例
     List<Book_Lend> getGraduateLendPercentByAcademy();
+    // 年度本科生借阅情况
+    List<library_report_lend_condition> getUndergraduateBorrowingSituation(library_report_lend_condition n);
 }

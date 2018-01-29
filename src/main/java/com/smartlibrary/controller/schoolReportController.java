@@ -283,5 +283,13 @@ public class schoolReportController {
     //硕士生借阅情况
     @RequestMapping(value = "/getGraduateLendPercentByAcademy", method = RequestMethod.GET)
     public Map<String,List> getGraduateLendPercentByAcademy(){ return schoolReportservice.getGraduateLendPercentByAcademy();}
+
+    @RequestMapping(value = "/getUndergraduateBorrowingSituation", method = RequestMethod.GET)
+    public List<library_report_lend_condition> getUndergraduateBorrowingSituation(library_report_lend_condition n){ return schoolReportservice.getUndergraduateBorrowingSituation(n);}
+
 }
+
+
+
+
 

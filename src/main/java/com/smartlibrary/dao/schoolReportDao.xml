@@ -455,4 +455,8 @@
         GROUP BY year,print_location,print_type
         ORDER BY year,print_location,print_type
     </select>
+    <select id="getUndergraduateBorrowingSituation" resultType = "library_report_lend_condition">
+        SELECT academy,reader_number,lend_number,percentage_of_borrowing FROM zz_borrowed_percentage_academy
+        WHERE IF(MONTH(NOW()) > 9 , `year` = YEAR(NOW()), `year` = YEAR(NOW()) - 1) AND identity = '本科生'
+    </select>
 </mapper>

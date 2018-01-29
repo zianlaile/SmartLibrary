@@ -855,6 +855,9 @@ public class schoolReportService {
         }
         return ok;
     }
+    public  List<library_report_lend_condition>getUndergraduateBorrowingSituation(library_report_lend_condition n) {
+        return schoolReportdao.getUndergraduateBorrowingSituation(n);
+    }
 }
 
 

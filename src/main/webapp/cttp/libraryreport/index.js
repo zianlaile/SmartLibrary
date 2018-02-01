@@ -87,7 +87,12 @@ $(function () {
     getDailyLendPeopleAndCount(); //每日借出人/册
     getCirculationByHour(); //各时段流通情况（册）
     getLibraryTypeTimes(); //年度全馆扫描、打复印统计
-
+    getUndergraduateBorrowingSituation(); //年度各学院本科生借阅情况
+    getGraduateBorrowingSituation(); //年度各学院研究生借阅情况
+    getPerCapitaBorrowingAmount(); //各类型读者人均借阅量
+    getUndergraduatePerCapitaBorrowingAmount(); //本科生人均借阅量
+    getGraduatePerCapitaBorrowingAmount(); //研究生人均借阅量
+    getAnnualComparisonofBorrowings(); //本科生、研究生年度对比
 });
 var month;
 var ereadtimesg;
@@ -4880,8 +4885,10 @@ function library_report_identity_sum() {
         };
         var html = template('tableLibraryReportIdentitySum',{param:param});
         $(".tableLibraryReportIdentitySum").html(html);
-        $("#table_library_report_identity_sum_title").text("历年各类型读者入馆总人次统计表");
-        $("#barchart_library_report_identity_sum_title").text(info.year[0] + "-" + info.year[2] + "年各类型读者入馆总人次统计");
+        $(".library_report_identity_sum").find(".sec-year").text(info.year[0]);
+        $(".library_report_identity_sum").find(".max-year").text(info.year[2]);
+        $("#table_library_report_identity_sum_title").text(info.year[0] + "-" + info.year[2] + "年各类型读者入馆总人次统计表");
+        $("#barchart_library_report_identity_sum_title").text(info.year[0] + "-" + info.year[2] + "年各类型读者入馆总人次统计图");
         $("#piechart1_library_report_identity_sum_title").text(info.year[0] + "年度各类型读者占入馆总人次百分比");
         $("#piechart2_library_report_identity_sum_title").text(info.year[1] + "年度各类型读者占入馆总人次百分比");
         $("#piechart3_library_report_identity_sum_title").text(info.year[2] + "年度各类型读者占入馆总人次百分比");
@@ -4895,7 +4902,7 @@ function library_report_identity_sum() {
             calculable : true,
             legend: {
                 data: tablehead,
-                align: 'right',
+                align: 'left',
                 left: 'center'
             },
             xAxis : [
@@ -5511,4 +5518,416 @@ function getLibraryTypeTimes() {
         };
         chartScanningCopyByYear.setOption(chartScanningCopyByYear_option);
     })
+}
+
+function getUndergraduateBorrowingSituation() {
+    $.get('../../schoolReport/getUndergraduateBorrowingSituation', function (info) {
+        var html = template('tableGetBorrowingSituation',{param:info});
+        $(".tableGetUndergraduateBorrowingSituation").html(html);
+        var academy = [];
+        var percent = [];
+        for(var i = 0; i < info.length; i++){
+            academy.push(info[i].academy);
+            percent.push(info[i].percentage_of_borrowing);
+        }
+        var chartGetUndergraduateBorrowingSituation = echarts.init(document.getElementById('getUndergraduateBorrowingSituation'));
+        var getUndergraduateBorrowingSituationoption = {
+            //color: ['#3398DB'],
+            animation:false,
+            tooltip: {
+                trigger: 'axis',
+                backgroundColor:'rgba(255,255,255,0.8)',
+                extraCssText: 'box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);',
+                textStyle:{
+                    color:'#6a717b',
+                },
+
+            },
+            grid: {
+                left: '2%',
+                right: '8%',
+                bottom: '5%',
+                containLabel: true
+            },
+            yAxis: [{
+                name:'院系',
+                type: 'category',
+                data: academy,
+                axisTick: {
+                    alignWithLabel: true
+                },
+                axisLabel: {
+                    margin: 10,
+                    textStyle: {
+                        fontSize: 12,
+                        color:'#94999f'
+                    }
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#999'
+                    }
+                }
+
+            }],
+            xAxis: [{
+                type: 'value',
+                axisLabel: {
+                    margin: 10,
+                    textStyle: {
+                        fontSize: 12,
+                        color:'#94999f'
+                    }
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#fff'
+                    }
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: '#dbe0e6'
+                    }
+                }
+
+
+
+            }],
+            backgroundColor: '#ffffff',
+            series: [{
+                name: '借阅人数百分比(%)',
+                type: 'bar',
+                barWidth:'80%',
+                data: percent,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'insideRight',
+                        textStyle: {
+                            color: '#666', //color of value
+                            position:'right'
+                        }
+                    }
+                },
+
+
+                itemStyle: {
+
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                            offset: 0,
+                            color: '#64bdc8' // 0% 处的颜色
+                        }, {
+                            offset: 1,
+                            color: '#00c484' // 100% 处的颜色
+                        }], false),
+                        barBorderRadius: [0, 15,15, 0],
+                        shadowColor: 'rgba(0,0,0,0.1)',
+                        shadowBlur: 3,
+                        shadowOffsetY: 3
+                    }
+                }
+            }]
+        };
+        chartGetUndergraduateBorrowingSituation.setOption(getUndergraduateBorrowingSituationoption);
+    });
+}
+
+function getGraduateBorrowingSituation() {
+    $.get('../../schoolReport/getGraduateBorrowingSituation', function (info) {
+        var html = template('tableGetBorrowingSituation',{param:info});
+        $(".tableGetGraduateBorrowingSituation").html(html);
+        var academy = [];
+        var percent = [];
+        for(var i = 0; i < info.length; i++){
+            academy.push(info[i].academy);
+            percent.push(info[i].percentage_of_borrowing);
+        }
+        var chartGetGraduateBorrowingSituation = echarts.init(document.getElementById('getGraduateBorrowingSituation'));
+        var getGraduateBorrowingSituationoption = {
+            //color: ['#3398DB'],
+            animation:false,
+            tooltip: {
+                trigger: 'axis',
+                backgroundColor:'rgba(255,255,255,0.8)',
+                extraCssText: 'box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);',
+                textStyle:{
+                    color:'#6a717b',
+                },
+
+            },
+            grid: {
+                left: '2%',
+                right: '8%',
+                bottom: '5%',
+                containLabel: true
+            },
+            yAxis: [{
+                name:'院系',
+                type: 'category',
+                data: academy,
+                axisTick: {
+                    alignWithLabel: true
+                },
+                axisLabel: {
+                    margin: 10,
+                    textStyle: {
+                        fontSize: 12,
+                        color:'#94999f'
+                    }
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#999'
+                    }
+                }
+
+            }],
+            xAxis: [{
+                type: 'value',
+                axisLabel: {
+                    margin: 10,
+                    textStyle: {
+                        fontSize: 12,
+                        color:'#94999f'
+                    }
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#fff'
+                    }
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: '#dbe0e6'
+                    }
+                }
+
+
+
+            }],
+            backgroundColor: '#ffffff',
+            series: [{
+                name: '借阅人数百分比(%)',
+                type: 'bar',
+                barWidth:'80%',
+                data: percent,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'insideRight',
+                        textStyle: {
+                            color: '#666', //color of value
+                            position:'right'
+                        }
+                    }
+                },
+
+
+                itemStyle: {
+
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                            offset: 0,
+                            color: '#64bdc8' // 0% 处的颜色
+                        }, {
+                            offset: 1,
+                            color: '#00c484' // 100% 处的颜色
+                        }], false),
+                        barBorderRadius: [0, 15,15, 0],
+                        shadowColor: 'rgba(0,0,0,0.1)',
+                        shadowBlur: 3,
+                        shadowOffsetY: 3
+                    }
+                }
+            }]
+        };
+        chartGetGraduateBorrowingSituation.setOption(getGraduateBorrowingSituationoption);
+    });
+}
+
+function getPerCapitaBorrowingAmount() {
+    $.get('../../schoolReport/getPerCapitaBorrowingAmount', function (info) {
+        var html = template('tableGetPerCapitaBorrowingAmount',{param:info});
+        $(".tableGetPerCapitaBorrowingAmount").html(html);
+        var identity = [];
+        var reader_per_person = [];
+        var academy_per_person = [];
+        for(var i = 0; i < info.length; i++){
+            identity.push(info[i].identity);
+            reader_per_person.push(info[i].reader_per_person);
+            academy_per_person.push(info[i].academy_per_person);
+        }
+        var chartGetPerCapitaBorrowingAmount = echarts.init(document.getElementById('getPerCapitaBorrowingAmount'));
+        var chartGetPerCapitaBorrowingAmount_option = {
+            animation:false,
+            backgroundColor:'white',
+            tooltip : {
+                trigger: 'axis'
+            },
+            calculable : true,
+            legend: {
+                data: ['有借阅的读者平均借阅册数', '全部读者平均借阅册数'],
+                align: 'left',
+                left: 'center'
+            },
+            xAxis : [
+                {
+                    type : 'category',
+                    data : identity,
+                    name : "读者类型"
+                }
+            ],
+            yAxis : [
+                {
+                    name : "平均借阅册数",
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name:'有借阅的读者平均借阅册数',
+                    type:'bar',
+                    data:reader_per_person,
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{c}'
+                        }
+                    }
+                },
+                {
+                    name:'全部读者平均借阅册数',
+                    type:'bar',
+                    data:academy_per_person,
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{c}'
+                        }
+                    }
+                }
+            ]
+        };
+        chartGetPerCapitaBorrowingAmount.setOption(chartGetPerCapitaBorrowingAmount_option);
+    });
+}
+
+function getUndergraduatePerCapitaBorrowingAmount() {
+    $.get('../../schoolReport/getUndergraduatePerCapitaBorrowingAmount', function (info) {
+        var html = template('tableGetPerCapitaBorrowingAmountByAcademy',{param:info});
+        $(".tableGetUndergraduatePerCapitaBorrowingAmount").html(html);
+        var academy = [];
+        var reader_per_person = [];
+        var academy_per_person = [];
+        for(var i = 0; i < info.length; i++){
+            academy.push(info[i].academy);
+            reader_per_person.push(info[i].reader_per_person);
+            academy_per_person.push(info[i].academy_per_person);
+        }
+        var chartGetUndergraduatePerCapitaBorrowingAmount = echarts.init(document.getElementById('getUndergraduatePerCapitaBorrowingAmount'));
+        var chartGetUndergraduatePerCapitaBorrowingAmount_option = {
+            animation:false,
+            backgroundColor:'white',
+            tooltip: {
+                trigger: 'axis',
+            },
+            legend: {
+                data: ['人均册数', '全院系人均册数']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.01]
+            },
+            yAxis: {
+                type: 'category',
+                data: academy
+            },
+            series: [
+                {
+                    name: '人均册数',
+                    type: 'bar',
+                    data: reader_per_person
+                },
+                {
+                    name: '全院系人均册数',
+                    type: 'bar',
+                    data: academy_per_person
+                }
+            ]
+        };
+        chartGetUndergraduatePerCapitaBorrowingAmount.setOption(chartGetUndergraduatePerCapitaBorrowingAmount_option);
+    });
+}
+
+function getGraduatePerCapitaBorrowingAmount() {
+    $.get('../../schoolReport/getGraduatePerCapitaBorrowingAmount', function (info) {
+        var html = template('tableGetPerCapitaBorrowingAmountByAcademy',{param:info});
+        $(".tableGetGraduatePerCapitaBorrowingAmount").html(html);
+        var academy = [];
+        var reader_per_person = [];
+        var academy_per_person = [];
+        for(var i = 0; i < info.length; i++){
+            academy.push(info[i].academy);
+            reader_per_person.push(info[i].reader_per_person);
+            academy_per_person.push(info[i].academy_per_person);
+        }
+        var chartGetGraduatePerCapitaBorrowingAmount = echarts.init(document.getElementById('getGraduatePerCapitaBorrowingAmount'));
+        var chartGetGraduatePerCapitaBorrowingAmount_option = {
+            animation:false,
+            backgroundColor:'white',
+            tooltip: {
+                trigger: 'axis',
+            },
+            legend: {
+                data: ['人均册数', '全院系人均册数']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.01]
+            },
+            yAxis: {
+                type: 'category',
+                data: academy
+            },
+            series: [
+                {
+                    name: '人均册数',
+                    type: 'bar',
+                    data: reader_per_person
+                },
+                {
+                    name: '全院系人均册数',
+                    type: 'bar',
+                    data: academy_per_person
+                }
+            ]
+        };
+        chartGetGraduatePerCapitaBorrowingAmount.setOption(chartGetGraduatePerCapitaBorrowingAmount_option);
+    });
+}
+
+function getAnnualComparisonofBorrowings() {
+    $.get('../../schoolReport/getUndergraduateAnnualComparisonofBorrowings', function (info) {
+        var html = template('getAnnualComparisonofBorrowings',{param:info});
+        $(".getUndergraduateAnnualComparisonofBorrowings").html(html);
+    });
+    $.get('../../schoolReport/getGraduateAnnualComparisonofBorrowings', function (info) {
+        var html = template('getAnnualComparisonofBorrowings',{param:info});
+        $(".getGraduateAnnualComparisonofBorrowings").html(html);
+    });
 }

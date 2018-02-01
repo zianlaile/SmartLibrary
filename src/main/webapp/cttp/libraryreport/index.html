@@ -526,7 +526,7 @@
 
     <div class="page" id="56" style="height: auto;">
         <div class="chapter-content">
-            <div class="first-title">6.1 历年各类型读者入馆总人次统计</div>
+            <div class="first-title library_report_identity_sum">6.1 <span class="emphases sec-year"></span>-<span class="emphases max-year"></span>年各类型读者入馆总人次统计</div>
             <div class="chart-title" id="table_library_report_identity_sum_title"></div>
             <div class="table tableLibraryReportIdentitySum"></div>
             <div class="chart-title" id="barchart_library_report_identity_sum_title"></div>
@@ -605,10 +605,66 @@
         <div class="pagination">60</div>
     </div>
 
-    <div class="page chapter" id="61">
+    <div class="page chapter" id="61" style="height: auto;">
         <div class="first-title">6.6 各学院学生借阅人数比例</div>
+        <!--<div class="para-txt ic-total">全部有效读者数<span class="emphases reader-number"></span>人，有借阅的读者数<span class="emphases lend-number"></span>，有借阅的读者百分比为<span class="emphases max-percent"></span>%(<span class="emphases sec-year">年为<span class="emphases sec-percent"></span>%)<div>-->
         <div class="second-title">6.6.1 本科生借阅情况</div>
+        <div class="table tableGetUndergraduateBorrowingSituation"></div>
+        <div class="chart-title">本科生借阅人数百分比(%)</div>
+        <div class="chart">
+            <div id="getUndergraduateBorrowingSituation" style="width: 100%;height: 100%;"></div>
+        </div>
         <div class="pagination">61</div>
+    </div>
+
+    <div class="page chapter" id="62" style="height: auto;">
+        <div class="second-title">6.6.2 研究生借阅情况</div>
+        <div class="table tableGetGraduateBorrowingSituation"></div>
+        <div class="chart-title">研究生借阅人数百分比(%)</div>
+        <div class="chart">
+            <div id="getGraduateBorrowingSituation" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">62</div>
+    </div>
+
+    <div class="page chapter" id="63" style="height: auto;">
+        <div class="first-title">6.7 人均借阅量统计</div>
+        <div class="second-title">6.7.1 各类型读者人均借阅册数统计表</div>
+        <div class="table tableGetPerCapitaBorrowingAmount"></div>
+        <div class="chart-title">各类型读者人均借阅册数统计图</div>
+        <div class="chart">
+            <div id="getPerCapitaBorrowingAmount" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">63</div>
+    </div>
+
+    <div class="page chapter" id="64" style="height: auto;">
+        <div class="second-title">6.7.2 本科生人均借阅量</div>
+        <div class="table tableGetUndergraduatePerCapitaBorrowingAmount"></div>
+        <div class="chart-title">本科生人均借阅量统计图</div>
+        <div class="chart" style="height: 1000px;">
+            <div id="getUndergraduatePerCapitaBorrowingAmount" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">64</div>
+    </div>
+
+    <div class="page chapter" id="65" style="height: auto;">
+        <div class="second-title">6.7.3 研究生人均借阅量</div>
+        <div class="table tableGetGraduatePerCapitaBorrowingAmount"></div>
+        <div class="chart-title">研究生人均借阅量统计图</div>
+        <div class="chart" style="height: 1000px;">
+            <div id="getGraduatePerCapitaBorrowingAmount" style="width: 100%;height: 100%;"></div>
+        </div>
+        <div class="pagination">65</div>
+    </div>
+
+    <div class="page chapter" id="66" style="height: auto;">
+        <div class="first-title">6.8 本科生、研究生借阅量年度对比</div>
+        <div class="second-title">6.8.1 本科生人均借阅量</div>
+        <div class="table getUndergraduateAnnualComparisonofBorrowings"></div>
+        <div class="second-title">6.8.2 研究生人均借阅量</div>
+        <div class="table getGraduateAnnualComparisonofBorrowings"></div>
+        <div class="pagination">66</div>
     </div>
 
     <div class="btn-wrap"><button onclick="javascript:downloadword();">导出</button></div>
@@ -999,6 +1055,90 @@
             <td>{{p2.data[6]}}</td>
             <td>{{p2.data[7]}}</td>
             <td>{{p2.data[8]}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</script>
+<script type="text/html" id="tableGetBorrowingSituation">
+    <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th width="25%">院系</th>
+            <th width="25%">读者人数</th>
+            <th width="25%">借阅人数</th>
+            <th width="25%">借阅人数百分比（%）</th>
+        </tr>
+        {{each param as p}}
+        <tr>
+            <td>{{p.academy}}</td>
+            <td>{{p.reader_number}}</td>
+            <td>{{p.lend_number}}</td>
+            <td>{{p.percentage_of_borrowing}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</script>
+<script type="text/html" id="tableGetPerCapitaBorrowingAmount">
+    <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th width="16%">读者类型</th>
+            <th width="17%">读者总人数</th>
+            <th width="17%">有借阅的读者人数</th>
+            <th width="17%">总借阅册数</th>
+            <th width="17%">有借阅的读者平均借阅册数</th>
+            <th width="16%">全部读者平均借阅册数</th>
+        </tr>
+        {{each param as p}}
+        <tr>
+            <td>{{p.identity}}</td>
+            <td>{{p.reader_number}}</td>
+            <td>{{p.lend_number}}</td>
+            <td>{{p.lend_total}}</td>
+            <td>{{p.reader_per_person}}</td>
+            <td>{{p.academy_per_person}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</script>
+<script type="text/html" id="tableGetPerCapitaBorrowingAmountByAcademy">
+    <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th width="16%">院系</th>
+            <th width="17%">读者人数</th>
+            <th width="17%">有借阅的读者人数</th>
+            <th width="17%">册数</th>
+            <th width="17%">人均册数</th>
+            <th width="16%">全院系人均册数</th>
+        </tr>
+        {{each param as p}}
+        <tr>
+            <td>{{p.academy}}</td>
+            <td>{{p.reader_number}}</td>
+            <td>{{p.lend_number}}</td>
+            <td>{{p.lend_total}}</td>
+            <td>{{p.reader_per_person}}</td>
+            <td>{{p.academy_per_person}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</script>
+<script type="text/html" id="getAnnualComparisonofBorrowings">
+    <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th width="16%">年度</th>
+            <th width="17%">读者人数</th>
+            <th width="17%">有借阅的读者人数</th>
+            <th width="17%">册数</th>
+            <th width="17%">人均册数</th>
+            <th width="16%">全院系人均册数</th>
+        </tr>
+        {{each param as p}}
+        <tr>
+            <td>{{p.year}}</td>
+            <td>{{p.reader_number}}</td>
+            <td>{{p.lend_number}}</td>
+            <td>{{p.lend_total}}</td>
+            <td>{{p.reader_per_person}}</td>
+            <td>{{p.academy_per_person}}</td>
         </tr>
         {{/each}}
     </table>

@@ -5541,7 +5541,7 @@ function getUndergraduateBorrowingSituation() {
                 textStyle:{
                     color:'#6a717b',
                 },
-
+                formatter: '{c}%'
             },
             grid: {
                 left: '2%',
@@ -5595,7 +5595,7 @@ function getUndergraduateBorrowingSituation() {
             }],
             backgroundColor: '#ffffff',
             series: [{
-                name: '借阅人数百分比(%)',
+                name: '借阅人数百分比',
                 type: 'bar',
                 barWidth:'80%',
                 data: percent,
@@ -5654,7 +5654,7 @@ function getGraduateBorrowingSituation() {
                 textStyle:{
                     color:'#6a717b',
                 },
-
+                formatter: '{c}%'
             },
             grid: {
                 left: '2%',
@@ -5708,7 +5708,7 @@ function getGraduateBorrowingSituation() {
             }],
             backgroundColor: '#ffffff',
             series: [{
-                name: '借阅人数百分比(%)',
+                name: '借阅人数百分比',
                 type: 'bar',
                 barWidth:'80%',
                 data: percent,

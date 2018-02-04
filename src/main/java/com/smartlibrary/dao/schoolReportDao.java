@@ -103,7 +103,7 @@ public interface schoolReportDao {
     //2011-2015 年每月上机人次折线图
     List<library_report_month_mankinds> getlibrary_report_ic_total();
     //2012-2015 年度全馆扫描 打复印统计
-    List<library_report_month_mankinds> getlibrary_report_add_times();
+    List<library_report_month_mankinds> getlibrary_report_add_times(library_report_month_mankinds n);
     //2015-2017 年度全馆各地点自助扫描、打复印统计详表
     List<CollectionBook >  getlibraryTypeTimes (int year);
     //2012-2015 年度总馆上机总人次对比统计
@@ -112,7 +112,6 @@ public interface schoolReportDao {
     List<library_report_ranking_book> getLibraryReportGeneralRankingTop10InGraduate(library_report_ranking_book n); // 小章定义
     // 研究生最受欢迎的10本书
     List<library_report_ranking_book> getLibraryReportGeneralRankingTop10InUndergraduate(library_report_ranking_book n); // 小章定义
-
     // 本科生分类排行
     List<library_report_ranking_book> getLibraryClassifyRankInUndergraduate(library_report_ranking_book n); // 小章定义
     // 研究生分类排行

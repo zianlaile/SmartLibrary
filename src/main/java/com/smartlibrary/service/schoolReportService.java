@@ -66,9 +66,6 @@ public class schoolReportService {
 
 
 
-
-
-
     //<!--今年读者总借阅次数排名前10（包括学号、读者姓名、所属学院、总借阅次数）（表格）新表-学号-年份-->
     public List<reader_report> getReder_booklendCount_Byyear(reader_report n){
         return schoolReportdao.getReder_booklendCount_Byyear(n);
@@ -677,40 +674,25 @@ public class schoolReportService {
     public  List<library_report_ranking_book> getLibraryReportGeneralRankingTop10InUndergraduate(library_report_ranking_book n){
         return schoolReportdao.getLibraryReportGeneralRankingTop10InUndergraduate(n);
     }
+    public  List<library_report_month_mankinds> getlibrary_report_add_times(library_report_month_mankinds n) {
+        return schoolReportdao.getlibrary_report_add_times(n); }
 
-    public Map<Integer,Map<String,Integer>> library_report_add_times(){
+     /*public Map<Integer,Map<String,Integer>> library_report_add_times(){
         List<library_report_month_mankinds > library_report_add_times  = schoolReportdao.getlibrary_report_add_times();
-        Map<Integer,Map<String,Integer > >  small = new LinkedHashMap<Integer,Map<String,Integer>>();
-        Map <String,Integer> litter =new  LinkedHashMap<String,Integer>();
+        Map<Integer,Map<String,Integer>>  small = new LinkedHashMap<Integer,Map<String,Integer>>();
+        Map<String,Integer>  litter =new  LinkedHashMap <String,Integer>();
         for(int i = 0; i < library_report_add_times.size(); i++){
             int x = library_report_add_times.get(i).getYear();
             String y = library_report_add_times.get(i).getPrint_type();
             String k = library_report_add_times.get(i).getPrint_location();
-            int m = library_report_add_times.get(i).getTimes();
-            small.put(x, litter);
-            small.get(x).put(y,litter.put(k,m));
+            int m = library_report_add_times.get(i).getTimes();//  times  是人次
+            small.put(x,litter);
+            small.get(x).put(k,litter.put(y,m));
         }
         return  small;
-    }
-   /* public Map<Integer,Map<String,Integer>>library_report_max_times (){
-        List<library_report_month_mankinds> library_report_max_times = schoolReportdao.getlibrary_report_max_times();
-        Map<Integer,Map<String,Integer> > max = new LinkedHashMap<>();
-        Map<String,Integer> big =new LinkedHashMap<>();
-        for(int i = 0; i < library_report_max_times.size(); i++){
-            if ()
-            int x = library_report_max_times.get(i).getYear();
-            String y = library_report_max_times.get(i).getPrint_type();
-            String k = library_report_max_times.get(i).getPrint_location();
-            int m = library_report_max_times.get(i).getTimes();
-            max.put(x, big);
-            max.get(x).put(y,big.put(k,m));
-        }
-        return  max;
     }*/
-
-
     // 本科生分类排行
-    public   Map<String,ArrayList<library_report_ranking_book>>getLibraryClassifyRankInUndergraduate(library_report_ranking_book n){
+     public   Map<String,ArrayList<library_report_ranking_book>>getLibraryClassifyRankInUndergraduate(library_report_ranking_book n){
         List<library_report_ranking_book> data = schoolReportdao.getLibraryClassifyRankInUndergraduate(n);
         Map<String,ArrayList<library_report_ranking_book> > result =  new TreeMap<String,ArrayList<library_report_ranking_book> >();
         for(int i=0;i<data.size();i++){
@@ -794,24 +776,26 @@ public class schoolReportService {
         String [][] o1 = func(data);
         String [][] o2 = func(data1);
         String [][] o3 = func(data2);
-        List<String[][] > lst = new ArrayList<String[][]>();
-        lst.add(o1);
-        lst.add(o2);
-        lst.add(o3);
-        return lst ;
+        List<String[][] > sun = new ArrayList<String[][]>();
+        sun.add(o1);
+        sun.add(o2);
+        sun.add(o3);
+        return sun ;
     }
     public String[][] func(List<CollectionBook> data) {
-        String[][] ok = new String[data.size()][3];
+        String[][] print = new String[data.size()][4];
         for (int i = 0; i < data.size(); i++) {
-            String[] items = new String[3];
+            String[] items = new String[4];
             items[0] = data.get(i).getPrint_type();
             items[1] = data.get(i).getPrint_location();
             items[2] = String.valueOf(data.get(i).getTimes());
-            ok [i][0] = items[0];
-            ok [i][1] = items[1];
-            ok [i][2] = items[2];
+            items[3] = String.valueOf(data.get(i).getSum());
+            print [i][0] = items[0];
+            print [i][1] = items[1];
+            print [i][2] = items[2];
+            print [i][3] = items[3];
         }
-        return ok;
+        return print;
     }
     public  List<library_report_lend_condition>getUndergraduateBorrowingSituation(library_report_lend_condition n) {
         return schoolReportdao.getUndergraduateBorrowingSituation(n); }
@@ -828,10 +812,10 @@ public class schoolReportService {
     public  List<library_report_lend_condition>getGraduatePerCapitaBorrowingAmount(library_report_lend_condition n) {
         return schoolReportdao.getGraduatePerCapitaBorrowingAmount(n); }
 
-    public  List<library_report_lend_condition>getUndergraduateAnnualComparisonofBorrowings(library_report_lend_condition n) {
+    public  List<library_report_lend_condition> getUndergraduateAnnualComparisonofBorrowings(library_report_lend_condition n) {
         return schoolReportdao.getUndergraduateAnnualComparisonofBorrowings(n); }
 
-    public  List<library_report_lend_condition>getGraduateAnnualComparisonofBorrowings(library_report_lend_condition n) {
+    public  List<library_report_lend_condition> getGraduateAnnualComparisonofBorrowings(library_report_lend_condition n) {
         return schoolReportdao.getGraduateAnnualComparisonofBorrowings(n); }
 
 

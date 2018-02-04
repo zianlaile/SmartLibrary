@@ -20,7 +20,7 @@ $(function () {
     geICdurationBy_year();//座位在座时长
     geteread_hour();//电子阅览室各时段平均使用次数
     getprintsCountBy_year();//历年文印总量
-    getprintsAmountBy_year();
+    getprintsAmountBy_year();//
     getprinttimesCountBy_year();//历年打印次数
     getcopytimesCountBy_year();//历年复印次数
     getscantimesCountBy_year();//历年扫描次数
@@ -82,6 +82,7 @@ $(function () {
     getCollectionByStackAndBooktype();
     getCollectionBycategory();
     getTop10category();
+    library_report_add_times();//2012-2015 年度全馆扫描、打复印统计人次和数量
     library_report_identity_sum(); //各类型读者入馆总人次统计
     library_report_ic_total(); //每月上机人次折线图
     getDailyLendPeopleAndCount(); //每日借出人/册
@@ -3625,23 +3626,7 @@ function bookLend3() {
     })
 }
 // 以下小章代码
-function yearUnderGraduatBookLendTop10() {
-    $.get('../../schoolReport/getLibraryReportGeneralRankingTop10InUndergraduate',function (info) {
-        var data = [];
-        for(var i = 0; i <info.length; i++){
-            var basedata = new Object();
-            basedata.index = i+1;
-            basedata.book_publisher = info[i].book_publisher;
-            basedata.book_lend_times = info[i].book_lend_times;
-            basedata.book_author = info[i].book_author;
-            basedata.book_name = info[i].book_name;
-            data.push(basedata);
-        }
-        var html = template('bookLendFinalRankUndergraduate',{param:data});
-        $(".yearUnderGraduatBookLendTop10").html(html);
-    })
-}
-
+ic
 function yearLibraryClassifyRankInUndergraduate() {
     $.get('../../schoolReport/getLibraryClassifyRankInUndergraduate',function (data) {
         for(var key in data){
@@ -4845,7 +4830,25 @@ function getBookLendByAcademy() {
     });
 
 }
+function library_report_add_times() {
+    $.get('../../schoolReport/getlibrary_report_add_times',function (info) {
+        var data = [];
+        for(var i = 0; i <info.length; i++){
+            var basedata = new Object();
+            basedata.index = i+1;
+            basedata.year = info[i].year;
+            basedata.print_type = info[i].print_type;
+            basedata.print_location = info[i].print_location;
+            basedata.sun = info[i].sum;
+            basedata.times = info[i].times;
+            data.push(basedata);
+        }
+        var html = template('getprintsCountBy_year',{param:data});
+        $(".library_report_add_times").html(html);
+    })
+}
 
+//王辰曦
 function library_report_identity_sum() {
     $.get('../../schoolReport/library_report_identity_sum',function (info) {
         var tabledata = [];

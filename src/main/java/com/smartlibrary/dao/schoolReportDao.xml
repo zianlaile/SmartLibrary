@@ -386,7 +386,7 @@
        GROUP BY year,month;
     </select>
     <select id="getlibrary_report_add_times" resultType="library_report_month_mankinds">
-        SELECT year,print_type,print_location,times
+        SELECT year,print_type,print_location,times,sum
         FROM library_report_add_times
         GROUP BY year,print_type,print_location;
     </select>
@@ -402,12 +402,6 @@
         FROM  library_report_identity_sum
         GROUP BY  YEAR ,IDENTITY ,sum;
     </select>
-    <select id="getlibrary_report_max_times"  resultType="library_report_month_mankinds">
-        SELECT   year,print_type,print_location,times
-        FROM  library_report_max_times
-        GROUP BY year,print_type,print_location;
-     </select>
-
     <select id="getLibraryReportGeneralRankingTop10InGraduate" resultType="library_report_ranking_book" >
             SELECT book_name,book_author,book_publisher,reader_identity,book_lend_times
             FROM library_report_general_ranking_top10
@@ -437,7 +431,7 @@
         GROUP BY hour
     </select>
     <select id="getlibraryTypeTimes" parameterType="int" resultType="CollectionBook">
-        SELECT year,print_location,print_type,times
+        SELECT year,print_location,print_type,times,SUM
         FROM library_report_add_times
         WHERE  year = #{year}
         GROUP BY year,print_location,print_type

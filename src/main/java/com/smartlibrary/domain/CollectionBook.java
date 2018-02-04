@@ -16,6 +16,16 @@ public class CollectionBook {
     int amounttype;
     int amountnumber;
 
+    public int getSum() {
+        return sum;
+    }
+
+    public void setSum(int sum) {
+        this.sum = sum;
+    }
+
+    int sum;
+
     public String getPrint_location() {
         return print_location;
     }

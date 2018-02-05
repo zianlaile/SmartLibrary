@@ -5552,7 +5552,7 @@ function getLibraryTypeTimes() {
             },
             yAxis: {
                 type: 'value',
-                name: '人次'
+                name: '数量（页）'
             },
             tooltip : {
                 trigger: 'axis',
@@ -5560,7 +5560,7 @@ function getLibraryTypeTimes() {
             series: [
                 {
                     data: sumCopyByYearNum,
-                    name: '总人次',
+                    name: '总数量',
                     type: 'bar',
                     barWidth: '60%',
                     label: {
@@ -5588,7 +5588,7 @@ function getLibraryTypeTimes() {
             },
             yAxis: {
                 type: 'value',
-                name: '人次'
+                name: '数量（页）'
             },
             tooltip : {
                 trigger: 'axis',
@@ -5596,7 +5596,7 @@ function getLibraryTypeTimes() {
             series: [
                 {
                     data: sumPrintByYearNum,
-                    name: '总人次',
+                    name: '总数量',
                     type: 'bar',
                     barWidth: '60%',
                     label: {
@@ -5624,7 +5624,7 @@ function getLibraryTypeTimes() {
             },
             yAxis: {
                 type: 'value',
-                name: '人次'
+                name: '数量（页）'
             },
             tooltip : {
                 trigger: 'axis',
@@ -5632,7 +5632,7 @@ function getLibraryTypeTimes() {
             series: [
                 {
                     data: sumScanningByYearNum,
-                    name: '总人次',
+                    name: '总数量',
                     type: 'bar',
                     barWidth: '60%',
                     label: {

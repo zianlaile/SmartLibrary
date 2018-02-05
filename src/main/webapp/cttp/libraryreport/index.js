@@ -5366,51 +5366,72 @@ function getLibraryTypeTimes() {
     var paramYear = year.toString();
     $.get('../../schoolReport/getLibraryTypeTimes', paramYear, function (info) {
         var arrayYear = [year, year - 1, year - 2];
-        var param = [];
-        var tempdata = [];
+        var param1 = []; //打复扫人次
+        var param2 = []; //打复扫数量
+        var tempdata1 = []; //打复扫人次数据临时存放
+        var tempdata2 = []; //打复扫数量数据临时存放
         var address = [];
         var index = 0;
         for(var ii = 0; ii < 3; ii++) {
             index = 3 * ii;
-            var data = [];
+            var data1 = [];
+            var data2 = [];
             for (var i = 0; i < info.length; i++) {
                 for (var j = index; j < index + 3; j++) {
-                    data.push(info[i][j][2]);
+                    data1.push(info[i][j][2]);
+                    data2.push(info[i][j][3]);
                 }
             }
             address.push(info[ii][index][1]);
-            tempdata.push({
+            tempdata1.push({
                 address: info[ii][index][1],
-                data: data
+                data: data1
+            });
+            tempdata2.push({
+                address: info[ii][index][1],
+                data: data2
             });
         }
-        param.push({
+        param1.push({
             year: arrayYear,
-            dataArray: tempdata
+            dataArray: tempdata1
         });
-        var html = template('tableGetLibraryTypeTimes',{param:param});
+        param2.push({
+            year: arrayYear,
+            dataArray: tempdata2
+        });
+        var html = template('tableGetLibraryTypeTimes',{param:param1});
         $(".tableGetLibraryTypeTimes").html(html);
+        html = template('tableGetLibraryTypeTimes',{param:param2});
+        $(".tableGetLibraryTypeSum").html(html);
+
         $(".library-type-times").find(".max-year").text(arrayYear[0]);
         $(".library-type-times").find(".sec-year").text(arrayYear[2]);
 
-        var sumCopyByYear = [0, 0, 0];
-        var sumPrintByYear = [0, 0, 0];
-        var sumScanningByYear = [0, 0, 0];
+        var sumCopyByYearTimes = [0, 0, 0];
+        var sumPrintByYearTimes = [0, 0, 0];
+        var sumScanningByYearTimes = [0, 0, 0];
+        var sumCopyByYearNum = [0, 0, 0];
+        var sumPrintByYearNum = [0, 0, 0];
+        var sumScanningByYearNum = [0, 0, 0];
         for(var n = 0; n < 3; n++) {
-            for (var i = 0; i < tempdata.length; i++) {
+            for (var i = 0; i < tempdata1.length; i++) {
                 for (var j = n * 3; j < n * 3 + 3; j++) {
                     if (j % 3 == 0) {
-                        sumCopyByYear[n] += Number(tempdata[i].data[j]);
+                        sumCopyByYearTimes[n] += Number(tempdata1[i].data[j]);
+                        sumCopyByYearNum[n] += Number(tempdata2[i].data[j]);
                     } else if (j % 3 == 1) {
-                        sumPrintByYear[n] += Number(tempdata[i].data[j]);
+                        sumPrintByYearTimes[n] += Number(tempdata1[i].data[j]);
+                        sumPrintByYearNum[n] += Number(tempdata2[i].data[j]);
                     } else if (j % 3 == 2) {
-                        sumScanningByYear[n] += Number(tempdata[i].data[j]);
+                        sumScanningByYearTimes[n] += Number(tempdata1[i].data[j]);
+                        sumScanningByYearNum[n] += Number(tempdata2[i].data[j]);
                     }
                 }
             }
         }
-        var chartSumCopyByYear = echarts.init(document.getElementById('getSumCopyByYear'));
-        var chartSumCopyByYear_option = {
+        var chartSumCopyByYearTimes = echarts.init(document.getElementById('getSumCopyByYearTimes'));
+        var chartSumCopyByYearTimes_option = {
             animation:false,
             backgroundColor:'white',
             color: ['#3398DB'],
@@ -5429,7 +5450,7 @@ function getLibraryTypeTimes() {
             },
             series: [
                 {
-                    data: sumCopyByYear,
+                    data: sumCopyByYearTimes,
                     name: '总人次',
                     type: 'bar',
                     barWidth: '60%',
@@ -5444,9 +5465,9 @@ function getLibraryTypeTimes() {
                 }
             ]
         };
-        chartSumCopyByYear.setOption(chartSumCopyByYear_option);
-        var chartPrintCopyByYear = echarts.init(document.getElementById('getSumPrintByYear'));
-        var chartPrintCopyByYear_option = {
+        chartSumCopyByYearTimes.setOption(chartSumCopyByYearTimes_option);
+        var chartPrintCopyByYearTimes = echarts.init(document.getElementById('getSumPrintByYearTimes'));
+        var chartPrintCopyByYearTimes_option = {
             animation:false,
             backgroundColor:'white',
             color: ['#3398DB'],
@@ -5465,7 +5486,7 @@ function getLibraryTypeTimes() {
             },
             series: [
                 {
-                    data: sumPrintByYear,
+                    data: sumPrintByYearTimes,
                     name: '总人次',
                     type: 'bar',
                     barWidth: '60%',
@@ -5480,9 +5501,9 @@ function getLibraryTypeTimes() {
                 }
             ]
         };
-        chartPrintCopyByYear.setOption(chartPrintCopyByYear_option);
-        var chartScanningCopyByYear = echarts.init(document.getElementById('getSumScanningByYear'));
-        var chartScanningCopyByYear_option = {
+        chartPrintCopyByYearTimes.setOption(chartPrintCopyByYearTimes_option);
+        var chartScanningCopyByYearTimes = echarts.init(document.getElementById('getSumScanningByYearTimes'));
+        var chartScanningCopyByYearTimes_option = {
             animation:false,
             backgroundColor:'white',
             color: ['#3398DB'],
@@ -5501,7 +5522,7 @@ function getLibraryTypeTimes() {
             },
             series: [
                 {
-                    data: sumScanningByYear,
+                    data: sumScanningByYearTimes,
                     name: '总人次',
                     type: 'bar',
                     barWidth: '60%',
@@ -5516,7 +5537,116 @@ function getLibraryTypeTimes() {
                 }
             ]
         };
-        chartScanningCopyByYear.setOption(chartScanningCopyByYear_option);
+        chartScanningCopyByYearTimes.setOption(chartScanningCopyByYearTimes_option);
+
+        var chartSumCopyByYearNum = echarts.init(document.getElementById('getSumCopyByYearNum'));
+        var chartSumCopyByYearNum_option = {
+            animation:false,
+            backgroundColor:'white',
+            color: ['#3398DB'],
+            xAxis: {
+                type: 'category',
+                data: arrayYear,
+                axisLine: {onZero: true},
+                name: '年',
+            },
+            yAxis: {
+                type: 'value',
+                name: '人次'
+            },
+            tooltip : {
+                trigger: 'axis',
+            },
+            series: [
+                {
+                    data: sumCopyByYearNum,
+                    name: '总人次',
+                    type: 'bar',
+                    barWidth: '60%',
+                    label: {
+                        normal: {
+                            show: true,
+                            color: 'black',
+                            position: 'top',
+                            formatter: '{c}'
+                        }
+                    }
+                }
+            ]
+        };
+        chartSumCopyByYearNum.setOption(chartSumCopyByYearNum_option);
+        var chartPrintCopyByYearNum = echarts.init(document.getElementById('getSumPrintByYearNum'));
+        var chartPrintCopyByYearNum_option = {
+            animation:false,
+            backgroundColor:'white',
+            color: ['#3398DB'],
+            xAxis: {
+                type: 'category',
+                data: arrayYear,
+                axisLine: {onZero: true},
+                name: '年',
+            },
+            yAxis: {
+                type: 'value',
+                name: '人次'
+            },
+            tooltip : {
+                trigger: 'axis',
+            },
+            series: [
+                {
+                    data: sumPrintByYearNum,
+                    name: '总人次',
+                    type: 'bar',
+                    barWidth: '60%',
+                    label: {
+                        normal: {
+                            show: true,
+                            color: 'black',
+                            position: 'top',
+                            formatter: '{c}'
+                        }
+                    }
+                }
+            ]
+        };
+        chartPrintCopyByYearNum.setOption(chartPrintCopyByYearNum_option);
+        var chartScanningCopyByYearNum = echarts.init(document.getElementById('getSumScanningByYearNum'));
+        var chartScanningCopyByYearNum_option = {
+            animation:false,
+            backgroundColor:'white',
+            color: ['#3398DB'],
+            xAxis: {
+                type: 'category',
+                data: arrayYear,
+                axisLine: {onZero: true},
+                name: '年',
+            },
+            yAxis: {
+                type: 'value',
+                name: '人次'
+            },
+            tooltip : {
+                trigger: 'axis',
+            },
+            series: [
+                {
+                    data: sumScanningByYearNum,
+                    name: '总人次',
+                    type: 'bar',
+                    barWidth: '60%',
+                    label: {
+                        normal: {
+                            show: true,
+                            color: 'black',
+                            position: 'top',
+                            formatter: '{c}'
+                        }
+                    }
+                }
+            ]
+        };
+        chartScanningCopyByYearNum.setOption(chartScanningCopyByYearNum_option);
     })
 }
 

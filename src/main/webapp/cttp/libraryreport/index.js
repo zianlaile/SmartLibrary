@@ -1367,6 +1367,13 @@ function downloadword(){
         replace["img_academy_top1"] = img_academy_top1;
         replace["img_academy_top2"] = img_academy_top2;
         replace["img_academy_top3"] = img_academy_top3;
+        replace["barchart_library_report_identity_sum"] = echarts.init(document.getElementById("barchart_library_report_identity_sum")).getDataURL();
+        replace["piechart1_library_report_identity_sum"] = echarts.init(document.getElementById("piechart1_library_report_identity_sum")).getDataURL();
+        replace["piechart2_library_report_identity_sum"] = echarts.init(document.getElementById("piechart2_library_report_identity_sum")).getDataURL();
+        replace["piechart3_library_report_identity_sum"] = echarts.init(document.getElementById("piechart3_library_report_identity_sum")).getDataURL();
+        replace["getUndergraduateBorrowingSituation"] = echarts.init(document.getElementById("getUndergraduateBorrowingSituation")).getDataURL();
+        replace["getGraduateBorrowingSituation"] = echarts.init(document.getElementById("getGraduateBorrowingSituation")).getDataURL();
+        replace["getPerCapitaBorrowingAmount"] = echarts.init(document.getElementById("getPerCapitaBorrowingAmount")).getDataURL();
         XDoc.key = "62b523oxpzbypoc6vmxuak2lqi";
         XDoc.run("http://106.14.120.137:8080/SmartLibrary/report/88.docx","docx",
             replace ,"_blank");
@@ -3646,7 +3653,7 @@ function yearLibraryClassifyRankInUndergraduate() {
     $.get('../../schoolReport/getLibraryClassifyRankInUndergraduate',function (data) {
         for(var key in data){
             if(key.substr(0, 1) == '0') continue;
-            $("#50").append("<div style=\"text-align: center\">"+key+"</div><div class=' table "+key.substr(0, 1)+"'></div>");
+            $("#45").append("<div style=\"text-align: center\">"+key+"</div><div class=' table "+key.substr(0, 1)+"'></div>");
             // console.log(data[key]);
             var html = template('bookLendFinalRankUndergraduate',{param:data[key]});
             $("."+ key.substr(0, 1)).html(html);
@@ -3660,7 +3667,7 @@ function yearLibraryClassifyRankInGraduate() {
             classKey = key.substr(0, 1) + "yan";
              // console.log(classKey);
             if(classKey.substr(0, 1) == '0') continue;
-            $("#49").append("<div style=\"text-align: center\">"+key+"</div><div class=' table "+classKey+"'></div>");
+            $("#47").append("<div style=\"text-align: center\">"+key+"</div><div class=' table "+classKey+"'></div>");
 
             var html = template('bookLendFinalRankUndergraduate',{param:data[key]});
             $("."+ classKey).html(html);
@@ -4876,22 +4883,45 @@ function library_report_identity_sum() {
             barchartdata.push(basedata2);
         }
         tablehead.push(info.identity[2]);
+        replace["ident1"] = info.identity[2];
         tablehead.push(info.identity[3]);
+        replace["ident2"] = info.identity[3];
         tablehead.push(info.identity[1]);
+        replace["ident3"] = info.identity[1];
         tablehead.push(info.identity[0]);
+        replace["ident4"] = info.identity[0];
         var param = {
             tablehead: tablehead,
             tabledata: tabledata
         };
+        var chartdata = [];
+        for(var i=0;i<tabledata.length;i++){
+            var basedata = new Object();
+            basedata["13-1-1"] = tabledata[i].year;
+            basedata["13-1-2"] = tabledata[i][0][2].value;
+            basedata["13-1-3"] = tabledata[i][0][3].value;
+            basedata["13-1-4"] = tabledata[i][0][1].value;
+            basedata["13-1-5"] = tabledata[i][0][0].value;
+            basedata["13-1-6"] = tabledata[i].sum;
+            chartdata.push(basedata);
+        }
+        replace["table_library_report_identity_sum"] = chartdata;
         var html = template('tableLibraryReportIdentitySum',{param:param});
         $(".tableLibraryReportIdentitySum").html(html);
         $(".library_report_identity_sum").find(".sec-year").text(info.year[0]);
+        replace["sec-year"] = info.year[0];
         $(".library_report_identity_sum").find(".max-year").text(info.year[2]);
+        replace["max-year"] = info.year[2];
         $("#table_library_report_identity_sum_title").text(info.year[0] + "-" + info.year[2] + "年各类型读者入馆总人次统计表");
+        replace["table_library_report_identity_sum_title"] = info.year[0] + "-" + info.year[2] + "年各类型读者入馆总人次统计表";
         $("#barchart_library_report_identity_sum_title").text(info.year[0] + "-" + info.year[2] + "年各类型读者入馆总人次统计图");
+        replace["barchart_library_report_identity_sum_title"] = info.year[0] + "-" + info.year[2] + "年各类型读者入馆总人次统计图";
         $("#piechart1_library_report_identity_sum_title").text(info.year[0] + "年度各类型读者占入馆总人次百分比");
+        replace["piechart1_library_report_identity_sum_title"] = info.year[0] + "年度各类型读者占入馆总人次百分比";
         $("#piechart2_library_report_identity_sum_title").text(info.year[1] + "年度各类型读者占入馆总人次百分比");
+        replace["piechart2_library_report_identity_sum_title"] = info.year[1] + "年度各类型读者占入馆总人次百分比";
         $("#piechart3_library_report_identity_sum_title").text(info.year[2] + "年度各类型读者占入馆总人次百分比");
+        replace["piechart3_library_report_identity_sum_title"] = info.year[2] + "年度各类型读者占入馆总人次百分比";
         var barchart_library_report_identity_sum = echarts.init(document.getElementById('barchart_library_report_identity_sum'));
         var barchart_library_report_identity_sum_option = {
             animation:false,
@@ -5654,6 +5684,16 @@ function getUndergraduateBorrowingSituation() {
     $.get('../../schoolReport/getUndergraduateBorrowingSituation', function (info) {
         var html = template('tableGetBorrowingSituation',{param:info});
         $(".tableGetUndergraduateBorrowingSituation").html(html);
+        var tabledata = [];
+        for(var i=0;i<info.length;i++){
+            var chartbasedata = new Object();
+            chartbasedata["14-1-1"] = info[i].academy;
+            chartbasedata["14-1-2"] = info[i].reader_number;
+            chartbasedata["14-1-3"] = info[i].lend_number;
+            chartbasedata["14-1-4"] = info[i].percentage_of_borrowing;
+            tabledata.push(chartbasedata);
+        }
+        replace["tableGetUndergraduateBorrowingSituation"] = tabledata;
         var academy = [];
         var percent = [];
         for(var i = 0; i < info.length; i++){
@@ -5767,6 +5807,16 @@ function getGraduateBorrowingSituation() {
     $.get('../../schoolReport/getGraduateBorrowingSituation', function (info) {
         var html = template('tableGetBorrowingSituation',{param:info});
         $(".tableGetGraduateBorrowingSituation").html(html);
+        var tabledata = [];
+        for(var i=0;i<info.length;i++){
+            var chartbasedata = new Object();
+            chartbasedata["15-1-1"] = info[i].academy;
+            chartbasedata["15-1-2"] = info[i].reader_number;
+            chartbasedata["15-1-3"] = info[i].lend_number;
+            chartbasedata["15-1-4"] = info[i].percentage_of_borrowing;
+            tabledata.push(chartbasedata);
+        }
+        replace["tableGetGraduateBorrowingSituation"] = tabledata;
         var academy = [];
         var percent = [];
         for(var i = 0; i < info.length; i++){
@@ -5880,6 +5930,18 @@ function getPerCapitaBorrowingAmount() {
     $.get('../../schoolReport/getPerCapitaBorrowingAmount', function (info) {
         var html = template('tableGetPerCapitaBorrowingAmount',{param:info});
         $(".tableGetPerCapitaBorrowingAmount").html(html);
+        var tabledata = [];
+        for(var i=0;i<info.length;i++){
+            var tablebasedata = new Object();
+            tablebasedata["16-1-1"] = info[i].identity;
+            tablebasedata["16-1-2"] = info[i].reader_number;
+            tablebasedata["16-1-3"] = info[i].lend_number;
+            tablebasedata["16-1-4"] = info[i].lend_total;
+            tablebasedata["16-1-5"] = info[i].reader_per_person;
+            tablebasedata["16-1-6"] = info[i].academy_per_person;
+            tabledata.push(tablebasedata);
+        }
+        replace["tableGetPerCapitaBorrowingAmount"] = tabledata;
         var identity = [];
         var reader_per_person = [];
         var academy_per_person = [];

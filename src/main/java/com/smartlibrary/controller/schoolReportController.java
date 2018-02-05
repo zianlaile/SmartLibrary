@@ -176,12 +176,14 @@ public class schoolReportController {
         CollectionBook i=new CollectionBook();
         return schoolReportservice.getCollectionNewAdded(i);
     }
+
     //    <!--馆藏基本情况  新增馆藏分类分布 类别太多 取前十-->
     @RequestMapping(value = "/getCollectionNewAddedByCate",method = RequestMethod.GET)
     public Map<String,List> getCollectionNewAddedByCate(){
         CollectionBook i=new CollectionBook();
         return schoolReportservice.getCollectionNewAddedByCate(i);
     }
+
     //    <!--馆藏基本情况  新增馆藏分类分布 类别太多 取前十-->
     @RequestMapping(value = "/getCollectionTuShuNewAddedByCate",method = RequestMethod.GET)
     public Map<String,List> getCollectionTuShuNewAddedByCate(){
@@ -230,10 +232,10 @@ public class schoolReportController {
     @RequestMapping(value = "/library_report_add_times", method = RequestMethod.GET)
     public List<library_report_month_mankinds> getlibrary_report_add_times(library_report_month_mankinds n){ return schoolReportservice.getlibrary_report_add_times(n);
     }
+
     // 学院借阅前三
     @RequestMapping(value = "/getYearTop3CategoryByAcademy", method = RequestMethod.GET)
-    public Map<Integer,Map<String,List>> getYearTop3CategoryByAcademy(){ return schoolReportservice.getYearTop3CategoryByAcademy();
-    }
+    public Map<Integer,Map<String,List>> getYearTop3CategoryByAcademy(){ return schoolReportservice.getYearTop3CategoryByAcademy(); }
     //  外接前100 的书本
     @RequestMapping(value = "/getSingleBookLendTop100", method = RequestMethod.GET)
     public Map<String,List> getSingleBookLendTop100(){ return schoolReportservice.getSingleBookLendTop100();

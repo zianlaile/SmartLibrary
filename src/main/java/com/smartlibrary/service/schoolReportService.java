@@ -66,6 +66,9 @@ public class schoolReportService {
 
 
 
+
+
+
     //<!--今年读者总借阅次数排名前10（包括学号、读者姓名、所属学院、总借阅次数）（表格）新表-学号-年份-->
     public List<reader_report> getReder_booklendCount_Byyear(reader_report n){
         return schoolReportdao.getReder_booklendCount_Byyear(n);
@@ -812,10 +815,10 @@ public class schoolReportService {
     public  List<library_report_lend_condition>getGraduatePerCapitaBorrowingAmount(library_report_lend_condition n) {
         return schoolReportdao.getGraduatePerCapitaBorrowingAmount(n); }
 
-    public  List<library_report_lend_condition> getUndergraduateAnnualComparisonofBorrowings(library_report_lend_condition n) {
+    public  List<library_report_lend_condition>getUndergraduateAnnualComparisonofBorrowings(library_report_lend_condition n) {
         return schoolReportdao.getUndergraduateAnnualComparisonofBorrowings(n); }
 
-    public  List<library_report_lend_condition> getGraduateAnnualComparisonofBorrowings(library_report_lend_condition n) {
+    public  List<library_report_lend_condition>getGraduateAnnualComparisonofBorrowings(library_report_lend_condition n) {
         return schoolReportdao.getGraduateAnnualComparisonofBorrowings(n); }
 
 

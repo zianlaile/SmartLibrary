@@ -112,6 +112,7 @@ public interface schoolReportDao {
     List<library_report_ranking_book> getLibraryReportGeneralRankingTop10InGraduate(library_report_ranking_book n); // 小章定义
     // 研究生最受欢迎的10本书
     List<library_report_ranking_book> getLibraryReportGeneralRankingTop10InUndergraduate(library_report_ranking_book n); // 小章定义
+
     // 本科生分类排行
     List<library_report_ranking_book> getLibraryClassifyRankInUndergraduate(library_report_ranking_book n); // 小章定义
     // 研究生分类排行

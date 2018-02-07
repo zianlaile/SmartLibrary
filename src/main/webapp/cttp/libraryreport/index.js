@@ -1270,6 +1270,7 @@ function downloadword(){
          elemIF.src = "../../report/2.docx";
          elemIF.style.display = "none";
          document.body.appendChild(elemIF);*/
+        replace["Library_Introduce"] = document.getElementById("introduce").innerHTML;
         replace["img_Book_Amount"] = img_Book_Amount;
         replace["img_gctrl_amount"] = img_gctrl_amount;
         replace["img_month_amount"] = img_month_amount;
@@ -1376,6 +1377,10 @@ function getResourceCountBy_year() {
                         axisPointer: {
                             type: 'shadow'
                         },
+                        axisLabel:{
+                            interval:0,
+                            rotate:60,
+                        },
                         axisTick: {
                             show: false
                         },
@@ -1384,7 +1389,7 @@ function getResourceCountBy_year() {
                 yAxis: [
                     {
                         type: 'value',
-                        name: '资源数',
+                        name: '资源数（册）',
                         /*min: 0,
                         max:100,
                         interval: 20,*/

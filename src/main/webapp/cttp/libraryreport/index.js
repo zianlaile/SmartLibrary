@@ -4671,7 +4671,7 @@ function getBookLendByAcademy() {
         dataType:'json',
         success:function (data) {
             document.getElementById("ThirdAcademyTitle").innerHTML =data["3"].readerAcademy + "借阅分布";
-      //       replace["img_academy_top3title"] = data["3"].readerAcademy + "借阅分布";
+            replace["img_academy_top3title"] = data["3"].readerAcademy + "借阅分布";
             var getprintsCountBy_year3 = echarts.init(document.getElementById('getBookLendByAcademyThird'));
             var getBookLendByAcademyThird = {
               //  color: ['#000000'],
@@ -4727,7 +4727,7 @@ function getBookLendByAcademy() {
             };
             getprintsCountBy_year3.setOption(getBookLendByAcademyThird);
             document.getElementById("FirstAcademyTitle").innerHTML =data["1"].readerAcademy + "借阅分布";
-           // replace["img_academy_top1title"] = data["1"].readerAcademy + "借阅分布";
+            replace["img_academy_top1title"] = data["1"].readerAcademy + "借阅分布";
             var getprintsCountBy_year1 = echarts.init(document.getElementById('getBookLendByAcademyFirst'));
             var getBookLendByAcademyFirst = {
                 tooltip : {
@@ -4782,7 +4782,7 @@ function getBookLendByAcademy() {
             };
             getprintsCountBy_year1.setOption(getBookLendByAcademyFirst);
             document.getElementById("SecondAcademyTitle").innerHTML =data["2"].readerAcademy + "借阅分布";
-       //     replace["img_academy_top2title"] = data["2"].readerAcademy + "借阅分布";
+            replace["img_academy_top2title"] = data["2"].readerAcademy + "借阅分布";
             var getprintsCountBy_year2 = echarts.init(document.getElementById('getBookLendByAcademySecond'));
             var getBookLendByAcademySecond = {
                 tooltip : {

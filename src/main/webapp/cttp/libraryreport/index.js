@@ -1326,6 +1326,12 @@ function downloadword(){
         replace["getCirculationByHour"] = echarts.init(document.getElementById("getCirculationByHour")).getDataURL();
         replace["library_report_ic_total"] = echarts.init(document.getElementById("library_report_ic_total")).getDataURL();
         replace["library_report_ic_total_2"] = echarts.init(document.getElementById("library_report_ic_total_2")).getDataURL();
+        replace["getSumCopyByYearTimes"] = echarts.init(document.getElementById("getSumCopyByYearTimes")).getDataURL();
+        replace["getSumPrintByYearTimes"] = echarts.init(document.getElementById("getSumPrintByYearTimes")).getDataURL();
+        replace["getSumScanningByYearTimes"] = echarts.init(document.getElementById("getSumScanningByYearTimes")).getDataURL();
+        replace["getSumCopyByYearNum"] = echarts.init(document.getElementById("getSumCopyByYearNum")).getDataURL();
+        replace["getSumPrintByYearNum"] = echarts.init(document.getElementById("getSumPrintByYearNum")).getDataURL();
+        replace["getSumScanningByYearNum"] = echarts.init(document.getElementById("getSumScanningByYearNum")).getDataURL();
         XDoc.key = "62b523oxpzbypoc6vmxuak2lqi";
         XDoc.run("http://106.14.120.137:8080/SmartLibrary/report/88.docx","docx",
             replace ,"_blank");
@@ -3628,6 +3634,7 @@ function yearLibraryClassifyRankInUndergraduate() {
 }
 function yearLibraryClassifyRankInGraduate() {
     $.get('../../schoolReport/getLibraryClassifyRankInGraduate',function (data) {
+        var replacedata = [];
         for(var key in data){
             var classKey;
             classKey = key.substr(0, 1) + "yan";
@@ -5168,7 +5175,7 @@ function library_report_ic_total() {
         replace["ic-total-year"] = year[0] + "-" + year[2];
         replace["ic-total-year2"] = year[0] + "-" + year[2];
         replace["img-ic-total-year"] = year[0] + "-" + year[2];
-        replace["img-ic-total-year"] = year[0] + "-" + year[2];
+        replace["img-ic-total-year2"] = year[0] + "-" + year[2];
         var html = template('tableLibraryReportIcTotal',{param:param}); //历年上机总人次统计表
         $(".tableLibraryReportIcTotal").html(html);
         var tabledata = [];
@@ -5403,13 +5410,9 @@ function getCirculationByHour() {
 }
 
 function getLibraryTypeTimes() {
-    var date=new Date;
-    var year=date.getFullYear();
-    var month=date.getMonth()+1;
-    if(month < 9) year = year - 1;
-    var paramYear = year.toString();
+    var paramYear = nowyear.toString();
     $.get('../../schoolReport/getLibraryTypeTimes', paramYear, function (info) {
-        var arrayYear = [year, year - 1, year - 2];
+        var arrayYear = [nowyear, nowyear - 1, nowyear - 2];
         var param1 = []; //打复扫人次
         var param2 = []; //打复扫数量
         var tempdata1 = []; //打复扫人次数据临时存放
@@ -5446,11 +5449,50 @@ function getLibraryTypeTimes() {
         });
         var html = template('tableGetLibraryTypeTimes',{param:param1});
         $(".tableGetLibraryTypeTimes").html(html);
+        console.log(param1[0]);
+        replace["22-1-1"] = arrayYear[0];
+        replace["22-1-2"] = arrayYear[1];
+        replace["22-1-3"] = arrayYear[2];
+        replace["23-1-1"] = arrayYear[0];
+        replace["23-1-2"] = arrayYear[1];
+        replace["23-1-3"] = arrayYear[2];
+        var tabledata = [];
+        for(var i=0;i<param1[0].dataArray.length;i++){
+            var tablebasedata = new Object();
+            tablebasedata["22-1"] = param1[0].dataArray[i].address;
+            tablebasedata["22-2"] = param1[0].dataArray[i].data[0];
+            tablebasedata["22-3"] = param1[0].dataArray[i].data[1];
+            tablebasedata["22-4"] = param1[0].dataArray[i].data[2];
+            tablebasedata["22-5"] = param1[0].dataArray[i].data[3];
+            tablebasedata["22-6"] = param1[0].dataArray[i].data[4];
+            tablebasedata["22-7"] = param1[0].dataArray[i].data[5];
+            tablebasedata["22-8"] = param1[0].dataArray[i].data[6];
+            tablebasedata["22-9"] = param1[0].dataArray[i].data[7];
+            tablebasedata["22-0"] = param1[0].dataArray[i].data[8];
+            tabledata.push(tablebasedata);
+        }
+        replace["tableGetLibraryTypeTimes"] = tabledata;
         html = template('tableGetLibraryTypeTimes',{param:param2});
         $(".tableGetLibraryTypeSum").html(html);
-
+        var tabledata1 = [];
+        for(var i=0;i<param2[0].dataArray.length;i++){
+            var tablebasedata = new Object();
+            tablebasedata["23-1"] = param2[0].dataArray[i].address;
+            tablebasedata["23-2"] = param2[0].dataArray[i].data[0];
+            tablebasedata["23-3"] = param2[0].dataArray[i].data[1];
+            tablebasedata["23-4"] = param2[0].dataArray[i].data[2];
+            tablebasedata["23-5"] = param2[0].dataArray[i].data[3];
+            tablebasedata["23-6"] = param2[0].dataArray[i].data[4];
+            tablebasedata["23-7"] = param2[0].dataArray[i].data[5];
+            tablebasedata["23-8"] = param2[0].dataArray[i].data[6];
+            tablebasedata["23-9"] = param2[0].dataArray[i].data[7];
+            tablebasedata["23-0"] = param2[0].dataArray[i].data[8];
+            tabledata1.push(tablebasedata);
+        }
+        replace["tableGetLibraryTypeSum"] = tabledata1;
         $(".library-type-times").find(".max-year").text(arrayYear[0]);
         $(".library-type-times").find(".sec-year").text(arrayYear[2]);
+        replace["max-sec-year"] = arrayYear[2] + "-" + arrayYear[0];
 
         var sumCopyByYearTimes = [0, 0, 0];
         var sumPrintByYearTimes = [0, 0, 0];

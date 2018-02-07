@@ -5412,7 +5412,7 @@ function getCirculationByHour() {
 function getLibraryTypeTimes() {
     var paramYear = nowyear.toString();
     $.get('../../schoolReport/getLibraryTypeTimes', paramYear, function (info) {
-        var arrayYear = [nowyear, nowyear - 1, nowyear - 2];
+        var arrayYear = [nowyear - 2, nowyear - 1, nowyear];
         var param1 = []; //打复扫人次
         var param2 = []; //打复扫数量
         var tempdata1 = []; //打复扫人次数据临时存放
@@ -5490,9 +5490,9 @@ function getLibraryTypeTimes() {
             tabledata1.push(tablebasedata);
         }
         replace["tableGetLibraryTypeSum"] = tabledata1;
-        $(".library-type-times").find(".max-year").text(arrayYear[0]);
-        $(".library-type-times").find(".sec-year").text(arrayYear[2]);
-        replace["max-sec-year"] = arrayYear[2] + "-" + arrayYear[0];
+        $(".library-type-times").find(".max-year").text(arrayYear[2]);
+        $(".library-type-times").find(".sec-year").text(arrayYear[0]);
+        replace["max-sec-year"] = arrayYear[0] + "-" + arrayYear[2];
 
         var sumCopyByYearTimes = [0, 0, 0];
         var sumPrintByYearTimes = [0, 0, 0];

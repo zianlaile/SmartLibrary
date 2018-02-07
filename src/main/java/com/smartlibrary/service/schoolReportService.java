@@ -776,9 +776,9 @@ public class schoolReportService {
         List<CollectionBook >  data    = schoolReportdao.getlibraryTypeTimes(Integer.valueOf(year));
         List<CollectionBook >  data1   =  schoolReportdao.getlibraryTypeTimes(Integer.valueOf(year)-1);
         List<CollectionBook >  data2   = schoolReportdao.getlibraryTypeTimes(Integer.valueOf(year)-2);
-        String [][] o1 = func(data);
+        String [][] o1 = func(data2);
         String [][] o2 = func(data1);
-        String [][] o3 = func(data2);
+        String [][] o3 = func(data);
         List<String[][] > sun = new ArrayList<String[][]>();
         sun.add(o1);
         sun.add(o2);

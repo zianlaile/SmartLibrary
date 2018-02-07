@@ -1264,60 +1264,6 @@ function downloadword(){
     var img_academy_top1 = echarts.init(document.getElementById("getBookLendByAcademyFirst")).getDataURL();
     var img_academy_top2 = echarts.init(document.getElementById("getBookLendByAcademySecond")).getDataURL();
     var img_academy_top3 = echarts.init(document.getElementById("getBookLendByAcademyThird")).getDataURL();
-    /*var postdata = {
-     "img_Book_Amount" :img_Book_Amount,
-     "img_gctrl_amount" :img_gctrl_amount,
-     "img_month_amount" :img_month_amount,
-     "img_type_percent1" :img_type_percent1,
-     "img_type_percent2" :img_type_percent2,
-     "img_lend_yearamount" :img_lend_yearamount,
-     "img_type_reader" :img_type_reader,
-     "img_academy_img" :img_academy_img,
-     "img_leader_img" : img_leader_img,
-     "img_borrow_img1" :img_borrow_img1,
-     "img_borrow_img2" :img_borrow_img2,
-     "img_read_img" :img_read_img,
-     "img_seat_img" :img_seat_img,
-     "img_ebook_spend" :img_ebook_spend,
-     "img_print_amount":img_print_amount,
-     "img_print_dy":img_print_dy,
-     "img_print_fy":img_print_fy,
-     "img_print_sm":img_print_sm,
-     "img_print_pageamount":img_print_pageamount,
-     "img_print_pagedy":img_print_pagedy,
-     "img_print_pagefy":img_print_pagefy,
-     "img_print_pagesm":img_print_pagesm,
-     "img_print_day" :img_print_day,
-     "publisher_rating":publisher_rating,
-     "publisher_raking":publisher_raking,
-     "gctrl_top12":gctrl_top12,
-     "day_gctrl":day_gctrl,
-     "croom":croom,
-     "eread":eread,
-     "seat":seat,
-     "equipment":equipment,
-     "typechart":typechart,
-     "typenumber":typenumber,
-     "getCollectionBycategorytype":getCollectionBycategorytype,
-     "getCollectionBycategorynumber":getCollectionBycategorynumber,
-     "getCollectionOverall":getCollectionOverall,
-     "getCollectionNewAdded":getCollectionNewAdded,
-     "getCollectionNewAddedByCate":getCollectionNewAddedByCate,
-     "getCollectionTuShuNewAddedByCate":getCollectionTuShuNewAddedByCate,
-     "getCollectionWaiWenNewAddedByCate":getCollectionWaiWenNewAddedByCate,
-     "img_academy_top1":img_academy_top1,
-     "img_academy_top2":img_academy_top2,
-     "img_academy_top3":img_academy_top3,
-     }*/
-    /*$.ajax({
-     type:"POST",
-     contentType: 'application/json;charset=UTF-8',
-     data:JSON.stringify(postdata),
-     url:"../../report/getreport",
-     dataType: 'json',
-     success: function(data, textStatus, jqXHR){
-     console.log(data);
-     if(data==1){*/
     try{
         /* 第一版导出word
          var elemIF = document.createElement("iframe");
@@ -1374,15 +1320,18 @@ function downloadword(){
         replace["getUndergraduateBorrowingSituation"] = echarts.init(document.getElementById("getUndergraduateBorrowingSituation")).getDataURL();
         replace["getGraduateBorrowingSituation"] = echarts.init(document.getElementById("getGraduateBorrowingSituation")).getDataURL();
         replace["getPerCapitaBorrowingAmount"] = echarts.init(document.getElementById("getPerCapitaBorrowingAmount")).getDataURL();
+        replace["getUndergraduatePerCapitaBorrowingAmount"] = echarts.init(document.getElementById("getUndergraduatePerCapitaBorrowingAmount")).getDataURL();
+        replace["getGraduatePerCapitaBorrowingAmount"] = echarts.init(document.getElementById("getGraduatePerCapitaBorrowingAmount")).getDataURL();
+        replace["getDailyLendPeopleAndCount"] = echarts.init(document.getElementById("getDailyLendPeopleAndCount")).getDataURL();
+        replace["getCirculationByHour"] = echarts.init(document.getElementById("getCirculationByHour")).getDataURL();
+        replace["library_report_ic_total"] = echarts.init(document.getElementById("library_report_ic_total")).getDataURL();
+        replace["library_report_ic_total_2"] = echarts.init(document.getElementById("library_report_ic_total_2")).getDataURL();
         XDoc.key = "62b523oxpzbypoc6vmxuak2lqi";
         XDoc.run("http://106.14.120.137:8080/SmartLibrary/report/88.docx","docx",
             replace ,"_blank");
     }catch(e){
 
     }
-    /*       }
-     }
-     });*/
 }
 function getResourceCountBy_year() {
     $.ajax({
@@ -3638,12 +3587,13 @@ function yearUnderGraduatBookLendTop10() {
         for(var i = 0; i <info.length; i++){
             var basedata = new Object();
             basedata.index = i+1;
-            basedata.book_publisher = info[i].book_publisher;
-            basedata.book_lend_times = info[i].book_lend_times;
-            basedata.book_author = info[i].book_author;
-            basedata.book_name = info[i].book_name;
+            basedata.publisher = info[i].book_publisher;
+            basedata.times = info[i].book_lend_times;
+            basedata.bookAuthor = info[i].book_author;
+            basedata.bookName = info[i].book_name;
             data.push(basedata);
         }
+        replace.yearUnderGraduatBookLendTop10 = data;
         var html = template('bookLendFinalRankUndergraduate',{param:data});
         $(".yearUnderGraduatBookLendTop10").html(html);
     })
@@ -3651,13 +3601,29 @@ function yearUnderGraduatBookLendTop10() {
 
 function yearLibraryClassifyRankInUndergraduate() {
     $.get('../../schoolReport/getLibraryClassifyRankInUndergraduate',function (data) {
+        var replacedata = [];
         for(var key in data){
             if(key.substr(0, 1) == '0') continue;
             $("#45").append("<div style=\"text-align: center\">"+key+"</div><div class=' table "+key.substr(0, 1)+"'></div>");
             // console.log(data[key]);
+            var basedata = new Object();
+            basedata.rankingtypename = key;
             var html = template('bookLendFinalRankUndergraduate',{param:data[key]});
             $("."+ key.substr(0, 1)).html(html);
+            var chartdata = new Array();
+            for(var i = 0; i < data[key].length; i++){
+                var chartbasedata = new Object();
+                chartbasedata.index = i+1;
+                chartbasedata.publisher = data[key][i].book_publisher;
+                chartbasedata.times = data[key][i].book_lend_times;
+                chartbasedata.bookAuthor = data[key][i].book_author;
+                chartbasedata.bookName = data[key][i].book_name;
+                chartdata.push(chartbasedata);
+            }
+            basedata["LibraryClassifyRankInUndergraduate"] = chartdata;
+            replacedata.push(basedata);
         }
+        replace["getLibraryClassifyRankInUndergraduate"] = replacedata;
     });
 }
 function yearLibraryClassifyRankInGraduate() {
@@ -3668,10 +3634,24 @@ function yearLibraryClassifyRankInGraduate() {
              // console.log(classKey);
             if(classKey.substr(0, 1) == '0') continue;
             $("#47").append("<div style=\"text-align: center\">"+key+"</div><div class=' table "+classKey+"'></div>");
-
+            var basedata = new Object();
+            basedata.rankingtypename = key;
             var html = template('bookLendFinalRankUndergraduate',{param:data[key]});
             $("."+ classKey).html(html);
+            var chartdata = new Array();
+            for(var i = 0; i < data[key].length; i++){
+                var chartbasedata = new Object();
+                chartbasedata.index = i+1;
+                chartbasedata.publisher = data[key][i].book_publisher;
+                chartbasedata.times = data[key][i].book_lend_times;
+                chartbasedata.bookAuthor = data[key][i].book_author;
+                chartbasedata.bookName = data[key][i].book_name;
+                chartdata.push(chartbasedata);
+            }
+            basedata["LibraryClassifyRankInUndergraduate"] = chartdata;
+            replacedata.push(basedata);
         }
+        replace["getLibraryClassifyRankInGraduate"] = replacedata;
     });
 }
 // 以上小章代码
@@ -3680,14 +3660,15 @@ function bookLendFinalRankTop10InGraduate() {
     $.get('../../schoolReport/getLibraryReportGeneralRankingTop10InGraduate',function (info1) {
         var data1 = [];
         for(var i = 0; i <info1.length; i++){
-            var basedata1 = new Object();
-            basedata1.index = i+1;
-            basedata1.book_publisher = info1[i].book_publisher;
-            basedata1.book_lend_times = info1[i].book_lend_times;
-            basedata1.book_author = info1[i].book_author;
-            basedata1.book_name = info1[i].book_name;
-            data1.push(basedata1);
+            var basedata = new Object();
+            basedata.index = i+1;
+            basedata.publisher = info1[i].book_publisher;
+            basedata.times = info1[i].book_lend_times;
+            basedata.bookAuthor = info1[i].book_author;
+            basedata.bookName = info1[i].book_name;
+            data1.push(basedata);
         }
+        replace.yearGraduatBookLendTop10 = data1;
         var html = template('bookLendFinalRankUndergraduate',{param:data1});
         $(".yearGraduatBookLendTop10").html(html);
     })
@@ -5162,22 +5143,42 @@ function library_report_ic_total() {
         };
         library_report_ic_total.setOption(library_report_ic_total_option);
         $(".ic-total").find(".max-year").text(year[2]);
+        replace["max-year2"] = year[2];
         $(".ic-total").find(".sec-year").text(year[1]);
+        replace["sec-year2"] = year[1];
         $(".ic-total").find(".max-total").text(sum[2]);
+        replace["max-total"] = sum[2];
         $(".ic-total").find(".sec-total").text(sum[1]);
+        replace["sec-total"] = sum[1];
         var change = sum[2] - sum[1];
         if (change < 0) {
             $(".ic-total").find(".change").text("减少");
             $(".ic-total").find(".change-number").text(sum[1] - sum[2]);
             $(".ic-total").find(".change-percent").text(((sum[1] - sum[2]) / sum[2] * 100).toFixed(2));
+            replace["change-number"] = "减少" + sum[1] - sum[2];
+            replace["change-percent"] = "减少" + ((sum[1] - sum[2]) / sum[2] * 100).toFixed(2);
         } else {
             $(".ic-total").find(".change").text("增加");
             $(".ic-total").find(".change-number").text(sum[2] - sum[1]);
             $(".ic-total").find(".change-percent").text(((sum[2] - sum[1]) / sum[2] * 100).toFixed(2));
+            replace["change-number"] = "增加" + sum[1] - sum[2];
+            replace["change-percent"] = "增加" + ((sum[1] - sum[2]) / sum[2] * 100).toFixed(2);
         }
         $(".ic-total-year").text(year[0] + "-" + year[2]);
+        replace["ic-total-year"] = year[0] + "-" + year[2];
+        replace["ic-total-year2"] = year[0] + "-" + year[2];
+        replace["img-ic-total-year"] = year[0] + "-" + year[2];
+        replace["img-ic-total-year"] = year[0] + "-" + year[2];
         var html = template('tableLibraryReportIcTotal',{param:param}); //历年上机总人次统计表
         $(".tableLibraryReportIcTotal").html(html);
+        var tabledata = [];
+        for(var i=0;i<param.length;i++){
+            var chartbasedata = new Object();
+            chartbasedata["year"] = param[i].year;
+            chartbasedata["sum"] = param[i].sum;
+            tabledata.push(chartbasedata);
+        }
+        replace["tableLibraryReportIcTotal"] = tabledata;
         var library_report_ic_total_2 = echarts.init(document.getElementById('library_report_ic_total_2'));
         var library_report_ic_total_option_2 = {
             animation:false,
@@ -5342,6 +5343,19 @@ function getCirculationByHour() {
         });
         var html = template('tableGetCirculationByHour',{param:param});
         $(".tableGetCirculationByHour").html(html);
+        var tabledata = [];
+        for(var i=0;i<param.length;i++){
+            var tablebasedata = new Object();
+            tablebasedata["21-1-1"] = param[i].hour;
+            tablebasedata["21-1-2"] = param[i].book_lend_times;
+            tablebasedata["21-1-3"] = param[i].daily_average_book_lend_times;
+            tablebasedata["21-1-4"] = param[i].book_back_times;
+            tablebasedata["21-1-5"] = param[i].daily_average_book_back_times;
+            tablebasedata["21-1-6"] = param[i].book_renew_times;
+            tablebasedata["21-1-7"] = param[i].daily_average_book_renew_times;
+            tabledata.push(tablebasedata);
+        }
+        replace["tableGetCirculationByHour"] = tabledata;
         var getCirculationByHour = echarts.init(document.getElementById('getCirculationByHour'));
         var getCirculationByHour_option = {
             animation:false,
@@ -6011,6 +6025,18 @@ function getUndergraduatePerCapitaBorrowingAmount() {
     $.get('../../schoolReport/getUndergraduatePerCapitaBorrowingAmount', function (info) {
         var html = template('tableGetPerCapitaBorrowingAmountByAcademy',{param:info});
         $(".tableGetUndergraduatePerCapitaBorrowingAmount").html(html);
+        var tabledata = [];
+        for(var i=0;i<info.length;i++){
+            var tablebasedata = new Object();
+            tablebasedata["17-1-1"] = info[i].academy;
+            tablebasedata["17-1-2"] = info[i].reader_number;
+            tablebasedata["17-1-3"] = info[i].lend_number;
+            tablebasedata["17-1-4"] = info[i].lend_total;
+            tablebasedata["17-1-5"] = info[i].reader_per_person;
+            tablebasedata["17-1-6"] = info[i].academy_per_person;
+            tabledata.push(tablebasedata);
+        }
+        replace["tableGetUndergraduatePerCapitaBorrowingAmount"] = tabledata;
         var academy = [];
         var reader_per_person = [];
         var academy_per_person = [];
@@ -6064,6 +6090,18 @@ function getGraduatePerCapitaBorrowingAmount() {
     $.get('../../schoolReport/getGraduatePerCapitaBorrowingAmount', function (info) {
         var html = template('tableGetPerCapitaBorrowingAmountByAcademy',{param:info});
         $(".tableGetGraduatePerCapitaBorrowingAmount").html(html);
+        var tabledata = [];
+        for(var i=0;i<info.length;i++){
+            var tablebasedata = new Object();
+            tablebasedata["18-1-1"] = info[i].academy;
+            tablebasedata["18-1-2"] = info[i].reader_number;
+            tablebasedata["18-1-3"] = info[i].lend_number;
+            tablebasedata["18-1-4"] = info[i].lend_total;
+            tablebasedata["18-1-5"] = info[i].reader_per_person;
+            tablebasedata["18-1-6"] = info[i].academy_per_person;
+            tabledata.push(tablebasedata);
+        }
+        replace["tableGetGraduatePerCapitaBorrowingAmount"] = tabledata;
         var academy = [];
         var reader_per_person = [];
         var academy_per_person = [];
@@ -6117,9 +6155,33 @@ function getAnnualComparisonofBorrowings() {
     $.get('../../schoolReport/getUndergraduateAnnualComparisonofBorrowings', function (info) {
         var html = template('getAnnualComparisonofBorrowings',{param:info});
         $(".getUndergraduateAnnualComparisonofBorrowings").html(html);
+        var tabledata = [];
+        for(var i=0;i<info.length;i++){
+            var tablebasedata = new Object();
+            tablebasedata["19-1-1"] = info[i].year;
+            tablebasedata["19-1-2"] = info[i].reader_number;
+            tablebasedata["19-1-3"] = info[i].lend_number;
+            tablebasedata["19-1-4"] = info[i].lend_total;
+            tablebasedata["19-1-5"] = info[i].reader_per_person;
+            tablebasedata["19-1-6"] = info[i].academy_per_person;
+            tabledata.push(tablebasedata);
+        }
+        replace["getUndergraduateAnnualComparisonofBorrowings"] = tabledata;
     });
     $.get('../../schoolReport/getGraduateAnnualComparisonofBorrowings', function (info) {
         var html = template('getAnnualComparisonofBorrowings',{param:info});
         $(".getGraduateAnnualComparisonofBorrowings").html(html);
+        var tabledata = [];
+        for(var i=0;i<info.length;i++){
+            var tablebasedata = new Object();
+            tablebasedata["20-1-1"] = info[i].year;
+            tablebasedata["20-1-2"] = info[i].reader_number;
+            tablebasedata["20-1-3"] = info[i].lend_number;
+            tablebasedata["20-1-4"] = info[i].lend_total;
+            tablebasedata["20-1-5"] = info[i].reader_per_person;
+            tablebasedata["20-1-6"] = info[i].academy_per_person;
+            tabledata.push(tablebasedata);
+        }
+        replace["getGraduateAnnualComparisonofBorrowings"] = tabledata;
     });
 }

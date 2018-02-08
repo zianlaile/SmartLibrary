@@ -3604,8 +3604,18 @@ function yearUnderGraduatBookLendTop10() {
             basedata.bookName = info[i].book_name;
             data.push(basedata);
         }
+        var data1 = [];
+        for(var i = 0; i <info.length; i++){
+            var basedata = new Object();
+            basedata.index = i+1;
+            basedata.book_publisher = info[i].book_publisher;
+            basedata.book_lend_times = info[i].book_lend_times;
+            basedata.book_author = info[i].book_author;
+            basedata.book_name = info[i].book_name;
+            data1.push(basedata);
+        }
         replace.yearUnderGraduatBookLendTop10 = data;
-        var html = template('bookLendFinalRankUndergraduate',{param:data});
+        var html = template('bookLendFinalRankUndergraduate',{param:data1});
         $(".yearUnderGraduatBookLendTop10").html(html);
     })
 }
@@ -3670,7 +3680,7 @@ function yearLibraryClassifyRankInGraduate() {
 
 function bookLendFinalRankTop10InGraduate() {
     $.get('../../schoolReport/getLibraryReportGeneralRankingTop10InGraduate',function (info1) {
-        var data1 = [];
+        var data2 = [];
         for(var i = 0; i <info1.length; i++){
             var basedata = new Object();
             basedata.index = i+1;
@@ -3678,10 +3688,20 @@ function bookLendFinalRankTop10InGraduate() {
             basedata.times = info1[i].book_lend_times;
             basedata.bookAuthor = info1[i].book_author;
             basedata.bookName = info1[i].book_name;
-            data1.push(basedata);
+            data2.push(basedata);
         }
-        replace.yearGraduatBookLendTop10 = data1;
-        var html = template('bookLendFinalRankUndergraduate',{param:data1});
+        var data3 = [];
+        for(var i = 0; i <info1.length; i++){
+            var basedata = new Object();
+            basedata.index = i+1;
+            basedata.book_publisher = info1[i].book_publisher;
+            basedata.book_lend_times = info1[i].book_lend_times;
+            basedata.book_author = info1[i].book_author;
+            basedata.book_name = info1[i].book_name;
+            data3.push(basedata);
+        }
+        replace.yearGraduatBookLendTop10 = data2;
+        var html = template('bookLendFinalRankUndergraduate',{param:data3});
         $(".yearGraduatBookLendTop10").html(html);
     })
 }
@@ -4902,8 +4922,10 @@ function library_report_identity_sum() {
         var html = template('tableLibraryReportIdentitySum',{param:param});
         $(".tableLibraryReportIdentitySum").html(html);
         $(".library_report_identity_sum").find(".sec-year").text(info.year[0]);
+        $(".second-catalog").find(".sec-year").text(info.year[0]);
         replace["sec-year"] = info.year[0];
         $(".library_report_identity_sum").find(".max-year").text(info.year[2]);
+        $(".second-catalog").find(".max-year").text(info.year[2]);
         replace["max-year"] = info.year[2];
         $("#table_library_report_identity_sum_title").text(info.year[0] + "-" + info.year[2] + "年各类型读者入馆总人次统计表");
         replace["table_library_report_identity_sum_title"] = info.year[0] + "-" + info.year[2] + "年各类型读者入馆总人次统计表";
@@ -5173,7 +5195,7 @@ function library_report_ic_total() {
             $(".ic-total").find(".change").text("增加");
             $(".ic-total").find(".change-number").text(sum[2] - sum[1]);
             $(".ic-total").find(".change-percent").text(((sum[2] - sum[1]) / sum[2] * 100).toFixed(2));
-            replace["change-number"] = "增加" + sum[1] - sum[2];
+            replace["change-number"] = "增加" + (sum[1] - sum[2]);
             replace["change-percent"] = "增加" + ((sum[1] - sum[2]) / sum[2] * 100).toFixed(2);
         }
         $(".ic-total-year").text(year[0] + "-" + year[2]);

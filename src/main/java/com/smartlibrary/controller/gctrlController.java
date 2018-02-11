@@ -25,18 +25,21 @@ public class gctrlController {
     gctrlService gctrlservice;
     @RequestMapping(method = { RequestMethod.GET },value = "ByYear")
     @ResponseBody
+    //15.返回历年图书馆进馆总数
     public Map<String ,List> getGctrlCountByYear(HttpServletRequest request) {
         gctrl b=new gctrl();
         return gctrlservice.getGctrlCountByYear(b);
     }
     @RequestMapping(method = { RequestMethod.GET },value = "ByMonth")
     @ResponseBody
+    //16.返回历年每月图书馆进馆总数
     public Map<String ,List> getGctrlCountByMonth(HttpServletRequest request) {
         gctrl b=new gctrl();
         return gctrlservice.getGctrlCountByMonth(b);
     }
     @RequestMapping(method = { RequestMethod.GET },value = "ByDay")
     @ResponseBody
+    //17.返回历年每月每日图书馆进馆总数
     public Map<String ,List> getGctrlCountByDay(HttpServletRequest request) {
         gctrl b=new gctrl();
         return gctrlservice.getGctrlCountByDay(b);
@@ -44,6 +47,7 @@ public class gctrlController {
 
     @RequestMapping(method = { RequestMethod.GET },value = "ByDay2")
     @ResponseBody
+    //19.返回当年每日进馆人数统计总数
     public Map<String ,List> getGctrlCountByDay2(HttpServletRequest request) {
         gctrl b=new gctrl();
         Calendar now = Calendar.getInstance();
@@ -57,6 +61,7 @@ public class gctrlController {
     }
     @RequestMapping(method = { RequestMethod.GET },value = "ByIdentity")
     @ResponseBody
+    //21.返回历年各身份人员进馆总数
     public Map<String ,List> getGctrlCountByIdentity(HttpServletRequest request) {
         gctrl b=new gctrl();
         return gctrlservice.getGctrlCountByIdentity(b);
@@ -64,6 +69,7 @@ public class gctrlController {
 
     @RequestMapping(method = { RequestMethod.GET },value = "BySexAndAcademy")
     @ResponseBody
+    //22.返回当月每天各性别人员进馆总数
     public Map<String ,List> getGctrlCountBySexAndAcademy(HttpServletRequest request) {
         gctrl b=new gctrl();
         return gctrlservice.getGctrlCountBySexAndAcademy(b);
@@ -78,6 +84,7 @@ public class gctrlController {
 
     @RequestMapping(method = { RequestMethod.GET },value = "ByDay_count2")
     @ResponseBody
+    //20.返回当年每日进馆人数总数top12
     public  Map<String,List>  getBookkindCount(HttpServletRequest request){
         gctrl b=new gctrl();
         Calendar now = Calendar.getInstance();

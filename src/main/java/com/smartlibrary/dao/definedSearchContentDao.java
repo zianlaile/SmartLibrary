@@ -10,4 +10,8 @@ public interface definedSearchContentDao {
     List<DefinedSearchContent> getDefinedStudentSexContent();
     List<DefinedSearchContent> getDefinedPublisherContent();
     List<DefinedSearchContent> getDefinedBookStyleContent();
+
+    List<DefinedSearchContent> getDefinedPrintLocationContent();
+    List<DefinedSearchContent> getDefinedPrintPaperTypeContent();
+    List<DefinedSearchContent> getDefinedPrintTypeContent();
 }

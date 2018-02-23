@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>图书馆借阅统计</title>
+    <title>借阅数据分析</title>
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -37,11 +37,12 @@
 </head>
 
 <script type="application/javascript">
-    var excel_data;
+    var datas;
     $(function(){
         $(".remove").click(function(){
             $(".mask").css("display","none");
         });
+        //初始化datarange
         var start=moment().subtract(29,'days');
         var end=moment();
         $('#daterange').daterangepicker({
@@ -104,6 +105,7 @@
 
 </script>
 
+<!--getFormContent()获取表单内容-->
 <script type="application/javascript">
     function getFormContent(formItems){
         var param="";
@@ -153,7 +155,7 @@
         oReq.send();*/
         var elink = document.createElement('a');
         elink.style.display = 'none';
-        elink.href = "../../definedExportExcel/exportRecords"+getFormContent(["timeSection", "academy", "student_style", "student_sex", "publisher", "book_style", "lend_style"]);
+        elink.href = "../../definedExportExcel/exportBookRecords"+getFormContent(["timeSection", "academy", "student_style", "student_sex", "publisher", "book_style", "lend_style"]);
         document.body.appendChild(elink);
         elink.click();
         document.body.removeChild(elink);
@@ -241,7 +243,7 @@
             label: {
                 normal: {
                     show: true,
-                    position: 'top',
+                    profession: 'top',
                     formatter: '{c}'
                 }
             },
@@ -262,7 +264,18 @@
         };
         // 使用刚指定的配置项和数据显示图表。
         largeChart.setOption(largeChart_option);
-        // 异步加载数据
+
+        largeChart.setOption({
+            xAxis: {
+                data: datas.times
+            },
+            series: [{
+                // 根据名字对应到相应的系列
+                name: '借阅每日统计',
+                data: datas.amounts
+            }]
+        });
+        /*// 异步加载数据
         $.ajax({
             type:'get',
             contentType:'application/json',
@@ -287,13 +300,8 @@
             error:function(data){
                 console.info(data);
             }
-        });
+        });*/
     }
-    $(function(){
-        $(".remove").click(function(){
-            $(".mask").css("display","none");
-        });
-    });
 </script>
 
 <!--submitSearchData()提交表单函数-->
@@ -308,7 +316,7 @@
             cache: true,
             async:true,
             success:function(data){
-                excel_data=data;
+                datas=data;
                 console.info(data);
                 setChartData(data);
             },
@@ -341,13 +349,13 @@
     }}
 </script>
 
-<!--getSearchContent()获取下拉框内容-->
+<!--getSearchContent()获取下拉框内容并设置-->
 <script type="application/javascript">
     function getSearchContent(){
         $.ajax({
             type:'get',
             contentType:'application/json',
-            url:'../../definedSearchContent/getDefinedContent',
+            url:'../../definedSearchContent/getDefinedBookContent',
             dataType:'json',
             async:true,
             success:function (data) {
@@ -370,33 +378,7 @@
                 $("#book_style").selectpicker();
             }
         });
-        $.ajax({
-            type:'get',
-            contentType:'application/json',
-            url:'../../definedSearch/getDefinedBookSearch',
-            data: $('#searchForm').serialize(),
-            dataType:'json',
-            cache: true,
-            async:true,
-            success:function(data){
-                excel_data=data;
-                console.info(data);
-                setChartData(data);
-            },
-            error:function(data){
-                console.info(data);
-            }
-        });
-
     }
-</script>
-
-<!--屏幕适配-->
-<script type="application/javascript">
-    $(function(){
-        setChart();
-        getSearchContent();
-    });
 </script>
 
 <!--注销-->
@@ -411,6 +393,15 @@
             }
         });
     }
+</script>
+
+<!--相应数据获取以及初始化-->
+<script type="application/javascript">
+    $(function(){
+        setChartStyle();
+        getSearchContent();
+        submitSearchData();
+    });
 </script>
 
 <body class="nav-md">
@@ -643,9 +634,10 @@
                 </div>
             </form>
         </div>
-            <div class="right_col" >
-                <input id="export" type="button" value="导出EXCEL" onclick = "createExcel()"/>
-            </div>
+        <div class="right_col" >
+            <input id="export" type="button" value="导出EXCEL" onclick = "createExcel()"/>
+        </div>
+
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="clearfix"></div>
@@ -665,21 +657,22 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="searchEcharts" style="height:250px;"></div>
+                            <div id="searchEcharts" style="height:300px;"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!--setChart()设置chart样式，setChartData()设置chart数据-->
         <script type="text/javascript">
-            // 基于月统计
-            function setChart() {
+
+            function setChartStyle() {
                 var searchEcharts = echarts.init(document.getElementById('searchEcharts'));
                 var  searchEcharts_option = {
 
                     tooltip: {
                         trigger: 'axis',
-                        position: function (pt) {
+                        profession: function (pt) {
                             return [pt[0], '10%'];
                         }
                     },

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smartlibrary.dao2.definedSearchContent2Dao">
+    <select id="getDefinedProfessionContent" resultType="com.smartlibrary.domain.DefinedSearchContent">
+        SELECT DISTINCT dwjobTitle AS name FROM app_employee
+        WHERE dwjobTitle is NOT NULL AND dwjobTitle !=''
+    </select>
+    <select id="getDefinedAssetTypeContent" resultType="com.smartlibrary.domain.DefinedSearchContent">
+
+    </select>
+
+</mapper>

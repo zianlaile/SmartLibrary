@@ -2,17 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.smartlibrary.dao.definedSearchDao">
-    <select id="getDefinedBook" parameterType="com.smartlibrary.domain.DefinedBookSearch" resultType="com.smartlibrary.domain.DefinedBookResult">
-        SELECT count(*) AS amount,z.`year`,z.`month`,z.`day`
+    <select id="getDefinedBook" parameterType="com.smartlibrary.domain.DefinedBookSearch" resultType="com.smartlibrary.domain.DefinedResult">
+        SELECT count(*) AS amount,DATE_FORMAT(z.operation_time, '%Y/%c/%e') AS time
         FROM
         <choose>
-            <when test="lend_style=='0'">
+            <when test="lend_style==0">
                 z_book_lend_sys AS z
             </when>
-            <when test="lend_style=='1'">
+            <when test="lend_style==1">
                 z_book_back_sys AS z
             </when>
-            <when test="lend_style=='2'">
+            <when test="lend_style==2">
                 z_book_renew_sys AS z
             </when>
             <otherwise>
@@ -35,6 +35,321 @@
         <if test="book_style != null and book_style != ''">
             AND z.`book_category` = #{book_style}
         </if>
-        GROUP BY z.`year`,z.`day`,z.`hour` ORDER BY z.`year`,z.`month`,z.`day`
+        GROUP BY time
+        ORDER BY time
+    </select>
+
+    <sql id="getDefinedGctrl0">
+        SELECT count(*) AS amount,DATE_FORMAT(z.enter_time, '%Y/%c/%e') AS time
+        FROM z_gctrl_ctrl_sys as z
+        WHERE (z.enter_time BETWEEN #{start_time} AND #{end_time})
+        <if test="academy != null and academy != ''">
+            AND z.`academy` = #{academy}
+        </if>
+        <if test="student_style != null and student_style != ''">
+            AND z.`identity` = #{student_style}
+        </if>
+        <if test="student_sex != null and student_sex != ''">
+            AND z.`gender` = #{student_sex}
+        </if>
+        GROUP BY time
+        ORDER BY time
+    </sql>
+
+    <sql id="getDefinedGctrl1">
+        SELECT  zz.`academy` AS academy,zz.amount AS amount
+        FROM
+        (SELECT z.`academy`,count(*) AS amount
+        FROM z_gctrl_ctrl_sys as z
+        WHERE (z.enter_time BETWEEN #{start_time} AND #{end_time})
+        <if test="student_style != null and student_style != ''">
+            AND z.`identity` = #{student_style}
+        </if>
+        <if test="student_sex != null and student_sex != ''">
+            AND z.`gender` = #{student_sex}
+        </if>
+        GROUP BY z.`academy`) AS zz
+        ORDER By amount
+    </sql>
+
+    <select id="getDefinedGctrl" parameterType="com.smartlibrary.domain.DefinedGctrlSearch" resultType="com.smartlibrary.domain.DefinedResult">
+        <choose>
+            <when test="style==0">
+                <include refid="getDefinedGctrl0"></include>
+            </when>
+            <when test="style==1">
+                <include refid="getDefinedGctrl1"></include>
+            </when>
+            <otherwise>
+                <include refid="getDefinedGctrl0"></include>
+            </otherwise>
+        </choose>
+    </select>
+
+    <sql id="getDefinedIc0">
+        SELECT DATE_FORMAT(zz.ymddate, '%Y/%c/%e') AS time,
+        <choose>
+            <when test="ic_type == 0 and style==1">
+                zz.croom_times
+            </when>
+            <when test="ic_type == 0 and style==0">
+                zz.croom_duration
+            </when>
+            <when test="ic_type == 1 and style==1">
+                zz.seat_times
+            </when>
+            <when test="ic_type == 1 and style==0">
+                zz.seat_duration
+            </when>
+            <when test="ic_type == 2 and style==1">
+                zz.eread_times
+            </when>
+            <when test="ic_type == 2 and style==0">
+                zz.eread_duration
+            </when>
+            <when test="ic_type == 3 and style==1">
+                zz.equipment_times
+            </when>
+            <when test="ic_type == 3 and style==0">
+                zz.equipment_duration
+            </when>
+            <otherwise>
+                zz.croom_times
+            </otherwise>
+        </choose>
+        AS amount
+        FROM zz_ic_day_identity as zz
+        WHERE (zz.ymddate BETWEEN #{start_time} AND #{end_time})
+        AND zz.`user_type` = #{student_style}
+        ORDER BY time
+    </sql>
+
+    <sql id="getDefinedIc1">
+        SELECT DATE_FORMAT(zz.ymddate, '%Y/%c/%e') AS time,
+        <choose>
+            <when test="ic_type == 0 and style==1">
+                SUM(zz.croom_times)
+            </when>
+            <when test="ic_type == 0 and style==0">
+                SUM(zz.croom_duration)
+            </when>
+            <when test="ic_type == 1 and style==1">
+                SUM(zz.seat_times)
+            </when>
+            <when test="ic_type == 1 and style==0">
+                SUM(zz.seat_duration)
+            </when>
+            <when test="ic_type == 2 and style==1">
+                SUM(zz.eread_times)
+            </when>
+            <when test="ic_type == 2 and style==0">
+                SUM(zz.eread_duration)
+            </when>
+            <when test="ic_type == 3 and style==1">
+                SUM(zz.equipment_times)
+            </when>
+            <when test="ic_type == 3 and style==0">
+                SUM(zz.equipment_duration)
+            </when>
+            <otherwise>
+                SUM(zz.croom_times)
+            </otherwise>
+        </choose>
+        AS amount
+        FROM zz_ic_day_identity as zz
+        WHERE (zz.ymddate BETWEEN #{start_time} AND #{end_time})
+        GROUP BY zz.ymddate
+        ORDER BY time
+    </sql>
+
+    <select id="getDefinedIc" parameterType="com.smartlibrary.domain.DefinedIcSearch" resultType="com.smartlibrary.domain.DefinedResult">
+        <choose>
+            <when test="student_style != null and student_style != ''">
+                <include refid="getDefinedIc0"></include>
+            </when>
+            <otherwise>
+                <include refid="getDefinedIc1"></include>
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getDefinedPrint" parameterType="com.smartlibrary.domain.DefinedPrintSearch" resultType="com.smartlibrary.domain.DefinedResult">
+        SELECT count(*) AS amount,DATE_FORMAT(z.print_time, '%Y/%c/%e') AS time,
+        FROM z_printcs_sys AS z
+        WHERE (z.print_time BETWEEN #{start_time} AND #{end_time})
+        <if test="print_type != null and print_type != ''">
+            AND z.`print_type` = #{print_type}
+        </if>
+        <if test="print_location != null and print_location != ''">
+            AND z.`print_location` = #{print_location}
+        </if>
+        <if test="paper_type != null and paper_type != ''">
+            AND z.`paper_type` = #{paper_type}
+        </if>
+        GROUP BY time
+        ORDER BY time
+    </select>
+
+    <sql id="getDefinedPerson">
+        SELECT DATE_FORMAT(dwBirthDate, '%Y') AS year,COUNT(*) AS amount
+        FROM app_employee
+        WHERE (DATE_FORMAT(dwBirthDate, '%Y') BETWEEN #{birth_start} AND #{birth_end})
+        <if test="sex != null and sex != ''">
+            AND dwSex = #{sex}
+        </if>
+        <if test="profession != null and profession != ''">
+            AND dwjobTitle = #{profession}
+        </if>
+        GROUP BY year
+        ORDER BY year
+    </sql>
+    <sql id="getDefinedAsset0">
+        SELECT DATE_FORMAT(dwPurchaseDate, '%Y') AS year,COUNT(*) AS amount
+        FROM app_library_asset
+        WHERE (DATE_FORMAT(dwPurchaseDate, '%Y') BETWEEN #{birth_start} AND #{birth_end})
+        GROUP BY year
+        ORDER BY year
+    </sql>
+    <sql id="getDefinedAsset1">
+        SELECT year AS year,count AS amount
+        FROM app_resources
+        WHERE (year BETWEEN #{birth_start} AND #{birth_end})
+        GROUP BY year
+        ORDER BY year
+    </sql>
+    <select id="getDefinedPersonAsset" parameterType="com.smartlibrary.domain2.DefinedPersonAssetSearch" resultType="com.smartlibrary.domain.DefinedResult">
+        <choose>
+            <when test="style==0">
+                <include refid="getDefinedPerson"></include>
+            </when>
+            <when test="style==1">
+                <choose>
+                    <when test="asset_type==0">
+                        <include refid="getDefinedAsset0"></include>
+                    </when>
+                    <when test="asset_type==1">
+                        <include refid="getDefinedAsset1"></include>
+                    </when>
+                    <otherwise>
+                        <include refid="getDefinedAsset0"></include>
+                    </otherwise>
+                </choose>
+            </when>
+            <otherwise>
+                <include refid="getDefinedPerson"></include>
+            </otherwise>
+        </choose>
+
+    </select>
+
+    <sql id="getDefinedBookRank0">
+        SELECT count(*) AS amount,z.`book_name` AS x_data
+        FROM z_book_lend_sys AS z
+        WHERE (z.operation_time BETWEEN #{start_time} AND #{end_time})
+        <if test="academy != null and academy != ''">
+            AND z.`reader_academy` = #{academy}
+        </if>
+        <if test="student_style != null and student_style != ''">
+            AND z.`reader_identity` = #{student_style}
+        </if>
+        <if test="student_sex != null and student_sex != ''">
+            AND z.`reader_gender` = #{student_sex}
+        </if>
+        GROUP BY z.`book_no`
+        ORDER BY amount DESC
+        LIMIT #{rank_number}
+    </sql>
+
+    <sql id="getDefinedBookRank1">
+        SELECT count(*) AS amount,z.`reader_name` AS x_data
+        FROM z_book_lend_sys AS z
+        WHERE (z.operation_time BETWEEN #{start_time} AND #{end_time})
+        <if test="academy != null and academy != ''">
+            AND z.`reader_academy` = #{academy}
+        </if>
+        <if test="student_style != null and student_style != ''">
+            AND z.`reader_identity` = #{student_style}
+        </if>
+        <if test="student_sex != null and student_sex != ''">
+            AND z.`reader_gender` = #{student_sex}
+        </if>
+        GROUP BY z.`account`
+        ORDER BY amount DESC
+        LIMIT #{rank_number}
+    </sql>
+
+    <sql id="getDefinedGctrlRank">
+        SELECT count(*) AS amount,DATE_FORMAT(z.enter_time, '%Y/%c/%e') AS x_data
+        FROM z_gctrl_ctrl_sys AS z
+        WHERE (z.enter_time BETWEEN #{start_time} AND #{end_time})
+        <if test="academy != null and academy != ''">
+            AND z.`reader_academy` = #{academy}
+        </if>
+        <if test="student_style != null and student_style != ''">
+            AND z.`reader_identity` = #{student_style}
+        </if>
+        <if test="student_sex != null and student_sex != ''">
+            AND z.`reader_gender` = #{student_sex}
+        </if>
+        GROUP BY x_data
+        ORDER BY amount DESC
+        LIMIT #{rank_number}
+    </sql>
+
+    <sql id="getDefinedPrintRank">
+        SELECT count(*) AS amount,DATE_FORMAT(z.print_time, '%Y/%c/%e') AS x_data
+        FROM z_printcs_sys AS z
+        WHERE (z.print_time BETWEEN #{start_time} AND #{end_time})
+        <choose>
+            <when test="print_type != null and print_type != ''">
+                AND z.`print_type` = #{print_type}
+            </when>
+            <when test="print_location != null and print_location != ''">
+                AND z.`print_location` = #{print_location}
+            </when>
+            <when test="paper_type != null and paper_type != ''">
+                AND z.`paper_type` = #{paper_type}
+            </when>
+        </choose>
+        GROUP BY x_data
+        ORDER BY amount DESC
+        LIMIT #{rank_number}
+    </sql>
+
+    <select id="getDefinedRank" parameterType="com.smartlibrary.domain.DefinedRankSearch" resultType="com.smartlibrary.domain.DefinedResult">
+        <choose>
+            <when test="rank_style==0">
+                <choose>
+                    <when test="book_rank_type==0">
+                        <include refid="getDefinedBookRank0"></include>
+                    </when>
+                    <when test="book_rank_type==1">
+                        <include refid="getDefinedBookRank1"></include>
+                    </when>
+                    <otherwise>
+                        <include refid="getDefinedBookRank0"></include>
+                    </otherwise>
+                </choose>
+            </when>
+            <when test="rank_style==1">
+                <include refid="getDefinedGctrlRank"></include>
+            </when>
+            <when test="rank_style==2">
+                <include refid="getDefinedPrintRank"></include>
+            </when>
+            <otherwise>
+                <choose>
+                    <when test="book_rank_type==0">
+                        <include refid="getDefinedBookRank0"></include>
+                    </when>
+                    <when test="book_rank_type==1">
+                        <include refid="getDefinedBookRank1"></include>
+                    </when>
+                    <otherwise>
+                        <include refid="getDefinedBookRank0"></include>
+                    </otherwise>
+                </choose>
+            </otherwise>
+        </choose>
     </select>
 </mapper>

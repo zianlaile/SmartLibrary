@@ -17,4 +17,14 @@
     <select id="getDefinedBookStyleContent" resultType="com.smartlibrary.domain.DefinedSearchContent">
         SELECT DISTINCT id AS id,name AS name FROM z_book_category
     </select>
+
+    <select id="getDefinedPrintLocationContent" resultType="com.smartlibrary.domain.DefinedSearchContent">
+        SELECT id AS id,name AS name FROM z_printcs_location
+    </select>
+    <select id="getDefinedPrintPaperTypeContent" resultType="com.smartlibrary.domain.DefinedSearchContent">
+        SELECT id AS id,name AS name FROM z_printcs_papertype
+    </select>
+    <select id="getDefinedPrintTypeContent" resultType="com.smartlibrary.domain.DefinedSearchContent">
+        SELECT id AS id,name AS name FROM z_printcs_printtype
+    </select>
 </mapper>

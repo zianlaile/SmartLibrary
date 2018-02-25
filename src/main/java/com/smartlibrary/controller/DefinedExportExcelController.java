@@ -24,7 +24,7 @@ public class DefinedExportExcelController {
     @RequestMapping(value = "exportBookRecords")
     @ResponseBody
     public String exportBookRecords(@Valid DefinedBookSearch definedBookSearch, Errors errors, HttpServletResponse response){
-        System.out.println(definedBookSearch.toString());
+        logger.info(definedBookSearch.toString());
         definedExportExcelService.getDefinedBookSearch(definedBookSearch,errors,response);
         return null;
     }
@@ -32,7 +32,7 @@ public class DefinedExportExcelController {
     @RequestMapping(value = "exportGctrlRecords")
     @ResponseBody
     public String exportGctrlRecords(@Valid DefinedGctrlSearch definedGctrlSearch, Errors errors, HttpServletResponse response){
-        System.out.println(definedGctrlSearch.toString());
+        logger.info(definedGctrlSearch.toString());
         definedExportExcelService.getDefinedGctrlSearch(definedGctrlSearch,errors,response);
         return null;
     }
@@ -40,7 +40,7 @@ public class DefinedExportExcelController {
     @RequestMapping(value = "exportIcRecords")
     @ResponseBody
     public String exportIcRecords(@Valid DefinedIcSearch definedIcSearch, Errors errors, HttpServletResponse response){
-        System.out.println(definedIcSearch.toString());
+        logger.info(definedIcSearch.toString());
         definedExportExcelService.getDefinedIcSearch(definedIcSearch,errors,response);
         return null;
     }
@@ -48,7 +48,7 @@ public class DefinedExportExcelController {
     @RequestMapping(value = "exportPrintRecords")
     @ResponseBody
     public String exportPrintRecords(@Valid DefinedPrintSearch definedPrintSearch, Errors errors, HttpServletResponse response){
-        System.out.println(definedPrintSearch.toString());
+        logger.info(definedPrintSearch.toString());
         definedExportExcelService.getDefinedPrintSearch(definedPrintSearch,errors,response);
         return null;
     }
@@ -56,7 +56,7 @@ public class DefinedExportExcelController {
     @RequestMapping(value = "exportPersonAssetRecords")
     @ResponseBody
     public String exportPersonAssetRecords(@Valid DefinedPersonAssetSearch definedPersonAssetSearch, Errors errors, HttpServletResponse response){
-        System.out.println(definedPersonAssetSearch.toString());
+        logger.info(definedPersonAssetSearch.toString());
         definedExportExcelService.getDefinedPersonAssetSearch(definedPersonAssetSearch,errors,response);
         return null;
     }
@@ -64,7 +64,7 @@ public class DefinedExportExcelController {
     @RequestMapping(value = "exportRankRecords")
     @ResponseBody
     public String exportRankRecords(@Valid DefinedRankSearch definedRankSearch, Errors errors, HttpServletResponse response){
-        System.out.println(definedRankSearch.toString());
+        logger.info(definedRankSearch.toString());
         definedExportExcelService.getDefinedRankSearch(definedRankSearch,errors,response);
         return null;
     }

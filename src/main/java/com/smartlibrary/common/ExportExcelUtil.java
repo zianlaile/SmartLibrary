@@ -30,7 +30,7 @@ public class ExportExcelUtil {
      */
     @SuppressWarnings("rawtypes")
     public final static String exportExcel(String fileName, Map<String, String> exportMap,
-                                           List<? extends Object> listContent, HttpServletResponse response,String title) {
+                                           List<? extends Object> listContent, HttpServletResponse response,String title,String subTitle) {
         String result = "success";
         // 以下开始输出到EXCEL
         try {
@@ -85,15 +85,18 @@ public class ExportExcelUtil {
             sheet.setRowView(0, sheet.getSettings().getDefaultRowHeight()*2);// 设置第一列宽度
             sheet.mergeCells(0, 0, 5, 0);
             sheet.addCell(new Label(0, 0, title+"（总数："+listContent.size()+")", wcf_center));
+            /** ***************以下是EXCEL副标题，暂时省略********************* */
+            sheet.mergeCells(0, 1, 5, 1);
+            sheet.addCell(new Label(0, 1, subTitle, wcf_center));
             /** ***************以下是EXCEL第一行列标题********************* */
             Object[] columArr = exportMap.keySet().toArray();
             Object[] filedNameArr = exportMap.values().toArray();
             //sheet.addCell(new Label(0, 1, "序号", wcf_center));
             for (int i = 0; i < columArr.length; i++) {
-                sheet.addCell(new Label(i, 1, columArr[i].toString(), wcf_center2));
+                sheet.addCell(new Label(i, 2, columArr[i].toString(), wcf_center2));
             }
             /** ***************以下是EXCEL正文数据********************* */
-            int i = 2;
+            int i = 3;
             for (Object obj : listContent) {
 
                 int j = 0;

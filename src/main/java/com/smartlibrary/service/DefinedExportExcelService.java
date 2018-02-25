@@ -17,7 +17,7 @@ import java.util.Map;
 
 @Service
 public class DefinedExportExcelService {
-    private static final Logger logger = Logger.getLogger(bookLendService.class);
+    private static final Logger logger = Logger.getLogger(DefinedExportExcelService.class);
     @Autowired
     private definedSearchDao definedsearchDao;
     @Autowired
@@ -30,7 +30,7 @@ public class DefinedExportExcelService {
             exportMap.put("时间", "time");
             exportMap.put("数量", "amount");
             List<DefinedResult> definedResultList = definedsearchDao.getDefinedBook(definedBookSearch);
-            ExportExcelUtil.exportExcel("借阅数据分析.xlsx",exportMap, definedResultList,response,"借阅数据分析");
+            ExportExcelUtil.exportExcel("借阅数据分析.xlsx",exportMap, definedResultList,response,"借阅数据分析",definedBookSearch.getSearchContentSubTitle());
             return false;
         }
         return true;
@@ -41,11 +41,11 @@ public class DefinedExportExcelService {
             if(definedGctrlSearch.getStyle()==0){
                 exportMap.put("时间", "time");
             }else{
-                exportMap.put("学院", "academys");
+                exportMap.put("学院", "academy");
             }
             exportMap.put("数量", "amount");
             List<DefinedResult> definedResultList = definedsearchDao.getDefinedGctrl(definedGctrlSearch);
-            ExportExcelUtil.exportExcel("进馆数据分析.xlsx",exportMap, definedResultList,response,"进馆数据分析");
+            ExportExcelUtil.exportExcel("进馆数据分析.xlsx",exportMap, definedResultList,response,"进馆数据分析",definedGctrlSearch.getSearchContentSubTitle());
             return false;
         }
         return true;
@@ -56,7 +56,7 @@ public class DefinedExportExcelService {
             exportMap.put("时间", "time");
             exportMap.put("数量", "amount");
             List<DefinedResult> definedResultList = definedsearchDao.getDefinedIc(definedIcSearch);
-            ExportExcelUtil.exportExcel("IC空间数据分析.xlsx",exportMap, definedResultList,response,"IC空间数据分析");
+            ExportExcelUtil.exportExcel("IC空间数据分析.xlsx",exportMap, definedResultList,response,"IC空间数据分析",definedIcSearch.getSearchContentSubTitle());
             return false;
         }
         return true;
@@ -67,7 +67,7 @@ public class DefinedExportExcelService {
             exportMap.put("时间", "time");
             exportMap.put("数量", "amount");
             List<DefinedResult> definedResultList = definedsearchDao.getDefinedPrint(definedPrintSearch);
-            ExportExcelUtil.exportExcel("自助打印复印分析.xlsx",exportMap, definedResultList,response,"自助打印复印分析");
+            ExportExcelUtil.exportExcel("自助打印复印分析.xlsx",exportMap, definedResultList,response,"自助打印复印分析",definedPrintSearch.getSearchContentSubTitle());
             return false;
         }
         return true;
@@ -75,10 +75,10 @@ public class DefinedExportExcelService {
     public boolean getDefinedPersonAssetSearch(DefinedPersonAssetSearch definedPersonAssetSearch, Errors errors, HttpServletResponse response) {
         if(!errors.hasErrors()){
             Map<String,String> exportMap=new HashMap<String,String>();
-            exportMap.put("时间", "time");
+            exportMap.put("时间", "year");
             exportMap.put("数量", "amount");
             List<DefinedResult> definedResultList = definedsearch2Dao.getDefinedPersonAsset(definedPersonAssetSearch);
-            ExportExcelUtil.exportExcel("人员资产统计.xlsx",exportMap, definedResultList,response,"人员资产统计");
+            ExportExcelUtil.exportExcel("人员资产统计.xlsx",exportMap, definedResultList,response,"人员资产统计",definedPersonAssetSearch.getSearchContentSubTitle());
             return false;
         }
         return true;
@@ -107,7 +107,7 @@ public class DefinedExportExcelService {
             exportMap.put(first_title, "x_data");
             exportMap.put(second_title, "amount");
             List<DefinedResult> definedResultList = definedsearchDao.getDefinedRank(definedRankSearch);
-            ExportExcelUtil.exportExcel("统计排行分析.xlsx",exportMap, definedResultList,response,title);
+            ExportExcelUtil.exportExcel("统计排行分析.xlsx",exportMap, definedResultList,response,title,definedRankSearch.getSearchContentSubTitle());
             return false;
         }
         return true;

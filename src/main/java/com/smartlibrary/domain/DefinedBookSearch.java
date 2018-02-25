@@ -110,4 +110,21 @@ public class DefinedBookSearch implements Serializable {
                 ", lend_style=" + lend_style +
                 '}';
     }
+
+    public String getSearchContentSubTitle(){
+        String title=getContent(timeSection)+getContent(academy)+getContent(student_style)+getContent(student_sex)+getContent(publisher)+getContent(book_style);
+        if(lend_style==0)
+            title+="借书";
+        else if(lend_style==1)
+            title+="还书";
+        else
+            title+="续借";
+        return title.trim();
+    }
+
+    private String getContent(String s){
+        if(s!=null&&!s.isEmpty()&&s.trim()!="")
+            return s.trim()+" ";
+        return "";
+    }
 }

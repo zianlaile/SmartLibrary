@@ -145,4 +145,27 @@ public class DefinedRankSearch implements Serializable {
                 ", rank_style=" + rank_style +
                 '}';
     }
+
+    public String getSearchContentSubTitle(){
+        String title=getContent(timeSection);
+        if(rank_style==0){
+            title+="借阅 "+getContent(academy)+getContent(student_style).trim()+"-"+getContent(student_sex);
+            if(book_rank_type==0)
+                title+="图书借阅量 ";
+            else
+                title+="学生借阅量 ";
+        }else if(rank_style==1){
+            title+="进馆 "+getContent(academy)+getContent(student_style).trim()+"-"+getContent(student_sex);
+        }else{
+            title+="打印复印 "+getContent(print_type)+getContent(print_location).trim()+"-"+getContent(paper_type);
+        }
+        title+="前"+rank_number;
+        return title.trim();
+    }
+
+    private String getContent(String s){
+        if(s!=null&&!s.isEmpty()&&s.trim()!="")
+            return s.trim()+" ";
+        return "";
+    }
 }

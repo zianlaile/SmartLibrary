@@ -14,7 +14,9 @@ public class DefinedIcSearch implements Serializable {
     @NotNull @DateTimeFormat(pattern = "yyyy/MM/dd")
     String end_time;
     String student_style;
-    int ic_type;  //
+
+    @NotNull @Size(max=3,min=0)
+    int ic_type;  //ic空间类别
 
     @NotNull @Size(max=1,min=0)
     int style;  //0-时长,1-人次
@@ -79,5 +81,28 @@ public class DefinedIcSearch implements Serializable {
                 ", ic_type=" + ic_type +
                 ", style=" + style +
                 '}';
+    }
+
+    public String getSearchContentSubTitle(){
+        String title=getContent(timeSection)+getContent(student_style);
+        if(ic_type==0)
+            title+="研修室 ";
+        else if(ic_type==1)
+            title+="座位 ";
+        else if(ic_type==2)
+            title+="电子阅览室 ";
+        else
+            title+="设备 ";
+        if(style==0)
+            title+="时长";
+        else
+            title+="人次";
+        return title.trim();
+    }
+
+    private String getContent(String s){
+        if(s!=null&&!s.isEmpty()&&s.trim()!="")
+            return s.trim()+" ";
+        return "";
     }
 }

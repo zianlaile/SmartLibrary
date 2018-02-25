@@ -358,24 +358,17 @@
             url:'../../definedSearchContent/getDefinedBookContent',
             dataType:'json',
             async:true,
+            cache:true,
             success:function (data) {
                 console.info(data);
                 setSelect(document.getElementById('academy'),data.academy,false);
                 setSelect(document.getElementById('student_style'),data.student_style,false);
                 setSelect(document.getElementById('publisher'),data.publisher,false);
-                setSelect(document.getElementById('book_style'),data.book_style,false);
-                $("#academy").selectpicker('render');
+                setSelect(document.getElementById('book_style'),data.book_style,true);
                 $("#academy").selectpicker('refresh');
-                $("#academy").selectpicker();
-                $("#student_style").selectpicker('render');
                 $("#student_style").selectpicker('refresh');
-                $("#student_style").selectpicker();
-                $("#publisher").selectpicker('render');
                 $("#publisher").selectpicker('refresh');
-                $("#publisher").selectpicker();
-                $("#book_style").selectpicker('render');
                 $("#book_style").selectpicker('refresh');
-                $("#book_style").selectpicker();
             }
         });
     }

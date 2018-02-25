@@ -46,7 +46,7 @@ public class SqlStatementInterceptor implements Interceptor {
 
         if (time > 1) {
             String sql = getSql(configuration, boundSql, sqlId, time);
-            logger.error(sql);
+            logger.info(sql);
         }
 
         return returnValue;

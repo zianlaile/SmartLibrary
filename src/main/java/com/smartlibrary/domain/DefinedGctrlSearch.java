@@ -90,4 +90,19 @@ public class DefinedGctrlSearch implements Serializable {
                 ", style=" + style +
                 '}';
     }
+
+    public String getSearchContentSubTitle(){
+        String title=getContent(timeSection)+getContent(academy)+getContent(student_style)+getContent(student_sex);
+        if(style==0)
+            title+="总数";
+        else
+            title+="排名";
+        return title.trim();
+    }
+
+    private String getContent(String s){
+        if(s!=null&&!s.isEmpty()&&s.trim()!="")
+            return s.trim()+" ";
+        return "";
+    }
 }

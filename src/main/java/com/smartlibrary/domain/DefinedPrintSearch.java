@@ -80,4 +80,15 @@ public class DefinedPrintSearch implements Serializable {
                 ", paper_type=" + paper_type +
                 '}';
     }
+
+    public String getSearchContentSubTitle(){
+        String title=getContent(timeSection)+getContent(print_type)+getContent(print_location)+getContent(paper_type);
+        return title.trim();
+    }
+
+    private String getContent(String s){
+        if(s!=null&&!s.isEmpty()&&s.trim()!="")
+            return s.trim()+" ";
+        return "";
+    }
 }

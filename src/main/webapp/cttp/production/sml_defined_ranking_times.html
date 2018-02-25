@@ -352,7 +352,7 @@
                 axisLabel: {
                     interval: null
                 },
-                data: datas.x_datas.reverse(),
+                data: datas.x_datas,
                 splitLine: {
                     show: false
                 }
@@ -367,7 +367,7 @@
                     }
 
                 },
-                data: datas.amounts.reverse(),
+                data: datas.amounts,
             }]
         };
         // 使用刚指定的配置项和数据显示图表。
@@ -535,12 +535,12 @@
         searchEcharts.setOption(searchEcharts_option);
         searchEcharts.setOption({
             yAxis: {
-                data: data.x_datas.reverse(),
+                data: data.x_datas,
             },
             series: [{
                 // 根据名字对应到相应的系列
                 name: $("#rank_style").val()==0?['借阅数量']:($("#rank_style").val()==1?['进馆数量']:['打印复印数量']),
-                data: data.amounts.reverse(),
+                data: data.amounts,
             }]
         });
         /*searchEcharts.setOption({
@@ -571,6 +571,8 @@
             success:function(data){
                 console.info(data);
                 datas=data;
+                datas.x_datas.reverse();
+                datas.amounts.reverse();
                 if($("#rank_style").val()==0)
                     $("#title").text("借阅排行");
                 else if($("#rank_style").val()==1)

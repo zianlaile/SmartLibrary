@@ -269,7 +269,7 @@
             // 使用刚指定的配置项和数据显示图表。
             largeChart.setOption(largeChart_option);
         }else{
-            $(".chart_title p").text("进馆数据分析-学院排名");
+            $(".chart_title p").text("进馆数据分析-学院排名(前10)");
             $("#largeChart").css("display","none");
             $("#largeChart2").css("display","block")
             largeChart = echarts.init(document.getElementById('largeChart2'));
@@ -461,7 +461,7 @@
                 }]
             });
         }else{
-            $("#title").text("进馆数据分析-学院排名");
+            $("#title").text("进馆数据分析-学院排名(前10)");
             $("#searchEcharts").css("display","none");
             $("#searchEcharts2").css("display","block")
             searchEcharts = echarts.init(document.getElementById('searchEcharts2'));
@@ -540,12 +540,12 @@
             searchEcharts.setOption(searchEcharts_option);
             searchEcharts.setOption({
                 yAxis: {
-                    data: data.academys
+                    data: data.academys.reverse(),
                 },
                 series: [{
                     // 根据名字对应到相应的系列
-                    name: '进馆排名(学院)',
-                    data: data.amounts,
+                    name: '进馆排名(学院-前10)',
+                    data: data.amounts.reverse(),
                 }]
             });
         }
@@ -610,12 +610,8 @@
                 console.info(data);
                 setSelect(document.getElementById('academy'),data.academy,false);
                 setSelect(document.getElementById('student_style'),data.student_style,false);
-                $("#academy").selectpicker('render');
                 $("#academy").selectpicker('refresh');
-                $("#academy").selectpicker();
-                $("#student_style").selectpicker('render');
                 $("#student_style").selectpicker('refresh');
-                $("#student_style").selectpicker();
             }
         });
     }

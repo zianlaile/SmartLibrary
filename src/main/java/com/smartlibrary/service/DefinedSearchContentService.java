@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Service
 public class DefinedSearchContentService {
-    private static final Logger logger = Logger.getLogger(bookLendService.class);
+    private static final Logger logger = Logger.getLogger(DefinedSearchContentService.class);
 
     @Autowired
     private definedSearchContentDao definedsearchContentDao;

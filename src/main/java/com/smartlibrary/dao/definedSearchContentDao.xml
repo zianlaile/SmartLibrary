@@ -2,6 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.smartlibrary.dao.definedSearchContentDao">
+    <!--24小时刷新-->
+    <cache flushInterval="86400000"/>
     <select id="getDefinedAcademyContent" resultType="com.smartlibrary.domain.DefinedSearchContent">
         SELECT id AS id,academy AS name FROM z_academu_org
     </select>

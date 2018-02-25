@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Service
 public class DefinedSearchService {
-    private static final Logger logger = Logger.getLogger(bookLendService.class);
+    private static final Logger logger = Logger.getLogger(DefinedSearchService.class);
     @Autowired
     private definedSearchDao definedsearchDao;
     @Autowired
@@ -26,6 +26,7 @@ public class DefinedSearchService {
         Map<String ,List> data=new HashMap<String ,List>();
         if(errors.hasErrors()){
             data.put("error",errors.getFieldErrors());
+            logger.info("查询失败");
             return data;
         }
         List<DefinedResult> definedResultList =definedsearchDao.getDefinedBook(definedBookSearch);
@@ -35,9 +36,9 @@ public class DefinedSearchService {
             amounts.add(definedResultList.get(i).getAmount());
             times.add(definedResultList.get(i).getTime());
         }
-        System.out.println("OK");
         data.put("amounts",amounts);
         data.put("times",times);
+        logger.info("查询成功");
         return data;
     }
 
@@ -45,6 +46,7 @@ public class DefinedSearchService {
         Map<String ,List> data=new HashMap<String ,List>();
         if(errors.hasErrors()){
             data.put("error",errors.getFieldErrors());
+            logger.info("查询失败");
             return data;
         }
         List<DefinedResult> definedResultList=definedsearchDao.getDefinedGctrl(definedGctrlSearch);
@@ -67,7 +69,7 @@ public class DefinedSearchService {
             data.put("academys",academys);
         }
         data.put("amounts",amounts);
-        System.out.println("OK");
+        logger.info("查询成功");
         return data;
     }
 
@@ -75,6 +77,7 @@ public class DefinedSearchService {
         Map<String ,List> data=new HashMap<String ,List>();
         if(errors.hasErrors()){
             data.put("error",errors.getFieldErrors());
+            logger.info("查询失败");
             return data;
         }
         List<DefinedResult> definedResultList=definedsearchDao.getDefinedIc(definedIcSearch);
@@ -86,7 +89,7 @@ public class DefinedSearchService {
         }
         data.put("times",times);
         data.put("amounts",amounts);
-        System.out.println("OK");
+        logger.info("查询成功");
         return data;
     }
 
@@ -94,6 +97,7 @@ public class DefinedSearchService {
         Map<String ,List> data=new HashMap<String ,List>();
         if(errors.hasErrors()){
             data.put("error",errors.getFieldErrors());
+            logger.info("查询失败");
             return data;
         }
         List<DefinedResult> definedResultList =definedsearchDao.getDefinedPrint(definedPrintSearch);
@@ -103,9 +107,9 @@ public class DefinedSearchService {
             amounts.add(definedResultList.get(i).getAmount());
             times.add(definedResultList.get(i).getTime());
         }
-        System.out.println("OK");
         data.put("amounts",amounts);
         data.put("times",times);
+        logger.info("查询成功");
         return data;
     }
 
@@ -113,6 +117,7 @@ public class DefinedSearchService {
         Map<String ,List> data=new HashMap<String ,List>();
         if(errors.hasErrors()){
             data.put("error",errors.getFieldErrors());
+            logger.info("查询失败");
             return data;
         }
         List<DefinedResult> definedResultList =definedsearch2Dao.getDefinedPersonAsset(definedPersonAssetSearch);
@@ -122,9 +127,9 @@ public class DefinedSearchService {
             amounts.add(definedResultList.get(i).getAmount());
             times.add(String.valueOf(definedResultList.get(i).getYear()));
         }
-        System.out.println("OK");
         data.put("amounts",amounts);
         data.put("times",times);
+        logger.info("查询成功");
         return data;
     }
 
@@ -132,6 +137,7 @@ public class DefinedSearchService {
         Map<String ,List> data=new HashMap<String ,List>();
         if(errors.hasErrors()){
             data.put("error",errors.getFieldErrors());
+            logger.info("查询失败");
             return data;
         }
         List<DefinedResult> definedResultList =definedsearchDao.getDefinedRank(definedRankSearch);
@@ -141,9 +147,9 @@ public class DefinedSearchService {
             amounts.add(definedResultList.get(i).getAmount());
             x_data.add(definedResultList.get(i).getX_data());
         }
-        System.out.println("OK");
         data.put("amounts",amounts);
         data.put("x_datas",x_data);
+        logger.info("查询成功");
         return data;
     }
 }

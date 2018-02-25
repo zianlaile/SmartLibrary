@@ -25,42 +25,42 @@ public class DefinedSearchController {
     @RequestMapping(value = "getDefinedBookSearch",produces="application/json;charset=UTF-8")
     @ResponseBody
     public Map<String ,List> getDefinedBookSearch(@Valid DefinedBookSearch definedBookSearch,Errors errors) {
-        System.out.println(definedBookSearch.toString());
+        logger.info(definedBookSearch.toString());
         return definedSearchService.getDefinedBookSearch(definedBookSearch,errors);
     }
 
     @RequestMapping(value = "getDefinedGctrlSearch",produces="application/json;charset=UTF-8")
     @ResponseBody
     public Map<String ,List> getDefinedGctrlSearch(@Valid DefinedGctrlSearch definedGctrlSearch, Errors errors) {
-        System.out.println(definedGctrlSearch.toString());
+        logger.info(definedGctrlSearch.toString());
         return definedSearchService.getDefinedGctrlSearch(definedGctrlSearch,errors);
     }
 
     @RequestMapping(value = "getDefinedIcSearch",produces="application/json;charset=UTF-8")
     @ResponseBody
     public Map<String ,List> getDefinedIcSearch(@Valid DefinedIcSearch definedIcSearch, Errors errors) {
-        System.out.println(definedIcSearch.toString());
+        logger.info(definedIcSearch.toString());
         return definedSearchService.getDefinedIcSearch(definedIcSearch,errors);
     }
 
     @RequestMapping(value = "getDefinedPrintSearch",produces="application/json;charset=UTF-8")
     @ResponseBody
     public Map<String ,List> getDefinedPrintSearch(@Valid DefinedPrintSearch definedPrintSearch, Errors errors) {
-        System.out.println(definedPrintSearch.toString());
+        logger.info(definedPrintSearch.toString());
         return definedSearchService.getDefinedPrintSearch(definedPrintSearch,errors);
     }
 
     @RequestMapping(value = "getDefinedPersonAssetSearch",produces="application/json;charset=UTF-8")
     @ResponseBody
     public Map<String ,List> getDefinedPersonAssetSearch(@Valid DefinedPersonAssetSearch definedPersonAssetSearch, Errors errors) {
-        System.out.println(definedPersonAssetSearch.toString());
+        logger.info(definedPersonAssetSearch.toString());
         return definedSearchService.getDefinedPersonAssetSearch(definedPersonAssetSearch,errors);
     }
 
     @RequestMapping(value = "getDefinedRankSearch",produces="application/json;charset=UTF-8")
     @ResponseBody
     public Map<String ,List> getDefinedRankSearch(@Valid DefinedRankSearch definedRankSearch, Errors errors) {
-        System.out.println(definedRankSearch.toString());
+        logger.info(definedRankSearch.toString());
         return definedSearchService.getDefinedRankSearch(definedRankSearch,errors);
     }
 

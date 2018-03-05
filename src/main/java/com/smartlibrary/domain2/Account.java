@@ -6,7 +6,7 @@ package com.smartlibrary.domain2;
 public class Account {
     String account;
     String password;
-    char type;
+    int type;
     int school_id;
 
     public String getAccount() {
@@ -25,7 +25,7 @@ public class Account {
         this.password = password;
     }
 
-    public char getType() {
+    public int getType() {
         return type;
     }
 

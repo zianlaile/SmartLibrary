@@ -3629,6 +3629,7 @@ function yearLibraryClassifyRankInUndergraduate() {
             // console.log(data[key]);
             var basedata = new Object();
             basedata.rankingtypename = key;
+            console.log("key = " + key);
             var html = template('bookLendFinalRankUndergraduate',{param:data[key]});
             $("."+ key.substr(0, 1)).html(html);
             var chartdata = new Array();

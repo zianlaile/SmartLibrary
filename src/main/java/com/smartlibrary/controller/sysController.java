@@ -43,6 +43,8 @@ public class sysController {
         String errInfo = "";
         String loginnm = "";
         String passwd = "";
+        String tempPasswd = "";
+        int type;
         if (null != loginname && null !=password && null != code){
 
             String session_code = (String)httpSession.getAttribute("SESSION_CODE");
@@ -60,22 +62,27 @@ public class sysController {
                     if (loginname.equals("admin") && passwd.equals("01e56eeec696129f8f5fef2a30666ce8b56de6ad")) {
                         account1.setAccount(loginname);
                     } else {
-                        account.setAccount(loginname);
                         account.setPassword(passwd);
-
+                        account.setAccount(loginname);
                         account1 = accountService.getAccount(account);
                     }
                         //pd.put("PASSWORD", passwd);
                         //  pd = userService.getUserByNameAndPwd(pd);	//根据用户名和密码去读取用户信息
                         //if("" != null){
                         //if (loginname.equals(loginnm) && passwd.equals("01e56eeec696129f8f5fef2a30666ce8b56de6ad")) {
-                        if (account1 != null) {
+
+                    try{
+                        tempPasswd =  SHAencrypt.encryptSHA(account1.getPassword());
+                        System.out.println(tempPasswd);
+                    }catch (Exception e) {
+                            e.printStackTrace();
+                    }
+                        if (account1 != null &&  tempPasswd.equals(passwd)){
                             rMap.put("accountType", account1.getType());
                             httpSession.setAttribute("SESSION_USER", loginname);            //把用户信息放session中
-                            httpSession.removeAttribute("SESSION_CODE");    //清除登录验证码的session
-
+                            httpSession.removeAttribute("SESSION_CODE");                    //清除登录验证码的session
                         } else {
-                            errInfo = "usererror";                //用户名或密码有误
+                            errInfo = "usererror";                             //用户名或密码有误
                             logger.info("amdin".equals(loginname));
                             logger.info(loginname == "admin");
                             logger.info(loginname.equals("admin"));
@@ -86,6 +93,7 @@ public class sysController {
                 }else {
                     errInfo = "codeerror";				 	//验证码输入有误
                 }
+
                 if(isEmpty(errInfo)){
                     errInfo = "success";					//验证成功
                     //logBefore(logger, USERNAME+"登录系统");

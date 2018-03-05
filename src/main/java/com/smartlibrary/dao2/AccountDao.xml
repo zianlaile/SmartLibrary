@@ -7,8 +7,6 @@
         FROM `z_account`
         WHERE
         account = #{account}
-        AND
-        `password` = #{password}
     </select>
 
 </mapper>

@@ -35,8 +35,14 @@ public class bigScreenNoticeService {
     public void update(app_notice data){
         bigScreenNoticedao.update(data);
     }
-    public app_notice getnew() {
-        app_notice result=bigScreenNoticedao.getnew();
+    public app_notice getnew(int screen_type) {
+        String type = "";
+        if(screen_type == 1) {
+            type = "大屏";
+        } else {
+            type = "竖屏";
+        }
+        app_notice result=bigScreenNoticedao.getnew(type);
         return result;
     }
     public void updaten_picurl(app_notice data){

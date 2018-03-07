@@ -37,7 +37,7 @@
         where id=#{id}
     </update>
 
-    <select id="getnew"  resultType="com.smartlibrary.domain2.app_notice">
+    <select id="getnew"  resultType="com.smartlibrary.domain2.app_notice" parameterType="String">
         /*select * from zz_bigscreen_notice as a
         where  status=1 and time=(select max(b.time)
         from zz_bigscreen_notice as b
@@ -48,11 +48,13 @@
         FROM
             zz_bigscreen_notice AS a
         WHERE
+            a.screen_type = #{screen_type} AND
             a.time = (
                 SELECT
                     max(b.time)
                 FROM
                     zz_bigscreen_notice AS b
+                  WHERE b.screen_type = #{screen_type}
             )
     </select>
 

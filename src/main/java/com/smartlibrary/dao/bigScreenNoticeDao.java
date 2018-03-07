@@ -14,6 +14,6 @@ public interface bigScreenNoticeDao {
     void deletebyids(List ids);
     app_notice getbyid(int id);
     void update(app_notice data);
-    app_notice getnew() ;
+    app_notice getnew(String screen_type) ;
     void updaten_picurl(app_notice data);
 }

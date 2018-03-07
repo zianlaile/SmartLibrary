@@ -8,6 +8,13 @@ public class Account {
     String password;
     int type;
     int school_id;
+    int permision_allocate;  // 权限分配（用于前段展示// ）
+
+    public void setType(int type) { this.type = type; }
+
+    public int getPermision_allocate() { return permision_allocate; }
+
+    public void setPermision_allocate(int permision_allocate) { this.permision_allocate = permision_allocate; }
 
     public String getAccount() {
         return account;

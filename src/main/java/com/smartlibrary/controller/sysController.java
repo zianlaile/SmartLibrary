@@ -43,7 +43,7 @@ public class sysController {
         String errInfo = "";
         String loginnm = "";
         String passwd = "";
-        String tempPasswd = "";
+        // String tempPasswd = "";
         int type;
         if (null != loginname && null !=password && null != code){
 
@@ -53,34 +53,19 @@ public class sysController {
             }else{
                 if(notEmpty(session_code) && session_code.equalsIgnoreCase(code)) {        //判断登录验证码
                     // String passwd = new SimpleHash("SHA-1", loginname, password).toString();	//密码加密
-
                     try {
-                        passwd = SHAencrypt.encryptSHA(password);   //密码加密
+                         passwd = SHAencrypt.encryptSHA(password);   //密码加密
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    if (loginname.equals("admin") && passwd.equals("01e56eeec696129f8f5fef2a30666ce8b56de6ad")) {
-                        account1.setAccount(loginname);
-                    } else {
                         account.setPassword(passwd);
                         account.setAccount(loginname);
                         account1 = accountService.getAccount(account);
-                    }
-                        //pd.put("PASSWORD", passwd);
-                        //  pd = userService.getUserByNameAndPwd(pd);	//根据用户名和密码去读取用户信息
-                        //if("" != null){
-                        //if (loginname.equals(loginnm) && passwd.equals("01e56eeec696129f8f5fef2a30666ce8b56de6ad")) {
-
-                    try{
-                        tempPasswd =  SHAencrypt.encryptSHA(account1.getPassword());
-                        System.out.println(tempPasswd);
-                    }catch (Exception e) {
-                            e.printStackTrace();
-                    }
-                        if (account1 != null &&  tempPasswd.equals(passwd)){
-                            rMap.put("accountType", account1.getType());
-                            httpSession.setAttribute("SESSION_USER", loginname);            //把用户信息放session中
-                            httpSession.removeAttribute("SESSION_CODE");                    //清除登录验证码的session
+                        if (account1 != null &&  account1.getPassword().equals(passwd)){
+                            rMap.put("accountType", account1.getType());                        // 得到用户类型
+                            rMap.put("permissionAllocate",account1.getPermision_allocate());    // 得到用户权限
+                            httpSession.setAttribute("SESSION_USER", loginname);             //把用户信息放session中
+                            httpSession.removeAttribute("SESSION_CODE");                     //清除登录验证码的session
                         } else {
                             errInfo = "usererror";                             //用户名或密码有误
                             logger.info("amdin".equals(loginname));
@@ -96,20 +81,11 @@ public class sysController {
 
                 if(isEmpty(errInfo)){
                     errInfo = "success";					//验证成功
-                    //logBefore(logger, USERNAME+"登录系统");
-                    //FHLOG.save(USERNAME, "登录系统");
                 }
             }
         }else {
             errInfo = "error";
         }
-
-//        String ccode = (String) httpSession.getAttribute("SESSION_CODE");
-//        System.out.println(loginname+password+code+ccode);
-//        rMap.put("ret", 0);
-//        rMap.put("info", "登录成功");
-//        httpSession.setAttribute("SESSION_USER", loginname);
-//        logger.info("checkLoginUser--" + loginname + " login success.");
         rMap.put("result", errInfo);
         return rMap;
     }

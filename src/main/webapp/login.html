@@ -46,6 +46,7 @@
                           if(2 == data.accountType){
                               window.location='cttp/production/app_notice.html';
                           }else{
+                              sessionStorage.setItem("permissionAllocate",data.permissionAllocate); // 获取sessionStorage(内容： 用户的权限)
                               window.location='cttp/production/index.html';
                           }
                       }else if("usererror" == data.result){

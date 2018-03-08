@@ -72,9 +72,10 @@ public class bigScreenNoticeController {
 //获取最新一条可用
     @RequestMapping(value = "/getnew", method = RequestMethod.GET)
     @ResponseBody
-    public Map getnew() {
+    public Map getnew(int screen_type) {
         Map res = new HashMap();
-        app_notice result=bigscreennoticeservice.getnew();
+        System.out.println(screen_type);
+        app_notice result=bigscreennoticeservice.getnew(screen_type);
         res.put("picurl",result.getPic_url());
         res.put("content",result.getContent());
         res.put("changtime",result.getTitle());

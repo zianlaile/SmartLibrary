@@ -39,46 +39,38 @@ public class sysController {
                            @RequestParam String password,@RequestParam String code){
         Map rMap = new HashMap();
         Account account = new Account();
-        Account account1 = new Account();
+       Account account1 = new Account();
         String errInfo = "";
-        String loginnm = "";
         String passwd = "";
-        // String tempPasswd = "";
-        int type;
         if (null != loginname && null !=password && null != code){
 
             String session_code = (String)httpSession.getAttribute("SESSION_CODE");
-            if(null == code || "".equals(code)){//判断效验码
-                errInfo = "nullcode"; 			//效验码为空
+            if(null == code || "".equals(code)){                                        //判断效验码
+                errInfo = "nullcode"; 			                                        //效验码为空
             }else{
-                if(notEmpty(session_code) && session_code.equalsIgnoreCase(code)) {        //判断登录验证码
-                    // String passwd = new SimpleHash("SHA-1", loginname, password).toString();	//密码加密
+                if(notEmpty(session_code) && session_code.equalsIgnoreCase(code)) {             //判断登录验证码
                     try {
-                         passwd = SHAencrypt.encryptSHA(password);   //密码加密
+                         passwd = SHAencrypt.encryptSHA(password);                              //密码加密
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                        account.setPassword(passwd);
-                        account.setAccount(loginname);
-                        account1 = accountService.getAccount(account);
-                        if (account1 != null &&  account1.getPassword().equals(passwd)){
-                            rMap.put("accountType", account1.getType());                        // 得到用户类型
-                            rMap.put("permissionAllocate",account1.getPermision_allocate());    // 得到用户权限
-                            httpSession.setAttribute("SESSION_USER", loginname);             //把用户信息放session中
-                            httpSession.removeAttribute("SESSION_CODE");                     //清除登录验证码的session
-                        } else {
-                            errInfo = "usererror";                             //用户名或密码有误
-                            logger.info("amdin".equals(loginname));
-                            logger.info(loginname == "admin");
-                            logger.info(loginname.equals("admin"));
-                            // logBefore(logger, USERNAME+"登录系统密码或用户名错误");
-                            // FHLOG.save(USERNAME, "登录系统密码或用户名错误");
-                        }
-
+                    account.setPassword(passwd);
+                    account.setAccount(loginname);
+                    account1 = accountService.getAccount(account);
+                    if (account1 != null &&  account1.getPassword().equals(passwd)){
+                        rMap.put("accountType", account1.getType());                        // 得到用户类型
+                        rMap.put("permissionAllocate",account1.getPermision_allocate());    // 得到用户权限
+                        httpSession.setAttribute("SESSION_USER", loginname);             //把用户信息放session中
+                        httpSession.removeAttribute("SESSION_CODE");                     //清除登录验证码的session
+                    } else {
+                        errInfo = "usererror";                             //用户名或密码有误
+                        logger.info("amdin".equals(loginname));
+                        logger.info(loginname == "admin");
+                        logger.info(loginname.equals("admin"));
+                    }
                 }else {
                     errInfo = "codeerror";				 	//验证码输入有误
                 }
-
                 if(isEmpty(errInfo)){
                     errInfo = "success";					//验证成功
                 }
@@ -93,6 +85,7 @@ public class sysController {
     public static boolean notEmpty(String s){
         return s!=null && !"".equals(s) && !"null".equals(s);
     }
+
     public static boolean isEmpty(String s){
         return s==null || "".equals(s) || "null".equals(s);
     }

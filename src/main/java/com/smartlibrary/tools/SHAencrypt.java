@@ -34,7 +34,7 @@ public class SHAencrypt {
      */
     public static byte[] encryptSHA(byte[] data) throws Exception {
         // 创建具有指定算法名称的信息摘要
-//        MessageDigest sha = MessageDigest.getInstance(KEY_SHA);
+        // MessageDigest sha = MessageDigest.getInstance(KEY_SHA);
         MessageDigest sha = MessageDigest.getInstance(KEY_SHA1);
         // 使用指定的字节数组对摘要进行最后更新
         sha.update(data);

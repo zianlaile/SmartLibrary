@@ -2,5 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.smartlibrary.dao.CrossAnalysisDao">
-
+    <select id="getCrossAnalysisByMonth" resultType = "MonthCrossAnalysis">
+        SELECT month,book_lend_times, croom_times, eread_times,seat_times, print_times,gctrl_times
+        FROM zz_time_month_count
+        WHERE IF(MONTH(NOW()) > 9 , `year` = YEAR(NOW()), `year` = YEAR(NOW()) - 1)
+    </select>
 </mapper>

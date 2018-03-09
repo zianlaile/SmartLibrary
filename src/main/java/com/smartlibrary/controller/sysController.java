@@ -50,7 +50,7 @@ public class sysController {
             }else{
                 if(notEmpty(session_code) && session_code.equalsIgnoreCase(code)) {             //判断登录验证码
                     try {
-                         passwd = SHAencrypt.encryptSHA(password);                              //密码加密
+                        passwd = SHAencrypt.encryptSHA(password);                              //密码加密
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

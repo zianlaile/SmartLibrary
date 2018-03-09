@@ -14,7 +14,6 @@ public class AccountService {
     private AccountDao accountDao;
 
     public Account getAccount(Account account) {
-        System.out.println(account);
         Account account1 = accountDao.getAccountByAP(account);
         return account1;
     }

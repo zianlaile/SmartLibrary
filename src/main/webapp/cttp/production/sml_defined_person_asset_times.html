@@ -802,8 +802,6 @@
                 <div class="form-inline">
                     <div class="form-group">
                         <label for="style" class="control-label">统计类型</label>
-                    </div>
-                    <div class="form-group">
                         <select id="style" name="style" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
                             <option value="0">人员</option>
                             <option value="1">资产</option>
@@ -812,21 +810,16 @@
 
                     <div class="form-group my_asset" style="display:none">
                         <label for="asset_type" class="control-label" >资产类型</label>
-                    </div>
-                    <div class="form-group my_asset" style="display:none">
                         <select id="asset_type" name="asset_type" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
                             <option value="0">设备</option>
                             <option value="1">馆藏文献</option>
                         </select>
                     </div>
 
-                    <div class="form-group my_person my_asset">
+                    <div  id="daterange11" class="form-group my_person my_asset">
                         <label id="birth_title" class="control-label" for="daterange11">
                             出生年份范围
                         </label>
-                    </div>
-
-                    <div  id="daterange11" class="form-group my_person my_asset">
                         <select id="birth_start" name="birth_start" class="selectpicker show-tick form-control" data-width="fit" data-size="5">
 
                         </select>
@@ -839,8 +832,6 @@
                         <label id="timeSection_title" for="timeSection" class="control-label">
                             开始时间-结束时间
                         </label>
-                    </div>
-                    <div class="form-group my_person">
                         <div id="daterange" class="input-group"  data-date-format="yyyy/mm/dd" style="margin-bottom:0px">
                             <span class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
@@ -851,8 +842,6 @@
 
                     <div class="form-group my_person">
                         <label for="sex" class="control-label">性别</label>
-                    </div>
-                    <div class="form-group my_person">
                         <select id="sex" name="sex" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
                             <option value="">所有</option>
                             <option value="0">男</option>
@@ -862,8 +851,6 @@
 
                     <div class="form-group my_person">
                         <label for="profession" class="control-label">职称</label>
-                    </div>
-                    <div class="form-group my_person">
                         <select id="profession" name="profession" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
                             <option value="">所有</option>
                         </select>

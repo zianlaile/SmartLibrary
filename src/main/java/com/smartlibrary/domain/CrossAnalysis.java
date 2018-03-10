@@ -11,15 +11,12 @@ public class CrossAnalysis {
     int seat;                   // 座位
     int type;
     String  academy;
-
     public int getType() {
         return type;
     }
-
     public void setType(int type) {
         this.type = type;
     }
-
     int perPerson;
 
     public int getBookLend() {

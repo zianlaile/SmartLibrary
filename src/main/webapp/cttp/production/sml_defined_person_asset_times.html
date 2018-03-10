@@ -25,6 +25,8 @@
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- bootstrap-select -->
     <link href="../vendors/bootstrap-select/css/bootstrap-select.css" rel="stylesheet">
+    <!-- bootstrap-table -->
+    <link href="../vendors/bootstrap-table/bootstrap-table.css" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
@@ -37,18 +39,33 @@
 </head>
 
 <script type="application/javascript">
+    //echarts数据
     var datas;
+    //table数据
+    var table_datas;
+    //加载
+    var spinner;
+    //表单Id
+    var formItems;
+    //固定表单参数
+    var staticFormItems;
+    //网上获取表单参数
+    var netFormItems;
+    //存储参数
+    var store_param;
+
     $(function(){
+        //form样式调整
+        $(".form-group").css("margin-bottom","15px");
+
         $(".remove").click(function(){
             $(".mask").css("display","none");
         });
         //初始化datarange
-        var start=moment().subtract(29,'days');
-        var end=moment();
         $('#daterange').daterangepicker({
 
-            startDate: start,
-            endDate: end,
+            startDate: '02/01/2014',
+            endDate: '03/01/2018',
             //minDate: '01/01/2012',    //最小时间
             maxDate : moment(), //最大时间
             /*dateLimit : {
@@ -60,17 +77,17 @@
             timePickerSeconds:false,
             //timePickerIncrement : 1, //时间的增量，单位为分钟
             timePicker12Hour : false, //是否使用12小时制来显示时间
-            ranges : {
+            /*ranges : {
                 //'最近1小时': [moment().subtract('hours',1), moment()],
                 '今日': [moment().startOf('day'), moment()],
                 '昨日': [moment().subtract(1,'days').startOf('day'), moment().subtract(1,'days').endOf('day')],
                 '最近7日': [moment().subtract(6,'days'), moment()],
                 '最近30日': [moment().subtract(29,'days'), moment()]
-            },
+            },*/
             opens : 'right', //日期选择框的弹出位置
             buttonClasses : [ 'btn btn-default' ],
-            applyClass : 'btn-small btn-primary blue',
-            cancelClass : 'btn-small',
+            applyClass : 'btn-small btn-default',
+            cancelClass : 'btn-small btn-default',
             format : 'YYYY/MM/DD', //控件中from和to 显示的日期格式
             separator : ' to ',
             locale : {
@@ -87,49 +104,12 @@
         }, function (start, end, label) {
             $('#timeSection').val(start.format('YYYY/MM/DD') + ' - ' + end.format('YYYY/MM/DD'));
         });
-        $('#timeSection').val(start.format('YYYY/MM/DD') + ' - ' + end.format('YYYY/MM/DD'));
-        $('#daterange1').daterangepicker({
-            startDate: start,
-            endDate: end,
-            //minDate: '01/01/2012',    //最小时间
-            maxDate : moment(), //最大时间
-            /*dateLimit : {
-                days : 60
-            }, //起止时间的最大间隔*/
-            showDropdowns : false,
-            showWeekNumbers : false, //是否显示第几周
-            timePicker : false, //是否显示小时和分钟
-            timePickerSeconds:false,
-            //timePickerIncrement : 1, //时间的增量，单位为分钟
-            timePicker12Hour : false, //是否使用12小时制来显示时间
-            opens : 'right', //日期选择框的弹出位置
-            buttonClasses : [ 'btn btn-default' ],
-            applyClass : 'btn-small btn-primary blue',
-            cancelClass : 'btn-small',
-            format : 'YYYY', //控件中from和to 显示的日期格式
-            separator : ' to ',
-        }, function (start, end, label) {
-            $('#birth_timeSection').val(start.format('YYYY') + ' - ' + end.format('YYYY'));
-        });
-        $('#birth_timeSection').val(start.format('YYYY') + ' - ' + end.format('YYYY'));
-        /*//$("#series").chained("#markmy");  //注：#series是二级的id,#mark是一级的id
-        $('#series').remoteChained({
-            parents: '#markmy',
-            url: 'mytest.json',
-            loading: '--',
-            bootstrap : {
-                '': 'ALL',
-                'series-3': '3系',
-                'series-5': '5系',
-                'series-6': '6系',
-                'selected': 'series-3'
-            }
-        });*/
 
         //初始化年份选择器
-        console.info(start);
+        var now=moment();
+        console.info(now);
         var birth_date=new Array();
-        for(var i=start.format('YYYY')-150,j=0;i<start.format('YYYY');i++,j++){
+        for(var i=now.format('YYYY')-150,j=0;i<now.format('YYYY');i++,j++){
             birth_date[j]={id:i,name:i};
         }
         setSelect(document.getElementById('birth_start'),birth_date,true);
@@ -145,9 +125,8 @@
                 $("#birth_end").selectpicker();
             }
         });
-
         var obj=document.getElementById('birth_end');
-        obj.options.add(new Option("至今",start.format('YYYY')));
+        obj.options.add(new Option("至今",now.format('YYYY')));
         setSelect(obj,birth_date,true);
         $("#birth_end").selectpicker('render');
         $("#birth_end").selectpicker('refresh');
@@ -167,16 +146,23 @@
             var which=$(this).val();
             if(which==0){
                 $(".my_asset").css("display","none");
-                $(".my_person").css("display","inline");
+                $(".my_person").css("display","inline-block");
                 $("#birth_title").text("出生年份范围");
             }else{
                 $(".my_person").css("display","none");
-                $(".my_asset").css("display","inline");
+                $(".my_asset").css("display","inline-block");
                 $("#birth_title").text("开始时间-结束时间");
             }
         });
-    });
 
+        //加载样式
+        spinner=new Spinner({color:'#000000', lines: 12,top: 'auto',left:'50%',position: 'relative'});
+
+        //表单ID
+        formItems=["style", "asset_type", "birth_start", "birth_end","timeSection", "sex", "profession"];
+        staticFormItems=["style", "asset_type", "birth_start", "birth_end","timeSection", "sex"];
+        netFormItems=["profession"];
+    });
 </script>
 
 <!--getFormContent()获取表单内容-->
@@ -199,37 +185,9 @@
 <!--createExcel()-->
 <script type="application/javascript">
     function createExcel () {
-        /*var eleForm = $("<form method='get'></form>");
-
-        eleForm.attr("action","/definedExportExcel/exportRecords?timeSection=123"
-            );
-
-        $(document.body).append(eleForm);
-        //提交表单，实现下载
-        eleForm.submit();*/
-        /*window.open('definedExportExcel/exportRecords');*/
-        /*var oReq = new XMLHttpRequest();
-        oReq.open("GET", "../../definedExportExcel/exportRecords"+getFormContent(["timeSection", "academy", "student_style", "student_sex", "publisher", "book_style", "lend_style"]), true);
-        oReq.responseType = "blob";
-        oReq.onload = function (oEvent) {
-            var content = oReq.response;
-
-            var elink = document.createElement('a');
-            elink.download = "excel.xlsx";
-            elink.style.display = 'none';
-
-            var blob = new Blob([content]);
-            elink.href = URL.createObjectURL(blob);
-
-            document.body.appendChild(elink);
-            elink.click();
-
-            document.body.removeChild(elink);
-        };
-        oReq.send();*/
         var elink = document.createElement('a');
         elink.style.display = 'none';
-        elink.href = "../../definedExportExcel/exportPersonAssetRecords"+getFormContent(["style", "asset_type", "birth_start", "birth_end","timeSection", "sex", "profession"]);
+        elink.href = "../../definedExportExcel/exportPersonAssetRecords"+getFormContent(formItems);
         document.body.appendChild(elink);
         elink.click();
         document.body.removeChild(elink);
@@ -460,28 +418,67 @@
 
 <!--submitSearchData()提交表单函数-->
 <script type="application/javascript">
-    function submitSearchData(){
+    function submitSearchData(param){
         $.ajax({
             type:'get',
             contentType:'application/json',
             url:'../../definedSearch/getDefinedPersonAssetSearch',
-            data: $('#searchForm').serialize(),
+            data: param==undefined?$('#searchForm').serialize():param,
             dataType:'json',
             cache: true,
             async:true,
+            beforeSend: function () {
+                //异步请求时spinner出现
+                $("#loading").text("");
+                var target = $("#loading").get(0);
+                spinner.spin(target);
+            },
             success:function(data){
-                console.info(data);
                 datas=data;
-                if($("#style").val()==0)
-                    $("#title").text("人员统计");
-                else if($("#asset_type").val()==0)
-                    $("#title").text("资产统计-设备");
-                else
-                    $("#title").text("资产统计-馆藏文献");
-                setChart(data);
+                spinner.spin();
+                console.info(data);
+
+                //存储
+                if(data.amounts==undefined||data.amounts.length==0){
+                    $("#tip_content").css("display","block");
+                    $("#tip_content").text("查询数据为空");
+                    $("#chart_image").css("display","none");
+                    $('#chart_table').css("display","none");
+                    //清空
+                    table_datas=[];
+                }
+                else{
+                    $("#tip_content").css("display","none");
+                    $("#chart_image").css("display","block");
+                    if($("#style").val()==0)
+                        $("#title").text("人员统计");
+                    else if($("#asset_type").val()==0)
+                        $("#title").text("资产统计-设备");
+                    else
+                        $("#title").text("资产统计-馆藏文献");
+                    setChart(data);
+
+                    table_datas=datas.amounts.map(function (item,index,array) {
+                        return {id:index+1,time:datas.times[index],amount:item};
+                    });
+
+                    $('#chart_table').css("display","block");
+                    $('#table').bootstrapTable('load',table_datas);
+                    $("#toolbar").css("display","inline");
+                }
+                if(param==undefined||store_param==undefined||store_param["param"]==undefined||store_param["param"]!=param)
+                    storeData(formItems);
             },
             error:function(data){
+                spinner.spin();
                 console.info(data);
+                $("#tip_content").css("display","block");
+                $("#tip_content").text("请求失败");
+                if(datas==undefined||data.amounts==undefined||data.amounts.length==0){
+
+                }else{
+
+                }
             }
         });
     }
@@ -509,6 +506,47 @@
     }}
 </script>
 
+<!--storeData(formItems)存入数据-->
+<script type="application/javascript">
+    function storeData(Items){{
+        var temp=new Object();
+        for(var i=0;i<Items.length;i++){
+            temp[Items[i]]=$("#"+Items[i]).val();
+        }
+        temp["param"]=getFormContent(Items).replace("?","");
+        localStorage.setItem("sml_defined_person_asset_times", JSON.stringify(temp));
+        store_param=temp;
+        console.info("存入信息:"+(store_param==undefined?"空":JSON.stringify(store_param)));
+    }};
+</script>
+
+<!--setSearchDefaultContent(Items,isAgain)默认值设置-->
+<script type="application/javascript">
+    function setSearchDefaultContent(Items,isAgain){{
+        if(isAgain)
+            store_param=JSON.parse(localStorage.getItem("sml_defined_person_asset_times"));
+        if(store_param!=undefined){
+            for(var i=0;i<Items.length;i++){
+                if(Items[i]=="timeSection"){
+                    var aa=store_param["timeSection"].toString().split("-");
+                    var bb=aa[0].split('/');
+                    var cc=aa[1].split('/');
+                    $('#daterange').data('daterangepicker').setStartDate(bb[2]+""+bb[1]+""+bb[0]);
+                    $('#daterange').data('daterangepicker').setEndDate(cc[2]+""+cc[1]+""+cc[0]);
+                    $("#timeSection").val(store_param["timeSection"]);
+                } else
+                    $("#"+Items[i]+" option[value='"+store_param[Items[i]]+"']").attr("selected","selected");//根据值让option选中
+            }
+        }else{
+            //默认
+            $('#daterange').data('daterangepicker').setStartDate("02/01/2014");
+            $('#daterange').data('daterangepicker').setEndDate("03/01/2018");
+            $('#timeSection').val("2014/02/01 - 2018/03/01");
+            $("#birth_start"+" option[value='1995']").attr("selected","selected");
+        }
+    }};
+</script>
+
 <!--getSearchContent()获取下拉框内容并设置-->
 <script type="application/javascript">
     function getSearchContent(){
@@ -521,11 +559,23 @@
             success:function (data) {
                 console.info(data);
                 setSelect(document.getElementById('profession'),data.profession,false);
-                $("#profession").selectpicker('render');
-                $("#profession").selectpicker('refresh');
-                $("#profession").selectpicker();
+                setSearchDefaultContent(netFormItems,false);
+                selectpickerRender(netFormItems);
             }
         });
+    }
+</script>
+
+<!--selectpickerRender重构selectpicker-->
+<script type="application/javascript">
+    function selectpickerRender(Items) {
+        for(var i=0;i<Items.length;i++){
+            if(Items[i]=="timeSection")
+                continue;
+            $("#"+Items[i]).selectpicker('refresh');
+            $("#"+Items[i]).selectpicker('render');
+            $("#"+Items[i]).selectpicker();
+        }
     }
 </script>
 
@@ -546,8 +596,43 @@
 <!--相应数据获取以及初始化-->
 <script type="application/javascript">
     $(function(){
+        store_param=JSON.parse(localStorage.getItem("sml_defined_person_asset_times"));
+        console.info("取出的信息:"+(store_param==undefined?"空":JSON.stringify(store_param)));
+        setSearchDefaultContent(staticFormItems,false);
+        selectpickerRender(staticFormItems);
+        //初始化table
+        $('#table').bootstrapTable({
+            columns: [{
+                field: 'id',
+                align:'center',
+                title:'序号'
+            },
+                {
+                    field: 'time',
+                    align:'center',
+                    title:'时间'
+                }, {
+                    field: 'amount',
+                    align:'center',
+                    title: '数量'
+                }],
+            toolbar: '#toolbar',//指定工具栏
+            toolbarAlign:'right',//工具栏对齐方式
+            buttonsAlign:'right',//按钮对齐方式
+            striped: true, //是否显示行间隔色
+            pagination:true,//是否分页
+            pageSize:10,//单页记录数
+            showRefresh:true,//刷新按钮
+            showColumns:true,
+            locale:'zh-CN',//中文支持,
+        });
+
         getSearchContent();
-        submitSearchData();
+        if(store_param!=undefined&&store_param["param"]!=undefined){
+            submitSearchData(store_param["param"]);
+        }else{
+            submitSearchData();
+        }
     });
 </script>
 
@@ -711,68 +796,72 @@
             <form id="searchForm">
                 <div class="form-inline">
                     <div class="form-group">
-                        <label for="style" class="control-label" style="height:34px">统计类型</label>
-                        <div class="input-prepend input-group">
-                            <select id="style" name="style" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
-                                <option value="0">人员</option>
-                                <option value="1">资产</option>
-                            </select>
-                        </div>
+                        <label for="style" class="control-label">统计类型</label>
+                    </div>
+                    <div class="form-group">
+                        <select id="style" name="style" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
+                            <option value="0">人员</option>
+                            <option value="1">资产</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group my_asset" style="display:none">
+                        <label for="asset_type" class="control-label" >资产类型</label>
                     </div>
                     <div class="form-group my_asset" style="display:none">
-                        <label for="asset_type" class="control-label" style="height:34px">资产类型</label>
-                        <div class="input-prepend input-group">
-                            <select id="asset_type" name="asset_type" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
-                                <option value="0">设备</option>
-                                <option value="1">馆藏文献</option>
-                            </select>
-                        </div>
+                        <select id="asset_type" name="asset_type" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
+                            <option value="0">设备</option>
+                            <option value="1">馆藏文献</option>
+                        </select>
                     </div>
+
                     <div class="form-group my_person my_asset">
-                        <label id="birth_title" for="daterange11" class="control-label" style="height:34px">
+                        <label id="birth_title" class="control-label" for="daterange11">
                             出生年份范围
                         </label>
-                        <div id="daterange11" class="input-prepend input-group"  data-date-format="yyyy/mm/dd">
-                            <span class="add-on input-group-addon">
-                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                            </span>
-                            <select id="birth_start" name="birth_start" class="selectpicker show-tick form-control" data-width="fit" data-size="5">
-
-                            </select>
-                            <select id="birth_end" name="birth_end" class="selectpicker show-tick form-control" data-width="fit" data-size="5">
-
-                            </select>
-
-                        </div>
                     </div>
+
+                    <div  id="daterange11" class="form-group my_person my_asset">
+                        <select id="birth_start" name="birth_start" class="selectpicker show-tick form-control" data-width="fit" data-size="5">
+
+                        </select>
+                        <select id="birth_end" name="birth_end" class="selectpicker show-tick form-control" data-width="fit" data-size="5">
+
+                        </select>
+                    </div>
+
                     <div class="form-group my_person">
-                        <label id="timeSection_title" for="timeSection" class="control-label" style="height:34px">
-                            入职时间范围
+                        <label id="timeSection_title" for="timeSection" class="control-label">
+                            开始时间-结束时间
                         </label>
-                        <div id="daterange" class="input-prepend input-group"  data-date-format="yyyy/mm/dd">
-                            <span class="add-on input-group-addon">
-                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                    </div>
+                    <div class="form-group my_person">
+                        <div id="daterange" class="input-group"  data-date-format="yyyy/mm/dd" style="margin-bottom:0px">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
                             </span>
-                            <input type="text" name="timeSection" id="timeSection" class="form-control span4"/>
+                            <input type="text" name="timeSection" id="timeSection" class="form-control"/>
                         </div>
                     </div>
+
                     <div class="form-group my_person">
-                        <label for="sex" class="control-label" style="height:34px">性别</label>
-                        <div class="input-prepend input-group">
-                            <select id="sex" name="sex" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
-                                <option value="">所有</option>
-                                <option value="0">男</option>
-                                <option value="1">女</option>
-                            </select>
-                        </div>
+                        <label for="sex" class="control-label">性别</label>
                     </div>
                     <div class="form-group my_person">
-                        <label for="profession" class="control-label" style="height:34px">职称</label>
-                        <div class="input-prepend input-group">
-                            <select id="profession" name="profession" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
-                                <option value="">所有</option>
-                            </select>
-                        </div>
+                        <select id="sex" name="sex" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
+                            <option value="">所有</option>
+                            <option value="0">男</option>
+                            <option value="1">女</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group my_person">
+                        <label for="profession" class="control-label">职称</label>
+                    </div>
+                    <div class="form-group my_person">
+                        <select id="profession" name="profession" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
+                            <option value="">所有</option>
+                        </select>
                     </div>
 
                     <div class="form-group" style="vertical-align:top">
@@ -781,14 +870,20 @@
                 </div>
             </form>
         </div>
-        <div class="right_col" >
+        <!--<div class="right_col" >
             <input id="export" type="button" value="导出EXCEL" onclick = "createExcel()"/>
+        </div>-->
+        <!--加载-->
+        <div class="right_col" style="height: 0px">
+            <div id="loading"></div>
+            <div class="clearfix"></div>
         </div>
 
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="clearfix"></div>
-            <div class="row" >
+            <h1 id="tip_content" style="text-align: center;margin-top:50px;display:none">数据为空</h1>
+            <div class="row" id="chart_image" style="display: none">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title"   style="padding:0px;" >
@@ -806,6 +901,19 @@
                         <div class="x_content">
                             <div id="searchEcharts" style="height:300px;"></div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="chart_table" style="display:none">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <table id="table" >
+
+                    </table>
+
+                    <div id="toolbar" class="btn-group pull-right" style="margin-right: 20px;display:none">
+                        <button id="export" type="button" class="btn btn-default" onclick = "createExcel()">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true">导出EXCEL</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -864,11 +972,17 @@
 <!-- bootstrap-select -->
 <script src="../vendors/bootstrap-select/js/bootstrap-select.min.js"></script>
 <script src="../vendors/bootstrap-select/js/bootstrap-select.js"></script>
+<!-- bootstrap-table -->
+<script src="../vendors/bootstrap-table/bootstrap-table.js"></script>
+<script src="../vendors/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
 <!-- jquery-chain-select -->
 <script src="../vendors/jquery-chained-select/jquery.chained.js"></script>
 <script src="../vendors/jquery-chained-select/jquery.chained.min.js"></script>
 <script src="../vendors/jquery-chained-select/jquery.chained.remote.js"></script>
 <script src="../vendors/jquery-chained-select/jquery.chained.remote.min.js"></script>
+<!--loading-spin-->
+<script type="text/javascript" src="../vendors/loading-spin/js/spin.js" ></script>
+<script type="text/javascript" src="../vendors/loading-spin/js/jquery.spin.js" ></script>
 <!-- ECharts -->
 <!--<script src="../vendors/echarts/dist/echarts.min.js"></script>-->
 <!--<script src="../vendors/echarts/map/js/world.js"></script>-->

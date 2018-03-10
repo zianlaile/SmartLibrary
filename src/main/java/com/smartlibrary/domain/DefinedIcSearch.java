@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 public class DefinedIcSearch implements Serializable {
     @NotNull
@@ -83,8 +84,9 @@ public class DefinedIcSearch implements Serializable {
                 '}';
     }
 
-    public String getSearchContentSubTitle(){
-        String title=getContent(timeSection)+getContent(student_style);
+    public String getSearchContentSubTitle(List<DefinedSearchContent> definedSearchContents){
+        String title=getContent(timeSection,"时间")+getContentofStudent_style(student_style,"学生类别",definedSearchContents);
+        title+="IC空间类别:";
         if(ic_type==0)
             title+="研修室 ";
         else if(ic_type==1)
@@ -93,6 +95,7 @@ public class DefinedIcSearch implements Serializable {
             title+="电子阅览室 ";
         else
             title+="设备 ";
+
         if(style==0)
             title+="时长";
         else
@@ -100,9 +103,22 @@ public class DefinedIcSearch implements Serializable {
         return title.trim();
     }
 
-    private String getContent(String s){
+    private String getContent(String s,String tip){
         if(s!=null&&!s.isEmpty()&&s.trim()!="")
-            return s.trim()+" ";
-        return "";
+            return tip+":"+s.trim()+" ";
+        else
+            return "所有"+tip+" ";
+    }
+
+    private String getContentofStudent_style(String s,String tip,List<DefinedSearchContent> definedSearchContents){
+        if(s!=null&&!s.isEmpty()&&s.trim()!=""){
+            for(int i=0;i<definedSearchContents.size();i++){
+                if(definedSearchContents.get(i).getId().equals(s))
+                    return tip+":"+definedSearchContents.get(i).getName().trim()+" ";
+            }
+            return tip+":"+s.trim()+" ";
+        }
+        else
+            return "所有"+tip+" ";
     }
 }

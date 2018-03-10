@@ -92,7 +92,7 @@ public class DefinedGctrlSearch implements Serializable {
     }
 
     public String getSearchContentSubTitle(){
-        String title=getContent(timeSection)+getContent(academy)+getContent(student_style)+getContent(student_sex);
+        String title=getContent(timeSection,"时间")+getContent(academy,"学院")+getContent(student_style,"学生种类")+getContentofSex(student_sex,"性别");
         if(style==0)
             title+="总数";
         else
@@ -100,9 +100,17 @@ public class DefinedGctrlSearch implements Serializable {
         return title.trim();
     }
 
-    private String getContent(String s){
+    private String getContent(String s,String tip){
         if(s!=null&&!s.isEmpty()&&s.trim()!="")
-            return s.trim()+" ";
-        return "";
+            return tip+":"+s.trim()+" ";
+        else
+            return "所有"+tip+" ";
+    }
+
+    private String getContentofSex(String s,String tip){
+        if(s!=null&&!s.isEmpty()&&s.trim()!="")
+            return tip+":"+(s.trim().equals("M")?"男":"女")+" ";
+        else
+            return "所有"+tip+" ";
     }
 }

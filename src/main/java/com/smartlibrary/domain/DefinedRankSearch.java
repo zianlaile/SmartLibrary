@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 public class DefinedRankSearch implements Serializable {
     @NotNull
@@ -146,26 +147,46 @@ public class DefinedRankSearch implements Serializable {
                 '}';
     }
 
-    public String getSearchContentSubTitle(){
-        String title=getContent(timeSection);
+    public String getSearchContentSubTitle(List<DefinedSearchContent> definedSearchContents){
+        String title=getContent(timeSection,"时间");
         if(rank_style==0){
-            title+="借阅 "+getContent(academy)+getContent(student_style).trim()+"-"+getContent(student_sex);
+            title+="借阅 "+getContent(academy,"学院")+getContent(student_style,"学生类别")+getContentofSex(student_sex,"性别");
             if(book_rank_type==0)
-                title+="图书借阅量 ";
+                title+="排行种类:图书借阅量 ";
             else
-                title+="学生借阅量 ";
+                title+="排行种类:学生借阅量 ";
         }else if(rank_style==1){
-            title+="进馆 "+getContent(academy)+getContent(student_style).trim()+"-"+getContent(student_sex);
+            title+="进馆 "+getContent(academy,"学院")+getContent(student_style,"学生类别")+getContentofSex(student_sex,"性别");
         }else{
-            title+="打印复印 "+getContent(print_type)+getContent(print_location).trim()+"-"+getContent(paper_type);
+            title+="打印复印 "+getContent(print_type,"文印种类")+getContent(print_location,"设备地点").trim()+getContentofPaper_stype(paper_type,"纸张类型",definedSearchContents);
         }
-        title+="前"+rank_number;
+        title+="排行前"+rank_number;
         return title.trim();
     }
 
-    private String getContent(String s){
+    private String getContent(String s,String tip){
         if(s!=null&&!s.isEmpty()&&s.trim()!="")
-            return s.trim()+" ";
-        return "";
+            return tip+":"+s.trim()+" ";
+        else
+            return "所有"+tip+" ";
+    }
+
+    private String getContentofSex(String s,String tip){
+        if(s!=null&&!s.isEmpty()&&s.trim()!="")
+            return tip+":"+(s.trim().equals("M")?"男":"女")+" ";
+        else
+            return "所有"+tip+" ";
+    }
+
+    private String getContentofPaper_stype(String s,String tip,List<DefinedSearchContent> definedSearchContents){
+        if(s!=null&&!s.isEmpty()&&s.trim()!=""){
+            for(int i=0;i<definedSearchContents.size();i++){
+                if(definedSearchContents.get(i).getId().equals(s))
+                    return tip+":"+definedSearchContents.get(i).getName().trim()+" ";
+            }
+            return tip+":"+s.trim()+" ";
+        }
+        else
+            return "所有"+tip+" ";
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 public class DefinedBookSearch implements Serializable {
 
@@ -111,8 +112,9 @@ public class DefinedBookSearch implements Serializable {
                 '}';
     }
 
-    public String getSearchContentSubTitle(){
-        String title=getContent(timeSection)+getContent(academy)+getContent(student_style)+getContent(student_sex)+getContent(publisher)+getContent(book_style);
+    public String getSearchContentSubTitle(List<DefinedSearchContent> definedSearchContents){
+        String title=getContent(timeSection,"时间")+getContent(academy,"学院")+getContent(student_style,"学生类别")
+                +getContentofSex(student_sex,"性别")+getContent(publisher,"出版社")+getContentofBook_style(book_style,"图书种类",definedSearchContents);
         if(lend_style==0)
             title+="借书";
         else if(lend_style==1)
@@ -122,9 +124,29 @@ public class DefinedBookSearch implements Serializable {
         return title.trim();
     }
 
-    private String getContent(String s){
+    private String getContent(String s,String tip){
         if(s!=null&&!s.isEmpty()&&s.trim()!="")
-            return s.trim()+" ";
-        return "";
+            return tip+":"+s.trim()+" ";
+        else
+            return "所有"+tip+" ";
+    }
+
+    private String getContentofSex(String s,String tip){
+        if(s!=null&&!s.isEmpty()&&s.trim()!="")
+            return tip+":"+(s.trim().equals("M")?"男":"女")+" ";
+        else
+            return "所有"+tip+" ";
+    }
+
+    private String getContentofBook_style(String s,String tip,List<DefinedSearchContent> definedSearchContents){
+        if(s!=null&&!s.isEmpty()&&s.trim()!=""){
+            for(int i=0;i<definedSearchContents.size();i++){
+                if(definedSearchContents.get(i).getId().equals(s))
+                    return tip+":"+definedSearchContents.get(i).getName().trim()+" ";
+            }
+            return tip+":"+s.trim()+" ";
+        }
+        else
+            return "所有"+tip+" ";
     }
 }

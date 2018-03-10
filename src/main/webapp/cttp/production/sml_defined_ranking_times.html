@@ -25,6 +25,8 @@
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- bootstrap-select -->
     <link href="../vendors/bootstrap-select/css/bootstrap-select.css" rel="stylesheet">
+    <!-- bootstrap-table -->
+    <link href="../vendors/bootstrap-table/bootstrap-table.css" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
@@ -37,18 +39,33 @@
 </head>
 
 <script type="application/javascript">
+    //echarts数据
     var datas;
+    //table数据
+    var table_datas;
+    //加载
+    var spinner;
+    //表单Id
+    var formItems;
+    //固定表单参数
+    var staticFormItems;
+    //网上获取表单参数
+    var netFormItems;
+    //存储参数
+    var store_param;
     $(function(){
+        //form样式调整
+        $(".form-group").css("margin-bottom","15px");
+
         $(".remove").click(function(){
             $(".mask").css("display","none");
         });
+
         //初始化datarange
-        var start=moment().subtract(29,'days');
-        var end=moment();
         $('#daterange').daterangepicker({
 
-            startDate: start,
-            endDate: end,
+            startDate: '02/01/2014',
+            endDate: '03/01/2018',
             //minDate: '01/01/2012',    //最小时间
             maxDate : moment(), //最大时间
             /*dateLimit : {
@@ -60,17 +77,17 @@
             timePickerSeconds:false,
             //timePickerIncrement : 1, //时间的增量，单位为分钟
             timePicker12Hour : false, //是否使用12小时制来显示时间
-            ranges : {
+            /*ranges : {
                 //'最近1小时': [moment().subtract('hours',1), moment()],
                 '今日': [moment().startOf('day'), moment()],
                 '昨日': [moment().subtract(1,'days').startOf('day'), moment().subtract(1,'days').endOf('day')],
                 '最近7日': [moment().subtract(6,'days'), moment()],
                 '最近30日': [moment().subtract(29,'days'), moment()]
-            },
+            },*/
             opens : 'right', //日期选择框的弹出位置
             buttonClasses : [ 'btn btn-default' ],
-            applyClass : 'btn-small btn-primary blue',
-            cancelClass : 'btn-small',
+            applyClass : 'btn-small btn-default',
+            cancelClass : 'btn-small btn-default',
             format : 'YYYY/MM/DD', //控件中from和to 显示的日期格式
             separator : ' to ',
             locale : {
@@ -87,28 +104,14 @@
         }, function (start, end, label) {
             $('#timeSection').val(start.format('YYYY/MM/DD') + ' - ' + end.format('YYYY/MM/DD'));
         });
-        $('#timeSection').val(start.format('YYYY/MM/DD') + ' - ' + end.format('YYYY/MM/DD'));
-        /*//$("#series").chained("#markmy");  //注：#series是二级的id,#mark是一级的id
-        $('#series').remoteChained({
-            parents: '#markmy',
-            url: 'mytest.json',
-            loading: '--',
-            bootstrap : {
-                '': 'ALL',
-                'series-3': '3系',
-                'series-5': '5系',
-                'series-6': '6系',
-                'selected': 'series-3'
-            }
-        });*/
 
         //排行数量
         var rank_number_data=new Array();
-        for(var i=0;i<30;i++)
-            rank_number_data[i]={id:i+1,name:i+1};
+        for(var i=0;i<5;i++)
+            rank_number_data[i]={id:(i+1)*10,name:(i+1)*10};
         setSelect(document.getElementById('rank_number'),rank_number_data,true);
-        var ss = document.getElementById("rank_number");
-        ss.options[9].selected=true;
+        /*var ss = document.getElementById("rank_number");
+        ss.options[0].selected=true;*/
         $("#rank_number").selectpicker('render');
         $("#rank_number").selectpicker('refresh');
         $("#rank_number").selectpicker();
@@ -117,23 +120,31 @@
         $("#rank_style").change(function () {
             var which=$(this).val();
             if(which==0){
-                $(".my_rank01").css("display","inline");
-                $(".my_rank0").css("display","inline");
+                $(".my_rank01").css("display","inline-block");
+                $(".my_rank0").css("display","inline-block");
                 $(".my_rank2").css("display","none");
             }else if(which==1){
-                $(".my_rank01").css("display","inline");
+                $(".my_rank01").css("display","inline-block");
                 $(".my_rank0").css("display","none");
                 $(".my_rank2").css("display","none");
             }else{
                 $(".my_rank01").css("display","none");
                 $(".my_rank0").css("display","none");
-                $(".my_rank2").css("display","inline");
+                $(".my_rank2").css("display","inline-block");
             }
         });
 
-        $(".my_rank01").css("display","inline");
-        $(".my_rank0").css("display","inline");
+        $(".my_rank01").css("display","inline-block");
+        $(".my_rank0").css("display","inline-block");
         $(".my_rank2").css("display","none");
+
+        //加载样式
+        spinner=new Spinner({color:'#000000', lines: 12,top: 'auto',left:'50%',position: 'relative'});
+
+        //表单ID
+        formItems=["timeSection", "rank_style", "academy", "student_style","student_sex", "book_rank_type", "print_type", "print_location","paper_type", "rank_number"];
+        staticFormItems=["timeSection", "rank_style","student_sex","book_rank_type","rank_number"];
+        netFormItems=["academy", "student_style","print_type", "print_location","paper_type"];
     });
 
 </script>
@@ -158,37 +169,9 @@
 <!--createExcel()-->
 <script type="application/javascript">
     function createExcel () {
-        /*var eleForm = $("<form method='get'></form>");
-
-        eleForm.attr("action","/definedExportExcel/exportRecords?timeSection=123"
-            );
-
-        $(document.body).append(eleForm);
-        //提交表单，实现下载
-        eleForm.submit();*/
-        /*window.open('definedExportExcel/exportRecords');*/
-        /*var oReq = new XMLHttpRequest();
-        oReq.open("GET", "../../definedExportExcel/exportRecords"+getFormContent(["timeSection", "academy", "student_style", "student_sex", "publisher", "book_style", "lend_style"]), true);
-        oReq.responseType = "blob";
-        oReq.onload = function (oEvent) {
-            var content = oReq.response;
-
-            var elink = document.createElement('a');
-            elink.download = "excel.xlsx";
-            elink.style.display = 'none';
-
-            var blob = new Blob([content]);
-            elink.href = URL.createObjectURL(blob);
-
-            document.body.appendChild(elink);
-            elink.click();
-
-            document.body.removeChild(elink);
-        };
-        oReq.send();*/
         var elink = document.createElement('a');
         elink.style.display = 'none';
-        elink.href = "../../definedExportExcel/exportRankRecords"+getFormContent(["timeSection", "rank_style", "academy", "student_style","student_sex", "book_rank_type", "print_type", "print_location","paper_type", "rank_number"]);
+        elink.href = "../../definedExportExcel/exportRankRecords"+getFormContent(formItems);
         document.body.appendChild(elink);
         elink.click();
         document.body.removeChild(elink);
@@ -382,93 +365,16 @@
         var  searchEcharts_option;
         var searchEcharts;
         searchEcharts = echarts.init(document.getElementById('searchEcharts'));
-        /*searchEcharts_option = {
 
-            tooltip: {
-                trigger: 'axis',
-                profession: function (pt) {
-                    return [pt[0], '10%'];
-                }
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    dataZoom: {},
-                    dataView: {readOnly: false},
-                    magicType: {type: ['line', 'bar']},
-                    restore: {},
-                    saveAsImage: {}
-                }
-            },
-            legend: {
-
-                data: $("#rank_style").val()==0?['借阅数量']:($("#rank_style").val()==1?['进馆数量']:['打印复印数量']),
-            },
-            xAxis: {
-                type: 'category',
-                boundaryGap: false,
-                data: []
-            },
-            yAxis: {
-                type: 'value',
-                "axisLabel": {
-                    "interval": 0,
-                    formatter: $("#rank_style").val()==0?'{value}本':($("#rank_style").val()==1?'{value}次':'{value}次'),
-                },
-            },
-            /!*dataZoom: [{
-                type: 'inside',
-                start: 60,
-                end: 100
-            }, {
-                start: 0,
-                end: 10,
-                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                handleSize: '80%',
-                handleStyle: {
-                    color: '#fff',
-                    shadowBlur: 3,
-                    shadowColor: 'rgba(0, 0, 0, 0.6)',
-                    shadowOffsetX: 2,
-                    shadowOffsetY: 2
-                }
-            }],*!/
-            series: [
-                {
-                    name:$("#rank_style").val()==0?['借阅数量']:($("#rank_style").val()==1?['进馆数量']:['打印复印数量']),
-                    type:'line',
-                    smooth:true,
-                    symbol: 'none',
-                    sampling: 'average',
-                    itemStyle: {
-                        normal: {
-                            color: 'rgb(255, 70, 131)'
-                        }
-                    },
-                    areaStyle: {
-                        normal: {
-                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                offset: 0,
-                                color: 'rgb(255, 158, 68)'
-                            }, {
-                                offset: 1,
-                                color: 'rgb(255, 70, 131)'
-                            }])
-                        }
-                    },
-                    data: [],
-                }
-            ]
-        };*/
         searchEcharts_option = {
             animation:false,
             backgroundColor:'white',
-            grid: {
-                left: '3%',
-                right: '6%',
-                bottom: '3%',
-                top:'3%',
-                containLabel: true
+            color: ['#3398DB'],
+            tooltip : {
+                trigger: 'axis',
+                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
             },
             toolbox: {
                 show: true,
@@ -480,109 +386,157 @@
                     saveAsImage: {}
                 }
             },
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                    type: null // 默认为直线，可选为：'line' | 'shadow'
-                },
-                formatter: $("#rank_style").val()==0?'{b} : {c}次':($("#rank_style").val()==1?'{b} : {c}次':'{b} : {c}次'),
+            grid: {
+                left: '3%',
+                right: '6%',
+                bottom: '13%',
+                containLabel: true
             },
-            xAxis: [{
-                type: 'value',
-                axisLabel: {
-                    show: false
-                },
-                axisTick: {
-                    show: false
-                },
-                axisLine: {
-                    show: false
-                },
-                splitLine: {
-                    show: false
-                }
-
-            }],
-            yAxis: [{
-                type: 'category',
-                boundaryGap: true,
-                axisTick: {
-                    show: true
-                },
-                axisLabel: {
-                    interval: null
-                },
-                data: [],
-                splitLine: {
-                    show: false
-                }
-            }],
-            series: [{
-                type: 'bar',
-                barWidth: 25,
-                label: {
-                    normal: {
-                        show: true,
-                        profession: 'right'
+            xAxis : [
+                {
+                    name:'学院',
+                    type : 'category',
+                    data : data.x_datas,
+                    axisTick: {
+                        alignWithLabel: true
+                    },
+                    "axisLabel": {
+                        "interval": 0,
+                        "rotate": 30,
+                        "show": true,
+                        "splitNumber": 15,
+                        "textStyle": {
+                            "fontFamily": "微软雅黑",
+                            "fontSize": 12
+                        }
                     }
-
+                }
+            ],
+            yAxis : [
+                {
+                    // type : 'category',
+                    // data : ['10','20','30','40'],
+                    name:'册',
+                    axisTick: {
+                        alignWithLabel: true
+                    }
+                }
+            ],
+            series : [
+                {
+                    name:'借阅',
+                    type:'bar',
+                    barWidth: '40%',
+                    data:data.amounts,
                 },
-                data: []
-            }],
 
+            ],
+            label: {
+                normal: {
+                    show: true,
+                    position: 'top',
+                    formatter: '{c}'
+                }
+            },
+            itemStyle: {
+                normal: {
+
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0,
+                        color: 'rgba(17, 168,171, 1)'
+                    }, {
+                        offset: 1,
+                        color: 'rgba(17, 168,171, 0.1)'
+                    }]),
+                    shadowColor: 'rgba(0, 0, 0, 0.1)',
+                    shadowBlur: 10
+                }
+            }
         };
         // 使用刚指定的配置项和数据显示图表。
         searchEcharts.setOption(searchEcharts_option);
-        searchEcharts.setOption({
-            yAxis: {
-                data: data.x_datas,
-            },
-            series: [{
-                // 根据名字对应到相应的系列
-                name: $("#rank_style").val()==0?['借阅数量']:($("#rank_style").val()==1?['进馆数量']:['打印复印数量']),
-                data: data.amounts,
-            }]
-        });
-        /*searchEcharts.setOption({
-            xAxis: {
-                data: data.x_datas,
-            },
-            series: [{
-                // 根据名字对应到相应的系列
-                name: $("#rank_style").val()==0?['借阅数量']:($("#rank_style").val()==1?['进馆数量']:['打印复印数量']),
-                data: data.amounts,
-            }]
-        });*/
 
     }
 </script>
 
 <!--submitSearchData()提交表单函数-->
 <script type="application/javascript">
-    function submitSearchData(){
+    function submitSearchData(param){
         $.ajax({
             type:'get',
             contentType:'application/json',
             url:'../../definedSearch/getDefinedRankSearch',
-            data: $('#searchForm').serialize(),
+            data: param==undefined?$('#searchForm').serialize():param,
             dataType:'json',
             cache: true,
             async:true,
+            beforeSend: function () {
+                //异步请求时spinner出现
+                $("#loading").text("");
+                var target = $("#loading").get(0);
+                spinner.spin(target);
+            },
             success:function(data){
-                console.info(data);
                 datas=data;
-                datas.x_datas.reverse();
-                datas.amounts.reverse();
-                if($("#rank_style").val()==0)
-                    $("#title").text("借阅排行");
-                else if($("#rank_style").val()==1)
-                    $("#title").text("进馆排行");
-                else
-                    $("#title").text("打印复印排行");
-                setChart(data);
+                spinner.spin();
+                console.info(data);
+
+                //存储
+                if(data.amounts==undefined||data.amounts.length==0){
+                    $("#tip_content").css("display","block");
+                    $("#tip_content").text("查询数据为空");
+                    $("#chart_image").css("display","none");
+                    $('#chart_table').css("display","none");
+                    //清空
+                    table_datas=[];
+                }
+                else{
+                    $("#tip_content").css("display","none");
+                    $("#chart_image").css("display","block");
+
+                    if($("#rank_style").val()==0)
+                        $("#title").text("借阅排行");
+                    else if($("#rank_style").val()==1)
+                        $("#title").text("进馆排行");
+                    else
+                        $("#title").text("打印复印排行");
+                    setChart(data);
+
+                    table_datas=datas.amounts.map(function (item,index,array) {
+                        return {id:index+1,time:datas.x_datas[index],amount:item};
+                    });
+                    $('#chart_table').css("display","block");
+                    $('#table').bootstrapTable('refreshOptions', {
+                        columns: [{
+                            field: 'id',
+                            align:'center',
+                            title: "排名"
+                        },
+                            {
+                                field: 'time',
+                                align:'center',
+                                title: "学院"
+                            }, {
+                                field: 'amount',
+                                align:'center',
+                                title: '数量'
+                            }]});
+                    $('#table').bootstrapTable('load',table_datas);
+                    $("#toolbar").css("display","inline");
+                }
+                if(param==undefined||store_param==undefined||store_param["param"]==undefined||store_param["param"]!=param)
+                    storeData(formItems);
             },
             error:function(data){
+                spinner.spin();
                 console.info(data);
+                $("#tip_content").css("display","block");
+                $("#tip_content").text("请求失败");
+                if(datas==undefined||data.amounts==undefined||data.amounts.length==0){
+
+                }else{
+
+                }
             }
         });
     }
@@ -610,6 +564,46 @@
     }}
 </script>
 
+<!--storeData(formItems)存入数据-->
+<script type="application/javascript">
+    function storeData(Items){{
+        var temp=new Object();
+        for(var i=0;i<Items.length;i++){
+            temp[Items[i]]=$("#"+Items[i]).val();
+        }
+        temp["param"]=getFormContent(Items).replace("?","");
+        localStorage.setItem("sml_defined_ranking_times", JSON.stringify(temp));
+        store_param=temp;
+        console.info("存入信息:"+(store_param==undefined?"空":JSON.stringify(store_param)));
+    }};
+</script>
+
+<!--setSearchDefaultContent(Items,isAgain)默认值设置-->
+<script type="application/javascript">
+    function setSearchDefaultContent(Items,isAgain){{
+        if(isAgain)
+            store_param=JSON.parse(localStorage.getItem("sml_defined_ranking_times"));
+        if(store_param!=undefined){
+            for(var i=0;i<Items.length;i++){
+                if(Items[i]=="timeSection"){
+                    var aa=store_param["timeSection"].toString().split("-");
+                    var bb=aa[0].split('/');
+                    var cc=aa[1].split('/');
+                    $('#daterange').data('daterangepicker').setStartDate(bb[2]+""+bb[1]+""+bb[0]);
+                    $('#daterange').data('daterangepicker').setEndDate(cc[2]+""+cc[1]+""+cc[0]);
+                    $("#timeSection").val(store_param["timeSection"]);
+                }else
+                    $("#"+Items[i]+" option[value='"+store_param[Items[i]]+"']").attr("selected","selected");//根据值让option选中
+            }
+        }else{
+            //默认
+            $('#daterange').data('daterangepicker').setStartDate("02/01/2014");
+            $('#daterange').data('daterangepicker').setEndDate("03/01/2018");
+            $('#timeSection').val("2014/02/01 - 2018/03/01");
+        }
+    }};
+</script>
+
 <!--getSearchContent()获取下拉框内容并设置-->
 <script type="application/javascript">
     function getSearchContent(){
@@ -619,30 +613,31 @@
             url:'../../definedSearchContent/getDefinedRankContent',
             dataType:'json',
             async:true,
+            cache:true,
             success:function (data) {
                 console.info(data);
                 setSelect(document.getElementById('academy'),data.academy,false);
-                $("#academy").selectpicker('render');
-                $("#academy").selectpicker('refresh');
-                $("#academy").selectpicker();
                 setSelect(document.getElementById('student_style'),data.student_style,false);
-                $("#student_style").selectpicker('render');
-                $("#student_style").selectpicker('refresh');
-                $("#student_style").selectpicker();
                 setSelect(document.getElementById('print_type'),data.print_type,false);
-                $("#print_type").selectpicker('render');
-                $("#print_type").selectpicker('refresh');
-                $("#print_type").selectpicker();
                 setSelect(document.getElementById('print_location'),data.print_location,false);
-                $("#print_location").selectpicker('render');
-                $("#print_location").selectpicker('refresh');
-                $("#print_location").selectpicker();
                 setSelect(document.getElementById('paper_type'),data.print_paperType,true);
-                $("#paper_type").selectpicker('render');
-                $("#paper_type").selectpicker('refresh');
-                $("#paper_type").selectpicker();
+                setSearchDefaultContent(netFormItems,false);
+                selectpickerRender(netFormItems);
             }
         });
+    }
+</script>
+
+<!--selectpickerRender重构selectpicker-->
+<script type="application/javascript">
+    function selectpickerRender(Items) {
+        for(var i=0;i<Items.length;i++){
+            if(Items[i]=="timeSection")
+                continue;
+            $("#"+Items[i]).selectpicker('refresh');
+            $("#"+Items[i]).selectpicker('render');
+            $("#"+Items[i]).selectpicker();
+        }
     }
 </script>
 
@@ -663,8 +658,44 @@
 <!--相应数据获取以及初始化-->
 <script type="application/javascript">
     $(function(){
+        store_param=JSON.parse(localStorage.getItem("sml_defined_ranking_times"));
+        console.info("取出的信息:"+(store_param==undefined?"空":JSON.stringify(store_param)));
+        setSearchDefaultContent(staticFormItems,false);
+        selectpickerRender(staticFormItems);
+        //初始化table
+        $('#table').bootstrapTable({
+            columns: [{
+                field: 'id',
+                align:'center',
+                title: "排名"
+            },
+                {
+                    field: 'time',
+                    align:'center',
+                    title:"学院"
+                }, {
+                    field: 'amount',
+                    align:'center',
+                    title: '数量'
+                }],
+            toolbar: '#toolbar',//指定工具栏
+            toolbarAlign:'right',//工具栏对齐方式
+            buttonsAlign:'right',//按钮对齐方式
+            striped: true, //是否显示行间隔色
+            pagination:true,//是否分页
+            pageSize:10,//单页记录数
+            showRefresh:true,//刷新按钮
+            showColumns:true,
+            locale:'zh-CN',//中文支持,
+        });
+
         getSearchContent();
-        submitSearchData();
+        if(store_param!=undefined&&store_param["param"]!=undefined){
+            submitSearchData(store_param["param"]);
+        }else{
+            submitSearchData();
+        }
+
     });
 </script>
 
@@ -828,92 +859,103 @@
             <form id="searchForm">
                 <div class="form-inline">
                     <div class="form-group">
-                        <label id="timeSection_title" for="timeSection" class="control-label" style="height:34px">
+                        <label for="timeSection" class="control-label">
                             开始时间-结束时间
                         </label>
-                        <div id="daterange" class="input-prepend input-group"  data-date-format="yyyy/mm/dd">
-                            <span class="add-on input-group-addon">
-                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                            </span>
-                            <input type="text" name="timeSection" id="timeSection" class="form-control span4"/>
-                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="rank_style" class="control-label" style="height:34px">排行类型</label>
-                        <div class="input-prepend input-group">
-                            <select id="rank_style" name="rank_style" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
-                                <option value="0">借阅</option>
-                                <option value="1">进馆</option>
-                                <option value="2">打印复印</option>
-                            </select>
+                        <div id="daterange" class="input-group"  data-date-format="yyyy/mm/dd" style="margin-bottom:0px">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                            <input type="text" name="timeSection" id="timeSection" class="form-control"/>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="rank_style" class="control-label">排行类型</label>
+                    </div>
+                    <div class="form-group">
+                        <select id="rank_style" name="rank_style" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
+                            <option value="0">借阅</option>
+                            <option value="1">进馆</option>
+                            <option value="2">打印复印</option>
+                        </select>
+                    </div>
+
                     <div class="form-group my_rank01">
-                        <label for="academy" class="control-label" style="height:34px">学院</label>
-                        <div class="input-prepend input-group">
-                            <select id="academy" name="academy" class="selectpicker show-tick form-control" data-width="auto" data-size="5" data-live-search="true">
-                                <option value="">所有</option>
-                            </select>
-                        </div>
+                        <label for="academy" class="control-label">学院</label>
                     </div>
                     <div class="form-group my_rank01">
-                        <label for="student_style" class="control-label" style="height:34px">学生类别</label>
-                        <div class="input-prepend input-group">
-                            <select id="student_style" name="student_style" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
-                                <option value="">所有</option>
-                            </select>
-                        </div>
+                        <select id="academy" name="academy" class="selectpicker show-tick form-control" data-width="auto" data-size="5" data-live-search="true">
+                            <option value="">所有</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group my_rank01">
+                        <label for="student_style" class="control-label">学生类别</label>
                     </div>
                     <div class="form-group my_rank01">
-                        <label for="student_sex" class="control-label" style="height:34px">性别</label>
-                        <div class="input-prepend input-group">
-                            <select id="student_sex" name="student_sex" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
-                                <option value="">所有</option>
-                                <option value="M">男</option>
-                                <option value="F">女</option>
-                            </select>
-                        </div>
+                        <select id="student_style" name="student_style" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
+                            <option value="">所有</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group my_rank01">
+                        <label for="student_sex" class="control-label">性别</label>
+                    </div>
+                    <div class="form-group my_rank01">
+                        <select id="student_sex" name="student_sex" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
+                            <option value="">所有</option>
+                            <option value="M">男</option>
+                            <option value="F">女</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group my_rank0">
+                        <label for="book_rank_type" class="control-label">排行种类</label>
                     </div>
                     <div class="form-group my_rank0">
-                        <label for="book_rank_type" class="control-label" style="height:34px">排行种类</label>
-                        <div class="input-prepend input-group">
-                            <select id="book_rank_type" name="book_rank_type" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
-                                <option value="0">图书借阅量</option>
-                                <option value="1">学生借阅量</option>
-                            </select>
-                        </div>
+                        <select id="book_rank_type" name="book_rank_type" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
+                            <option value="0">图书借阅量</option>
+                            <option value="1">学生借阅量</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group my_rank2">
+                        <label for="print_type" class="control-label">文印类型</label>
                     </div>
                     <div class="form-group my_rank2">
-                        <label for="print_type" class="control-label" style="height:34px">文印类型</label>
-                        <div class="input-prepend input-group">
-                            <select id="print_type" name="print_type" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
-                                <option value="">所有</option>
-                            </select>
-                        </div>
+                        <select id="print_type" name="print_type" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
+                            <option value="">所有</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group my_rank2">
+                        <label for="print_location" class="control-label">设备地点</label>
                     </div>
                     <div class="form-group my_rank2">
-                        <label for="print_location" class="control-label" style="height:34px">设备地点</label>
-                        <div class="input-prepend input-group">
-                            <select id="print_location" name="print_location" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
-                                <option value="">所有</option>
-                            </select>
-                        </div>
+                        <select id="print_location" name="print_location" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
+                            <option value="">所有</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group my_rank2">
+                        <label for="paper_type" class="control-label">纸张类型</label>
                     </div>
                     <div class="form-group my_rank2">
-                        <label for="paper_type" class="control-label" style="height:34px">纸张类型</label>
-                        <div class="input-prepend input-group">
-                            <select id="paper_type" name="paper_type" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
-                                <option value="">所有</option>
-                            </select>
-                        </div>
+                        <select id="paper_type" name="paper_type" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
+                            <option value="">所有</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rank_number" class="control-label">排行数量</label>
                     </div>
                     <div class="form-group">
-                        <label for="rank_number" class="control-label" style="height:34px">排行数量</label>
-                        <div class="input-prepend input-group">
-                            <select id="rank_number" name="rank_number" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
+                        <select id="rank_number" name="rank_number" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
 
-                            </select>
-                        </div>
+                        </select>
                     </div>
 
                     <div class="form-group" style="vertical-align:top">
@@ -922,14 +964,21 @@
                 </div>
             </form>
         </div>
-        <div class="right_col" >
+        <!--<div class="right_col" >
             <input id="export" type="button" value="导出EXCEL" onclick = "createExcel()"/>
+        </div>-->
+
+        <!--加载-->
+        <div class="right_col">
+            <div id="loading"></div>
+            <div class="clearfix"></div>
         </div>
 
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="clearfix"></div>
-            <div class="row" >
+            <h1 id="tip_content" style="text-align: center;margin-top:50px;display:none">数据为空</h1>
+            <div class="row" id="chart_image" style="display: none">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title"   style="padding:0px;" >
@@ -947,6 +996,19 @@
                         <div class="x_content">
                             <div id="searchEcharts" style="height:300px;"></div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="chart_table" style="display:none">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <table id="table" >
+
+                    </table>
+
+                    <div id="toolbar" class="btn-group pull-right" style="margin-right: 20px;display:none">
+                        <button id="export" type="button" class="btn btn-default" onclick = "createExcel()">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true">导出EXCEL</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1005,11 +1067,17 @@
 <!-- bootstrap-select -->
 <script src="../vendors/bootstrap-select/js/bootstrap-select.min.js"></script>
 <script src="../vendors/bootstrap-select/js/bootstrap-select.js"></script>
+<!-- bootstrap-table -->
+<script src="../vendors/bootstrap-table/bootstrap-table.js"></script>
+<script src="../vendors/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
 <!-- jquery-chain-select -->
 <script src="../vendors/jquery-chained-select/jquery.chained.js"></script>
 <script src="../vendors/jquery-chained-select/jquery.chained.min.js"></script>
 <script src="../vendors/jquery-chained-select/jquery.chained.remote.js"></script>
 <script src="../vendors/jquery-chained-select/jquery.chained.remote.min.js"></script>
+<!--loading-spin-->
+<script type="text/javascript" src="../vendors/loading-spin/js/spin.js" ></script>
+<script type="text/javascript" src="../vendors/loading-spin/js/jquery.spin.js" ></script>
 <!-- ECharts -->
 <!--<script src="../vendors/echarts/dist/echarts.min.js"></script>-->
 <!--<script src="../vendors/echarts/map/js/world.js"></script>-->

@@ -114,22 +114,30 @@ public class DefinedPersonAssetSearch implements Serializable {
     public String getSearchContentSubTitle(){
         String title="";
         if(style==0){
-            title+="人员 "+getContent(timeSection)+getContent(birth_start).trim()+"-"+getContent(birth_end)+getContent(sex)+getContent(profession);
+            title+="人员 "+getContent(timeSection,"入职时间")+getContent(birth_start+"-"+birth_end,"出生年份")+getContentofSex(sex,"性别")+getContent(profession,"职称");
         }else{
             title+="资产 ";
             if(asset_type==0)
                 title+="设备 ";
             else
                 title+="馆藏文献 ";
-            title+=getContent(timeSection);
+            title+=getContent(timeSection,"购买时间");
 
         }
         return title.trim();
     }
 
-    private String getContent(String s){
+    private String getContent(String s,String tip){
         if(s!=null&&!s.isEmpty()&&s.trim()!="")
-            return s.trim()+" ";
-        return "";
+            return tip+":"+s.trim()+" ";
+        else
+            return "所有"+tip+" ";
+    }
+
+    private String getContentofSex(String s,String tip){
+        if(s!=null&&!s.isEmpty()&&s.trim()!="")
+            return tip+":"+(s.trim().equals("0")?"男":"女")+" ";
+        else
+            return "所有"+tip+" ";
     }
 }

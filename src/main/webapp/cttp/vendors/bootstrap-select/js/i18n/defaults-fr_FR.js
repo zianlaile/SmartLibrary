@@ -1,7 +1,7 @@
 /*!
- * Bootstrap-select v1.12.4 (http://silviomoreto.github.io/bootstrap-select)
+ * Bootstrap-select v1.7.2 (http://silviomoreto.github.io/bootstrap-select)
  *
- * Copyright 2013-2017 bootstrap-select
+ * Copyright 2013-2015 bootstrap-select
  * Licensed under MIT (https://github.com/silviomoreto/bootstrap-select/blob/master/LICENSE)
  */
 
@@ -11,32 +11,30 @@
     define(["jquery"], function (a0) {
       return (factory(a0));
     });
-  } else if (typeof module === 'object' && module.exports) {
+  } else if (typeof exports === 'object') {
     // Node. Does not work with strict CommonJS, but
     // only CommonJS-like environments that support module.exports,
     // like Node.
     module.exports = factory(require("jquery"));
   } else {
-    factory(root["jQuery"]);
+    factory(jQuery);
   }
-}(this, function (jQuery) {
+}(this, function () {
 
 (function ($) {
   $.fn.selectpicker.defaults = {
-    noneSelectedText: 'Aucune sélection',
-    noneResultsText: 'Aucun résultat pour {0}',
+    noneSelectedText: 'Aucune s&eacute;lection',
+    noneResultsText: 'Aucun r&eacute;sultat pour {0}',
     countSelectedText: function (numSelected, numTotal) {
-      return (numSelected > 1) ? "{0} éléments sélectionnés" : "{0} élément sélectionné";
+      return (numSelected > 1) ? "{0} &eacute;l&eacute;ments s&eacute;lectionn&eacute;s" : "{0} &eacute;l&eacute;ment s&eacute;lectionn&eacute;";
     },
     maxOptionsText: function (numAll, numGroup) {
       return [
-        (numAll > 1) ? 'Limite atteinte ({n} éléments max)' : 'Limite atteinte ({n} élément max)',
-        (numGroup > 1) ? 'Limite du groupe atteinte ({n} éléments max)' : 'Limite du groupe atteinte ({n} élément max)'
+        (numAll > 1) ? 'Limite atteinte ({n} &eacute;l&eacute;ments max)' : 'Limite atteinte ({n} &eacute;l&eacute;ment max)',
+        (numGroup > 1) ? 'Limite du groupe atteinte ({n} &eacute;l&eacute;ments max)' : 'Limite du groupe atteinte ({n} &eacute;l&eacute;ment max)'
       ];
     },
-    multipleSeparator: ', ',
-    selectAllText: 'Tout sélectionner',
-    deselectAllText: 'Tout désélectionner',
+    multipleSeparator: ', '
   };
 })(jQuery);
 

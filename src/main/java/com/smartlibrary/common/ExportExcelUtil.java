@@ -29,8 +29,8 @@ public class ExportExcelUtil {
      * @return
      */
     @SuppressWarnings("rawtypes")
-    public final static String exportExcel(String fileName, Map<String, String> exportMap,
-                                           List<? extends Object> listContent, HttpServletResponse response,String title,String subTitle) {
+    public final static String exportExcel(String fileName, Map<String, String> exportMap, List<? extends Object> listContent,
+                                           HttpServletResponse response,String title,String subTitle,boolean isAddOrderBefore,String AddOrderBeforeTitle) {
         String result = "success";
         // 以下开始输出到EXCEL
         try {
@@ -74,26 +74,29 @@ public class ExportExcelUtil {
             wcf_center2.setAlignment(Alignment.CENTRE); // 文字水平对齐
             wcf_center2.setWrap(false); // 文字是否换行
 
-            // 用于正文居左
-            WritableCellFormat wcf_left = new WritableCellFormat(NormalFont);
-            wcf_left.setBorder(Border.NONE, BorderLineStyle.THIN); // 线条
-            wcf_left.setVerticalAlignment(VerticalAlignment.CENTRE); // 文字垂直对齐
-            wcf_left.setAlignment(Alignment.LEFT); // 文字水平对齐
-            wcf_left.setWrap(false); // 文字是否换行
+            // 用于正文居中
+            WritableCellFormat wcf_center3 = new WritableCellFormat(NormalFont);
+            wcf_center3.setBorder(Border.NONE, BorderLineStyle.THIN); // 线条
+            wcf_center3.setVerticalAlignment(VerticalAlignment.CENTRE); // 文字垂直对齐
+            wcf_center3.setAlignment(Alignment.CENTRE); // 文字水平对齐
+            wcf_center3.setWrap(false); // 文字是否换行
 
             /** ***************以下是EXCEL开头大标题，暂时省略********************* */
-            sheet.setRowView(0, sheet.getSettings().getDefaultRowHeight()*2);// 设置第一列宽度
+            sheet.setRowView(0, sheet.getSettings().getDefaultRowHeight()*2);// 设置第一行宽度
             sheet.mergeCells(0, 0, 5, 0);
-            sheet.addCell(new Label(0, 0, title+"（总数："+listContent.size()+")", wcf_center));
+            sheet.addCell(new Label(0, 0, title+"（数据量："+listContent.size()+"条)", wcf_center));
             /** ***************以下是EXCEL副标题，暂时省略********************* */
+            sheet.setRowView(1, sheet.getSettings().getDefaultRowHeight()*2);// 设置第二行宽度
             sheet.mergeCells(0, 1, 5, 1);
             sheet.addCell(new Label(0, 1, subTitle, wcf_center));
             /** ***************以下是EXCEL第一行列标题********************* */
             Object[] columArr = exportMap.keySet().toArray();
             Object[] filedNameArr = exportMap.values().toArray();
-            //sheet.addCell(new Label(0, 1, "序号", wcf_center));
-            for (int i = 0; i < columArr.length; i++) {
-                sheet.addCell(new Label(i, 2, columArr[i].toString(), wcf_center2));
+            int temp = 0;
+            if(isAddOrderBefore)
+                sheet.addCell(new Label(temp++, 2, AddOrderBeforeTitle, wcf_center));
+            for (int i=0; i < columArr.length; i++) {
+                sheet.addCell(new Label(i+temp, 2, columArr[i].toString(), wcf_center2));
             }
             /** ***************以下是EXCEL正文数据********************* */
             int i = 3;
@@ -104,8 +107,10 @@ public class ExportExcelUtil {
                 Object value = null;
                 Method method=null;
                 Class methodTypeClass=null;
-                //sheet.addCell(new Label(j, i, String.valueOf(i), wcf_left));
-                //j++;
+                if(isAddOrderBefore){
+                    sheet.addCell(new Label(j, i, String.valueOf(i-2), wcf_center3));
+                    j++;
+                }
                 for (Object fieldName : filedNameArr) {
                     fieldNameTemp = "get" + fieldName.toString().substring(0, 1).toUpperCase()
                             + fieldName.toString().substring(1);
@@ -116,8 +121,8 @@ public class ExportExcelUtil {
                         value = dateFormat.format((Date)method.invoke(obj, null));
                     }else if(int.class.getSimpleName().equals(methodTypeClass.getSimpleName())){
                         jxl.write.Number labelNF = new jxl.write.Number(j, j,
-                                i, wcf_left); // 格式化数值
-                        sheet.addCell(new jxl.write.Number(j, i,(int)method.invoke(obj, null) , wcf_left));
+                                i, wcf_center3); // 格式化数值
+                        sheet.addCell(new jxl.write.Number(j, i,(int)method.invoke(obj, null) , wcf_center3));
                         j++;
                         continue;
                     }else{
@@ -126,7 +131,7 @@ public class ExportExcelUtil {
                     if (value == null) {
                         value = "";
                     }
-                    sheet.addCell(new Label(j, i, value.toString(), wcf_left));
+                    sheet.addCell(new Label(j, i, value.toString(), wcf_center3));
                     j++;
                 }
                 i++;
@@ -142,5 +147,20 @@ public class ExportExcelUtil {
             logger.error("导出excel失败", e);
         }
         return result;
+    }
+
+    /**
+     * 导出excel
+     *
+     * @param fileName
+     * @param exportMap
+     * @param listContent
+     * @param response
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    public final static String exportExcel(String fileName, Map<String, String> exportMap, List<? extends Object> listContent,
+                                           HttpServletResponse response,String title,String subTitle) {
+        return exportExcel(fileName,exportMap,listContent,response,title,subTitle,false,"");
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 public class DefinedPrintSearch implements Serializable {
     @NotNull
@@ -81,14 +82,27 @@ public class DefinedPrintSearch implements Serializable {
                 '}';
     }
 
-    public String getSearchContentSubTitle(){
-        String title=getContent(timeSection)+getContent(print_type)+getContent(print_location)+getContent(paper_type);
+    public String getSearchContentSubTitle(List<DefinedSearchContent> definedSearchContents){
+        String title=getContent(timeSection,"时间")+getContent(print_type,"文印类型")+getContent(print_location,"设备地点")+getContentofPaper_stype(paper_type,"纸张类型",definedSearchContents);
         return title.trim();
     }
 
-    private String getContent(String s){
+    private String getContent(String s,String tip){
         if(s!=null&&!s.isEmpty()&&s.trim()!="")
-            return s.trim()+" ";
-        return "";
+            return tip+":"+s.trim()+" ";
+        else
+            return "所有"+tip+" ";
+    }
+
+    private String getContentofPaper_stype(String s,String tip,List<DefinedSearchContent> definedSearchContents){
+        if(s!=null&&!s.isEmpty()&&s.trim()!=""){
+            for(int i=0;i<definedSearchContents.size();i++){
+                if(definedSearchContents.get(i).getId().equals(s))
+                    return tip+":"+definedSearchContents.get(i).getName().trim()+" ";
+            }
+            return tip+":"+s.trim()+" ";
+        }
+        else
+            return "所有"+tip+" ";
     }
 }

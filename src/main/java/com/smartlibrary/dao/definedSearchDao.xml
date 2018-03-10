@@ -4,8 +4,9 @@
 <mapper namespace="com.smartlibrary.dao.definedSearchDao">
     <!--24小时刷新-->
     <cache flushInterval="86400000"/>
+    <!--借阅统计-->
     <select id="getDefinedBook" parameterType="com.smartlibrary.domain.DefinedBookSearch" resultType="com.smartlibrary.domain.DefinedResult">
-        SELECT count(*) AS amount,DATE_FORMAT(z.operation_time, '%Y/%c/%e') AS time
+        SELECT count(*) AS amount,DATE_FORMAT(z.operation_time, '%Y/%m/%d') AS time
         FROM
         <choose>
             <when test="lend_style==0">
@@ -41,8 +42,9 @@
         ORDER BY z.operation_time
     </select>
 
-    <sql id="getDefinedGctrl0">
-        SELECT count(*) AS amount,DATE_FORMAT(z.enter_time, '%Y/%c/%e') AS time
+    <!--进馆总数统计-->
+    <sql id="getDefinedGctrl_Number">
+        SELECT count(*) AS amount,DATE_FORMAT(z.enter_time, '%Y/%m/%d') AS time
         FROM z_gctrl_ctrl_sys as z
         WHERE (z.enter_time BETWEEN #{start_time} AND #{end_time})
         <if test="academy != null and academy != ''">
@@ -57,11 +59,39 @@
         GROUP BY time
         ORDER BY z.enter_time
     </sql>
-
-    <sql id="getDefinedGctrl1">
+    <!--进馆排名-->
+    <sql id="getDefinedGctrl_Rank">
+        <choose>
+            <when test="academy == null or academy == ''">
+                <include refid="getDefinedGctrlRankOfAcademy"></include>
+            </when>
+            <otherwise>
+                <choose>
+                    <when test="student_style == null or student_style == ''">
+                        <include refid="getDefinedGctrlRankOfStyle"></include>
+                    </when>
+                    <otherwise>
+                        <choose>
+                            <when test="student_sex == null or student_sex == ''">
+                                <include refid="getDefinedGctrlRankOfSex"></include>
+                            </when>
+                            <otherwise>
+                                <include refid="getDefinedGctrlRankOfOneSex"></include>
+                            </otherwise>
+                        </choose>
+                    </otherwise>
+                </choose>
+            </otherwise>
+        </choose>
+    </sql>
+    <!--进馆按学院排名-->
+    <sql id="getDefinedGctrlRankOfAcademy">
         SELECT z.`academy` AS academy,count(*) AS amount
         FROM z_gctrl_ctrl_sys as z
         WHERE (z.enter_time BETWEEN #{start_time} AND #{end_time})
+        <if test="academy != null and academy != ''">
+            AND z.`academy` = #{academy}
+        </if>
         <if test="student_style != null and student_style != ''">
             AND z.`identity` = #{student_style}
         </if>
@@ -72,23 +102,77 @@
         ORDER BY amount DESC
         LIMIT 10
     </sql>
-
+    <!--进馆按学生类别排名-->
+    <sql id="getDefinedGctrlRankOfStyle">
+        SELECT z.`identity` AS academy,count(*) AS amount
+        FROM z_gctrl_ctrl_sys as z
+        WHERE (z.enter_time BETWEEN #{start_time} AND #{end_time})
+        <if test="academy != null and academy != ''">
+            AND z.`academy` = #{academy}
+        </if>
+        <if test="student_style != null and student_style != ''">
+            AND z.`identity` = #{student_style}
+        </if>
+        <if test="student_sex != null and student_sex != ''">
+            AND z.`gender` = #{student_sex}
+        </if>
+        GROUP BY z.`identity`
+        ORDER BY amount DESC
+        LIMIT 10
+    </sql>
+    <!--进馆按学生性别排名-->
+    <sql id="getDefinedGctrlRankOfSex">
+        SELECT z.`gender` AS academy,count(*) AS amount
+        FROM z_gctrl_ctrl_sys as z
+        WHERE (z.enter_time BETWEEN #{start_time} AND #{end_time})
+        <if test="academy != null and academy != ''">
+            AND z.`academy` = #{academy}
+        </if>
+        <if test="student_style != null and student_style != ''">
+            AND z.`identity` = #{student_style}
+        </if>
+        <if test="student_sex != null and student_sex != ''">
+            AND z.`gender` = #{student_sex}
+        </if>
+        GROUP BY z.`gender`
+        ORDER BY amount DESC
+        LIMIT 10
+    </sql>
+    <!--进馆按学生性别之一排名-->
+    <sql id="getDefinedGctrlRankOfOneSex">
+        SELECT z.`gender` AS academy,count(*) AS amount
+        FROM z_gctrl_ctrl_sys as z
+        WHERE (z.enter_time BETWEEN #{start_time} AND #{end_time})
+        <if test="academy != null and academy != ''">
+            AND z.`academy` = #{academy}
+        </if>
+        <if test="student_style != null and student_style != ''">
+            AND z.`identity` = #{student_style}
+        </if>
+        <if test="student_sex != null and student_sex != ''">
+            AND z.`gender` = #{student_sex}
+        </if>
+        GROUP BY z.`gender`
+        ORDER BY amount DESC
+    </sql>
+    <!--进馆-->
     <select id="getDefinedGctrl" parameterType="com.smartlibrary.domain.DefinedGctrlSearch" resultType="com.smartlibrary.domain.DefinedResult">
         <choose>
             <when test="style==0">
-                <include refid="getDefinedGctrl0"></include>
+                <include refid="getDefinedGctrl_Number"></include>
             </when>
             <when test="style==1">
-                <include refid="getDefinedGctrl1"></include>
+                <include refid="getDefinedGctrl_Rank"></include>
             </when>
             <otherwise>
-                <include refid="getDefinedGctrl0"></include>
+                <include refid="getDefinedGctrl_Number"></include>
             </otherwise>
         </choose>
     </select>
 
+
     <sql id="getDefinedIc0">
-        SELECT DATE_FORMAT(zz.ymddate, '%Y/%c/%e') AS time,
+        SELECT DATE_FORMAT(zz.ymddate, '%Y/%m/%d') AS time,
         <choose>
             <when test="ic_type == 0 and style==1">
                 zz.croom_times
@@ -124,9 +208,8 @@
         AND zz.`user_type` = #{student_style}
         ORDER BY zz.ymddate
     </sql>
-
     <sql id="getDefinedIc1">
-        SELECT DATE_FORMAT(zz.ymddate, '%Y/%c/%e') AS time,
+        SELECT DATE_FORMAT(zz.ymddate, '%Y/%m/%d') AS time,
         <choose>
             <when test="ic_type == 0 and style==1">
                 SUM(zz.croom_times)
@@ -162,7 +245,7 @@
         GROUP BY time
         ORDER BY zz.ymddate
     </sql>
-
+    <!--IC-->
     <select id="getDefinedIc" parameterType="com.smartlibrary.domain.DefinedIcSearch" resultType="com.smartlibrary.domain.DefinedResult">
         <choose>
             <when test="student_style != null and student_style != ''">
@@ -174,8 +257,9 @@
         </choose>
     </select>
 
+    <!--打印复印-->
     <select id="getDefinedPrint" parameterType="com.smartlibrary.domain.DefinedPrintSearch" resultType="com.smartlibrary.domain.DefinedResult">
-        SELECT count(*) AS amount,DATE_FORMAT(z.print_time, '%Y/%c/%e') AS time
+        SELECT count(*) AS amount,DATE_FORMAT(z.print_time, '%Y/%m/%d') AS time
         FROM z_printcs_sys AS z
         WHERE (z.print_time BETWEEN #{start_time} AND #{end_time})
         <if test="print_type != null and print_type != ''">
@@ -191,6 +275,7 @@
         ORDER BY z.print_time
     </select>
 
+    <!--人员-->
     <sql id="getDefinedPerson">
         SELECT DATE_FORMAT(dwBirthDate, '%Y') AS year,COUNT(*) AS amount
         FROM app_employee
@@ -204,6 +289,7 @@
         GROUP BY year
         ORDER BY year
     </sql>
+    <!--资产-设备-->
     <sql id="getDefinedAsset0">
         SELECT DATE_FORMAT(dwPurchaseDate, '%Y') AS year,COUNT(*) AS amount
         FROM app_library_asset
@@ -211,6 +297,7 @@
         GROUP BY year
         ORDER BY year
     </sql>
+    <!--资产-馆藏资源-->
     <sql id="getDefinedAsset1">
         SELECT year AS year,count AS amount
         FROM app_resources
@@ -218,6 +305,7 @@
         GROUP BY year
         ORDER BY year
     </sql>
+    <!--人员资产-->
     <select id="getDefinedPersonAsset" parameterType="com.smartlibrary.domain2.DefinedPersonAssetSearch" resultType="com.smartlibrary.domain.DefinedResult">
         <choose>
             <when test="style==0">
@@ -243,6 +331,7 @@
 
     </select>
 
+    <!--借阅排名-->
     <sql id="getDefinedBookRank0">
         SELECT count(*) AS amount,z.`book_name` AS x_data
         FROM z_book_lend_sys AS z
@@ -260,7 +349,6 @@
         ORDER BY amount DESC
         LIMIT #{rank_number}
     </sql>
-
     <sql id="getDefinedBookRank1">
         SELECT count(*) AS amount,z.`reader_name` AS x_data
         FROM z_book_lend_sys AS z
@@ -278,9 +366,9 @@
         ORDER BY amount DESC
         LIMIT #{rank_number}
     </sql>
-
+    <!--进馆排名-->
     <sql id="getDefinedGctrlRank">
-        SELECT count(*) AS amount,DATE_FORMAT(z.enter_time, '%Y/%c/%e') AS x_data
+        SELECT count(*) AS amount,DATE_FORMAT(z.enter_time, '%Y/%m/%d') AS x_data
         FROM z_gctrl_ctrl_sys AS z
         WHERE (z.enter_time BETWEEN #{start_time} AND #{end_time})
         <if test="academy != null and academy != ''">
@@ -296,9 +384,9 @@
         ORDER BY amount DESC
         LIMIT #{rank_number}
     </sql>
-
+    <!--打印复印排名-->
     <sql id="getDefinedPrintRank">
-        SELECT count(*) AS amount,DATE_FORMAT(z.print_time, '%Y/%c/%e') AS x_data
+        SELECT count(*) AS amount,DATE_FORMAT(z.print_time, '%Y/%m/%d') AS x_data
         FROM z_printcs_sys AS z
         WHERE (z.print_time BETWEEN #{start_time} AND #{end_time})
         <if test="print_type != null and print_type != ''">
@@ -314,7 +402,7 @@
         ORDER BY amount DESC
         LIMIT #{rank_number}
     </sql>
-
+    <!--排名统计-->
     <select id="getDefinedRank" parameterType="com.smartlibrary.domain.DefinedRankSearch" resultType="com.smartlibrary.domain.DefinedResult">
         <choose>
             <when test="rank_style==0">

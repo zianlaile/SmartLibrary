@@ -191,17 +191,15 @@
             $(".chart_title p").text("打印复印排行");
         $("#largeChart").css("display","block");
         var largeChart = echarts.init(document.getElementById('largeChart'));
-        /*var largeChart_option = {
+        var largeChart_option = {
+            animation:false,
+            backgroundColor:'white',
             color: ['#3398DB'],
             tooltip : {
                 trigger: 'axis',
                 axisPointer : {            // 坐标轴指示器，坐标轴触发有效
                     type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
                 }
-            },
-            legend: {
-
-                data:$("#rank_style").val()==0?['借阅数量']:($("#rank_style").val()==1?['进馆数量']:['打印复印数量']),
             },
             toolbox: {
                 show: true,
@@ -215,15 +213,27 @@
             },
             grid: {
                 left: '3%',
-                right: '4%',
+                right: '6%',
+                bottom: '13%',
                 containLabel: true
             },
             xAxis : [
                 {
+                    name:$("#rank_style").val()==0?($("#book_rank_type").val()==0?"书籍":"学生"):"时间",
                     type : 'category',
                     data : datas.x_datas,
                     axisTick: {
                         alignWithLabel: true
+                    },
+                    "axisLabel": {
+                        "interval": 0,
+                        "rotate": 30,
+                        "show": true,
+                        "splitNumber": 15,
+                        "textStyle": {
+                            "fontFamily": "微软雅黑",
+                            "fontSize": 12
+                        }
                     }
                 }
             ],
@@ -231,40 +241,25 @@
                 {
                     // type : 'category',
                     // data : ['10','20','30','40'],
-
+                    name:'次',
                     axisTick: {
                         alignWithLabel: true
-                    },
-                    "axisLabel": {
-                        "interval": 0,
-                        formatter: $("#rank_style").val()==0?'{value}本':($("#rank_style").val()==1?'{value}次':'{value}次'),
-                    },
+                    }
                 }
             ],
             series : [
                 {
-                    name:$("#rank_style").val()==0?['借阅数量']:($("#rank_style").val()==1?['进馆数量']:['打印复印数量']),
+                    name:'借阅',
                     type:'bar',
                     barWidth: '40%',
                     data:datas.amounts,
-                    markPoint: {
-                        data: [
-                            {type: 'max', name: '最大值'},
-                            {type: 'min', name: '最小值'}
-                        ]
-                    },
-                    markLine: {
-                        data: [
-                            {type: 'average', name: '平均值'}
-                        ]
-                    }
                 },
 
             ],
             label: {
                 normal: {
                     show: true,
-                    profession: 'top',
+                    position: 'top',
                     formatter: '{c}'
                 }
             },
@@ -282,8 +277,8 @@
                     shadowBlur: 10
                 }
             }
-        };*/
-        var largeChart_option = {
+        };
+        /*var largeChart_option = {
             animation:false,
             backgroundColor:'white',
             grid: {
@@ -352,7 +347,7 @@
                 },
                 data: datas.amounts,
             }]
-        };
+        };*/
         // 使用刚指定的配置项和数据显示图表。
         largeChart.setOption(largeChart_option);
 
@@ -394,7 +389,7 @@
             },
             xAxis : [
                 {
-                    name:'学院',
+                    name:$("#rank_style").val()==0?($("#book_rank_type").val()==0?"书籍":"学生"):"时间",
                     type : 'category',
                     data : data.x_datas,
                     axisTick: {
@@ -416,7 +411,7 @@
                 {
                     // type : 'category',
                     // data : ['10','20','30','40'],
-                    name:'册',
+                    name:"次",
                     axisTick: {
                         alignWithLabel: true
                     }
@@ -515,11 +510,12 @@
                             {
                                 field: 'time',
                                 align:'center',
-                                title: "学院"
+                                title: $("#rank_style").val()==0?($("#book_rank_type").val()==0?"书籍":"学生"):"时间",
                             }, {
                                 field: 'amount',
                                 align:'center',
-                                title: '数量'
+                                title: $("#rank_style").val()==0?($("#book_rank_type").val()==0?"借阅次数":"借阅次数"):
+                                    ($("#rank_style").val()==1?"进馆次数":($("#print_type").val()==""?"文印次数":$("#print_type").val()+"次数")),
                             }]});
                     $('#table').bootstrapTable('load',table_datas);
                     $("#toolbar").css("display","inline");
@@ -592,8 +588,10 @@
                     $('#daterange').data('daterangepicker').setStartDate(bb[2]+""+bb[1]+""+bb[0]);
                     $('#daterange').data('daterangepicker').setEndDate(cc[2]+""+cc[1]+""+cc[0]);
                     $("#timeSection").val(store_param["timeSection"]);
-                }else
+                }else{
                     $("#"+Items[i]+" option[value='"+store_param[Items[i]]+"']").attr("selected","selected");//根据值让option选中
+                    $("#"+Items[i]).trigger("change");
+                }
             }
         }else{
             //默认
@@ -672,11 +670,12 @@
                 {
                     field: 'time',
                     align:'center',
-                    title:"学院"
+                    title:$("#rank_style").val()==0?($("#book_rank_type").val()==0?"书籍":"学生"):"时间",
                 }, {
                     field: 'amount',
                     align:'center',
-                    title: '数量'
+                    title:  $("#rank_style").val()==0?($("#book_rank_type").val()==0?"借阅次数":"借阅次数"):
+                        ($("#rank_style").val()==1?"进馆次数":($("#print_type").val()==""?"文印次数":$("#print_type").val()+"次数")),
                 }],
             toolbar: '#toolbar',//指定工具栏
             toolbarAlign:'right',//工具栏对齐方式
@@ -699,7 +698,7 @@
     });
 </script>
 
-<body class="nav-md">
+<body class="nav-md" style="background:#F7F7F7">
 <div class="container body">
     <div class="main_container">
         <div class="col-md-3 left_col">

@@ -252,7 +252,14 @@
             // 使用刚指定的配置项和数据显示图表。
             largeChart.setOption(largeChart_option);
         }else{
-            $(".chart_title p").text("进馆数据分析-学院排名(前10)");
+            if($("#academy").val()=="")
+                $(".chart_title p").text("进馆数据分析-学院排名(前10)");
+            else if($("#student_style").val()=="")
+                $(".chart_title p").text("进馆数据分析-学生类别排名(前10)");
+            else if($("#student_sex").val()=="")
+                $(".chart_title p").text("进馆数据分析-性别排名(前10)");
+            else
+                $(".chart_title p").text("进馆数据分析-"+"男排名"+"(前10)");
             $("#largeChart").css("display","none");
             $("#largeChart2").css("display","block")
             largeChart = echarts.init(document.getElementById('largeChart2'));
@@ -444,7 +451,14 @@
                 }]
             });
         }else{
-            $("#title").text("进馆数据分析-学院排名(前10)");
+            if($("#academy").val()=="")
+                $("#title").text("进馆数据分析-学院排名(前10)");
+            else if($("#student_style").val()=="")
+                $("#title").text("进馆数据分析-学生类别排名(前10)");
+            else if($("#student_sex").val()=="")
+                $("#title").text("进馆数据分析-性别排名(前10)");
+            else
+                $("#title").text("进馆数据分析-"+"男排名"+"(前10)");
             $("#searchEcharts").css("display","none");
             $("#searchEcharts2").css("display","block")
             searchEcharts = echarts.init(document.getElementById('searchEcharts2'));
@@ -574,28 +588,37 @@
                         table_datas=datas.amounts.map(function (item,index,array) {
                             return {id:index+1,time:datas.times[index],amount:item};
                         });
-                    else
+                    else{
+                        //处理数据
+                        if($("#academy").val()!=""&&$("#student_style").val()!=""){
+                            for(var i=0;i<data.academys.length;i++){
+                                if(data.academys[i]=="M") data.academys[i]="男";
+                                else data.academys[i]="女";
+                            }
+                        }
+                        datas=data;
                         table_datas=datas.amounts.map(function (item,index,array) {
                             return {id:index+1,time:datas.academys[index],amount:item};
                         });
+                    }
 
                     setChart(data,$("#style").val());
 
                     $('#chart_table').css("display","block");
                     $('#table').bootstrapTable('refreshOptions', {
                         columns: [{
-                        field: 'id',
-                        align:'center',
-                        title: $("#style").val()==0?'序号':"排名"
-                    },
+                            field: 'id',
+                            align:'center',
+                            title: $("#style").val()==0?'序号':"排名"
+                        },
                         {
                             field: 'time',
                             align:'center',
-                            title: $("#style").val()==0?'时间':"学院"
+                            title: $("#style").val()==0?'时间':($("#academy").val()==""?"学院":($("#student_style").val()==""?"学生类别":"性别"))
                         }, {
                             field: 'amount',
                             align:'center',
-                            title: '数量'
+                            title: '进馆次数'
                         }]});
                     $('#table').bootstrapTable('load',table_datas);
                     $("#toolbar").css("display","inline");
@@ -668,8 +691,10 @@
                     $('#daterange').data('daterangepicker').setStartDate(bb[2]+""+bb[1]+""+bb[0]);
                     $('#daterange').data('daterangepicker').setEndDate(cc[2]+""+cc[1]+""+cc[0]);
                     $("#timeSection").val(store_param["timeSection"]);
-                }else
+                }else{
                     $("#"+Items[i]+" option[value='"+store_param[Items[i]]+"']").attr("selected","selected");//根据值让option选中
+                    $("#"+Items[i]).trigger("change");
+                }
             }
         }else{
             //默认

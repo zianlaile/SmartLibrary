@@ -154,6 +154,9 @@
                 $("#birth_title").text("开始时间-结束时间");
             }
         });
+        $(".my_asset").css("display","none");
+        $(".my_person").css("display","inline-block");
+        $("#birth_title").text("出生年份范围");
 
         //加载样式
         spinner=new Spinner({color:'#000000', lines: 12,top: 'auto',left:'50%',position: 'relative'});
@@ -347,7 +350,7 @@
             },
             dataZoom: [{
                 type: 'inside',
-                start: 60,
+                start: 0,
                 end: 100
             }, {
                 start: 0,
@@ -534,8 +537,10 @@
                     $('#daterange').data('daterangepicker').setStartDate(bb[2]+""+bb[1]+""+bb[0]);
                     $('#daterange').data('daterangepicker').setEndDate(cc[2]+""+cc[1]+""+cc[0]);
                     $("#timeSection").val(store_param["timeSection"]);
-                } else
+                } else{
                     $("#"+Items[i]+" option[value='"+store_param[Items[i]]+"']").attr("selected","selected");//根据值让option选中
+                    $("#"+Items[i]).trigger("change");
+                }
             }
         }else{
             //默认
@@ -636,7 +641,7 @@
     });
 </script>
 
-<body class="nav-md">
+<body class="nav-md" style="background:#F7F7F7">
 <div class="container body">
     <div class="main_container">
         <div class="col-md-3 left_col">

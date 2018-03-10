@@ -228,7 +228,7 @@
                     },
                     "axisLabel": {
                         "interval": 0,
-                        formatter: '{value}次',
+                        formatter: '{value}本',
                     },
                 }
             ],
@@ -256,7 +256,7 @@
                 normal: {
                     show: true,
                     profession: 'top',
-                    formatter: '{c}'
+                    formatter: '{c}本'
                 }
             },
             itemStyle: {
@@ -352,7 +352,7 @@
                 type: 'value',
                 "axisLabel": {
                     "interval": 0,
-                    formatter: '{value}次',
+                    formatter: '{value}本',
                 },
             },
             dataZoom: [{
@@ -543,8 +543,10 @@
                     $('#daterange').data('daterangepicker').setStartDate(bb[2]+""+bb[1]+""+bb[0]);
                     $('#daterange').data('daterangepicker').setEndDate(cc[2]+""+cc[1]+""+cc[0]);
                     $("#timeSection").val(store_param["timeSection"]);
-                }else
+                }else{
                     $("#"+Items[i]+" option[value='"+store_param[Items[i]]+"']").attr("selected","selected");//根据值让option选中
+                    $("#"+Items[i]).trigger("change");
+                }
             }
         }else{
             //默认
@@ -626,7 +628,7 @@
                 }, {
                     field: 'amount',
                     align:'center',
-                    title: '数量'
+                    title: '借阅量(本)'
                 }],
             toolbar: '#toolbar',//指定工具栏
             toolbarAlign:'right',//工具栏对齐方式

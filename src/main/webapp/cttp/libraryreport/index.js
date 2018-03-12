@@ -3579,7 +3579,7 @@ function bookLend3() {
         var data = [];
         for(var i = 0; i <info.bookName.length; i++){
            var basedata = new Object();
-           basedata.index = i+1;
+            basedata.index = i+1;
             basedata.publisher = info.publisher[i];
             basedata.times = info.bookLendTimes[i];
             basedata.bookAuthor = info.bookAuthor[i];
@@ -3629,7 +3629,7 @@ function yearLibraryClassifyRankInUndergraduate() {
             // console.log(data[key]);
             var basedata = new Object();
             basedata.rankingtypename = key;
-            console.log("key = " + key);
+            //  console.log("key = " + key);
             var html = template('bookLendFinalRankUndergraduate',{param:data[key]});
             $("."+ key.substr(0, 1)).html(html);
             var chartdata = new Array();

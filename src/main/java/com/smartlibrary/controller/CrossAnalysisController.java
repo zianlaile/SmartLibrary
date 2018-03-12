@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping({ "/cross_analysis" })
@@ -24,5 +26,8 @@ public class CrossAnalysisController {
         CrossAnalysis n=new CrossAnalysis();
         return crossAnalysisService.getCrossAnalysisByMonth(n);
     }
-
+    @RequestMapping(value = "/getCrossAnalysisByAcademyInUnderGraduate", method = RequestMethod.GET)
+    public Map<String,ArrayList<CrossAnalysis>> getCrossAnalysisByAcademyInUnderGraduate(CrossAnalysis n){
+        return crossAnalysisService.getCrossAnalysisByAcademyInUnderGraduate(n);
+    }
 }

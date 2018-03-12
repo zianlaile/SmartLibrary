@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style1.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>图书馆交叉分析</title>
+    <!-- Bootstrap -->
+    <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+
+    <!-- bootstrap-progressbar -->
+    <link href="../vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <!-- JQVMap -->
+    <link href="../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
+    <!-- bootstrap-daterangepicker -->
+    <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="../build/css/custom.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/font-awesome-ie7.min.css" rel="stylesheet">
+    <link href="css/large-chart.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="../vendors/jquery/dist/jquery.min.js"></script>
+    <!-- 引入动态权限加载函数(小章)-->
+    <script src="js/datepicker/permissionAllocation.js"></script>
+    <script src="../libraryreport/template.js"></script>
+</head>
+<body>
+
+<div class="page chapter" id="crossAnalysisByMonthOfUnderGraduate" style="height: auto">
+    <div class="second-title">本科生学院每月分析</div>
+    <div class="pagination" style="bottom: 30px">45</div>
+</div>
+
+<script type="application/javascript">
+
+function getLibraryClassifyRankInUndergraduate() {
+    $.get('../../schoolReport/getLibraryClassifyRankInUndergraduate', function (data) {
+        for (var key in data) {
+            $("crossAnalysisByMonthOfUnderGraduate").append("<div style=\"text-align: center\">" + key + "</div><div class=' table " + key + "'></div>");
+            var html = template('CrossAnalysis', {param: data[key]});
+            $("." + key.substr(0, 1)).html(html);
+            for (var i = 0; i < data[key].length; i++) {
+                var chartbasedata = new Object();
+                chartbasedata.index = i + 1;
+                chartbasedata.month = data[key][i].month;
+                chartbasedata.book_lend_times = data[key][i].book_lend_times;
+                chartbasedata.gctrl_times = data[key][i].gctrl_times;
+                chartbasedata.croom_times = data[key][i].croom_times;
+                chartbasedata.eread_times = data[key][i].eread_times;
+                chartbasedata.seat_times = data[key][i].seat_times;
+                chartbasedata.print_times = data[key][i].print_times;
+                chartbasedata.academy = data[key][i].academy;
+            }
+        }
+    });
+}
+</script>
+<script type="text/html" id="CrossAnalysis">
+    <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th width="16%">序号</th>
+            <th width="17%">月份</th>
+            <th width="17%">借阅次数</th>
+            <th width="17%">进馆人数</th>
+            <th width="17%">研修间</th>
+            <th width="17%">电子阅览室</th>
+            <th width="17%">座位数</th>
+            <th width="17%">打印数</th>
+            <th width="17%">学院</th>
+            <!--<th width="16%">学院人数</th>-->
+        </tr>
+        {{each param as p}}
+        <tr>
+            <td>{{index+1}}</td>
+            <td>{{p.month}}</td>
+            <td>{{p.book_lend_times}}</td>
+            <td>{{p.gctrl_times}}</td>
+            <td>{{p.croom_times}}</td>
+            <td>{{p.eread_times}}</td>
+            <td>{{p.seat_times}}</td>
+            <td>{{p.print_times}}</td>
+            <td>{{p.academy}}</td>
+            <!--<td>{{p.acdemy_stu_amount}}</td>-->
+        </tr>
+        {{/each}}
+    </table>
+</script>
+
+
+
+<!-- Bootstrap -->
+<script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="../vendors/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="../vendors/nprogress/nprogress.js"></script>
+<!-- Chart.js -->
+<script src="../vendors/Chart.js/dist/Chart.min.js"></script>
+<!-- gauge.js -->
+<script src="../vendors/gauge.js/dist/gauge.min.js"></script>
+<!-- bootstrap-progressbar -->
+<script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<!-- iCheck -->
+<script src="../vendors/iCheck/icheck.min.js"></script>
+<!-- Skycons -->
+<script src="../vendors/skycons/skycons.js"></script>
+<!-- Flot -->
+<script src="../vendors/Flot/jquery.flot.js"></script>
+<script src="../vendors/Flot/jquery.flot.pie.js"></script>
+<script src="../vendors/Flot/jquery.flot.time.js"></script>
+<script src="../vendors/Flot/jquery.flot.stack.js"></script>
+<script src="../vendors/Flot/jquery.flot.resize.js"></script>
+<!-- Flot plugins -->
+<script src="../vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+<script src="../vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+<script src="../vendors/flot.curvedlines/curvedLines.js"></script>
+<!-- DateJS -->
+<script src="../vendors/DateJS/build/date.js"></script>
+<!-- JQVMap -->
+<script src="../vendors/jqvmap/dist/jquery.vmap.js"></script>
+<script src="../vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+<script src="../vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+<!-- bootstrap-daterangepicker -->
+<script src="../vendors/moment/min/moment.min.js"></script>
+<script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+<!-- ECharts -->
+<!--<script src="../vendors/echarts/dist/echarts.min.js"></script>-->
+<!--<script src="../vendors/echarts/map/js/world.js"></script>-->
+
+<!-- Custom Theme Scripts -->
+<script src="../build/js/custom.min.js"></script>
+</body>
+</html>

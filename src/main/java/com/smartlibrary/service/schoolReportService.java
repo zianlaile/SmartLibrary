@@ -680,24 +680,10 @@ public class schoolReportService {
     public  List<library_report_month_mankinds> getlibrary_report_add_times(library_report_month_mankinds n) {
         return schoolReportdao.getlibrary_report_add_times(n); }
 
-     /*public Map<Integer,Map<String,Integer>> library_report_add_times(){
-        List<library_report_month_mankinds > library_report_add_times  = schoolReportdao.getlibrary_report_add_times();
-        Map<Integer,Map<String,Integer>>  small = new LinkedHashMap<Integer,Map<String,Integer>>();
-        Map<String,Integer>  litter =new  LinkedHashMap <String,Integer>();
-        for(int i = 0; i < library_report_add_times.size(); i++){
-            int x = library_report_add_times.get(i).getYear();
-            String y = library_report_add_times.get(i).getPrint_type();
-            String k = library_report_add_times.get(i).getPrint_location();
-            int m = library_report_add_times.get(i).getTimes();//  times  是人次
-            small.put(x,litter);
-            small.get(x).put(k,litter.put(y,m));
-        }
-        return  small;
-    }*/
     // 本科生分类排行
      public   Map<String,ArrayList<library_report_ranking_book>>getLibraryClassifyRankInUndergraduate(library_report_ranking_book n){
         List<library_report_ranking_book> data = schoolReportdao.getLibraryClassifyRankInUndergraduate(n);
-        Map<String,ArrayList<library_report_ranking_book> > result =  new TreeMap<String,ArrayList<library_report_ranking_book> >();
+        Map<String,ArrayList<library_report_ranking_book>> result =  new TreeMap<String,ArrayList<library_report_ranking_book> >();
         for(int i=0;i<data.size();i++){
             library_report_ranking_book a=data.get(i);
             String cat=a.getBook_category()+" "+a.getName();

@@ -20,8 +20,8 @@ public class CrossAnalysisController {
     private CrossAnalysisService crossAnalysisService;
 
     @RequestMapping(value = "/getCrossAnalysisByMonth", method = RequestMethod.GET)
-    public List<MonthCrossAnalysis> getCrossAnalysisByMonth(){
-        MonthCrossAnalysis n=new MonthCrossAnalysis();
+    public List<CrossAnalysis> getCrossAnalysisByMonth(){
+        CrossAnalysis n=new CrossAnalysis();
         return crossAnalysisService.getCrossAnalysisByMonth(n);
     }
 

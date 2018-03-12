@@ -1,76 +1,47 @@
 package com.smartlibrary.domain;
 
-/**
- *   * Created by 小章 on 2018/03/09.
- */
 public class CrossAnalysis {
-    int bookLend;               // 借阅
-    int enterLibrary;           // 进馆
-    int trainingRoom;           // 研修间
-    int digitalReadingRoom;     // 电子阅览室
-    int seat;                   // 座位
-    int type;
-    String  academy;
-    public int getType() {
-        return type;
-    }
-    public void setType(int type) {
-        this.type = type;
-    }
-    int perPerson;
+    int month;
+    int book_lend_times;   //借阅次数
+    int croom_times;       //研修间
+    int eread_times;       //电子阅览室
+    int seat_times;        //座位
+    int print_times;       //打印
+    int gctrl_times;       //进馆
+    String academy;        //学院
 
-    public int getBookLend() {
-        return bookLend;
-    }
+    public int getMonth() { return month; }
 
-    public void setBookLend(int bookLend) {
-        this.bookLend = bookLend;
-    }
+    public void setMonth(int month) { this.month = month; }
 
-    public int getEnterLibrary() {
-        return enterLibrary;
-    }
+    public int getBook_lend_times() { return book_lend_times; }
 
-    public void setEnterLibrary(int enterLibrary) {
-        this.enterLibrary = enterLibrary;
-    }
+    public void setBook_lend_times(int book_lend_times) { this.book_lend_times = book_lend_times; }
 
-    public int getTrainingRoom() {
-        return trainingRoom;
-    }
+    public int getCroom_times() { return croom_times; }
 
-    public void setTrainingRoom(int trainingRoom) {
-        this.trainingRoom = trainingRoom;
-    }
+    public void setCroom_times(int croom_times) { this.croom_times = croom_times; }
 
-    public int getDigitalReadingRoom() {
-        return digitalReadingRoom;
-    }
+    public int getEread_times() { return eread_times; }
 
-    public void setDigitalReadingRoom(int digitalReadingRoom) {
-        this.digitalReadingRoom = digitalReadingRoom;
-    }
+    public void setEread_times(int eread_times) { this.eread_times = eread_times; }
 
-    public int getSeat() {
-        return seat;
-    }
+    public int getSeat_times() { return seat_times; }
 
-    public void setSeat(int seat) {
-        this.seat = seat;
-    }
+    public void setSeat_times(int seat_times) { this.seat_times = seat_times; }
 
-    public String getAcademy() {
-        return academy;
-    }
-    public void setAcademy(String academy) {
-        this.academy = academy;
-    }
+    public int getPrint_times() { return print_times; }
 
-    public int getPerPerson() {
-        return perPerson;
-    }
+    public void setPrint_times(int print_times) { this.print_times = print_times; }
 
-    public void setPerPerson(int perPerson) {
-        this.perPerson = perPerson;
-    }
+    public int getGctrl_times() { return gctrl_times; }
+
+    public void setGctrl_times(int gctrl_times) { this.gctrl_times = gctrl_times; }
+
+    public String getAcademy() { return academy; }
+
+    public void setAcademy(String academy) { this.academy = academy; }
+
+
+
 }

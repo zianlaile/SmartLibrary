@@ -292,7 +292,7 @@
     <!--资产-设备-->
     <sql id="getDefinedAsset0">
         SELECT DATE_FORMAT(dwPurchaseDate, '%Y') AS year,COUNT(*) AS amount
-        FROM app_library_asset
+        FROM app_baseinfo
         WHERE (DATE_FORMAT(dwPurchaseDate, '%Y') BETWEEN #{birth_start} AND #{birth_end})
         GROUP BY year
         ORDER BY year

@@ -20,6 +20,14 @@
         SELECT DISTINCT id AS id,name AS name FROM z_book_category
     </select>
 
+    <select id="getDefinedProfessionContent" resultType="com.smartlibrary.domain.DefinedSearchContent">
+        SELECT DISTINCT dwjobTitle AS name FROM app_employee
+        WHERE dwjobTitle is NOT NULL AND dwjobTitle !=''
+    </select>
+    <select id="getDefinedAssetTypeContent" resultType="com.smartlibrary.domain.DefinedSearchContent">
+
+    </select>
+
     <select id="getDefinedPrintLocationContent" resultType="com.smartlibrary.domain.DefinedSearchContent">
         SELECT id AS id,name AS name FROM z_printcs_location
     </select>

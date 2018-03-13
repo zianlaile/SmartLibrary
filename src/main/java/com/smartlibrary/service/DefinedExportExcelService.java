@@ -22,8 +22,6 @@ public class DefinedExportExcelService {
     @Autowired
     private definedSearchDao definedsearchDao;
     @Autowired
-    private definedSearch2Dao definedsearch2Dao;
-    @Autowired
     private definedSearchContentDao definedsearchContentDao;
 
     public boolean getDefinedBookSearch(DefinedBookSearch definedBookSearch, Errors errors,HttpServletResponse response) {
@@ -92,7 +90,7 @@ public class DefinedExportExcelService {
             }else{
                 exportMap.put("总数", "amount");
             }
-            List<DefinedResult> definedResultList = definedsearch2Dao.getDefinedPersonAsset(definedPersonAssetSearch);
+            List<DefinedResult> definedResultList = definedsearchDao.getDefinedPersonAsset(definedPersonAssetSearch);
             ExportExcelUtil.exportExcel("人员资产统计.xls",exportMap, definedResultList,response,"人员资产统计",definedPersonAssetSearch.getSearchContentSubTitle());
             return false;
         }

@@ -11,6 +11,9 @@ public interface definedSearchContentDao {
     List<DefinedSearchContent> getDefinedPublisherContent();
     List<DefinedSearchContent> getDefinedBookStyleContent();
 
+    List<DefinedSearchContent> getDefinedProfessionContent();
+    List<DefinedSearchContent> getDefinedAssetTypeContent();
+
     List<DefinedSearchContent> getDefinedPrintLocationContent();
     List<DefinedSearchContent> getDefinedPrintPaperTypeContent();
     List<DefinedSearchContent> getDefinedPrintTypeContent();

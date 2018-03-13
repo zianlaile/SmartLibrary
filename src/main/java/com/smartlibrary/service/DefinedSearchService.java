@@ -19,8 +19,6 @@ public class DefinedSearchService {
     private static final Logger logger = Logger.getLogger(DefinedSearchService.class);
     @Autowired
     private definedSearchDao definedsearchDao;
-    @Autowired
-    private definedSearch2Dao definedsearch2Dao;
 
     public Map<String,List> getDefinedBookSearch(DefinedBookSearch definedBookSearch, Errors errors) {
         Map<String ,List> data=new HashMap<String ,List>();
@@ -120,7 +118,7 @@ public class DefinedSearchService {
             logger.info("查询失败");
             return data;
         }
-        List<DefinedResult> definedResultList =definedsearch2Dao.getDefinedPersonAsset(definedPersonAssetSearch);
+        List<DefinedResult> definedResultList =definedsearchDao.getDefinedPersonAsset(definedPersonAssetSearch);
         ArrayList<Integer> amounts=new  ArrayList<Integer>();
         ArrayList<String> times=new  ArrayList<String>();
         for(int i = 0; i< definedResultList.size(); i++){

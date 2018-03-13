@@ -16,8 +16,6 @@ public class DefinedSearchContentService {
 
     @Autowired
     private definedSearchContentDao definedsearchContentDao;
-    @Autowired
-    private definedSearchContent2Dao definedsearchContent2Dao;
 
     public Map<String,List> getDefinedBookSearchContent() {
         Map<String ,List> data=new HashMap<String ,List>();
@@ -51,7 +49,7 @@ public class DefinedSearchContentService {
 
     public Map<String,List> getDefinedPersonAssetSearchContent() {
         Map<String ,List> data=new HashMap<String ,List>();
-        data.put("profession",definedsearchContent2Dao.getDefinedProfessionContent());
+        data.put("profession",definedsearchContentDao.getDefinedProfessionContent());
 
         return data;
     }

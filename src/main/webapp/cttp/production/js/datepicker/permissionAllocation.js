@@ -1,6 +1,6 @@
 function permissionsAllocation() {
     var permission  = decimalToBanary(sessionStorage.getItem("permissionAllocate")); // 得到权限数组
-    console.log(permission);
+    // console.log(permission);
     if(permission[0] == 1)
     {
         $("#left-controll").append(" <li><a><div style=\"width:26px;float: left;\"><img src=\"img/lend.png\" style=\"width:18px\"\\></div>借阅数据分析 <span class=\"fa fa-chevron-down\"></span></a>\n" +
@@ -81,7 +81,11 @@ function permissionsAllocation() {
         $("#left-controll").append("<li><a href=\"../libraryreport/index.html\" target=\"_blank\"><i class=\"fa fa-file-word-o\"></i> 图书馆报告 <span class=\"fa fa-chevron-down\"></span></a>\n" +
             "                            </li>");
     }
-
+    $("#left-controll").append("<li><a><i class=\"fa fa-building-o\"></i> 智慧图书馆交叉分析表<span class=\"fa fa-chevron-down\"></span></a>\n" +
+        "                                <ul class=\"nav child_menu\">\n" +
+        "                                    <li><a href=\"CrossAnalysis.html\">本科生生各学院年年度分析</a></li>\n" +
+        "\n" + "                                </ul>\n" +
+        "                            </li>");
 }
 
 function decimalToBanary(x) {   // 十进制转二进制函数

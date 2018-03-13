@@ -38,30 +38,24 @@
 <body>
 
 <div class="page chapter" id="crossAnalysisByMonthOfUnderGraduate" style="height: auto">
-    <div class="second-title">本科生学院每月分析</div>
-    <div class="pagination" style="bottom: 30px">45</div>
+    <div class="second-title">本科生生各学院年年度分析</div>
+    <div class="pagination" style="bottom: 30px"></div>
 </div>
 
-<script type="application/javascript">
+<script language="javascript" type="application/javascript">
+    $(function(){
+        getLibraryClassifyRankInUndergraduate();
+    })
+</script>
 
+<script type="application/javascript">
 function getLibraryClassifyRankInUndergraduate() {
     $.get('../../schoolReport/getLibraryClassifyRankInUndergraduate', function (data) {
+        console.log(data);
         for (var key in data) {
             $("crossAnalysisByMonthOfUnderGraduate").append("<div style=\"text-align: center\">" + key + "</div><div class=' table " + key + "'></div>");
             var html = template('CrossAnalysis', {param: data[key]});
-            $("." + key.substr(0, 1)).html(html);
-            for (var i = 0; i < data[key].length; i++) {
-                var chartbasedata = new Object();
-                chartbasedata.index = i + 1;
-                chartbasedata.month = data[key][i].month;
-                chartbasedata.book_lend_times = data[key][i].book_lend_times;
-                chartbasedata.gctrl_times = data[key][i].gctrl_times;
-                chartbasedata.croom_times = data[key][i].croom_times;
-                chartbasedata.eread_times = data[key][i].eread_times;
-                chartbasedata.seat_times = data[key][i].seat_times;
-                chartbasedata.print_times = data[key][i].print_times;
-                chartbasedata.academy = data[key][i].academy;
-            }
+            $("." + key).html(html);
         }
     });
 }

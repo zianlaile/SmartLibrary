@@ -631,7 +631,7 @@ public class schoolReportService {
     }
     public Map<String,List> getlibrary_report_identity_sum(){
         List<library_report_month_mankinds> getlibrary_report_identity_sum = schoolReportdao.getlibrary_report_identity_sum();
-        Map<String,List > library_report_identity_sum =  new LinkedHashMap<>();
+        Map<String,List> library_report_identity_sum =  new LinkedHashMap<>();
 
         List<Integer> year = new ArrayList<>();
         List<String> identity = new ArrayList<>();

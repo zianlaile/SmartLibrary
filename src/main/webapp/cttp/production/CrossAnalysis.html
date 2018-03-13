@@ -37,6 +37,11 @@
 </head>
 <body>
 
+<div class="page chapter" id="CrossAnalysisByMonth" style="height: auto">
+    <div class="second-title">每月各项分析</div>
+    <div class="pagination" style="bottom: 30px"></div>
+</div>
+
 <div class="page chapter" id="crossAnalysisByMonthOfUnderGraduate" style="height: auto">
     <div class="second-title">本科生各学院年度分析</div>
     <div class="pagination" style="bottom: 30px"></div>
@@ -47,11 +52,31 @@
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
+
+
+
 <script language="javascript" type="application/javascript">
     $(function(){
+        getCrossAnalysisByMonth();
         getCrossAnalysisByAcademyInUnderGraduate();
         getCrossAnalysisByAcademyInGraduate();
     })
+</script>
+
+
+
+<script type="application/javascript">
+    function getCrossAnalysisByMonth() {
+        $.get('../../cross_analysis/getCrossAnalysisByMonth', function (data) {
+            // console.log(data[1].month);
+            // console.log(data[1].gctrl_times);
+             console.log(data);
+            $("#CrossAnalysisByMonth").append("<div class='table temp'></div>");
+            var html = template('CrossAnalysis', {param: data});
+            $(".temp" ).html(html);
+
+        });
+    }
 </script>
 
 <script type="application/javascript">
@@ -59,7 +84,7 @@ function getCrossAnalysisByAcademyInUnderGraduate() {
     $.get('../../cross_analysis/getCrossAnalysisByAcademyInUnderGraduate', function (data) {
         console.log(data);
         for (var key in data) {
-            console.log(key);
+           console.log(key);
             $("#crossAnalysisByMonthOfUnderGraduate").append("<div style=\"text-align: center\">" + key + "</div><div class='table " + key + "'></div>");
             var html = template('CrossAnalysis', {param: data[key]});
             $("#crossAnalysisByMonthOfUnderGraduate").find("." + key).html(html);
@@ -77,6 +102,8 @@ function getCrossAnalysisByAcademyInGraduate() {
     });
 }
 </script>
+
+
 <script type="text/html" id="CrossAnalysis">
     <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
         <tr>

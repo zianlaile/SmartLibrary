@@ -22,7 +22,7 @@ public class CrossAnalysisService {
         for(int i=0;i<data.size();i++){
             CrossAnalysis a = data.get(i);
             String temp = a.getAcademy();
-            if(!result.containsKey(temp)){                  // 判断是否是第一个
+            if(!result.containsKey(temp)){
                 ArrayList<CrossAnalysis> datalist = new ArrayList<CrossAnalysis>();
                 datalist.add(a);
                 result.put(temp,datalist);
@@ -32,4 +32,21 @@ public class CrossAnalysisService {
         }
         return result;
     }
+    public  Map<String,ArrayList<CrossAnalysis>>getCrossAnalysisByAcademyInGraduate(CrossAnalysis n){
+        List<CrossAnalysis> data = crossAnalysisdao.getCrossAnalysisByAcademyInGraduate(n);
+        Map<String,ArrayList<CrossAnalysis> > result =  new TreeMap<String,ArrayList<CrossAnalysis> >();
+        for(int i=0;i<data.size();i++){
+            CrossAnalysis b = data.get(i);
+            String temp1 = b.getAcademy();
+            if(!result.containsKey(temp1)){
+                ArrayList<CrossAnalysis> datalist = new ArrayList<CrossAnalysis>();
+                datalist.add(b);
+                result.put(temp1,datalist);
+            }else{
+                result.get(temp1).add(b);
+            }
+        }
+        return result;
+    }
 }
+

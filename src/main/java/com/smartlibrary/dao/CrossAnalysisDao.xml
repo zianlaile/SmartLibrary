@@ -10,4 +10,7 @@
     <select id="getCrossAnalysisByAcademyInUnderGraduate" resultType = "CrossAnalysis">
         SELECT * FROM crossanalysisbyacademyundergraduate
     </select>
+    <select id="getCrossAnalysisByAcademyInGraduate" resultType = "CrossAnalysis" >
+        SELECT * FROM crossanalysisbyacademygraduate
+    </select>
 </mapper>

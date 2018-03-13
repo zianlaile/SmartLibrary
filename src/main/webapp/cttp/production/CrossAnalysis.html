@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>图书馆交叉分析</title>
     <!-- Bootstrap -->
-    <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">-->
     <!-- Font Awesome -->
     <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
@@ -44,16 +44,17 @@
 
 <script language="javascript" type="application/javascript">
     $(function(){
-        getLibraryClassifyRankInUndergraduate();
+        getCrossAnalysisByAcademyInUnderGraduate();
     })
 </script>
 
 <script type="application/javascript">
-function getLibraryClassifyRankInUndergraduate() {
-    $.get('../../schoolReport/getLibraryClassifyRankInUndergraduate', function (data) {
+function getCrossAnalysisByAcademyInUnderGraduate() {
+    $.get('../../cross_analysis/getCrossAnalysisByAcademyInUnderGraduate', function (data) {
         console.log(data);
         for (var key in data) {
-            $("crossAnalysisByMonthOfUnderGraduate").append("<div style=\"text-align: center\">" + key + "</div><div class=' table " + key + "'></div>");
+            console.log(key);
+            $("#crossAnalysisByMonthOfUnderGraduate").append("<div style=\"text-align: center\">" + key + "</div><div class='table " + key + "'></div>");
             var html = template('CrossAnalysis', {param: data[key]});
             $("." + key).html(html);
         }
@@ -63,20 +64,16 @@ function getLibraryClassifyRankInUndergraduate() {
 <script type="text/html" id="CrossAnalysis">
     <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
         <tr>
-            <th width="16%">序号</th>
-            <th width="17%">月份</th>
-            <th width="17%">借阅次数</th>
-            <th width="17%">进馆人数</th>
-            <th width="17%">研修间</th>
-            <th width="17%">电子阅览室</th>
-            <th width="17%">座位数</th>
-            <th width="17%">打印数</th>
-            <th width="17%">学院</th>
-            <!--<th width="16%">学院人数</th>-->
+            <th>月份</th>
+            <th>借阅次数</th>
+            <th>进馆人数</th>
+            <th>研修间</th>
+            <th>电子阅览室</th>
+            <th>座位数</th>
+            <th>打印数</th>
         </tr>
         {{each param as p}}
         <tr>
-            <td>{{index+1}}</td>
             <td>{{p.month}}</td>
             <td>{{p.book_lend_times}}</td>
             <td>{{p.gctrl_times}}</td>
@@ -84,8 +81,6 @@ function getLibraryClassifyRankInUndergraduate() {
             <td>{{p.eread_times}}</td>
             <td>{{p.seat_times}}</td>
             <td>{{p.print_times}}</td>
-            <td>{{p.academy}}</td>
-            <!--<td>{{p.acdemy_stu_amount}}</td>-->
         </tr>
         {{/each}}
     </table>
@@ -94,7 +89,7 @@ function getLibraryClassifyRankInUndergraduate() {
 
 
 <!-- Bootstrap -->
-<script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<!--<script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>-->
 <!-- FastClick -->
 <script src="../vendors/fastclick/lib/fastclick.js"></script>
 <!-- NProgress -->

@@ -30,4 +30,10 @@ public class CrossAnalysisController {
     public Map<String,ArrayList<CrossAnalysis>> getCrossAnalysisByAcademyInUnderGraduate(CrossAnalysis n){
         return crossAnalysisService.getCrossAnalysisByAcademyInUnderGraduate(n);
     }
+    @RequestMapping(value = "/getCrossAnalysisByAcademyInGraduate", method = RequestMethod.GET)
+    public Map<String,ArrayList<CrossAnalysis>> getCrossAnalysisByAcademyInGraduate(CrossAnalysis n){
+        return crossAnalysisService.getCrossAnalysisByAcademyInGraduate(n);
+    }
 }
+
+

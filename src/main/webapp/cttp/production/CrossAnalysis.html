@@ -38,13 +38,19 @@
 <body>
 
 <div class="page chapter" id="crossAnalysisByMonthOfUnderGraduate" style="height: auto">
-    <div class="second-title">本科生生各学院年年度分析</div>
+    <div class="second-title">本科生各学院年度分析</div>
+    <div class="pagination" style="bottom: 30px"></div>
+</div>
+
+<div class="page chapter" id="crossAnalysisByMonthOfGraduate" style="height: auto">
+    <div class="second-title">研究生各学院年度分析</div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
 <script language="javascript" type="application/javascript">
     $(function(){
         getCrossAnalysisByAcademyInUnderGraduate();
+        getCrossAnalysisByAcademyInGraduate();
     })
 </script>
 
@@ -56,7 +62,17 @@ function getCrossAnalysisByAcademyInUnderGraduate() {
             console.log(key);
             $("#crossAnalysisByMonthOfUnderGraduate").append("<div style=\"text-align: center\">" + key + "</div><div class='table " + key + "'></div>");
             var html = template('CrossAnalysis', {param: data[key]});
-            $("." + key).html(html);
+            $("#crossAnalysisByMonthOfUnderGraduate").find("." + key).html(html);
+        }
+    });
+}
+
+function getCrossAnalysisByAcademyInGraduate() {
+    $.get('../../cross_analysis/getCrossAnalysisByAcademyInGraduate', function (data) {
+        for (var key in data) {
+            $("#crossAnalysisByMonthOfGraduate").append("<div style=\"text-align: center\">" + key + "</div><div class='table " + key + "'></div>");
+            var html = template('CrossAnalysis', {param: data[key]});
+            $("#crossAnalysisByMonthOfGraduate").find("." + key).html(html);
         }
     });
 }

@@ -37,6 +37,12 @@
 </head>
 <body>
 
+
+<div class="page chapter" id="UtilizationAnalysis" style="height: auto">
+    <div class="second-title">图书馆IC空间利用率分析</div>
+    <div class="pagination" style="bottom: 30px"></div>
+</div>
+
 <div class="page chapter" id="CrossAnalysisByMonth" style="height: auto">
     <div class="second-title">每月各项分析</div>
     <div class="pagination" style="bottom: 30px"></div>
@@ -52,11 +58,32 @@
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
+<script type="application/javascript">
+    function getCrossAnalysisUtilizationRatio() {
+        $.get('../../cross_analysis/getCrossAnalysisUtilizationRatio', function (data) {
+            console.log(data);
+            var result = [];
+            for(var i = 0; i < data.ic_type.length; i++) {
+                var temp = new Object();
+                temp.ic_type = data.ic_type[i];
+                temp.day_use_account = data.day_use_account[i];
+                temp.month_use_account = data.month_use_account[i];
+                temp.year_use_account = data.year_use_account[i];
+                console.log(temp);
+                result.push(temp);
+            }
+            $("#UtilizationAnalysis").append("<div class='table Utilization'></div>");
+            var html = template('CrossAnalysisUtilization', {param: result});
+            $(".Utilization" ).html(html);
 
-
+            console.log(result);
+        });
+    }
+</script>
 
 <script language="javascript" type="application/javascript">
     $(function(){
+        getCrossAnalysisUtilizationRatio();
         getCrossAnalysisByMonth();
         getCrossAnalysisByAcademyInUnderGraduate();
         getCrossAnalysisByAcademyInGraduate();
@@ -70,7 +97,8 @@
         $.get('../../cross_analysis/getCrossAnalysisByMonth', function (data) {
             // console.log(data[1].month);
             // console.log(data[1].gctrl_times);
-             console.log(data);
+            //
+            // console.log(data);
             $("#CrossAnalysisByMonth").append("<div class='table temp'></div>");
             var html = template('CrossAnalysis', {param: data});
             $(".temp" ).html(html);
@@ -82,7 +110,7 @@
 <script type="application/javascript">
 function getCrossAnalysisByAcademyInUnderGraduate() {
     $.get('../../cross_analysis/getCrossAnalysisByAcademyInUnderGraduate', function (data) {
-        console.log(data);
+        // console.log(data);
         for (var key in data) {
            console.log(key);
             $("#crossAnalysisByMonthOfUnderGraduate").append("<div style=\"text-align: center\">" + key + "</div><div class='table " + key + "'></div>");
@@ -124,6 +152,26 @@ function getCrossAnalysisByAcademyInGraduate() {
             <td>{{p.eread_times}}</td>
             <td>{{p.seat_times}}</td>
             <td>{{p.print_times}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</script>
+
+
+<script type="text/html" id="CrossAnalysisUtilization">
+    <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th>类型</th>
+            <th>日使用率</th>
+            <th>月使用率</th>
+            <th>年使用率</th>
+        </tr>
+        {{each param as p}}
+        <tr>
+            <td>{{p.ic_type}}</td>
+            <td>{{p.day_use_account}}</td>
+            <td>{{p.month_use_account}}</td>
+            <td>{{p.year_use_account}}</td>
         </tr>
         {{/each}}
     </table>

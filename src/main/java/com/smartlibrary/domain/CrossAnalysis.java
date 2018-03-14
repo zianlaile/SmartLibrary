@@ -18,7 +18,43 @@ public class CrossAnalysis {
     int seat_times;        //座位
     int print_times;       //打印
     int gctrl_times;       //进馆
-    String academy;        //学院
+    int day_use_account;   //日使用率
+    int month_use_account; //月使用率
+    int year_use_account;  //年使用率
+    String ic_type;         //ic空间类型
+    String academy;         //学院
+
+    public int getDay_use_account() {
+        return day_use_account;
+    }
+
+    public void setDay_use_account(int day_use_account) {
+        this.day_use_account = day_use_account;
+    }
+
+    public int getMonth_use_account() {
+        return month_use_account;
+    }
+
+    public void setMonth_use_account(int month_use_account) {
+        this.month_use_account = month_use_account;
+    }
+
+    public int getYear_use_account() {
+        return year_use_account;
+    }
+
+    public void setYear_use_account(int year_use_account) {
+        this.year_use_account = year_use_account;
+    }
+
+    public String getIc_type() {
+        return ic_type;
+    }
+
+    public void setIc_type(String ic_type) {
+        this.ic_type = ic_type;
+    }
 
     public int getMonth() { return month; }
 
@@ -51,7 +87,4 @@ public class CrossAnalysis {
     public String getAcademy() { return academy; }
 
     public void setAcademy(String academy) { this.academy = academy; }
-
-
-
 }

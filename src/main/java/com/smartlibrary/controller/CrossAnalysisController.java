@@ -20,12 +20,10 @@ public class CrossAnalysisController {
     private static final Logger logger = Logger.getLogger(gctrlService.class);
     @Autowired
     private CrossAnalysisService crossAnalysisService;
-    @RequestMapping(value = "/CrossAnalysisByDay", method = RequestMethod.GET)
-    public List<CrossAnalysis> CrossAnalysisByDay(){ CrossAnalysis n=new CrossAnalysis();
-        return crossAnalysisService.CrossAnalysisByDay(n);
-    }
-     @RequestMapping(value = "/getCrossAnalysisByMonth", method = RequestMethod.GET)
-    public List<CrossAnalysis> getCrossAnalysisByMonth(){ CrossAnalysis n=new CrossAnalysis();
+
+    @RequestMapping(value = "/getCrossAnalysisByMonth", method = RequestMethod.GET)
+    public List<CrossAnalysis> getCrossAnalysisByMonth(){
+        CrossAnalysis n=new CrossAnalysis();
         return crossAnalysisService.getCrossAnalysisByMonth(n);
     }
     @RequestMapping(value = "/getCrossAnalysisByAcademyInUnderGraduate", method = RequestMethod.GET)
@@ -35,6 +33,10 @@ public class CrossAnalysisController {
     @RequestMapping(value = "/getCrossAnalysisByAcademyInGraduate", method = RequestMethod.GET)
     public Map<String,ArrayList<CrossAnalysis>> getCrossAnalysisByAcademyInGraduate(CrossAnalysis n){
         return crossAnalysisService.getCrossAnalysisByAcademyInGraduate(n);
+    }
+    @RequestMapping(value = "/getCrossAnalysisUtilizationRatio", method = RequestMethod.GET)
+    public Map<String,List> getCrossAnalysisUtilizationRatio(CrossAnalysis n){
+        return crossAnalysisService.getCrossAnalysisUtilizationRatio(n);
     }
 }
 

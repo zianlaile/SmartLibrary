@@ -13,11 +13,29 @@ public class CrossAnalysisService {
     @Autowired
     private CrossAnalysisDao crossAnalysisdao;
 
-    public List<CrossAnalysis> CrossAnalysisByDay(CrossAnalysis n) {
-        return crossAnalysisdao.CrossAnalysisByDay(n); }
-
     public List<CrossAnalysis> getCrossAnalysisByMonth(CrossAnalysis n) {
         return crossAnalysisdao.getCrossAnalysisByMonth(n); }
+
+
+    public Map<String,List> getCrossAnalysisUtilizationRatio(CrossAnalysis n) {
+        List<CrossAnalysis> data = crossAnalysisdao.getCrossAnalysisUtilizationRatio(n);
+        Map<String,List> result =  new LinkedHashMap<>();
+        List<String>  ic_type = new ArrayList<>();
+        List<Integer> day_use_account = new ArrayList<>();
+        List<Integer> month_use_account = new ArrayList<>();
+        List<Integer> year_use_account = new ArrayList<>();
+        for (int i = 0; i < data.size(); i ++){
+            ic_type.add(data.get(i).getIc_type());
+            day_use_account.add(data.get(i).getDay_use_account());
+            month_use_account.add(data.get(i).getMonth_use_account());
+            year_use_account.add(data.get(i).getYear_use_account());
+        }
+        result.put("ic_type",ic_type);
+        result.put("day_use_account",day_use_account);
+        result.put("month_use_account",month_use_account);
+        result.put("year_use_account",year_use_account);
+        return  result;
+    }
 
     public  Map<String,ArrayList<CrossAnalysis>>getCrossAnalysisByAcademyInUnderGraduate(CrossAnalysis n){
         List<CrossAnalysis> data = crossAnalysisdao.getCrossAnalysisByAcademyInUnderGraduate(n);
@@ -36,7 +54,7 @@ public class CrossAnalysisService {
         return result;
     }
     public  Map<String,ArrayList<CrossAnalysis>>getCrossAnalysisByAcademyInGraduate(CrossAnalysis n){
-        List<CrossAnalysis> data = crossAnalysisdao.getCrossAnalysisByAcademyInUnderGraduate(n);
+        List<CrossAnalysis> data = crossAnalysisdao.getCrossAnalysisByAcademyInGraduate(n);
         Map<String,ArrayList<CrossAnalysis> > result =  new TreeMap<String,ArrayList<CrossAnalysis> >();
         for(int i=0;i<data.size();i++){
             CrossAnalysis b = data.get(i);

@@ -81,10 +81,7 @@ function permissionsAllocation() {
         $("#left-controll").append("<li><a href=\"../libraryreport/index.html\" target=\"_blank\"><i class=\"fa fa-file-word-o\"></i> 图书馆报告 <span class=\"fa fa-chevron-down\"></span></a>\n" +
             "                            </li>");
     }
-    $("#left-controll").append("<li><a><i class=\"fa fa-building-o\"></i> 智慧图书馆交叉分析表<span class=\"fa fa-chevron-down\"></span></a>\n" +
-        "                                <ul class=\"nav child_menu\">\n" +
-        "                                    <li><a href=\"CrossAnalysis.html\">本科生生各学院年年度分析</a></li>\n" +
-        "\n" + "                                </ul>\n" +
+    $("#left-controll").append("<li><a href=\"CrossAnalysis.html\" target=\"_blank\"><i class=\"fa fa-file-word-o\"></i> 图书馆交叉分析 <span class=\"fa fa-chevron-down\"></span></a>\n" +
         "                            </li>");
 }
 

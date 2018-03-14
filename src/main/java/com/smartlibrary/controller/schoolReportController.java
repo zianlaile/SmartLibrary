@@ -235,11 +235,11 @@ public class schoolReportController {
     public Map<String,List> getTop10category(){
         return schoolReportservice.getTop10category();
     }
-    //2011-2015 年每月上机人次折线图
+    //2015-2017 年每月上机人次折线图
     @RequestMapping(value = "/library_report_ic_total",method = RequestMethod.GET)
     public Map<Integer, Map<Integer, Integer>> getlibrary_report_ic_total(){ return schoolReportservice.library_report_ic_total();
     }
-    // 2012-2015 年度全馆扫描 打复印统计
+    // 2015-2017 年度全馆扫描 打复印统计
     @RequestMapping(value = "/library_report_add_times", method = RequestMethod.GET)
     public List<library_report_month_mankinds> getlibrary_report_add_times(library_report_month_mankinds n){ return schoolReportservice.getlibrary_report_add_times(n);
     }
@@ -251,7 +251,7 @@ public class schoolReportController {
     @RequestMapping(value = "/getSingleBookLendTop100", method = RequestMethod.GET)
     public Map<String,List> getSingleBookLendTop100(){ return schoolReportservice.getSingleBookLendTop100();
     }
-    //  2012-2015 年各类型读者入馆总人次统计
+    //  2015-2017 年各类型读者入馆总人次统计
     @RequestMapping(value = "/library_report_identity_sum", method = RequestMethod.GET)
     public Map<String,List> getlibrary_report_identity_sum(){ return schoolReportservice.getlibrary_report_identity_sum();
     }
@@ -271,18 +271,10 @@ public class schoolReportController {
     @RequestMapping(value = "/getLibraryClassifyRankInUndergraduate", method = RequestMethod.GET)
     public  Map<String,ArrayList<library_report_ranking_book>> getLibraryClassifyRankInUndergraduate(library_report_ranking_book n){
         return schoolReportservice.getLibraryClassifyRankInUndergraduate(n); }
-
     // 研究生分类排行
     @RequestMapping(value = "/getLibraryClassifyRankInGraduate", method = RequestMethod.GET)
     public Map<String,ArrayList<library_report_ranking_book>> getLibraryClassifyRankInGraduate(library_report_ranking_book n){
         return schoolReportservice.getLibraryClassifyRankInGraduate(n); }
-
-    // 2012 年度全馆各地点自助扫描、打复印统计详表
-    /*@RequestMapping(value = "/library_report_max_times", method = RequestMethod.GET)
-    public Map<String,List> getlibrary_report_max_times(){ return schoolReportservice.getl();
-    }*/
-
-    //每日借出人/册
     @RequestMapping(value = "/getDailyLendPeopleAndCount", method = RequestMethod.GET)
     public Map<String,List> getDailyLendPeopleAndCount(){ return schoolReportservice.getDailyLendPeopleAndCount();}
     //各时段流通情况（册）

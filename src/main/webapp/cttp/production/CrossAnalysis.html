@@ -36,6 +36,10 @@
     <script src="../libraryreport/template.js"></script>
 </head>
 <body>
+<div class="page chapter" id="CrossAnalysisByDay" style="height: auto">
+    <div class="second-title"> 每日各项分析  </div>
+    <div class="pagination" style="bottom: 30px"></div>
+</div>
 
 <div class="page chapter" id="CrossAnalysisByMonth" style="height: auto">
     <div class="second-title">每月各项分析</div>
@@ -57,23 +61,32 @@
 
 <script language="javascript" type="application/javascript">
     $(function(){
+        CrossAnalysisByDay();
         getCrossAnalysisByMonth();
         getCrossAnalysisByAcademyInUnderGraduate();
         getCrossAnalysisByAcademyInGraduate();
     })
 </script>
+<script type="application/javascript">
+    function CrossAnalysisByDay() {
+        $.get('../../cross_analysis/CrossAnalysisByDay', function (data) {
+            console.log(data);
+            $("#CrossAnalysisByDay").append("<div class='table temp'></div>");
+            var html = template('CrossAnalysis1', {param: data});
+            $(".temp" ).html(html);
 
+        });
+    }
+</script>
 
 
 <script type="application/javascript">
     function getCrossAnalysisByMonth() {
         $.get('../../cross_analysis/getCrossAnalysisByMonth', function (data) {
-            // console.log(data[1].month);
-            // console.log(data[1].gctrl_times);
              console.log(data);
-            $("#CrossAnalysisByMonth").append("<div class='table temp'></div>");
+            $("#CrossAnalysisByMonth").append("<div class='table temp1'></div>");
             var html = template('CrossAnalysis', {param: data});
-            $(".temp" ).html(html);
+            $(".temp1" ).html(html);
 
         });
     }
@@ -102,7 +115,31 @@ function getCrossAnalysisByAcademyInGraduate() {
     });
 }
 </script>
-
+e
+<script type="text/html" id="CrossAnalysis1">
+    <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th>小时</th>
+            <th>借阅次数</th>
+            <th>进馆人数</th>
+            <th>研修间</th>
+            <th>电子阅览室</th>
+            <th>座位数</th>
+            <th>打印数</th>
+        </tr>
+        {{each param as p}}
+        <tr>
+            <td>{{p.hour}}</td>
+            <td>{{p.book_lend_times}}</td>
+            <td>{{p.gctrl_times}}</td>
+            <td>{{p.croom_times}}</td>
+            <td>{{p.eread_times}}</td>
+            <td>{{p.seat_times}}</td>
+            <td>{{p.print_times}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</script>
 
 <script type="text/html" id="CrossAnalysis">
     <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">

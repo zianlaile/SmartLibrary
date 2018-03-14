@@ -3437,7 +3437,7 @@ function getprints_hour() {
             var getprints_hour = echarts.init(document.getElementById('getprints_hour'));
             var getprints_houroption = {
                 animation:false,
-                backgroundColor:'white',
+                backgroundColor:'white',b
                 tooltip: {
                     trigger: 'axis'
                 },

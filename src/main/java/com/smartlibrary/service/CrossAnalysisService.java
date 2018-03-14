@@ -13,6 +13,9 @@ public class CrossAnalysisService {
     @Autowired
     private CrossAnalysisDao crossAnalysisdao;
 
+    public List<CrossAnalysis> CrossAnalysisByDay(CrossAnalysis n) {
+        return crossAnalysisdao.CrossAnalysisByDay(n); }
+
     public List<CrossAnalysis> getCrossAnalysisByMonth(CrossAnalysis n) {
         return crossAnalysisdao.getCrossAnalysisByMonth(n); }
 
@@ -33,7 +36,7 @@ public class CrossAnalysisService {
         return result;
     }
     public  Map<String,ArrayList<CrossAnalysis>>getCrossAnalysisByAcademyInGraduate(CrossAnalysis n){
-        List<CrossAnalysis> data = crossAnalysisdao.getCrossAnalysisByAcademyInGraduate(n);
+        List<CrossAnalysis> data = crossAnalysisdao.getCrossAnalysisByAcademyInUnderGraduate(n);
         Map<String,ArrayList<CrossAnalysis> > result =  new TreeMap<String,ArrayList<CrossAnalysis> >();
         for(int i=0;i<data.size();i++){
             CrossAnalysis b = data.get(i);

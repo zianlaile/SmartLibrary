@@ -88,6 +88,7 @@
 <script language="javascript" type="application/javascript">
     $(function(){
         CrossAnalysisByDay();
+        getCrossAnalysisUtilizationRatio();
         getCrossAnalysisByMonth();
         getCrossAnalysisByAcademyInUnderGraduate();
         getCrossAnalysisByAcademyInGraduate();
@@ -97,9 +98,9 @@
     function CrossAnalysisByDay() {
         $.get('../../cross_analysis/CrossAnalysisByDay', function (data) {
             console.log(data);
-            $("#CrossAnalysisByDay").append("<div class='table temp'></div>");
+            $("#CrossAnalysisByDay").append("<div class='table temp1'></div>");
             var html = template('CrossAnalysis1', {param: data});//
-            $(".temp" ).html(html);
+            $(".temp1" ).html(html);
         });
     }
 </script>

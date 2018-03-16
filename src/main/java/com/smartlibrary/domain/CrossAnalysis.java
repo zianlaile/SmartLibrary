@@ -2,6 +2,16 @@ package com.smartlibrary.domain;
 
 public class CrossAnalysis {
     int month;
+
+    public int getHour() {
+        return hour;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    int hour;              //小时
     int book_lend_times;   //借阅次数
     int croom_times;       //研修间
     int eread_times;       //电子阅览室

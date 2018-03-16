@@ -21,9 +21,12 @@ public class CrossAnalysisController {
     @Autowired
     private CrossAnalysisService crossAnalysisService;
 
+    @RequestMapping(value = "/CrossAnalysisByDay", method = RequestMethod.GET)
+    public List<CrossAnalysis> CrossAnalysisByDay(){  CrossAnalysis n=new CrossAnalysis();
+        return crossAnalysisService.CrossAnalysisByDay(n);
+    }
     @RequestMapping(value = "/getCrossAnalysisByMonth", method = RequestMethod.GET)
-    public List<CrossAnalysis> getCrossAnalysisByMonth(){
-        CrossAnalysis n=new CrossAnalysis();
+    public List<CrossAnalysis> getCrossAnalysisByMonth(){ CrossAnalysis n=new CrossAnalysis();
         return crossAnalysisService.getCrossAnalysisByMonth(n);
     }
     @RequestMapping(value = "/getCrossAnalysisByAcademyInUnderGraduate", method = RequestMethod.GET)

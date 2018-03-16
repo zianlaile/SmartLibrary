@@ -13,6 +13,11 @@ public class CrossAnalysisService {
     @Autowired
     private CrossAnalysisDao crossAnalysisdao;
 
+
+    public List<CrossAnalysis> CrossAnalysisByDay(CrossAnalysis n) {
+        return crossAnalysisdao.CrossAnalysisByDay(n); }
+    
+
     public List<CrossAnalysis> getCrossAnalysisByMonth(CrossAnalysis n) {
         return crossAnalysisdao.getCrossAnalysisByMonth(n); }
 

@@ -32,9 +32,7 @@ public class app_employee {
         this.dwAccNo = dwAccNo;
     }
 
-    public String getSzPID() {
-        return szPID;
-    }
+    public String getSzPID() { return szPID; }
 
     public void setSzPID(String szPID) {
         this.szPID = szPID;

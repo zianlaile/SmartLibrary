@@ -81,8 +81,10 @@ function permissionsAllocation() {
         $("#left-controll").append("<li><a href=\"../libraryreport/index.html\" target=\"_blank\"><i class=\"fa fa-file-word-o\"></i> 图书馆报告 <span class=\"fa fa-chevron-down\"></span></a>\n" +
             "                            </li>");
     }
-    $("#left-controll").append("<li><a href=\"CrossAnalysis.html\" target=\"_blank\"><i class=\"fa fa-file-word-o\"></i> 图书馆交叉分析 <span class=\"fa fa-chevron-down\"></span></a>\n" +
-        "                            </li>");
+    if(permission[8] == 1) {
+        $("#left-controll").append("<li><a href=\"CrossAnalysis.html\" target=\"_blank\"><i class=\"fa fa-file-word-o\"></i> 图书馆交叉分析 <span class=\"fa fa-chevron-down\"></span></a>\n" +
+            "                            </li>");
+    }
 }
 
 function decimalToBanary(x) {   // 十进制转二进制函数

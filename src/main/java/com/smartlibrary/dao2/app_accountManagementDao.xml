@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smartlibrary.dao2.app_accountManagementDao">
+    <insert id="add" parameterType="com.smartlibrary.domain2.app_accountManagement" >
+      INSERT INTO z_account (account, password, type, permision_allocate, school_id)
+VALUES
+      (#{account},#{password},1,#{permission_allocate},1)
+    </insert>
+</mapper>

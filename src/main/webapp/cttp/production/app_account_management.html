@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>图书馆员工管理</title>
-
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -24,7 +23,6 @@
     <link href="../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
     <!-- bootstrap-daterangepicker -->
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
@@ -83,7 +81,6 @@
                 </div>
                 <div class="clearfix"></div>
                 <br/>
-
                 <!-- sidebar menu -->
                 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                     <div class="menu_section">
@@ -114,48 +111,6 @@
                             </li>
                         </ul>
                     </div>
-                    <!--   <div class="menu_section">
-                           <h3>图书馆资源推荐</h3>
-                           <ul class="nav side-menu">
-                               <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
-                                   <ul class="nav child_menu">
-                                       <li><a href="e_commerce.html">E-commerce</a></li>
-                                       <li><a href="projects.html">Projects</a></li>
-                                       <li><a href="project_detail.html">Project Detail</a></li>
-                                       <li><a href="contacts.html">Contacts</a></li>
-                                       <li><a href="profile.html">Profile</a></li>
-                                   </ul>
-                               </li>
-                               <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
-                                   <ul class="nav child_menu">
-                                       <li><a href="page_403.html">403 Error</a></li>
-                                       <li><a href="page_404.html">404 Error</a></li>
-                                       <li><a href="page_500.html">500 Error</a></li>
-                                       <li><a href="plain_page.html">Plain Page</a></li>
-                                       <li><a href="login.html">Login Page</a></li>
-                                       <li><a href="pricing_tables.html">Pricing Tables</a></li>
-                                   </ul>
-                               </li>
-                               <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span class="fa fa-chevron-down"></span></a>
-                                   <ul class="nav child_menu">
-                                       <li><a href="#level1_1">Level One</a>
-                                       <li><a>Level One<span class="fa fa-chevron-down"></span></a>
-                                           <ul class="nav child_menu">
-                                               <li class="sub_menu"><a href="level2.html">Level Two</a>
-                                               </li>
-                                               <li><a href="#level2_1">Level Two</a>
-                                               </li>
-                                               <li><a href="#level2_2">Level Two</a>
-                                               </li>
-                                           </ul>
-                                       </li>
-                                       <li><a href="#level1_2">Level One</a>
-                                       </li>
-                                   </ul>
-                               </li>
-                               <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
-                           </ul>
-                       </div>-->
 
                 </div>
 
@@ -189,7 +144,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title" >
-                            <h2>图书馆员工信息管理</h2>
+                            <h2>用户账号信息管理</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li> <button id="btn-add" type="button"  class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal">
                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;增加</button>
@@ -207,7 +162,6 @@
                             </div>
                         </div>
                         <script type="application/javascript">
-
                         </script>
                     </div>
                 </div>
@@ -224,47 +178,81 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    图书馆员工信息管理
+                    账号以及权限分配
                 </h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
-                    <input type="hidden" value=0 name="dwAccNo" id="dwAccNo" />
-
+                    <!--<input type="hidden" value=0 name="dwAccNo" id="dwAccNo" />-->
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">员工编号</label>
+                        <label class="col-sm-2 control-label">用户账号</label>
                         <div class="col-sm-10">
-                            <input class="form-control" id="szPID" type="text"  placeholder="输入员工编号">
+                            <input class="form-control" id="account" type="text"  placeholder="输入用户账号">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">姓名</label>
+                        <label class="col-sm-2 control-label">用户密码</label>
                         <div class="col-sm-10">
-                            <input class="form-control" id="szTrueName" type="text"  placeholder="输入姓名">
+                            <input class="form-control" id="password" type="text"  placeholder="输入用户密码">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">性别</label>
+                        <label class="col-sm-2 control-label">学校代码</label>
                         <div class="col-sm-10">
-                            <select class="form-control" id="dwSex">
-                                <option value="0">男</option>
-                                <option value="1">女</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">职称</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" id="dwJobTitle" type="text"  placeholder="输入职称">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">入职时间</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" id="dwInlandUduTime" type="text"  placeholder="输入入职时间">
+                            <input class="form-control" id="school_id" type="text"  placeholder="输入学校">
                         </div>
                     </div>
                 </form>
+                <div>
+                    <br><label> 用户权限选择：</label></br>
+                    <div class="container">
+                        <div class="row clearfix">
+                            <div class="col-md-12 column">
+                                <div class="col-md-4 column">
+                                    <input name="checkSubject"  type="checkbox" id="bookLendAnalysis" checked>
+                                    <span>借阅数据分析</span>
+                                </div>
+                                <div class="col-md-4 column">
+                                    <input name="checkSubject" type="checkbox" id="gctrlAnalysis" checked>
+                                    <span>进馆分析</span>
+                                </div>
+                                <div class="col-md-4 column">
+                                    <input name="checkSubject" type="checkbox" id="icDataAnalysis" checked>
+                                    <span>IC空间数据分析</span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 column">
+                                <div class="col-md-4 column">
+                                    <input name="checkSubject" type="checkbox" id="printAnalysis" checked>
+                                    <label>自助打印复印分析</label>
+                                </div>
+                                <div class="col-md-4 column">
+                                    <input name="checkSubject" type="checkbox" id="statisticalAnalysis" checked>
+                                    <label>统计排行分析</label>
+                                </div>
+                                <div class="col-md-4 column">
+                                    <input name="checkSubject" type="checkbox" id="statisticsOfPersonnelAssets" checked>
+                                    <label>人员资产统计</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 column">
+                                <div class="col-md-4 column">
+                                    <input name="checkSubject" type="checkbox" id="collectionOfAssetsStatistics" checked>
+                                    <label>馆藏资产统计</label>
+                                </div>
+                                <div class="col-md-4 column">
+                                    <input name="checkSubject" type="checkbox" id="libraryReport" checked>
+                                    <label>图书馆报告</label>
+                                </div>
+                                <div class="col-md-4 column">
+                                    <input name="checkSubject" type="checkbox" id="crossAnalysisOfLibrary" checked>
+                                    <label>图书馆交叉分析</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" onclick="addorupdate();" class="btn btn-default btn-sm btn-block" data-dismiss="modal" style="width: 90%;margin: auto;">
@@ -315,7 +303,7 @@
     function showData() {
         $('#table-list').bootstrapTable('refresh');
     }
-    //官方使用方法的语法：<code>$('#table').bootstrapTable('method', parameter)</code>
+    //官方使用方法的语法：<code>$('#table').bootstrapTable('method', parameter)</code>  小章修改代码
     $('#table-list').bootstrapTable({
         columns: [
             {
@@ -324,24 +312,19 @@
                 align: 'center',
                 valign: 'middle',
             },{
-                field: 'szPID',
-                title: '员工编号',
+                field: 'account',
+                title: '用户账号',
                 align : 'center',
                 valign : 'middle',
                 //sortable : true
-            }, {
-                field: 'szTrueName',
-                title: '姓名',
-                align : 'center',
-                valign : 'middle'
-            }, {
-                field: 'dwSex',
-                title: '性别',
+            },{
+                field: 'type',
+                title: '账号类型',
                 align : 'center',
                 valign : 'middle'
             },{
-                field: 'dwJobTitle',
-                title: '职称',
+                field: 'school_id',
+                title: '学校代码',
                 align : 'center',
                 valign : 'middle'
             },{
@@ -349,50 +332,25 @@
                 title: '操作',
                 align: 'center',
                 valign : 'middle',
-                //events: operateEvents,
-                //formatter: operateFormatter
                 formatter:function(value,row,index){
-                    var e = '<button type="button" class=" btn btn-default  btn-xs" style="margin-right:5px;"  onclick=" getupadte(\''+ row.dwAccNo +'\') " data-toggle="modal" data-target="#myModal">编辑/查看</button> ';
-                    /* var f = '<button type="button" class=" btn btn-default  btn-sm" style="margin-right:5px;"  onclick="  alert(\''+ row.id +'\')   ">文件列表</button> ';
-                     */return e;
+                    var e = '<button type="button" class=" btn btn-default  btn-xs" style="margin-right:5px;"  onclick=" getupadte(\''+ row.dwAccNo +'\') " data-toggle="modal" data-target="#myModal">账户编辑</button> ';
+                    return e;
                 }
             }
         ],//页面需要展示的列，后端交互对象的属性
         rowStyle: function (row, index) {
             //这里有5个取值代表5中颜色['active', 'success', 'info', 'warning', 'danger'];
             return {};
-            /*  var strclass = "";
-             //console.log(row);
-             if (row.color == 1) {
-             strclass = 'success';//还有一个active
-             }
-             else if (row.color == -1) {
-             strclass = 'danger';
-             }
-             else {
-             return {classes: 'active' };
-             }
-             return { classes: strclass } */
         },
         onClickRow: function (row, $element, field) {
-            /* setTimeout(function(){
-             var map_detail = $('#map_detail');
-             var map_detail_remove = $('#map_detail_remove');
-             map_detail.animate({
-             right: '5px'
-             }, 500);
-             map_detail_remove.animate({
-             display:'block !important'
-             }, 500);
-             creat_map(row.xcoordinate,row.ycoordinate,row);
-             }, 400);*/
+
         },
         pagination: true,  //开启分页
         sidePagination: 'server',//服务器端分页
         pageNumber: 1,//默认加载页
         pageSize: 10,//每页数据
         pageList: [10, 25, 50, 100],//可选的每页数据
-        method: 'post',                      //请求方式（*）
+        method: 'get',                      //请求方式（*）
         toolbar: '#toolbar',                //工具按钮用哪个容器
         striped: false,                      //是否显示行间隔色
         cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
@@ -425,24 +383,41 @@
     $(function () { $('#myModal').modal('hide')});   // 提交后应该model框
     $(function () { $('#myModal').on('hide.bs.modal', function () {
         $("#dwAccNo").val(0);
-        $("#szPID").val("");
+        $("#account").val("");
         $("#szTrueName").val("");
-        $("#dwSex").val("");
-        $("#dwJobTitle").val("");
+        $("#type").val("");
+        $("#school_id").val("");
         $("#dwInlandUduTime").val("");
     })
     });
-    function addorupdate() {
+    function addorupdate() {   // 添加账号 addAccount
+        var checkBox = document.getElementsByName('checkSubject');
+        var checkResult = new Array();
+        for(var i = 0; i < checkBox.length; i++){
+            if(checkBox[i].checked){
+                checkResult.push(1);
+            }else{
+                checkResult.push(0);
+            }
+        }
+        var mul = 1;
+        var permisionRes = 0;
+        for(var i = checkResult.length - 1; i >= 0; i --){
+            if(checkResult[i] != 0){
+                permisionRes += mul;
+            }
+            mul *= 2;
+        }
         var adddate={
-            dwAccNo:$("#dwAccNo").val(),
-            szPID:$("#szPID").val(),
-            szTrueName:$("#szTrueName").val(),
-            dwSex:$("#dwSex").val(),
-            dwJobTitle:$("#dwJobTitle").val(),
-            dwInlandUduTime:$("#dwInlandUduTime").val()
+            account:$("#account").val(),
+            password:$("#password").val(),
+            type: 1 ,
+            permission_allocate: permisionRes,
+            school_id:$("#school_id").val()
         };
+        alert(permisionRes);
         $.ajax({
-            url : "../../employee/addorupdate",
+            url : "../../accountManage/addAccount",
             type : "POST",
             contentType : "application/json; charset=UTF-8",
             data : JSON.stringify(adddate),
@@ -455,7 +430,7 @@
                 }
             },
             error : function() {
-                alert("操作失败");
+                alert("**********操作失败*******");
             }
         });
     }
@@ -472,7 +447,7 @@
             BootstrapDialog.show({
                 type : BootstrapDialog.TYPE_DEFAULT,
                 title : "操作信息",
-                message: '确定删除所选信息吗？',
+                message: '确定删除所选用户账号信息吗？',
                 buttons : [ {
                     label : "确定",
                     cssClass: 'btn-default',
@@ -515,12 +490,11 @@
             success : function(data) {
                 if (data) {
                     $("#dwAccNo").val(data.dwAccNo);
-                    $("#szPID").val(data.szPID);
+                    $("#account").val(data.account);
                     $("#szTrueName").val(data.szTrueName);
-                    $("#dwSex").val(data.dwSex);
-                    $("#dwJobTitle").val(data.dwJobTitle);
+                    $("#type").val(data.type);
+                    $("#school_id").val(data.school_id);
                     $("#dwInlandUduTime").val(data.dwInlandUduTime);
-                   // addorupdate();
                 } else {
                     alert("数据出错，无法修改");
                 }

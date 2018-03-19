@@ -25,7 +25,6 @@ public class app_employeeService {
     public void add(app_employee adddate){
         app_employeedao.add(adddate);
     }
-
     public void deletebyids(List ids){
         app_employeedao.deletebyids(ids);
     }

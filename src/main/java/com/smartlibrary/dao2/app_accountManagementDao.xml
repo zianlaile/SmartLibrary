@@ -7,4 +7,12 @@
 VALUES
       (#{account},#{password},1,#{permission_allocate},1)
     </insert>
+    <select  id="showList" parameterType="com.smartlibrary.domain2.app_accountManagement">
+        SELECT account, type, school_id  FROM z_account  WHERE type = 1 LIMIT #{offset},#{pageSize}
+    </select>
+    <select id="count" resultType="Integer" parameterType="com.smartlibrary.domain2.app_accountManagement">
+        select count(*)
+        from app_employee
+        WHERE type = 1
+    </select>
 </mapper>

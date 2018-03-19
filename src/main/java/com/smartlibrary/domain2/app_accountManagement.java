@@ -8,9 +8,28 @@ public class app_accountManagement {
     String  school_id;
     int  permission_allocate;
     int  type;  // 超级管理院定义一般普通用户
+    int pageSize;//一页多少数据
+    int offset; //从第几条数据开始查'
+
 
     public String getAccount() {
         return account;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
     }
 
     public void setAccount(String account) {

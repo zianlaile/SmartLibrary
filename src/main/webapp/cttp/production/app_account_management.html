@@ -333,7 +333,7 @@
                 align: 'center',
                 valign : 'middle',
                 formatter:function(value,row,index){
-                    var e = '<button type="button" class=" btn btn-default  btn-xs" style="margin-right:5px;"  onclick=" getupadte(\''+ row.dwAccNo +'\') " data-toggle="modal" data-target="#myModal">账户编辑</button> ';
+                    var e = '<button type="button" class=" btn btn-default  btn-xs" style="margin-right:5px;"  onclick=" getupadte(\''+ row.dwAccNo +'\') " data-toggle="modal" data-target="#myModal">密码重置</button> ';
                     return e;
                 }
             }
@@ -373,7 +373,7 @@
                 offset: params.offset  ///页码
             }
         },//请求服务器数据时的参数
-        url: '../../employee/ShowList' //服务器数据的加载地址
+        url: '../../accountManage/ShowAccountList' //服务器数据的加载地址
     });
     function doQuery(params){
         $('#table-list').bootstrapTable('refresh');    //刷新表格
@@ -390,7 +390,7 @@
         $("#dwInlandUduTime").val("");
     })
     });
-    function addorupdate() {   // 添加账号 addAccount
+    function addorupdate() {               // 添加账号 addAccount
         var checkBox = document.getElementsByName('checkSubject');
         var checkResult = new Array();
         for(var i = 0; i < checkBox.length; i++){
@@ -434,6 +434,8 @@
             }
         });
     }
+
+
     function showdelete() {
         var rows =$('#table-list').bootstrapTable('getAllSelections');
         if(rows.length<1){

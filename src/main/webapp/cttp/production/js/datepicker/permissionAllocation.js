@@ -1,6 +1,6 @@
 function permissionsAllocation() {
     var permission  = decimalToBanary(sessionStorage.getItem("permissionAllocate")); // 得到权限数组
-    // console.log(permission);
+
     if(permission[0] == 1)
     {
         $("#left-controll").append(" <li><a><div style=\"width:26px;float: left;\"><img src=\"img/lend.png\" style=\"width:18px\"\\></div>借阅数据分析 <span class=\"fa fa-chevron-down\"></span></a>\n" +
@@ -85,6 +85,18 @@ function permissionsAllocation() {
         $("#left-controll").append("<li><a href=\"CrossAnalysis.html\" target=\"_blank\"><i class=\"fa fa-file-word-o\"></i> 图书馆交叉分析 <span class=\"fa fa-chevron-down\"></span></a>\n" +
             "                            </li>");
     }
+    if(permission[9] == 1) {
+        $("#left-controll").append("<li><a><i class=\"fa fa-minus-square-o \"></i> 自定义图表查看 <span class=\"fa fa-chevron-down\"></span></a>\n" +
+            "                                <ul class=\"nav child_menu\">\n" +
+            "                                    <li><a href=\"sml_defined_book_times.html\">借阅数据分析</a></li>\n" +
+            "                                    <li><a href=\"sml_defined_gctrl_times.html\">进馆数据分析</a></li>\n" +
+            "                                    <li><a href=\"sml_defined_ic_times.html\">IC空间数据分析</a></li>\n" +
+            "                                    <li><a href=\"sml_defined_printcs_times.html\">自助打印复印分析</a></li>\n" +
+            "                                    <li><a href=\"sml_defined_person_asset_times.html\">人员资产统计</a></li>\n" +
+            "                                    <li><a href=\"sml_defined_ranking_times.html\">统计排行分析</a></li>\n" +
+            "                                </ul>\n" +
+            "                            </li>");
+     }
 }
 
 function decimalToBanary(x) {   // 十进制转二进制函数

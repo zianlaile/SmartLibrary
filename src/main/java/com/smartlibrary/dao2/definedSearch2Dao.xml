@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smartlibrary.dao2.definedSearch2Dao">
+    <sql id="getDefinedPerson">
+        SELECT DATE_FORMAT(dwBirthDate, '%Y') AS year,COUNT(*) AS amount
+        FROM app_employee
+        WHERE (DATE_FORMAT(dwBirthDate, '%Y') BETWEEN #{birth_start} AND #{birth_end})
+        <if test="sex != null and sex != ''">
+            AND dwSex = #{sex}
+        </if>
+        <if test="profession != null and profession != ''">
+            AND dwjobTitle = #{profession}
+        </if>
+        GROUP BY year
+        ORDER BY year
+    </sql>
+    <sql id="getDefinedAsset0">
+        SELECT DATE_FORMAT(dwPurchaseDate, '%Y') AS year,COUNT(*) AS amount
+        FROM app_library_asset
+        WHERE (DATE_FORMAT(dwPurchaseDate, '%Y') BETWEEN #{birth_start} AND #{birth_end})
+        GROUP BY year
+        ORDER BY year
+    </sql>
+    <sql id="getDefinedAsset1">
+        SELECT year AS year,count AS amount
+        FROM app_resources
+        WHERE (year BETWEEN #{birth_start} AND #{birth_end})
+        GROUP BY year
+        ORDER BY year
+    </sql>
+    <select id="getDefinedPersonAsset" parameterType="com.smartlibrary.domain2.DefinedPersonAssetSearch" resultType="com.smartlibrary.domain.DefinedResult">
+        <choose>
+            <when test="style==0">
+                <include refid="getDefinedPerson"></include>
+            </when>
+            <when test="style==1">
+                <choose>
+                    <when test="asset_type==0">
+                        <include refid="getDefinedAsset0"></include>
+                    </when>
+                    <when test="asset_type==1">
+                        <include refid="getDefinedAsset1"></include>
+                    </when>
+                    <otherwise>
+                        <include refid="getDefinedAsset0"></include>
+                    </otherwise>
+                </choose>
+            </when>
+            <otherwise>
+                <include refid="getDefinedPerson"></include>
+            </otherwise>
+        </choose>
+
+    </select>
+
+</mapper>

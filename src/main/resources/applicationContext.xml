@@ -70,6 +70,17 @@ http://www.springframework.org/schema/jms ">
                 <prop key="cacheEnabled">true</prop>
             </props>
         </property>
+        <property name="plugins">
+            <array>
+                <bean class="com.smartlibrary.interceptor.SqlStatementInterceptor">
+                    <property name="properties">
+                        <value>
+                            property-key=property-value
+                        </value>
+                    </property>
+                </bean>
+            </array>
+        </property>
     </bean>
 
     <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
@@ -131,6 +142,17 @@ http://www.springframework.org/schema/jms ">
             <props>
                 <prop key="cacheEnabled">true</prop>
             </props>
+        </property>
+        <property name="plugins">
+            <array>
+                <bean class="com.smartlibrary.interceptor.SqlStatementInterceptor">
+                    <property name="properties">
+                        <value>
+                            property-key=property-value
+                        </value>
+                    </property>
+                </bean>
+            </array>
         </property>
     </bean>
 

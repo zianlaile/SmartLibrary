@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>进馆数据分析</title>
+    <!-- Bootstrap -->
+    <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+
+    <!-- bootstrap-progressbar -->
+    <link href="../vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <!-- JQVMap -->
+    <link href="../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
+    <!-- bootstrap-daterangepicker -->
+    <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <!-- bootstrap-select -->
+    <link href="../vendors/bootstrap-select/css/bootstrap-select.css" rel="stylesheet">
+    <!-- bootstrap-table -->
+    <link href="../vendors/bootstrap-table/bootstrap-table.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="../build/css/custom.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/font-awesome-ie7.min.css" rel="stylesheet">
+    <link href="css/large-chart.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="../vendors/jquery/dist/jquery.min.js"></script>
+    <!-- 引入 ECharts 文件 -->
+    <script src="../../js/echarts.min.js"></script>
+</head>
+
+<script type="application/javascript">
+    //echarts数据
+    var datas;
+    //table数据
+    var table_datas;
+    //加载
+    var spinner;
+    //表单Id
+    var formItems;
+    //固定表单参数
+    var staticFormItems;
+    //网上获取表单参数
+    var netFormItems;
+    //存储参数
+    var store_param;
+    $(function(){
+        //form样式调整
+        $(".form-group").css("margin-bottom","15px");
+
+        $(".remove").click(function(){
+            $(".mask").css("display","none");
+        });
+
+        //初始化datarange
+        $('#daterange').daterangepicker({
+
+            startDate: '02/01/2014',
+            endDate: '03/01/2018',
+            //minDate: '01/01/2012',    //最小时间
+            maxDate : moment(), //最大时间
+            /*dateLimit : {
+                days : 60
+            }, //起止时间的最大间隔*/
+            showDropdowns : true,
+            showWeekNumbers : false, //是否显示第几周
+            timePicker : false, //是否显示小时和分钟
+            timePickerSeconds:false,
+            //timePickerIncrement : 1, //时间的增量，单位为分钟
+            timePicker12Hour : false, //是否使用12小时制来显示时间
+            /*ranges : {
+                //'最近1小时': [moment().subtract('hours',1), moment()],
+                '今日': [moment().startOf('day'), moment()],
+                '昨日': [moment().subtract(1,'days').startOf('day'), moment().subtract(1,'days').endOf('day')],
+                '最近7日': [moment().subtract(6,'days'), moment()],
+                '最近30日': [moment().subtract(29,'days'), moment()]
+            },*/
+            opens : 'right', //日期选择框的弹出位置
+            buttonClasses : [ 'btn btn-default' ],
+            applyClass : 'btn-small btn-default',
+            cancelClass : 'btn-small btn-default',
+            format : 'YYYY/MM/DD', //控件中from和to 显示的日期格式
+            separator : ' to ',
+            locale : {
+                applyLabel : '确定',
+                cancelLabel : '取消',
+                fromLabel : '起始时间',
+                toLabel : '结束时间',
+                customRangeLabel : '自定义',
+                daysOfWeek : [ '日', '一', '二', '三', '四', '五', '六' ],
+                monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月',
+                    '七月', '八月', '九月', '十月', '十一月', '十二月' ],
+                firstDay : 1
+            }
+        }, function (start, end, label) {
+            $('#timeSection').val(start.format('YYYY/MM/DD') + ' - ' + end.format('YYYY/MM/DD'));
+        });
+
+        //加载样式
+        spinner=new Spinner({color:'#000000', lines: 12,top: 'auto',left:'50%',position: 'relative'});
+
+        //表单ID
+        formItems=["timeSection", "academy", "student_style", "student_sex", "style"];
+        staticFormItems=["timeSection","student_sex","style"];
+        netFormItems=["academy", "student_style"];
+    });
+
+</script>
+
+<!--getFormContent()获取表单内容-->
+<script type="application/javascript">
+    function getFormContent(formItems){
+        var param="";
+        var itemindex=0;
+        if(formItems.length>=1){
+            param = '?' + formItems[itemindex]+'='+$("#"+formItems[itemindex]).val();
+            itemindex++;
+            for(;itemindex<formItems.length;itemindex++){
+                param +='&'+formItems[itemindex]+'='+$("#"+formItems[itemindex]).val();
+            }
+        }
+        console.info(param);
+        return param;
+    }
+</script>
+
+<!--createExcel()-->
+<script type="application/javascript">
+    function createExcel () {
+        var elink = document.createElement('a');
+        elink.style.display = 'none';
+        elink.href = "../../definedExportExcel/exportGctrlRecords"+getFormContent(formItems);
+        document.body.appendChild(elink);
+        elink.click();
+        document.body.removeChild(elink);
+    };
+</script>
+
+<!--getLargeChart()-->
+<script type="application/javascript">
+    function getLargeChart(which){
+        $(".mask").css("display","block");
+        $(".large_chart").css("display",'none');
+        var largeChart;
+        var  largeChart_option;
+        if(which==0){
+            $(".chart_title p").text("进馆数据分析");
+            $("#largeChart").css("display","block");
+            $("#largeChart2").css("display","none")
+            largeChart = echarts.init(document.getElementById('largeChart'));
+            largeChart_option = {
+                color: ['#3398DB'],
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                        type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                legend: {
+
+                    data:['进馆每日统计']
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {},
+                        dataView: {readOnly: false},
+                        magicType: {type: ['line', 'bar']},
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    containLabel: true
+                },
+                xAxis : [
+                    {
+                        type : 'category',
+                        data : datas.times,
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }
+                ],
+                yAxis : [
+                    {
+                        // type : 'category',
+                        // data : ['10','20','30','40'],
+
+                        axisTick: {
+                            alignWithLabel: true
+                        },
+                        "axisLabel": {
+                            "interval": 0,
+                            formatter: '{value}次',
+                        },
+                    }
+                ],
+                series : [
+                    {
+                        name:'进馆每日统计',
+                        type:'bar',
+                        barWidth: '40%',
+                        data:datas.amounts,
+                        markPoint: {
+                            data: [
+                                {type: 'max', name: '最大值'},
+                                {type: 'min', name: '最小值'}
+                            ]
+                        },
+                        markLine: {
+                            data: [
+                                {type: 'average', name: '平均值'}
+                            ]
+                        }
+                    },
+
+                ],
+                label: {
+                    normal: {
+                        show: true,
+                        profession: 'top',
+                        formatter: '{c}'
+                    }
+                },
+                itemStyle: {
+                    normal: {
+
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgba(17, 168,171, 1)'
+                        }, {
+                            offset: 1,
+                            color: 'rgba(17, 168,171, 0.1)'
+                        }]),
+                        shadowColor: 'rgba(0, 0, 0, 0.1)',
+                        shadowBlur: 10
+                    }
+                }
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            largeChart.setOption(largeChart_option);
+        }else{
+            if($("#academy").val()=="")
+                $(".chart_title p").text("进馆数据分析-学院排名(前10)");
+            else if($("#student_style").val()=="")
+                $(".chart_title p").text("进馆数据分析-学生类别排名(前10)");
+            else if($("#student_sex").val()=="")
+                $(".chart_title p").text("进馆数据分析-性别排名(前10)");
+            else
+                $(".chart_title p").text("进馆数据分析-"+"男排名"+"(前10)");
+            $("#largeChart").css("display","none");
+            $("#largeChart2").css("display","block")
+            largeChart = echarts.init(document.getElementById('largeChart2'));
+            largeChart_option = {
+                animation:false,
+                backgroundColor:'white',
+                grid: {
+                    left: '3%',
+                    right: '6%',
+                    bottom: '3%',
+                    top:'3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {},
+                        dataView: {readOnly: false},
+                        magicType: {type: ['line', 'bar']},
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: null // 默认为直线，可选为：'line' | 'shadow'
+                    },
+                    formatter: '{b} : {c}'
+                },
+                xAxis: [{
+                    type: 'value',
+                    axisLabel: {
+                        show: false
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    axisLine: {
+                        show: false
+                    },
+                    splitLine: {
+                        show: false
+                    }
+
+                }],
+                yAxis: [{
+                    type: 'category',
+                    boundaryGap: true,
+                    axisTick: {
+                        show: true
+                    },
+                    axisLabel: {
+                        interval: null
+                    },
+                    data: datas.academys,
+                    splitLine: {
+                        show: false
+                    }
+                }],
+                series: [{
+                    type: 'bar',
+                    barWidth: 25,
+                    label: {
+                        normal: {
+                            show: true,
+                            profession: 'right'
+                        }
+
+                    },
+                    data: datas.amounts,
+                }]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            largeChart.setOption(largeChart_option);
+        }
+    }
+</script>
+
+<!--setChart()设置chart-->
+<script type="text/javascript">
+    function setChart(data,which){
+        var  searchEcharts_option;
+        var searchEcharts;
+        if(which==0){
+            $("#title").text("进馆数据分析");
+            $("#searchEcharts").css("display","block");
+            $("#searchEcharts2").css("display","none")
+            searchEcharts = echarts.init(document.getElementById('searchEcharts'));
+            searchEcharts_option = {
+
+                tooltip: {
+                    trigger: 'axis',
+                    profession: function (pt) {
+                        return [pt[0], '10%'];
+                    }
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {},
+                        dataView: {readOnly: false},
+                        magicType: {type: ['line', 'bar']},
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                legend: {
+
+                    data:['进馆每日统计']
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: []
+                },
+                yAxis: {
+                    type: 'value',
+                    "axisLabel": {
+                        "interval": 0,
+                        formatter: '{value}次',
+                    },
+                },
+                dataZoom: [{
+                    type: 'inside',
+                    start: 60,
+                    end: 100
+                }, {
+                    start: 0,
+                    end: 10,
+                    handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                    handleSize: '80%',
+                    handleStyle: {
+                        color: '#fff',
+                        shadowBlur: 3,
+                        shadowColor: 'rgba(0, 0, 0, 0.6)',
+                        shadowOffsetX: 2,
+                        shadowOffsetY: 2
+                    }
+                }],
+                series: [
+                    {
+                        name:'进馆每日统计',
+                        type:'line',
+                        smooth:true,
+                        symbol: 'none',
+                        sampling: 'average',
+                        itemStyle: {
+                            normal: {
+                                color: 'rgb(255, 70, 131)'
+                            }
+                        },
+                        areaStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: 'rgb(255, 158, 68)'
+                                }, {
+                                    offset: 1,
+                                    color: 'rgb(255, 70, 131)'
+                                }])
+                            }
+                        },
+                        data: [],
+                        markPoint: {
+                            data: [
+                                {type: 'max', name: '最大值'},
+                                {type: 'min', name: '最小值'}
+                            ]
+                        },
+                        markLine: {
+                            data: [
+                                {type: 'average', name: '平均值'}
+                            ]
+                        }
+                    }
+                ]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            searchEcharts.setOption(searchEcharts_option);
+            searchEcharts.setOption({
+                xAxis: {
+                    data: data.times
+                },
+                series: [{
+                    // 根据名字对应到相应的系列
+                    name: '进馆每日统计',
+                    data: data.amounts,
+                }]
+            });
+        }else{
+            if($("#academy").val()=="")
+                $("#title").text("进馆数据分析-学院排名(前10)");
+            else if($("#student_style").val()=="")
+                $("#title").text("进馆数据分析-学生类别排名(前10)");
+            else if($("#student_sex").val()=="")
+                $("#title").text("进馆数据分析-性别排名(前10)");
+            else
+                $("#title").text("进馆数据分析-"+"男排名"+"(前10)");
+            $("#searchEcharts").css("display","none");
+            $("#searchEcharts2").css("display","block")
+            searchEcharts = echarts.init(document.getElementById('searchEcharts2'));
+            searchEcharts_option = {
+                animation:false,
+                backgroundColor:'white',
+                grid: {
+                    left: '3%',
+                    right: '6%',
+                    bottom: '3%',
+                    top:'3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {},
+                        dataView: {readOnly: false},
+                        magicType: {type: ['line', 'bar']},
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: null // 默认为直线，可选为：'line' | 'shadow'
+                    },
+                    formatter: '{b} : {c}'
+                },
+                xAxis: [{
+                    type: 'value',
+                    axisLabel: {
+                        show: false
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    axisLine: {
+                        show: false
+                    },
+                    splitLine: {
+                        show: false
+                    }
+
+                }],
+                yAxis: [{
+                    type: 'category',
+                    boundaryGap: true,
+                    axisTick: {
+                        show: true
+                    },
+                    axisLabel: {
+                        interval: null
+                    },
+                    data: [],
+                    splitLine: {
+                        show: false
+                    }
+                }],
+                series: [{
+                    type: 'bar',
+                    barWidth: 25,
+                    label: {
+                        normal: {
+                            show: true,
+                            profession: 'right'
+                        }
+
+                    },
+                    data: []
+                }],
+
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            searchEcharts.setOption(searchEcharts_option);
+            searchEcharts.setOption({
+                yAxis: {
+                    data: data.academys.reverse(),
+                },
+                series: [{
+                    // 根据名字对应到相应的系列
+                    name: '进馆排名(学院-前10)',
+                    data: data.amounts.reverse(),
+                }]
+            });
+        }
+    }
+</script>
+
+<!--submitSearchData()提交表单函数-->
+<script type="application/javascript">
+    function submitSearchData(param){
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../definedSearch/getDefinedGctrlSearch',
+            data: param==undefined?$('#searchForm').serialize():param,
+            dataType:'json',
+            cache: true,
+            async:true,
+            beforeSend: function () {
+                //异步请求时spinner出现
+                $("#loading").text("");
+                var target = $("#loading").get(0);
+                spinner.spin(target);
+            },
+            success:function(data){
+                datas=data;
+                spinner.spin();
+                console.info(data);
+
+                //存储
+                if(data.amounts==undefined||data.amounts.length==0){
+                    $("#tip_content").css("display","block");
+                    $("#tip_content").text("查询数据为空");
+                    $("#chart_image").css("display","none");
+                    $('#chart_table').css("display","none");
+                    //清空
+                    table_datas=[];
+                }
+                else{
+                    $("#tip_content").css("display","none");
+                    $("#chart_image").css("display","block");
+
+                    if($("#style").val()==0)
+                        table_datas=datas.amounts.map(function (item,index,array) {
+                            return {id:index+1,time:datas.times[index],amount:item};
+                        });
+                    else{
+                        //处理数据
+                        if($("#academy").val()!=""&&$("#student_style").val()!=""){
+                            for(var i=0;i<data.academys.length;i++){
+                                if(data.academys[i]=="M") data.academys[i]="男";
+                                else data.academys[i]="女";
+                            }
+                        }
+                        datas=data;
+                        table_datas=datas.amounts.map(function (item,index,array) {
+                            return {id:index+1,time:datas.academys[index],amount:item};
+                        });
+                    }
+
+                    setChart(data,$("#style").val());
+
+                    $('#chart_table').css("display","block");
+                    $('#table').bootstrapTable('refreshOptions', {
+                        columns: [{
+                            field: 'id',
+                            align:'center',
+                            title: $("#style").val()==0?'序号':"排名"
+                        },
+                        {
+                            field: 'time',
+                            align:'center',
+                            title: $("#style").val()==0?'时间':($("#academy").val()==""?"学院":($("#student_style").val()==""?"学生类别":"性别"))
+                        }, {
+                            field: 'amount',
+                            align:'center',
+                            title: '进馆次数'
+                        }]});
+                    $('#table').bootstrapTable('load',table_datas);
+                    $("#toolbar").css("display","inline");
+                }
+                if(param==undefined||store_param==undefined||store_param["param"]==undefined||store_param["param"]!=param)
+                    storeData(formItems);
+            },
+            error:function(data){
+                spinner.spin();
+                console.info(data);
+                $("#tip_content").css("display","block");
+                $("#tip_content").text("请求失败");
+                if(datas==undefined||data.amounts==undefined||data.amounts.length==0){
+
+                }else{
+
+                }
+            }
+        });
+    }
+</script>
+
+<!--setSelect(obj,data,isId)设置下拉框-->
+<script type="application/javascript">
+    function setSelect(obj,data,isId){{
+        var index=0;
+        var flag=false;
+        var varItem;
+        for(var i=0;i<data.length;i++){
+            if(data[i].name=="其他"||data[i].name=="其它"){
+                index=i;
+                flag=true;
+                continue;
+            }
+            varItem = new Option(data[i].name,(isId ? data[i].id:data[i].name));
+            obj.options.add(varItem);
+        }
+        if(flag){
+            varItem = new Option(data[index].name,(isId ? data[index].id:data[index].name));
+            obj.options.add(varItem);
+        }
+    }}
+</script>
+
+<!--storeData(formItems)存入数据-->
+<script type="application/javascript">
+    function storeData(Items){{
+        var temp=new Object();
+        for(var i=0;i<Items.length;i++){
+            temp[Items[i]]=$("#"+Items[i]).val();
+        }
+        temp["param"]=getFormContent(Items).replace("?","");
+        localStorage.setItem("sml_defined_gctrl_times", JSON.stringify(temp));
+        store_param=temp;
+        console.info("存入信息:"+(store_param==undefined?"空":JSON.stringify(store_param)));
+    }};
+</script>
+
+<!--setSearchDefaultContent(Items,isAgain)默认值设置-->
+<script type="application/javascript">
+    function setSearchDefaultContent(Items,isAgain){{
+        if(isAgain)
+            store_param=JSON.parse(localStorage.getItem("sml_defined_gctrl_times"));
+        if(store_param!=undefined){
+            for(var i=0;i<Items.length;i++){
+                if(Items[i]=="timeSection"){
+                    var aa=store_param["timeSection"].toString().split("-");
+                    var bb=aa[0].split('/');
+                    var cc=aa[1].split('/');
+                    $('#daterange').data('daterangepicker').setStartDate(bb[2]+""+bb[1]+""+bb[0]);
+                    $('#daterange').data('daterangepicker').setEndDate(cc[2]+""+cc[1]+""+cc[0]);
+                    $("#timeSection").val(store_param["timeSection"]);
+                }else{
+                    $("#"+Items[i]+" option[value='"+store_param[Items[i]]+"']").attr("selected","selected");//根据值让option选中
+                    $("#"+Items[i]).trigger("change");
+                }
+            }
+        }else{
+            //默认
+            $('#daterange').data('daterangepicker').setStartDate("02/01/2014");
+            $('#daterange').data('daterangepicker').setEndDate("03/01/2018");
+            $('#timeSection').val("2014/02/01 - 2018/03/01");
+        }
+    }};
+</script>
+
+<!--getSearchContent()获取下拉框内容并设置-->
+<script type="application/javascript">
+    function getSearchContent(){
+        $.ajax({
+            type:'get',
+            contentType:'application/json',
+            url:'../../definedSearchContent/getDefinedGctrlContent',
+            dataType:'json',
+            async:true,
+            cache:true,
+            success:function (data) {
+                console.info(data);
+                setSelect(document.getElementById('academy'),data.academy,false);
+                setSelect(document.getElementById('student_style'),data.student_style,false);
+                setSearchDefaultContent(netFormItems,false);
+                selectpickerRender(netFormItems);
+            }
+        });
+    }
+</script>
+
+<!--selectpickerRender重构selectpicker-->
+<script type="application/javascript">
+    function selectpickerRender(Items) {
+        for(var i=0;i<Items.length;i++){
+            if(Items[i]=="timeSection")
+                continue;
+            $("#"+Items[i]).selectpicker('refresh');
+            $("#"+Items[i]).selectpicker('render');
+            $("#"+Items[i]).selectpicker();
+        }
+    }
+</script>
+
+<!--注销-->
+<script type="application/javascript">
+    function sys_logout(){
+        $.ajax({
+            type: "GET",
+            url: 'sys/logout_logout',
+            cache: false,
+            success: function(data){
+                window.location='../../login.html';
+            }
+        });
+    }
+</script>
+
+<!--相应数据获取以及初始化-->
+<script type="application/javascript">
+    $(function(){
+        store_param=JSON.parse(localStorage.getItem("sml_defined_gctrl_times"));
+        console.info("取出的信息:"+(store_param==undefined?"空":JSON.stringify(store_param)));
+        setSearchDefaultContent(staticFormItems,false);
+        selectpickerRender(staticFormItems);
+        //初始化table
+        $('#table').bootstrapTable({
+            columns: [{
+                field: 'id',
+                align:'center',
+                title: $("#style").val()==0?'序号':"排名"
+            },
+                {
+                    field: 'time',
+                    align:'center',
+                    title: $("#style").val()==0?'时间':"学院"
+                }, {
+                    field: 'amount',
+                    align:'center',
+                    title: '数量'
+                }],
+            toolbar: '#toolbar',//指定工具栏
+            toolbarAlign:'right',//工具栏对齐方式
+            buttonsAlign:'right',//按钮对齐方式
+            striped: true, //是否显示行间隔色
+            pagination:true,//是否分页
+            pageSize:10,//单页记录数
+            showRefresh:true,//刷新按钮
+            showColumns:true,
+            locale:'zh-CN',//中文支持,
+        });
+
+        getSearchContent();
+        if(store_param!=undefined&&store_param["param"]!=undefined){
+            submitSearchData(store_param["param"]);
+        }else{
+            submitSearchData();
+        }
+    });
+</script>
+
+<body class="nav-md" style="background:#F7F7F7">
+<div class="container body">
+    <div class="main_container">
+        <!--滚动时，页面左侧颜色固定-->
+        <div class="col-md-3 left_col" style="position: fixed;top: 0px;left: 0px"></div>
+
+        <div class="col-md-3 left_col">
+            <div class="left_col scroll-view">
+                <div class="navbar nav_title" style="border: 0;">
+                    <a href="index.html" class="site_title"><span>智慧图书馆</span></a>
+                </div>
+                <div class="clearfix"></div>
+                <br />
+
+                <!-- sidebar menu -->
+                <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                    <div class="menu_section">
+                        <h3>图书馆资源利用分析</h3>
+                        <ul class="nav side-menu">
+                            <li><a><div style="width:26px;float: left;"><img src="img/lend.png" style="width:18px"\></div>借阅数据分析 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="index.html">图书馆借阅统计</a></li>
+                                    <li><a href="sml_book_academy_times.html">学院借还分析</a></li>
+                                    <li><a href="sml_book_sex_times.html">性别图书种类分析</a></li>
+                                    <li><a href="sml_book_publisher_times.html">借阅出版社排名</a></li>
+                                </ul>
+                            </li>
+                            <li><a><div style="width:26px;float: left;"><img src="img/gctrl.png" style="width:18px"\></div>进馆数据分析<span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="sml_gctrl_times.html">进馆数据统计</a></li>
+                                    <li><a href="sml_gctrl_day_times.html">每日进馆人数统计</a></li>
+                                    <li><a href="sml_gctrl_identity_times.html">进馆人员分析</a></li>
+                                    <!-- <li><a href="sml_gctrl_academy_times.html">进馆学院专业分析</a></li> -->
+                                </ul>
+                            </li>
+                            <li><a><div style="width:26px;float: left;"><img src="img/IC.png" style="width:18px"\></div>IC空间数据分析<span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="sml_ic_times.html">IC空间数据统计</a></li>
+                                    <li><a href="sml_ic_amount_times.html">IC空间使用量分析</a></li>
+                                    <li><a href="sml_ic_usetime_times.html">IC空间使用时长统计</a></li>
+                                </ul>
+                            </li>
+                            <li><a><div style="width:26px;float: left;"><img src="img/print.png" style="width:18px"\></div>自助打印复印分析<span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="sml_printcs_times.html">自助文印数据统计</a></li>
+                                    <li><a href="sml_printcs_pagetype_times.html">纸张类型统计</a></li>
+                                    <li><a href="sml_printcs_printtype_times.html">文印类型统计</a></li>
+                                    <!-- <li><a href="sml_printcs_location_times.html">文印地点统计</a></li> -->
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-line-chart"></i> 统计排行分析 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="sml_ranking_lend_times.html">借阅统计排行</a></li>
+                                    <li><a href="sml_ranking_gctrl_times.html">进馆统计排行</a></li>
+                                    <!--<li><a href="sml_ranking_seat_times.html">座位统计排行</a></li>
+                                    <li><a href="sml_ranking_ic_times.html">电子阅览室统计排行</a></li>-->
+                                    <li><a href="sml_ranking_print_times.html">自助打印统计排行</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-sitemap"></i> 人员资产统计 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="sml_person_count.html">图书馆人员统计</a></li>
+                                    <li><a href="sml_asset_count.html">图书馆资产统计</a></li>
+
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-building-o"></i> 馆藏资产统计 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="sml_bookcollection_overall.html">图书馆馆藏总体统计</a></li>
+                                    <li><a href="sml_bookcollection_newadd.html">图书馆馆藏新增统计</a></li>
+
+                                </ul>
+                            </li>
+
+                            <li><a><i class="fa fa-minus-square-o "></i> 自定义图表查看 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="sml_defined_book_times.html">借阅数据分析</a></li>
+                                    <li><a href="sml_defined_gctrl_times.html">进馆数据分析</a></li>
+                                    <li><a href="sml_defined_ic_times.html">IC空间数据分析</a></li>
+                                    <li><a href="sml_defined_printcs_times.html">自助打印复印分析</a></li>
+                                    <li><a href="sml_defined_person_asset_times.html">人员资产统计</a></li>
+                                    <li><a href="sml_defined_ranking_times.html">统计排行分析</a></li>
+                                </ul>
+                            </li>
+
+                            <li><a href="../libraryreport/index.html" target="_blank"><i class="fa fa-file-word-o"></i> 图书馆报告 <span class="fa fa-chevron-down"></span></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--   <div class="menu_section">
+                           <h3>图书馆资源推荐</h3>
+                           <ul class="nav side-menu">
+                               <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
+                                   <ul class="nav child_menu">
+                                       <li><a href="e_commerce.html">E-commerce</a></li>
+                                       <li><a href="projects.html">Projects</a></li>
+                                       <li><a href="project_detail.html">Project Detail</a></li>
+                                       <li><a href="contacts.html">Contacts</a></li>
+                                       <li><a href="profile.html">Profile</a></li>
+                                   </ul>
+                               </li>
+                               <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
+                                   <ul class="nav child_menu">
+                                       <li><a href="page_403.html">403 Error</a></li>
+                                       <li><a href="page_404.html">404 Error</a></li>
+                                       <li><a href="page_500.html">500 Error</a></li>
+                                       <li><a href="plain_page.html">Plain Page</a></li>
+                                       <li><a href="login.html">Login Page</a></li>
+                                       <li><a href="pricing_tables.html">Pricing Tables</a></li>
+                                   </ul>
+                               </li>
+                               <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span class="fa fa-chevron-down"></span></a>
+                                   <ul class="nav child_menu">
+                                       <li><a href="#level1_1">Level One</a>
+                                       <li><a>Level One<span class="fa fa-chevron-down"></span></a>
+                                           <ul class="nav child_menu">
+                                               <li class="sub_menu"><a href="level2.html">Level Two</a>
+                                               </li>
+                                               <li><a href="#level2_1">Level Two</a>
+                                               </li>
+                                               <li><a href="#level2_2">Level Two</a>
+                                               </li>
+                                           </ul>
+                                       </li>
+                                       <li><a href="#level1_2">Level One</a>
+                                       </li>
+                                   </ul>
+                               </li>
+                               <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
+                           </ul>
+                       </div>-->
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+            <div class="nav_menu">
+                <nav>
+                    <div class="nav toggle">
+                        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                    </div>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="">
+                            <a href="javascript:sys_logout()" class="user-profile dropdown-toggle">
+                                <img src="images/imgs.jpg" alt="">注销 <i class="fa fa-sign-out"></i>
+                            </a>
+                        </li>
+                    </ul>
+
+                </nav>
+            </div>
+        </div>
+        <!-- /top navigation -->
+
+        <!--选择栏-->
+        <div class="right_col">
+            <form id="searchForm">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label for="timeSection" class="control-label">
+                            开始时间-结束时间
+                        </label>
+                        <div id="daterange" class="input-group"  data-date-format="yyyy/mm/dd" style="margin-bottom:0px">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                            <input type="text" name="timeSection" id="timeSection" class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="academy" class="control-label">学院</label>
+                        <select id="academy" name="academy" class="selectpicker show-tick form-control" data-width="auto" data-size="5" data-live-search="true">
+                            <option value="">所有</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="student_style" class="control-label">学生类别</label>
+                        <select id="student_style" name="student_style" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
+                            <option value="">所有</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="student_sex" class="control-label">性别</label>
+                        <select id="student_sex" name="student_sex" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
+                            <option value="">所有</option>
+                            <option value="M">男</option>
+                            <option value="F">女</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="style" class="control-label">查看类别</label>
+                        <select id="style" name="style" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
+                            <option value="0">总数</option>
+                            <option value="1">排名</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="vertical-align:top">
+                        <button type="button" class="btn btn-default" onclick="submitSearchData();">确定</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--<div class="right_col" >
+            <input id="export" type="button" value="导出EXCEL" onclick = "createExcel()"/>
+        </div>-->
+
+        <!--加载-->
+        <div class="right_col">
+            <div id="loading"></div>
+            <div class="clearfix"></div>
+        </div>
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="clearfix"></div>
+            <h1 id="tip_content" style="text-align: center;margin-top:50px;display:none">数据为空</h1>
+            <div class="row" id="chart_image" style="display: none">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title"   style="padding:0px;" >
+                            <h2 id="title">进馆数据分析</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="" href="javascript:getLargeChart($('#style').val())"><i class="fa icon-resize-full"></i></a>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div id="searchEcharts" style="height:300px;"></div>
+                            <div id="searchEcharts2" style="height:300px;display:none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="chart_table" style="display:none">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <table id="table" >
+
+                    </table>
+
+                    <div id="toolbar" class="btn-group pull-right" style="margin-right: 20px;display:none">
+                        <button id="export" type="button" class="btn btn-default" onclick = "createExcel()">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true">导出EXCEL</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mask" style="display: none">
+    <div class="bigger-wrap">
+        <div class="remove">
+            <i class="icon-remove"></i>
+        </div>
+        <div class="chart_title">
+            <p></p>
+        </div>
+        <div id="largeChart" class="large_chart"  style="display: none"></div>
+        <div id="largeChart2" class="large_chart"  style="display: none"></div>
+    </div>
+</div>
+
+<!-- Bootstrap -->
+<script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="../vendors/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="../vendors/nprogress/nprogress.js"></script>
+<!-- Chart.js -->
+<script src="../vendors/Chart.js/dist/Chart.min.js"></script>
+<!-- gauge.js -->
+<script src="../vendors/gauge.js/dist/gauge.min.js"></script>
+<!-- bootstrap-progressbar -->
+<script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<!-- iCheck -->
+<script src="../vendors/iCheck/icheck.min.js"></script>
+<!-- Skycons -->
+<script src="../vendors/skycons/skycons.js"></script>
+<!-- Flot -->
+<script src="../vendors/Flot/jquery.flot.js"></script>
+<script src="../vendors/Flot/jquery.flot.pie.js"></script>
+<script src="../vendors/Flot/jquery.flot.time.js"></script>
+<script src="../vendors/Flot/jquery.flot.stack.js"></script>
+<script src="../vendors/Flot/jquery.flot.resize.js"></script>
+<!-- Flot plugins -->
+<script src="../vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+<script src="../vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+<script src="../vendors/flot.curvedlines/curvedLines.js"></script>
+<!-- DateJS -->
+<script src="../vendors/DateJS/build/date.js"></script>
+<!-- JQVMap -->
+<script src="../vendors/jqvmap/dist/jquery.vmap.js"></script>
+<script src="../vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+<script src="../vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+<!-- bootstrap-daterangepicker -->
+<script src="../vendors/moment/min/moment.min.js"></script>
+<script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!--JsonExportExcel-->
+<script src="../vendors/JsonExportExcel/JsonExportExcel.min.js"></script>
+<!-- bootstrap-select -->
+<script src="../vendors/bootstrap-select/js/bootstrap-select.min.js"></script>
+<script src="../vendors/bootstrap-select/js/bootstrap-select.js"></script>
+<!-- bootstrap-table -->
+<script src="../vendors/bootstrap-table/bootstrap-table.js"></script>
+<script src="../vendors/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+<!-- jquery-chain-select -->
+<script src="../vendors/jquery-chained-select/jquery.chained.js"></script>
+<script src="../vendors/jquery-chained-select/jquery.chained.min.js"></script>
+<script src="../vendors/jquery-chained-select/jquery.chained.remote.js"></script>
+<script src="../vendors/jquery-chained-select/jquery.chained.remote.min.js"></script>
+<!--loading-spin-->
+<script type="text/javascript" src="../vendors/loading-spin/js/spin.js" ></script>
+<script type="text/javascript" src="../vendors/loading-spin/js/jquery.spin.js" ></script>
+<!-- ECharts -->
+<!--<script src="../vendors/echarts/dist/echarts.min.js"></script>-->
+<!--<script src="../vendors/echarts/map/js/world.js"></script>-->
+
+<!-- Custom Theme Scripts -->
+<script src="../build/js/custom.min.js"></script>
+</body>
+</html>

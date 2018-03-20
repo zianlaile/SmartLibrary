@@ -157,16 +157,18 @@
         $("#largeChart").css("display","block");
         var largeChart = echarts.init(document.getElementById('largeChart'));
         var largeChart_option = {
-            color: ['#3398DB'],
-            tooltip : {
+
+            tooltip: {
                 trigger: 'axis',
-                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                profession: function (pt) {
+                    return [pt[0], '10%'];
                 }
             },
-            legend: {
-
-                data:['IC空间每日统计']
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '15%',
+                containLabel: true
             },
             toolbox: {
                 show: true,
@@ -178,40 +180,64 @@
                     saveAsImage: {}
                 }
             },
-            grid: {
-                left: '3%',
-                right: '4%',
-                containLabel: true
-            },
-            xAxis : [
-                {
-                    type : 'category',
-                    data : datas.times,
-                    axisTick: {
-                        alignWithLabel: true
-                    }
-                }
-            ],
-            yAxis : [
-                {
-                    // type : 'category',
-                    // data : ['10','20','30','40'],
+            legend: {
 
-                    axisTick: {
-                        alignWithLabel: true
-                    },
-                    "axisLabel": {
-                        "interval": 0,
-                        formatter: which==0?'{value}分':'{value}人',
-                    },
+                data:['IC空间每日统计']
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: []
+            },
+            yAxis: {
+                type: 'value',
+                "axisLabel": {
+                    "interval": 0,
+                    formatter: which==0?'{value}分':'{value}人',
+                },
+            },
+            dataZoom: [{
+                type: 'inside',
+                start: 60,
+                end: 100
+            }, {
+                start: 0,
+                end: 10,
+                bottom: '10%',
+                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                handleSize: '80%',
+                handleStyle: {
+                    color: '#fff',
+                    shadowBlur: 3,
+                    shadowColor: 'rgba(0, 0, 0, 0.6)',
+                    shadowOffsetX: 2,
+                    shadowOffsetY: 2
                 }
-            ],
-            series : [
+            }],
+            series: [
                 {
                     name:'IC空间每日统计',
-                    type:'bar',
-                    barWidth: '40%',
-                    data:datas.amounts,
+                    type:'line',
+                    smooth:true,
+                    symbol: 'none',
+                    sampling: 'average',
+                    itemStyle: {
+                        normal: {
+                            color: 'rgb(255, 70, 131)'
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgb(255, 158, 68)'
+                            }, {
+                                offset: 1,
+                                color: 'rgb(255, 70, 131)'
+                            }])
+                        }
+                    },
+                    data: [],
                     markPoint: {
                         data: [
                             {type: 'max', name: '最大值'},
@@ -223,34 +249,21 @@
                             {type: 'average', name: '平均值'}
                         ]
                     }
-                },
-
-            ],
-            label: {
-                normal: {
-                    show: true,
-                    profession: 'top',
-                    formatter: '{c}'
                 }
-            },
-            itemStyle: {
-                normal: {
-
-                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                        offset: 0,
-                        color: 'rgba(17, 168,171, 1)'
-                    }, {
-                        offset: 1,
-                        color: 'rgba(17, 168,171, 0.1)'
-                    }]),
-                    shadowColor: 'rgba(0, 0, 0, 0.1)',
-                    shadowBlur: 10
-                }
-            }
+            ]
         };
         // 使用刚指定的配置项和数据显示图表。
         largeChart.setOption(largeChart_option);
-
+        largeChart.setOption({
+            xAxis: {
+                data: datas.times
+            },
+            series: [{
+                // 根据名字对应到相应的系列
+                name: 'IC空间每日统计',
+                data: datas.amounts,
+            }]
+        });
     }
 </script>
 

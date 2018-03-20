@@ -21,8 +21,17 @@ public class CrossAnalysis {
     int day_use_account;   //日使用率
     int month_use_account; //月使用率
     int year_use_account;  //年使用率
+    int acdemy_stu_amount; // 学院人数
     String ic_type;         //ic空间类型
     String academy;         //学院
+
+    public int getAcdemy_stu_amount() {
+        return acdemy_stu_amount;
+    }
+
+    public void setAcdemy_stu_amount(int acdemy_stu_amount) {
+        this.acdemy_stu_amount = acdemy_stu_amount;
+    }
 
     public int getDay_use_account() {
         return day_use_account;

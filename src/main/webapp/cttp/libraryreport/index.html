@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <title>图书馆报告</title>
     <link rel="stylesheet" href="style.css">
+    <script src="baseinfo.js"></script>
     <script src="jquery-1.8.3.min.js"></script>
     <script src="template.js"></script>
     <script src="echarts.min.js"></script>
-    <script src="baseinfo.js"></script>
     <script src="index.js"></script>
     <script type="text/javascript" src="http://www.xdocin.com/xdoc.js"></script>
 </head>
@@ -23,6 +23,7 @@
         <div class="detailed-time">xx年xx月</div>
     </div>
     <div class="page catalog">
+        <div class="catalog-title">目录</div>
         <div class="catalog-content">
             <a class="para-title" href="#1"><span class="first-catalog">1.1 馆藏文献资源变化趋势</span><div class="dot" style="width: 76%;"></div><div class="pageNum">1</div></a>
             <a class="para-title" href="#2"><span class="first-catalog">1.2 书目记录统计（种）</span><div class="dot" style="width: 76%;"></div><div class="pageNum">2</div></a>
@@ -33,7 +34,7 @@
             <a class="para-title" href="#6"><span class="first-catalog">1.4 馆藏文献分类分布</span><div class="dot" style="width: 76%;"></div><div class="pageNum">6</div></a>
             <a class="para-title" href="#6"><span class="second-catalog">1.4.1 各种格式书目分类分布（种）</span><div class="dot" style="width: 70%;"></div><div class="pageNum">6</div></a>
             <a class="para-title" href="#7"><span class="second-catalog">1.4.2 各种格式书目分类分布（册）</span><div class="dot" style="width: 70%;"></div><div class="pageNum">7</div></a>
-            <a class="para-title" href="#8"><span class="second-catalog">1.4.3 品种前10的分类</span><div class="dot" style="width: 76%;"></div><div class="pageNum">8</div></a>
+            <a class="para-title" href="#8"><span class="second-catalog">1.4.3 总数前10的分类</span><div class="dot" style="width: 76%;"></div><div class="pageNum">8</div></a>
             <a class="para-title" href="#9"><span class="first-catalog">1.5 院系馆藏信息共享情况</span><div class="dot" style="width: 76%;"></div><div class="pageNum">9</div></a>
             <a class="para-title" href="#9"><span class="second-catalog">1.5.1 总体情况</span><div class="dot" style="width: 76%;"></div><div class="pageNum">9</div></a>
             <a class="para-title" href="#11"><span class="second-catalog">1.5.2 今年新增情况</span><div class="dot" style="width: 76%;"></div><div class="pageNum">11</div></a>
@@ -160,8 +161,8 @@
         <div class="pagination">7</div>
     </div>
     <div class="page chapter" id="8">
-        <div class="second-title">1.4.3 品种前10的分类</div>
-        <div class="chart-title">品种前10的分类统计表</div>
+        <div class="second-title">1.4.3 总数前10的分类</div>
+        <div class="chart-title">总数前10的分类统计表</div>
         <div class="table getTop10category"></div>
         <div class="pagination">8</div>
     </div>

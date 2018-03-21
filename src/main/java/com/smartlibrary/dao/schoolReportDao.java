@@ -51,7 +51,7 @@ public interface schoolReportDao {
     // < <!--教职工读者共借阅图书册数-->
     List<Book_Lend> getTeacherLendCount_Byyear(Book_Lend n);
     //<!--2011年-2017年教职工借阅人数统计（包括：<10册, 11-20册, 21-30册, 31-50册, 51-100册, 101-200册, 201-300册, >300册）（表格）
-   // 做起来麻烦点 ，循环一下，lend，back 借用一下做大小值-->
+    // 做起来麻烦点 ，循环一下，lend，back 借用一下做大小值-->
     List<library_report_month_mankinds> getTeacherCount_BycountAndyear(library_report_month_mankinds n);
     // <!--  ?历年各大类图书借书比例趋势图（2011-2017年，包括：I文学、O数理化、F经济、TP计算机、K历史地理、B哲学宗教、D政治法律、H语言文字、其他）（折线图）（top5的类别数据）-->
     List<Book_Lend> getTop5bookkind_Byyear(Book_Lend n);

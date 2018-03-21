@@ -85,7 +85,8 @@ function permissionsAllocation() {
         $("#left-controll").append("<li><a href=\"CrossAnalysis.html\" target=\"_blank\"><i class=\"fa fa-file-word-o\"></i> 图书馆交叉分析 <span class=\"fa fa-chevron-down\"></span></a>\n" +
             "                            </li>");
     }
-    if(permission[9] == 1) {
+    if(permission[9] == 1)
+    {
         $("#left-controll").append("<li><a><i class=\"fa fa-minus-square-o \"></i> 自定义图表查看 <span class=\"fa fa-chevron-down\"></span></a>\n" +
             "                                <ul class=\"nav child_menu\">\n" +
             "                                    <li><a href=\"sml_defined_book_times.html\">借阅数据分析</a></li>\n" +

@@ -26,9 +26,9 @@ public class CrossAnalysisService {
         List<CrossAnalysis> data = crossAnalysisdao.getCrossAnalysisUtilizationRatio(n);
         Map<String,List> result =  new LinkedHashMap<>();
         List<String>  ic_type = new ArrayList<>();
-        List<Integer> day_use_account = new ArrayList<>();
-        List<Integer> month_use_account = new ArrayList<>();
-        List<Integer> year_use_account = new ArrayList<>();
+        List<Float> day_use_account = new ArrayList<>();
+        List<Float> month_use_account = new ArrayList<>();
+        List<Float> year_use_account = new ArrayList<>();
         for (int i = 0; i < data.size(); i ++){
             ic_type.add(data.get(i).getIc_type());
             day_use_account.add(data.get(i).getDay_use_account());

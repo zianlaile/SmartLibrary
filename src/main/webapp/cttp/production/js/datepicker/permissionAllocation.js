@@ -87,7 +87,7 @@ function permissionsAllocation() {
     }
     if(permission[9] == 1)
     {
-        $("#left-controll").append("<li><a><i class=\"fa fa-minus-square-o \"></i> 自定义图表查看 <span class=\"fa fa-chevron-down\"></span></a>\n" +
+        $("#left-controll").append("<li><a><i class=\"fa fa-minus-square-o \"></i> 自定义分析 <span class=\"fa fa-chevron-down\"></span></a>\n" +
             "                                <ul class=\"nav child_menu\">\n" +
             "                                    <li><a href=\"sml_defined_book_times.html\">借阅数据分析</a></li>\n" +
             "                                    <li><a href=\"sml_defined_gctrl_times.html\">进馆数据分析</a></li>\n" +

@@ -29,16 +29,19 @@ public class CrossAnalysisService {
         List<Float> day_use_account = new ArrayList<>();
         List<Float> month_use_account = new ArrayList<>();
         List<Float> year_use_account = new ArrayList<>();
+        List<Float> utlization_ratio = new ArrayList<>();
         for (int i = 0; i < data.size(); i ++){
             ic_type.add(data.get(i).getIc_type());
             day_use_account.add(data.get(i).getDay_use_account());
             month_use_account.add(data.get(i).getMonth_use_account());
             year_use_account.add(data.get(i).getYear_use_account());
+            utlization_ratio.add(data.get(i).getUtlization_ratio());
         }
         result.put("ic_type",ic_type);
         result.put("day_use_account",day_use_account);
         result.put("month_use_account",month_use_account);
         result.put("year_use_account",year_use_account);
+        result.put("utlization_ratio",utlization_ratio);
         return  result;
     }
 

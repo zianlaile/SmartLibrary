@@ -11,17 +11,18 @@ public class CrossAnalysis {
         this.hour = hour;
     }
 
-    int hour;              //小时
-    int book_lend_times;   //借阅次数
-    int croom_times;       //研修间
-    int eread_times;       //电子阅览室
-    int seat_times;        //座位
-    int print_times;       //打印
-    int gctrl_times;       //进馆
-    float day_use_account;   //日使用率
-    float month_use_account; //月使用率
-    float year_use_account;  //年使用率
-    int acdemy_stu_amount; // 学院人数
+    int hour;               //小时
+    int book_lend_times;    //借阅次数
+    int croom_times;        //研修间
+    int eread_times;        //电子阅览室
+    int seat_times;         //座位
+    int print_times;        //打印
+    int gctrl_times;        //进馆
+    float day_use_account;  //日使用率
+    float month_use_account;//月使用率
+    float year_use_account; //年使用率
+    int acdemy_stu_amount;  //学院人数
+    float utlization_ratio; //利用率
     String ic_type;         //ic空间类型
     String academy;         //学院
 
@@ -64,6 +65,14 @@ public class CrossAnalysis {
     }
 
     public int getMonth() { return month; }
+
+    public float getUtlization_ratio() {
+        return utlization_ratio;
+    }
+
+    public void setUtlization_ratio(float utlization_ratio) {
+        this.utlization_ratio = utlization_ratio;
+    }
 
     public void setMonth(int month) { this.month = month; }
 

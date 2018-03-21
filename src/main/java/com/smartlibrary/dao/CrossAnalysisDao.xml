@@ -18,6 +18,6 @@
         SELECT * FROM crossanalysisbyacademygraduate
     </select>
     <select id="getCrossAnalysisUtilizationRatio" resultType = "CrossAnalysis" >
-        SELECT *FROM crossanalysisutilizationratio
+        SELECT * FROM crossanalysisutilizationratio
     </select>
 </mapper>

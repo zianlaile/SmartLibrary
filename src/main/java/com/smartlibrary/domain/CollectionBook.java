@@ -8,6 +8,7 @@ public class CollectionBook {
     String  year;
     String  stack;
     String category;
+    String categoryname;
     String   bookType;
     String print_type;
     String  print_location;
@@ -15,6 +16,14 @@ public class CollectionBook {
     int  amount;
     int amounttype;
     int amountnumber;
+
+    public String getCategoryname() {
+        return categoryname;
+    }
+
+    public void setCategoryname(String categoryname) {
+        this.categoryname = categoryname;
+    }
 
     public int getSum() {
         return sum;

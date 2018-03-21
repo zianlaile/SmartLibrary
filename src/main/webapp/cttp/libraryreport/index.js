@@ -1391,8 +1391,8 @@ function getResourceCountBy_year() {
                         type: 'value',
                         name: '资源数（册）',
                         /*min: 0,
-                        max:100,
-                        interval: 20,*/
+                         max:100,
+                         interval: 20,*/
                         axisLabel: {
                             formatter: '{value}'
                         },
@@ -1559,7 +1559,7 @@ function getGctrlsCountBy_month() {
                     trigger: 'axis'
                 },
                 grid:{
-                  left:'12%'
+                    left:'12%'
                 },
                 calculable : true,
                 xAxis : [
@@ -1717,9 +1717,9 @@ function getmankindCount_Byyear() {
                     data:getmankindCount_Byyearyear
                 },
                 grid:{
-                  left:'14%',
-                  right:'8%',
-                  bottom:'10%'
+                    left:'14%',
+                    right:'8%',
+                    bottom:'10%'
                 },
                 legend: {
                     top:'5%',
@@ -2256,24 +2256,37 @@ function getlend_student_type(){
                 '#59c5a7', '#51b8fe', '#fa827d','#FFCC67'
             ];
             // 总和
+            var lendCount=0;
+            var originalData=[];
+            for(var i=0;i<data.length;i++){
+                lendCount +=data[i].lend;
+                var add ={value:data[i].lend,
+                    name:data[i].man_kind+':'+data[i].lend};
+                originalData.push(add);
+            }
+            // 总和
             var total = {
                 name: '总借阅数',
-                value: data[0].lend+data[1].lend+data[2].lend+data[3].lend
+                value: lendCount
             }
-            var originalData = [{
-                value: data[0].lend,
-                name: '其他：'+data[0].lend
-            }, {
-                value: data[1].lend,
-                name: '教职工：'+data[1].lend
-            }, {
-                value: data[2].lend,
-                name: "本科生："+data[2].lend
-            }, {
-                value: data[3].lend,
-                name: "研究生："+data[3].lend
-            }
-            ];
+            // var total = {
+            //     name: '总借阅数',
+            //     value: data[0].lend+data[1].lend+data[2].lend+data[3].lend
+            // }
+            // var originalData = [{
+            //     value: data[0].lend,
+            //     name: '其他：'+data[0].lend
+            // }, {
+            //     value: data[1].lend,
+            //     name: '教职工：'+data[1].lend
+            // }, {
+            //     value: data[2].lend,
+            //     name: "本科生："+data[2].lend
+            // }, {
+            //     value: data[3].lend,
+            //     name: "研究生："+data[3].lend
+            // }
+            // ];
             var sortData = sortByKey(data,'lend');
             var num = sortData[sortData.length-1].lend;
             $(".type-rate").find(".max-type").text(sortData[sortData.length-1].man_kind);
@@ -2360,27 +2373,39 @@ function getlendrenew_student_type(){
             var colorList = [
                 '#59c5a7', '#51b8fe', '#fa827d','#FFCC67'
             ];
-
+            var lendCount=0;
+            var originalData=[];
+            for(var i=0;i<data.length;i++){
+                lendCount +=data[i].renew;
+                var add ={value:data[i].renew,
+                    name:data[i].man_kind+':'+data[i].renew};
+                originalData.push(add);
+            }
             // 总和
             var total = {
                 name: '总续借数',
-                value: data[0].renew+data[1].renew+data[2].renew+data[3].renew
-            };
-
-            var originalData = [{
-                value: data[0].renew,
-                name: '其他：'+data[0].renew
-            }, {
-                value: data[1].renew,
-                name: '教职工：'+data[1].renew
-            }, {
-                value: data[2].renew,
-                name: "本科生："+data[2].renew
-            }, {
-                value: data[3].renew,
-                name: "研究生："+data[3].renew
-            },
-            ];
+                value: lendCount
+            }
+            // 总和
+            // var total = {
+            //     name: '总续借数',
+            //     value: data[0].renew+data[1].renew+data[2].renew+data[3].renew
+            // };
+            //
+            // var originalData = [{
+            //     value: data[0].renew,
+            //     name: '其他：'+data[0].renew
+            // }, {
+            //     value: data[1].renew,
+            //     name: '教职工：'+data[1].renew
+            // }, {
+            //     value: data[2].renew,
+            //     name: "本科生："+data[2].renew
+            // }, {
+            //     value: data[3].renew,
+            //     name: "研究生："+data[3].renew
+            // },
+            // ];
             echarts.util.each(originalData, function(item, index) {
                 item.itemStyle = {
                     normal: {
@@ -2564,29 +2589,29 @@ function geICdurationBy_year(){
                 backgroundColor:'white',
                 title: [
                     {
-                    text: total.name,
-                    left: '49%',
-                    top: '46%',
-                    textAlign: 'center',
-                    textBaseline: 'middle',
-                    textStyle: {
-                        color: '#999',
-                        fontWeight: 'normal',
-                        fontSize: 20
-                    }
-                },
+                        text: total.name,
+                        left: '49%',
+                        top: '46%',
+                        textAlign: 'center',
+                        textBaseline: 'middle',
+                        textStyle: {
+                            color: '#999',
+                            fontWeight: 'normal',
+                            fontSize: 20
+                        }
+                    },
                     {
-                    text: total.value,
-                    left: '49%',
-                    top: '51%',
-                    textAlign: 'center',
-                    textBaseline: 'middle',
-                    textStyle: {
-                        color: '#666',
-                        fontWeight: 'normal',
-                        fontSize: 30
-                    }
-                }],
+                        text: total.value,
+                        left: '49%',
+                        top: '51%',
+                        textAlign: 'center',
+                        textBaseline: 'middle',
+                        textStyle: {
+                            color: '#666',
+                            fontWeight: 'normal',
+                            fontSize: 30
+                        }
+                    }],
                 grid:{
                     left:'15%',
                     right:'15%'
@@ -3584,7 +3609,7 @@ function bookLend3() {
             basedata.times = info.bookLendTimes[i];
             basedata.bookAuthor = info.bookAuthor[i];
             basedata.bookName = info.bookName[i];
-           data.push(basedata);
+            data.push(basedata);
         }
         replace.top100 = data;
         var html = template('bookLend3',{param:data});
@@ -4010,12 +4035,16 @@ function getCollectionNewAddedByCate(){
                 grid: {
                     left: '3%',
                     right: '4%',
-                    bottom: '3%',
+                    bottom: '15%',
                     containLabel: true
                 },
                 xAxis: [{
                     type: 'category',
-                    data: category
+                    data: category,
+                    axisLabel:{
+                        interval:0,
+                        rotate:30
+                    }
                 }],
                 yAxis: [{
                     type: 'value',
@@ -4094,12 +4123,16 @@ function getCollectionTuShuNewAddedByCate(){
                 grid: {
                     left: '3%',
                     right: '4%',
-                    bottom: '3%',
+                    bottom: '15%',
                     containLabel: true
                 },
                 xAxis: [{
                     type: 'category',
-                    data: category
+                    data: category,
+                    axisLabel:{
+                        interval:0,
+                        rotate:30
+                    }
                 }],
                 yAxis: [{
                     type: 'value',
@@ -4561,8 +4594,8 @@ function getCollectionBycategory() {
                 arr[i] = [];
                 arr1[i] = [];
                 for(var j=0;j<data.category.length;j++){
-                    arr[i].push(data.amounttype[i*data.category.length+j]);
-                    arr1[i].push(data.amountnumber[i*data.category.length+j]);
+                    arr[i].push(data.amounttype[j*data.bookType.length+i]);
+                    arr1[i].push(data.amountnumber[j*data.bookType.length+i]);
                 }
             }
             var itemcolor = ['#FF7F0E','#2CA02C','#6ca7e2','#00CCFF','#915872','#3077b7','#9a8169','#3f8797'];
@@ -4685,7 +4718,6 @@ function getTop10category(){
     });
 }
 
-
 //  小章 以下是小章代码
 
 function getBookLendByAcademy() {
@@ -4700,7 +4732,7 @@ function getBookLendByAcademy() {
             replace["img_academy_top3title"] = data["3"].readerAcademy + "借阅分布";
             var getprintsCountBy_year3 = echarts.init(document.getElementById('getBookLendByAcademyThird'));
             var getBookLendByAcademyThird = {
-              //  color: ['#000000'],
+                //  color: ['#000000'],
                 tooltip : {
                     trigger: 'axis',
                     axisPointer : {            // 坐标轴指示器，坐标轴触发有效

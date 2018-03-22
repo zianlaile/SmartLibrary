@@ -36,30 +36,31 @@
     <script src="../libraryreport/template.js"></script>
 </head>
 <body>
-<div class="page chapter" id="CrossAnalysisByDay" style="height: auto">
-    <div class="second-title"> 本学年各时段各项资源使用情况分析  </div>
+<div class="page chapter" id="CrossAnalysisByDay" style="height: auto; width: 70%">
+    <div class="second-title"> 图书馆各时段情况统计分析  </div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
-<div class="page chapter" id="CrossAnalysisByMonth" style="height: auto">
-    <div class="second-title">本学年每月各项资源使用情况分析</div>
+<div class="page chapter" id="CrossAnalysisByMonth" style="height: auto; width: 70%">
+    <div class="second-title">图书馆每月情况统计分析</div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
-<div class="page chapter" id="UtilizationAnalysis" style="height: auto">
-    <div class="second-title">图书馆IC空间利用率分析</div>
+<div class="page chapter" id="UtilizationAnalysis" style="height: auto ; width: 70%">
+    <div class="second-title">图书馆资源使用分析</div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
-<div class="page chapter" id="crossAnalysisByMonthOfUnderGraduate" style="height: auto">
-    <div class="second-title">本科生各学院年度分析</div>
+<div class="page chapter" id="crossAnalysisByMonthOfUnderGraduate" style="height: auto; width: 70%">
+    <div class="second-title">各学院本科生年度分析</div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
-<div class="page chapter" id="crossAnalysisByMonthOfGraduate" style="height: auto">
-    <div class="second-title">研究生各学院年度分析</div>
+<div class="page chapter" id="crossAnalysisByMonthOfGraduate" style="height: auto; width: 70%">
+    <div class="second-title">各学院研究生年度分析</div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
+
 <script type="application/javascript">
     function getCrossAnalysisUtilizationRatio() {
         $.get('../../cross_analysis/getCrossAnalysisUtilizationRatio', function (data) {
@@ -71,14 +72,14 @@
                 temp.day_use_account = data.day_use_account[i];
                 temp.month_use_account = data.month_use_account[i];
                 temp.year_use_account = data.year_use_account[i];
-                console.log(temp);
+                temp.utlization_ratio = data.utlization_ratio[i];
+                // console.log(temp);
                 result.push(temp);
             }
             $("#UtilizationAnalysis").append("<div class='table Utilization'></div>");
             var html = template('CrossAnalysisUtilization', {param: result});
             $(".Utilization" ).html(html);
-
-            console.log(result);
+           // console.log(result);
         });
     }
 </script>
@@ -111,7 +112,7 @@
             // console.log(data[1].gctrl_times);
              console.log(data);
             $("#CrossAnalysisByMonth").append("<div class='table temp'></div>");
-            var html = template('CrossAnalysis', {param: data});
+            var html = template('CrossAnalysis3', {param: data});
             $("#CrossAnalysisByMonth").find(".temp" ).html(html);
         });
     }
@@ -123,7 +124,7 @@ function getCrossAnalysisByAcademyInUnderGraduate() {
         // console.log(data);
         for (var key in data) {
            console.log(key);
-            $("#crossAnalysisByMonthOfUnderGraduate").append("<div style=\"text-align: center\">" + key + "</div><div class='table " + key + "'></div>");
+            $("#crossAnalysisByMonthOfUnderGraduate").append("<div style=\"text-align: center; font-size: 14px; margin-bottom: 20px\">" + key + "</div><div class='table " + key + "' style='margin-bottom: 20px'></div>");
             var html = template('CrossAnalysis', {param: data[key]});
             $("#crossAnalysisByMonthOfUnderGraduate").find("." + key).html(html);
         }
@@ -133,49 +134,24 @@ function getCrossAnalysisByAcademyInUnderGraduate() {
 function getCrossAnalysisByAcademyInGraduate() {
     $.get('../../cross_analysis/getCrossAnalysisByAcademyInGraduate', function (data) {
         for (var key in data) {
-            $("#crossAnalysisByMonthOfGraduate").append("<div style=\"text-align: center\">" + key + "</div><div class='table " + key + "'></div>");
+            $("#crossAnalysisByMonthOfGraduate").append("<div style=\"text-align: center; font-size: 14px; margin-bottom: 20px\">" + key + "</div><div class='table " + key + "' style='margin-bottom: 20px'></div>");
             var html = template('CrossAnalysis', {param: data[key]});
             $("#crossAnalysisByMonthOfGraduate").find("." + key).html(html);
         }
     });
 }
 </script>
-e
-<script type="text/html" id="CrossAnalysis1">
-    <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
-        <tr>
-            <th>时段</th>
-            <th>借阅次数</th>
-            <th>进馆人数</th>
-            <th>研修间人数</th>
-            <th>电子阅览室人数</th>
-            <th>座位人数</th>
-            <th>打印次数</th>
-        </tr>
-        {{each param as p}}
-        <tr>
-            <td>{{p.hour}}</td>
-            <td>{{p.book_lend_times}}</td>
-            <td>{{p.gctrl_times}}</td>
-            <td>{{p.croom_times}}</td>
-            <td>{{p.eread_times}}</td>
-            <td>{{p.seat_times}}</td>
-            <td>{{p.print_times}}</td>
-        </tr>
-        {{/each}}
-    </table>
-</script>
 
-<script type="text/html" id="CrossAnalysis">
+<script type="text/html" id="CrossAnalysis3">
     <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
         <tr>
             <th>月份</th>
             <th>借阅次数</th>
             <th>进馆人数</th>
-            <th>研修间人数</th>
-            <th>电子阅览室人数</th>
-            <th>座位人数</th>
-            <th>打印次数</th>
+            <th>研修间</th>
+            <th>电子阅览室</th>
+            <th>座位数</th>
+            <th>打印数</th>
         </tr>
         {{each param as p}}
         <tr>
@@ -191,14 +167,74 @@ e
     </table>
 </script>
 
+<script type="text/html" id="CrossAnalysis1">
+    <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th>小时</th>
+            <th>借阅次数</th>
+            <th>进馆人数</th>
+            <th>研修间</th>
+            <th>电子阅览室</th>
+            <th>座位数</th>
+            <th>打印数</th>
+        </tr>
+        {{each param as p}}
+        <tr>
+            <td>{{p.hour}}</td>
+            <td>{{p.book_lend_times}}</td>
+            <td>{{p.gctrl_times}}</td>
+            <td>{{p.croom_times}}</td>
+            <td>{{p.eread_times}}</td>
+            <td>{{p.seat_times}}</td>
+            <td>{{p.print_times}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</script>
+
+<script>
+    template.helper('toFloat', function (data) {
+        if( isNaN(data) || data == Infinity ) {
+            return 0.00;
+        }else{
+            return parseFloat(data).toFixed(2)
+        }
+    })
+</script>
+
+<script type="text/html" id="CrossAnalysis">
+    <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <th>月份</th>
+            <th>借阅次数(次/人均)</th>
+            <th>进馆人数(次/人均)</th>
+            <th>研修间(次/人均)</th>
+            <th>电子阅览室(次/人均)</th>
+            <th>座位数(次/人均)</th>
+            <th>打印数(次/人均)</th>
+        </tr>
+        {{each param as p}}
+        <tr>
+            <td>{{p.month}}</td>
+            <td>{{p.book_lend_times}}/{{toFloat p.book_lend_times/p.acdemy_stu_amount}}</td>
+            <td>{{p.gctrl_times}}/{{toFloat p.gctrl_times/p.acdemy_stu_amount}}</td>
+            <td>{{p.croom_times}}/{{toFloat p.croom_times/p.acdemy_stu_amount}}</td>
+            <td>{{p.eread_times}}/{{toFloat p.eread_times/p.acdemy_stu_amount}}</td>
+            <td>{{p.seat_times}}/{{toFloat p.seat_times/p.acdemy_stu_amount}}</td>
+            <td>{{p.print_times}}/{{toFloat p.print_times/p.acdemy_stu_amount}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</script>
 
 <script type="text/html" id="CrossAnalysisUtilization">
     <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
         <tr>
             <th>类型</th>
-            <th>日使用率</th>
-            <th>月使用率</th>
-            <th>年使用率</th>
+            <th>日使用次数</th>
+            <th>月使用次数</th>
+            <th>年使用次数</th>
+            <th>利用率</th>
         </tr>
         {{each param as p}}
         <tr>
@@ -206,6 +242,7 @@ e
             <td>{{p.day_use_account}}</td>
             <td>{{p.month_use_account}}</td>
             <td>{{p.year_use_account}}</td>
+            <td>{{p.utlization_ratio}}%</td>
         </tr>
         {{/each}}
     </table>

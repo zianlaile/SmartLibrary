@@ -9,7 +9,7 @@
     <select id="getCrossAnalysisByMonth" resultType = "CrossAnalysis">
         SELECT month,book_lend_times, croom_times, eread_times,seat_times, print_times,gctrl_times
         FROM zz_time_month_count
-        WHERE IF(MONTH(NOW()) > 9 , `year` = YEAR(NOW()), `year` = YEAR(NOW()) - 1)
+        WHERE IF(MONTH(NOW()) > 9 , `year` = YEAR(NOW()),`year` = YEAR(NOW()) - 1)
     </select>
     <select id="getCrossAnalysisByAcademyInUnderGraduate" resultType = "CrossAnalysis">
         SELECT * FROM crossanalysisbyacademyundergraduate

@@ -191,6 +191,8 @@ i{font-style:normal}
     background: #9E79A3;
 }
 .table{
+    font-size: 15px;
+    border: 1px solid #5DADA6;
     width: 95%;
     margin: 0 auto;
     margin-bottom: 30px;
@@ -200,19 +202,20 @@ i{font-style:normal}
     text-align: center;
 }
 .table table tr th{
-    color: #333;
+    color: white;
     padding: 20px 5px;
     font-weight: bold;
-    background: #F8F8F8;
-    border-right: 1px solid white;
-    border-bottom: 1px solid white;
+    background: #5DADA6;
 }
 .table table tr td{
     color: #666;
     padding: 15px 5px;
     background: #F8F8F8;
-    border-right: 1px solid white;
-    border-bottom: 1px solid white;
+}
+.table table tr:nth-child(odd) td{
+    background-color: #5DADA6;
+    color: white;
+    border-bottom: #5DADA6;
 }
 .table .table-green tr th,.table .table-purple tr th{
     font-size: .4rem;
@@ -221,19 +224,6 @@ i{font-style:normal}
 .table .table-green tr td,.table .table-purple tr td{
     font-size: .4rem;
     padding: 8px 3px;
-}
-
-.table .table-cyan tr th:first-child,.table .table-cyan tr td:first-child{
-    color: white;
-    background: #5DADA6;
-}
-.table .table-green tr th:first-child,.table .table-green tr td:first-child{
-    color: white;
-    background: #5DADA6;
-}
-.table .table-purple tr th:first-child,.table .table-purple tr td:first-child{
-    color: white;
-    background: #9E79A3;
 }
 .btn-wrap{
     position: fixed;

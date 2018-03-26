@@ -50,12 +50,12 @@
 </div>
 
 <div class="page chapter" id="crossAnalysisByMonthOfUnderGraduate" style="height: auto; width: 70%">
-    <div class="second-title" style="font-size:35px">&nbsp 各学院本科生年度分析</div>
+    <div class="second-title" style="font-size:35px">&nbsp 各学院本科生2017年度分析</div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
 <div class="page chapter" id="crossAnalysisByMonthOfGraduate" style="height: auto; width: 70%">
-    <div class="second-title" style="font-size:35px">&nbsp 各学院研究生年度分析</div>
+    <div class="second-title" style="font-size:35px">&nbsp 各学院研究生2017年度分析</div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
@@ -71,7 +71,6 @@
                 temp.month_use_account = data.month_use_account[i];
                 temp.year_use_account = data.year_use_account[i];
                 temp.utlization_ratio = data.utlization_ratio[i];
-                // console.log(temp);
                 result.push(temp);
             }
             $("#UtilizationAnalysis").append("<div class='table Utilization'></div>");
@@ -133,6 +132,26 @@ function getCrossAnalysisByAcademyInGraduate() {
         }
     });
 }
+</script>
+
+<script type="application/javascript">
+    function ByAcademyInUnderGraduate() {
+        var rank =0;
+        .get('../../cross_analysis/getCrossAnalysisByAcademyInUnderGraduate', function (data) {
+            /*
+            *  排序函数
+            * */
+        });
+        return rank;
+    }
+</script>
+
+<script type="application/javascript">
+    function sortByAcademyInGraduate(data){
+        var rank = 0;
+
+        return rank;
+    }
 </script>
 
 <script type="text/html" id="CrossAnalysis3">

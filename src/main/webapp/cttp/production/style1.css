@@ -110,7 +110,9 @@ i{font-style:normal}
 .second-title{
     font-size: 16px;
     font-weight: bold;
-    margin-bottom: 10px;
+    width: 95%;
+    margin: 0 auto;
+    margin-bottom: 15px;
 }
 .chart-title{
     font-size: 16px;
@@ -202,6 +204,7 @@ i{font-style:normal}
     text-align: center;
 }
 .table table tr th{
+    text-align: center;
     color: white;
     padding: 20px 5px;
     font-weight: bold;

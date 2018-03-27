@@ -34,28 +34,32 @@
     <script src="../libraryreport/template.js"></script>
 </head>
 <body>
+
 <div class="page chapter" id="CrossAnalysisByDay" style="height: auto; width: 70%">
-    <div class="second-title" style="font-size:35px">&nbsp 图书馆各时段情况统计分析  </div>
+    <div class="second-title" style="font-size:25px">&nbsp 图书馆各时段情况统计分析 <a href=\"CrossAnalysis.html\" style="text-decoration: underline"> 2017 </a>
+        &nbsp <a href=\"CrossAnalysis.html\" style="text-decoration: underline"> 2016 </a>
+        &nbsp <a href=\"CrossAnalysis.html\" style="text-decoration: underline"> 2015 </a>
+        &nbsp <a href=\"CrossAnalysis.html\" style="text-decoration: underline"> 2014 </a></div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
 <div class="page chapter" id="CrossAnalysisByMonth" style="height: auto; width: 70%">
-    <div class="second-title" style="font-size:35px">&nbsp 图书馆每月情况统计分析</div>
+    <div class="second-title" style="font-size:25px">&nbsp 图书馆每月情况统计分析</div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
 <div class="page chapter" id="UtilizationAnalysis" style="height: auto ; width: 70%">
-    <div class="second-title" style="font-size:35px" > &nbsp 图书馆资源使用分析</div>
+    <div class="second-title" style="font-size:25px" > &nbsp 图书馆资源使用分析</div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
 <div class="page chapter" id="crossAnalysisByMonthOfUnderGraduate" style="height: auto; width: 70%">
-    <div class="second-title" style="font-size:35px">&nbsp 各学院本科生2017年度分析</div>
+    <div class="second-title" style="font-size:25px">&nbsp 各学院本科生2017年度分析</div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
 <div class="page chapter" id="crossAnalysisByMonthOfGraduate" style="height: auto; width: 70%">
-    <div class="second-title" style="font-size:35px">&nbsp 各学院研究生2017年度分析</div>
+    <div class="second-title" style="font-size:25px">&nbsp 各学院研究生2017年度分析</div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
@@ -135,12 +139,17 @@ function getCrossAnalysisByAcademyInGraduate() {
 </script>
 
 <script type="application/javascript">
-    function ByAcademyInUnderGraduate() {
+    function ByAcademyInUnderGraduate(Colume,month) {
         var rank =0;
+        var flag = 0;
+        var res = new Array();
         .get('../../cross_analysis/getCrossAnalysisByAcademyInUnderGraduate', function (data) {
-            /*
-            *  排序函数
-            * */
+            for(var key in data){
+                for(var i = 0; i < data[key].length; i++){
+                    if(data[key].month == month && data[key][i].)
+                }
+                res[flag++] = data[key].
+            }
         });
         return rank;
     }

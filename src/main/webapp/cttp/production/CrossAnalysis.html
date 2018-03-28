@@ -4,6 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
+    <link rel="stylesheet" href="style1.css">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>图书馆交叉分析</title>
@@ -35,50 +36,47 @@
     <script src="../libraryreport/template.js"></script>
 </head>
 <body>
-<div class="page chapter" style="height: auto; width: 70%;">
-    <div style="width: 95%; margin: 0 auto; display:flex; display: -webkit-flex; align-items:center;">
-        <span style="font-size: 25px; font-weight: bold;">当前显示</span>
-        <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span id="YearChosen"></span><span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a href="#"><span id="Year1"></span></a></li>
-                <li><a href="#"><span id="Year2"></span></a></li>
-                <li><a href="#"><span id="Year3"></span></a></li>
-                <li><a href="#"><span id="Year4"></span></a></li>
-            </ul>
-        </div>
-        <span style="font-size: 25px; font-weight: bold;">年图书馆交叉分析</span>
-    </div>
+
+<!--<div class="page chapter" style="height: auto; width: 70%;">-->
+    <!--<div style="width: 95%; margin: 0 auto; display:flex; display: -webkit-flex; align-items:center;">-->
+        <!--<span style="font-size: 25px; font-weight: bold;">当前显示</span>-->
+        <!--<div class="btn-group">-->
+            <!--<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                <!--<span id="YearChosen"></span><span class="caret"></span>-->
+            <!--</button>-->
+            <!--<ul class="dropdown-menu">-->
+                <!--<li><a href="#"><span id="Year1"></span></a></li>-->
+                <!--<li><a href="#"><span id="Year2"></span></a></li>-->
+                <!--<li><a href="#"><span id="Year3"></span></a></li>-->
+                <!--<li><a href="#"><span id="Year4"></span></a></li>-->
+            <!--</ul>-->
+        <!--</div>-->
+        <!--<span style="font-size: 25px; font-weight: bold;">年图书馆交叉分析</span>-->
+    <!--</div>-->
+<!--</div>-->
+
+<div class="page chapter" id="CrossAnalysisByDay" style="height: auto; width: 80%">
+    <div class="second-title" style="font-size:25px;margin-left: 2.3%">图书馆各时段情况统计分析</div>
+    <div class="pagination" style="bottom: 30px;"></div>
 </div>
-<div class="page chapter" id="CrossAnalysisByDay" style="height: auto; width: 70%">
-    <div class="second-title" style="font-size:25px;">图书馆各时段情况统计分析
-        <!--<a href=\"CrossAnalysis.html\" style="text-decoration: underline"> 2017 </a>-->
-        <!--&nbsp <a href=\"CrossAnalysis.html\" style="text-decoration: underline"> 2016 </a>-->
-        <!--&nbsp <a href=\"CrossAnalysis.html\" style="text-decoration: underline"> 2015 </a>-->
-        <!--&nbsp <a href=\"CrossAnalysis.html\" style="text-decoration: underline"> 2014 </a></div>-->
-    </div>
+
+<div class="page chapter" id="CrossAnalysisByMonth" style="height: auto; width: 80%">
+    <div class="second-title" style="font-size:25px;margin-left: 2.3%">图书馆每月情况统计分析</div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
-<div class="page chapter" id="CrossAnalysisByMonth" style="height: auto; width: 70%">
-    <div class="second-title" style="font-size:25px">&nbsp 图书馆每月情况统计分析</div>
+<div class="page chapter" id="UtilizationAnalysis" style="height: auto ; width: 80%">
+    <div class="second-title" style="font-size:25px;margin-left: 2.3%" >图书馆资源使用分析</div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
-<div class="page chapter" id="UtilizationAnalysis" style="height: auto ; width: 70%">
-    <div class="second-title" style="font-size:25px" > &nbsp 图书馆资源使用分析</div>
+<div class="page chapter" id="crossAnalysisByMonthOfUnderGraduate" style="height: auto; width: 80%">
+    <div class="second-title" style="font-size:25px;margin-left: 2.3%">各学院本科生2017年度分析</div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
-<div class="page chapter" id="crossAnalysisByMonthOfUnderGraduate" style="height: auto; width: 70%">
-    <div class="second-title" style="font-size:25px">&nbsp 各学院本科生2017年度分析</div>
-    <div class="pagination" style="bottom: 30px"></div>
-</div>
-
-<div class="page chapter" id="crossAnalysisByMonthOfGraduate" style="height: auto; width: 70%">
-    <div class="second-title" style="font-size:25px">&nbsp 各学院研究生2017年度分析</div>
+<div class="page chapter" id="crossAnalysisByMonthOfGraduate" style="height: auto; width: 80%">
+    <div class="second-title" style="font-size:25px;margin-left: 2.3%">各学院研究生2017年度分析</div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
@@ -208,10 +206,10 @@ function getCrossAnalysisByAcademyInGraduate() {
         <tr>
             <th>月份</th>
             <th>借阅次数</th>
-            <th>进馆人数</th>
-            <th>研修间人数</th>
-            <th>电子阅览室人数</th>
-            <th>座位人数</th>
+            <th>进馆次数</th>
+            <th>研修间使用次数</th>
+            <th>电子阅览室使用次数</th>
+            <th>座位使用次数</th>
             <th>打印次数</th>
         </tr>
         {{each param as p}}
@@ -233,10 +231,10 @@ function getCrossAnalysisByAcademyInGraduate() {
         <tr>
             <th>时段</th>
             <th>借阅次数</th>
-            <th>进馆人数</th>
-            <th>研修间人数</th>
-            <th>电子阅览室人数</th>
-            <th>座位人数</th>
+            <th>进馆次数</th>
+            <th>研修间使用次数</th>
+            <th>电子阅览室使用次数</th>
+            <th>座位使用次数</th>
             <th>打印次数</th>
         </tr>
         {{each param as p}}
@@ -268,10 +266,10 @@ function getCrossAnalysisByAcademyInGraduate() {
         <tr>
             <th>月份</th>
             <th>借阅次数(次/人均)</th>
-            <th>进馆人数(次/人均)</th>
-            <th>研修间(次/人均)</th>
-            <th>电子阅览室(次/人均)</th>
-            <th>座位数(次/人均)</th>
+            <th>进馆次数(次/人均)</th>
+            <th>研修间使用次数(次/人均)</th>
+            <th>电子阅览室使用次数(次/人均)</th>
+            <th>座位使用次数(次/人均)</th>
             <th>打印数(次/人均)</th>
         </tr>
         {{each param as p}}

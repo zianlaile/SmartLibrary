@@ -194,7 +194,6 @@ i{font-style:normal}
 }
 .table{
     font-size: 15px;
-    border: 1px solid #5DADA6;
     width: 95%;
     margin: 0 auto;
     margin-bottom: 30px;
@@ -202,6 +201,7 @@ i{font-style:normal}
 .table table{
     width: 100%;
     text-align: center;
+    border: 1px solid #5DADA6;
 }
 .table table tr th{
     text-align: center;

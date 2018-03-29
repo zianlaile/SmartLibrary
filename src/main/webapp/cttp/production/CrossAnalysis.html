@@ -4,25 +4,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
-    <link rel="stylesheet" href="style1.css">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>图书馆交叉分析</title>
-    <!-- Font Awesome -->
-    <!--<link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">-->
-    <!-- NProgress -->
-    <!--<link href="../vendors/nprogress/nprogress.css" rel="stylesheet">-->
-    <!-- iCheck -->
-    <!--<link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">-->
-    <!-- bootstrap-progressbar -->
-    <!--<link href="../vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">-->
-    <!-- JQVMap -->
-    <!--<link href="../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>-->
-    <!-- bootstrap-daterangepicker -->
-    <!--<link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">-->
-    <!--<link href="css/font-awesome.min.css" rel="stylesheet">-->
-    <!--<link href="css/font-awesome-ie7.min.css" rel="stylesheet">-->
-    <!--<link href="css/large-chart.css" rel="stylesheet">-->
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
@@ -31,52 +15,53 @@
     <link href="style1.css" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="custom1.min.css" rel="stylesheet">
-    <!-- 引入动态权限加载函数(小章)-->
-    <!--<script src="js/datepicker/permissionAllocation.js"></script>-->
     <script src="../libraryreport/template.js"></script>
 </head>
 <body>
-
-<!--<div class="page chapter" style="height: auto; width: 70%;">-->
-    <!--<div style="width: 95%; margin: 0 auto; display:flex; display: -webkit-flex; align-items:center;">-->
-        <!--<span style="font-size: 25px; font-weight: bold;">当前显示</span>-->
-        <!--<div class="btn-group">-->
-            <!--<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-                <!--<span id="YearChosen"></span><span class="caret"></span>-->
-            <!--</button>-->
-            <!--<ul class="dropdown-menu">-->
-                <!--<li><a href="#"><span id="Year1"></span></a></li>-->
-                <!--<li><a href="#"><span id="Year2"></span></a></li>-->
-                <!--<li><a href="#"><span id="Year3"></span></a></li>-->
-                <!--<li><a href="#"><span id="Year4"></span></a></li>-->
-            <!--</ul>-->
-        <!--</div>-->
-        <!--<span style="font-size: 25px; font-weight: bold;">年图书馆交叉分析</span>-->
-    <!--</div>-->
-<!--</div>-->
-
+<div class="page chapter" style="height: auto; width: 80%;">
+    <div style="width: 95%; margin: 0 auto; display:flex; display: -webkit-flex; align-items:center;">
+        <span style="font-size: 25px; font-weight: bold;">当前显示</span>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span id="YearChosen"></span><span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#"><span id="Year1"></span></a></li>
+                <li><a href="#"><span id="Year2"></span></a></li>
+                <li><a href="#"><span id="Year3"></span></a></li>
+                <li><a href="#"><span id="Year4"></span></a></li>
+            </ul>
+        </div>
+        <span style="font-size: 25px; font-weight: bold;">年图书馆交叉分析</span>
+    </div>
+</div>
 <div class="page chapter" id="CrossAnalysisByDay" style="height: auto; width: 80%">
-    <div class="second-title" style="font-size:25px;margin-left: 2.3%">图书馆各时段情况统计分析</div>
-    <div class="pagination" style="bottom: 30px;"></div>
+    <div class="second-title" style="font-size:25px;">图书馆各时段情况统计分析
+        <!--<a href=\"CrossAnalysis.html\" style="text-decoration: underline"> 2017 </a>-->
+        <!--&nbsp <a href=\"CrossAnalysis.html\" style="text-decoration: underline"> 2016 </a>-->
+        <!--&nbsp <a href=\"CrossAnalysis.html\" style="text-decoration: underline"> 2015 </a>-->
+        <!--&nbsp <a href=\"CrossAnalysis.html\" style="text-decoration: underline"> 2014 </a></div>-->
+    </div>
+    <div class="pagination" style="bottom: 30px"></div>
 </div>
 
 <div class="page chapter" id="CrossAnalysisByMonth" style="height: auto; width: 80%">
-    <div class="second-title" style="font-size:25px;margin-left: 2.3%">图书馆每月情况统计分析</div>
+    <div class="second-title" style="font-size:25px">&nbsp 图书馆每月情况统计分析</div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
 <div class="page chapter" id="UtilizationAnalysis" style="height: auto ; width: 80%">
-    <div class="second-title" style="font-size:25px;margin-left: 2.3%" >图书馆资源使用分析</div>
+    <div class="second-title" style="font-size:25px" > &nbsp 图书馆资源使用分析</div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
 <div class="page chapter" id="crossAnalysisByMonthOfUnderGraduate" style="height: auto; width: 80%">
-    <div class="second-title" style="font-size:25px;margin-left: 2.3%">各学院本科生2017年度分析</div>
+    <div class="second-title" style="font-size:25px">&nbsp 各学院本科生2017年度分析</div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
 <div class="page chapter" id="crossAnalysisByMonthOfGraduate" style="height: auto; width: 80%">
-    <div class="second-title" style="font-size:25px;margin-left: 2.3%">各学院研究生2017年度分析</div>
+    <div class="second-title" style="font-size:25px">&nbsp 各学院研究生2017年度分析</div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
@@ -122,6 +107,17 @@
     }
 </script>
 
+<script type="application/javascript">
+    function CrossAnalysisByDay1(yearChosen) {
+        console.log(yearChosen)
+        $.get('../../cross_analysis/CrossAnalysisByDay', function (data) {
+            // console.log(data);
+            $("#CrossAnalysisByDay").append("<div class='table temp'></div>");
+            var html = template('CrossAnalysis1', {param: data});//
+            $("#CrossAnalysisByDay").find(".temp" ).html(html);
+        });
+    }
+</script>
 
 <script type="application/javascript">
     function getCrossAnalysisByMonth() {
@@ -196,7 +192,9 @@ function getCrossAnalysisByAcademyInGraduate() {
         year--;
         $("#Year4").text(year);
         $("ul").children().click(function () {
-            $("#YearChosen").text($(this).find("span").text());
+            var yearChosen = $(this).find("span").text();
+            $("#YearChosen").text(yearChosen);
+            CrossAnalysisByDay1(yearChosen);
         });
     }
 </script>
@@ -206,10 +204,10 @@ function getCrossAnalysisByAcademyInGraduate() {
         <tr>
             <th>月份</th>
             <th>借阅次数</th>
-            <th>进馆次数</th>
-            <th>研修间使用次数</th>
-            <th>电子阅览室使用次数</th>
-            <th>座位使用次数</th>
+            <th>进馆人数</th>
+            <th>研修间人数</th>
+            <th>电子阅览室人数</th>
+            <th>座位人数</th>
             <th>打印次数</th>
         </tr>
         {{each param as p}}
@@ -231,10 +229,10 @@ function getCrossAnalysisByAcademyInGraduate() {
         <tr>
             <th>时段</th>
             <th>借阅次数</th>
-            <th>进馆次数</th>
-            <th>研修间使用次数</th>
-            <th>电子阅览室使用次数</th>
-            <th>座位使用次数</th>
+            <th>进馆人数</th>
+            <th>研修间人数</th>
+            <th>电子阅览室人数</th>
+            <th>座位人数</th>
             <th>打印次数</th>
         </tr>
         {{each param as p}}
@@ -266,10 +264,10 @@ function getCrossAnalysisByAcademyInGraduate() {
         <tr>
             <th>月份</th>
             <th>借阅次数(次/人均)</th>
-            <th>进馆次数(次/人均)</th>
-            <th>研修间使用次数(次/人均)</th>
-            <th>电子阅览室使用次数(次/人均)</th>
-            <th>座位使用次数(次/人均)</th>
+            <th>进馆人数(次/人均)</th>
+            <th>研修间(次/人均)</th>
+            <th>电子阅览室(次/人均)</th>
+            <th>座位数(次/人均)</th>
             <th>打印数(次/人均)</th>
         </tr>
         {{each param as p}}
@@ -306,50 +304,5 @@ function getCrossAnalysisByAcademyInGraduate() {
         {{/each}}
     </table>
 </script>
-
-
-
-<!-- Bootstrap -->
-<!--<script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>-->
-<!-- FastClick -->
-<!--<script src="../vendors/fastclick/lib/fastclick.js"></script>-->
-<!--&lt;!&ndash; NProgress &ndash;&gt;-->
-<!--<script src="../vendors/nprogress/nprogress.js"></script>-->
-<!--&lt;!&ndash; Chart.js &ndash;&gt;-->
-<!--<script src="../vendors/Chart.js/dist/Chart.min.js"></script>-->
-<!--&lt;!&ndash; gauge.js &ndash;&gt;-->
-<!--<script src="../vendors/gauge.js/dist/gauge.min.js"></script>-->
-<!--&lt;!&ndash; bootstrap-progressbar &ndash;&gt;-->
-<!--<script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>-->
-<!--&lt;!&ndash; iCheck &ndash;&gt;-->
-<!--<script src="../vendors/iCheck/icheck.min.js"></script>-->
-<!--&lt;!&ndash; Skycons &ndash;&gt;-->
-<!--<script src="../vendors/skycons/skycons.js"></script>-->
-<!--&lt;!&ndash; Flot &ndash;&gt;-->
-<!--<script src="../vendors/Flot/jquery.flot.js"></script>-->
-<!--<script src="../vendors/Flot/jquery.flot.pie.js"></script>-->
-<!--<script src="../vendors/Flot/jquery.flot.time.js"></script>-->
-<!--<script src="../vendors/Flot/jquery.flot.stack.js"></script>-->
-<!--<script src="../vendors/Flot/jquery.flot.resize.js"></script>-->
-<!--&lt;!&ndash; Flot plugins &ndash;&gt;-->
-<!--<script src="../vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>-->
-<!--<script src="../vendors/flot-spline/js/jquery.flot.spline.min.js"></script>-->
-<!--<script src="../vendors/flot.curvedlines/curvedLines.js"></script>-->
-<!--&lt;!&ndash; DateJS &ndash;&gt;-->
-<!--<script src="../vendors/DateJS/build/date.js"></script>-->
-<!--&lt;!&ndash; JQVMap &ndash;&gt;-->
-<!--<script src="../vendors/jqvmap/dist/jquery.vmap.js"></script>-->
-<!--<script src="../vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>-->
-<!--<script src="../vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>-->
-<!--&lt;!&ndash; bootstrap-daterangepicker &ndash;&gt;-->
-<!--<script src="../vendors/moment/min/moment.min.js"></script>-->
-<!--<script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>-->
-
-<!--&lt;!&ndash; ECharts &ndash;&gt;-->
-<!--&lt;!&ndash;<script src="../vendors/echarts/dist/echarts.min.js"></script>&ndash;&gt;-->
-<!--&lt;!&ndash;<script src="../vendors/echarts/map/js/world.js"></script>&ndash;&gt;-->
-
-<!--&lt;!&ndash; Custom Theme Scripts &ndash;&gt;-->
-<!--<script src="../build/js/custom.min.js"></script>-->
 </body>
 </html>

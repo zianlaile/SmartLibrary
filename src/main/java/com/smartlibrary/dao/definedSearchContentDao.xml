@@ -14,7 +14,7 @@
 
     </select>
     <select id="getDefinedPublisherContent" resultType="com.smartlibrary.domain.DefinedSearchContent">
-        SELECT zz.id AS id,zz.publisher AS name FROM zz_book_year_publisher zz where zz.publisher is not NULL
+        SELECT id AS id,publisher_name AS name FROM zz_book_publisher where publisher_name is not NULL
     </select>
     <select id="getDefinedBookStyleContent" resultType="com.smartlibrary.domain.DefinedSearchContent">
         SELECT DISTINCT id AS id,name AS name FROM z_book_category

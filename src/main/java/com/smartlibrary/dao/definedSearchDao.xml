@@ -4,42 +4,138 @@
 <mapper namespace="com.smartlibrary.dao.definedSearchDao">
     <!--24小时刷新-->
     <cache flushInterval="86400000"/>
-    <!--借阅统计-->
-    <select id="getDefinedBook" parameterType="com.smartlibrary.domain.DefinedBookSearch" resultType="com.smartlibrary.domain.DefinedResult">
+    <!--借书-->
+    <sql id="getDefinedBook0">
         SELECT count(*) AS amount,DATE_FORMAT(z.operation_time, '%Y/%m/%d') AS time
-        FROM
-        <choose>
-            <when test="lend_style==0">
-                z_book_lend_sys AS z
-            </when>
-            <when test="lend_style==1">
-                z_book_back_sys AS z
-            </when>
-            <when test="lend_style==2">
-                z_book_renew_sys AS z
-            </when>
-            <otherwise>
-                z_book_lend_sys AS z
-            </otherwise>
-        </choose>
+        FROM   z_book_lend_sys AS z
         WHERE (z.operation_time BETWEEN #{start_time} AND #{end_time})
-        <if test="academy != null and academy != ''">
-            AND z.`reader_academy` = #{academy}
+        <if test="academy != null and academy != '' and academy != '所有'">
+            AND z.`reader_academy` in
+            <foreach collection="academyList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="student_style != null and student_style != ''">
-            AND z.`reader_identity` = #{student_style}
+        <if test="student_style != null and student_style != '' and student_style != '所有'">
+            AND z.`reader_identity` in
+            <foreach collection="student_styleList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
         <if test="student_sex != null and student_sex != ''">
             AND z.`reader_gender` = #{student_sex}
         </if>
-        <if test="publisher != null and publisher != ''">
-            AND z.`book_publisher` = #{publisher}
+        <if test="publisher != null and publisher != '' and publisher != '所有'">
+            AND z.`book_publisher` in
+            <foreach collection="publisherList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="book_style != null and book_style != ''">
-            AND z.`book_category` = #{book_style}
+        <if test="book_style != null and book_style != '' and book_style != '所有'">
+            AND z.`book_category` in
+            <foreach collection="book_styleList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
         GROUP BY time
-        ORDER BY z.operation_time
+        ORDER BY time
+    </sql>
+    <!--还书-->
+    <sql id="getDefinedBook1">
+        SELECT count(*) AS amount,DATE_FORMAT(z.operation_time, '%Y/%m/%d') AS time
+        FROM   z_book_back_sys AS z
+        WHERE (z.operation_time BETWEEN #{start_time} AND #{end_time})
+        <if test="academy != null and academy != '' and academy != '所有'">
+            AND z.`reader_academy` in
+            <foreach collection="academyList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
+        </if>
+        <if test="student_style != null and student_style != '' and student_style != '所有'">
+            AND z.`reader_identity` in
+            <foreach collection="student_styleList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
+        </if>
+        <if test="student_sex != null and student_sex != ''">
+            AND z.`reader_gender` = #{student_sex}
+        </if>
+        <if test="publisher != null and publisher != '' and publisher != '所有'">
+            AND z.`book_publisher` in
+            <foreach collection="publisherList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
+        </if>
+        <if test="book_style != null and book_style != '' and book_style != '所有'">
+            AND z.`book_category` in
+            <foreach collection="book_styleList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
+        </if>
+        GROUP BY time
+        ORDER BY time
+    </sql>
+    <!--续借-->
+    <sql id="getDefinedBook2">
+        SELECT count(*) AS amount,DATE_FORMAT(z.operation_time, '%Y/%m/%d') AS time
+        FROM   z_book_renew_sys AS z
+        WHERE (z.operation_time BETWEEN #{start_time} AND #{end_time})
+        <if test="academy != null and academy != '' and academy != '所有'">
+            AND z.`reader_academy` in
+            <foreach collection="academyList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
+        </if>
+        <if test="student_style != null and student_style != '' and student_style != '所有'">
+            AND z.`reader_identity` in
+            <foreach collection="student_styleList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
+        </if>
+        <if test="student_sex != null and student_sex != ''">
+            AND z.`reader_gender` = #{student_sex}
+        </if>
+        <if test="publisher != null and publisher != '' and publisher != '所有'">
+            AND z.`book_publisher` in
+            <foreach collection="publisherList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
+        </if>
+        <if test="book_style != null and book_style != '' and book_style != '所有'">
+            AND z.`book_category` in
+            <foreach collection="book_styleList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
+        </if>
+        GROUP BY time
+        ORDER BY time
+    </sql>
+    <!--借阅统计-->
+    <select id="getDefinedBook" parameterType="com.smartlibrary.domain.DefinedBookSearch" resultType="com.smartlibrary.domain.DefinedResult">
+        SELECT SUM(zz.amount) amount,zz.time
+        FROM
+        <trim prefix="(" prefixOverrides="UNION ALL" suffix=")">
+            <choose>
+                <when test="lend_style != null and lend_style != '' and lend_style != '所有'">
+                    <if test="@com.smartlibrary.common.SqlTestHelp@isInList('0',lend_styleList)">
+                        UNION ALL (<include refid="getDefinedBook0"></include>)
+                    </if>
+                    <if test="@com.smartlibrary.common.SqlTestHelp@isInList('1',lend_styleList)">
+                        UNION ALL (<include refid="getDefinedBook1"></include>)
+                    </if>
+                    <if test="@com.smartlibrary.common.SqlTestHelp@isInList('2',lend_styleList)">
+                        UNION ALL (<include refid="getDefinedBook2"></include>)
+                    </if>
+                </when>
+                <otherwise>
+                    UNION ALL (<include refid="getDefinedBook0"></include>)
+                    UNION ALL (<include refid="getDefinedBook1"></include>)
+                    UNION ALL (<include refid="getDefinedBook2"></include>)
+                </otherwise>
+            </choose>
+        </trim>
+        AS zz
+        GROUP BY zz.time
+        ORDER BY zz.time
     </select>
 
     <!--进馆总数统计-->

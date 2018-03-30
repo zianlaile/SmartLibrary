@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -24,7 +25,7 @@ public class DefinedSearchController {
 
     @RequestMapping(value = "getDefinedBookSearch",produces="application/json;charset=UTF-8")
     @ResponseBody
-    public Map<String ,List> getDefinedBookSearch(@Valid DefinedBookSearch definedBookSearch,Errors errors) {
+    public Map<String ,List> getDefinedBookSearch(@Valid @RequestBody DefinedBookSearch definedBookSearch, Errors errors) {
         logger.info(definedBookSearch.toString());
         return definedSearchService.getDefinedBookSearch(definedBookSearch,errors);
     }

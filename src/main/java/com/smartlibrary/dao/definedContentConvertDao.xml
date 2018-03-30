@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smartlibrary.dao.definedContentConvertDao">
+    <!--24小时刷新-->
+    <cache flushInterval="86400000"/>
+    <select id="getDefinedContentName" resultType="string">
+        SELECT DISTINCT z.name AS name
+        FROM z_book_category AS z
+        WHERE z.id in
+        <foreach collection="array" open="(" close=")" separator="," item="item" index="i">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>

@@ -1,9 +1,9 @@
 package com.smartlibrary.service;
 
 import com.smartlibrary.common.ExportExcelUtil;
+import com.smartlibrary.dao.definedContentConvertDao;
 import com.smartlibrary.dao.definedSearchContentDao;
 import com.smartlibrary.dao.definedSearchDao;
-import com.smartlibrary.dao2.definedSearch2Dao;
 import com.smartlibrary.domain.*;
 import com.smartlibrary.domain2.DefinedPersonAssetSearch;
 import org.apache.log4j.Logger;
@@ -23,19 +23,25 @@ public class DefinedExportExcelService {
     private definedSearchDao definedsearchDao;
     @Autowired
     private definedSearchContentDao definedsearchContentDao;
+    @Autowired
+    private definedContentConvertDao definedContentConvertDao;
 
     public boolean getDefinedBookSearch(DefinedBookSearch definedBookSearch, Errors errors,HttpServletResponse response) {
         if(!errors.hasErrors()){
             Map<String,String> exportMap=new HashMap<String,String>();
             exportMap.put("时间", "time");
-            if(definedBookSearch.getLend_style()==0)
-                exportMap.put("借书数量", "amount");
-            else if(definedBookSearch.getLend_style()==1)
-                exportMap.put("还书数量", "amount");
-            else
-                exportMap.put("续借数量", "amount");
+            if(definedBookSearch.getLend_styleList()==null||definedBookSearch.getLend_styleList().length==0||definedBookSearch.getLend_styleList().length>1)
+                exportMap.put("数量", "amount");
+            else {
+                if(definedBookSearch.getLend_styleList()[0].trim().equals("0"))
+                    exportMap.put("借书数量", "amount");
+                else if(definedBookSearch.getLend_styleList()[0].trim().equals("1"))
+                    exportMap.put("还书数量", "amount");
+                else
+                    exportMap.put("续借数量", "amount");
+            }
             List<DefinedResult> definedResultList = definedsearchDao.getDefinedBook(definedBookSearch);
-            ExportExcelUtil.exportExcel("借阅数据分析.xls",exportMap, definedResultList,response,"借阅数据分析",definedBookSearch.getSearchContentSubTitle(definedsearchContentDao.getDefinedBookStyleContent()));
+            ExportExcelUtil.exportExcel("借阅数据分析.xls",exportMap, definedResultList,response,"借阅数据分析",definedBookSearch.getSearchContentSubTitle(definedContentConvertDao));
             return false;
         }
         return true;

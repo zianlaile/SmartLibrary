@@ -40,6 +40,18 @@
     <script src="js/datepicker/permissionAllocation.js"></script>
 </head>
 
+<style type="text/css">
+    .dropdown-menu.inner {
+        overflow-y:auto;
+    }
+    #publisher{
+        max-width: 250px;
+    }
+    #publisher+div.bootstrap-select .dropdown-menu.open{
+        max-width: 250px;
+    }
+</style>
+
 <script type="application/javascript">
     //echarts数据
     var datas;
@@ -62,6 +74,17 @@
         $(".remove").click(function(){
             $(".mask").css("display","none");
         });
+
+        //选择框初始化
+        $('.selectpicker').selectpicker({
+            selectedText:'cat',
+            noneSelectedText:'请选择',
+            deselectAllText:'全不选',
+            selectAllText: '全选',
+            countSelectedText: '所有',
+        });
+        $('.selectpicker').selectpicker('refresh');
+        $('.selectpicker').selectpicker('render');
 
         //初始化datarange
         $('#daterange').daterangepicker({
@@ -152,7 +175,7 @@
 </script>
 
 <!--getFormContent()获取表单内容-->
-<script type="application/javascript">
+<!--<script type="application/javascript">
     function getFormContent(formItems){
         var param="";
         var itemindex=0;
@@ -166,17 +189,57 @@
         console.info(param);
         return param;
     }
+</script>-->
+
+<!--getFormContent()获取表单内容-->
+<script type="application/javascript">
+    function getFormContent(formItems){
+        var param=new Object();
+        var itemindex=0;
+        if(formItems.length>=1){
+            for(;itemindex<formItems.length;itemindex++){
+                if($("[data-id="+formItems[itemindex]+"] .filter-option").text().trim()=="所有")
+                    param[formItems[itemindex]]= "";
+                else if($("#"+formItems[itemindex]).val()!=null)
+                    param[formItems[itemindex]]=$("#"+formItems[itemindex]).val().toString();
+            }
+        }
+        console.info("表单信息:"+JSON.stringify(param));
+        return param;
+    }
+
+    function convertQueryString(obj){
+        var s=new Array();
+        Object.keys(obj).forEach(function(key){
+            s.push(key+"="+obj[key]);
+        });
+        return s.join('&');
+    }
 </script>
 
 <!--createExcel()-->
 <script type="application/javascript">
     function createExcel () {
-        var elink = document.createElement('a');
+        var DownLoadFile = function (options) {
+            var config = $.extend(true, { method: 'post' }, options);
+            var $form = $('<form method="' + config.method + '" />');
+            $form.attr('action', config.url);
+            for (var key in config.data) {
+                console.info(key+" "+config.data[key]);
+                $form.append('<input type="hidden" name="' + key + '" value="' + config.data[key] + '" />');
+            }
+            console.info($form.html());
+            $(document.body).append($form);
+            $form[0].submit();
+        }
+        DownLoadFile({url:"../../definedExportExcel/exportRankRecords",data:getFormContent(formItems)});
+
+        /*var elink = document.createElement('a');
         elink.style.display = 'none';
         elink.href = "../../definedExportExcel/exportRankRecords"+getFormContent(formItems);
         document.body.appendChild(elink);
         elink.click();
-        document.body.removeChild(elink);
+        document.body.removeChild(elink);*/
     };
 </script>
 
@@ -456,14 +519,34 @@
     }
 </script>
 
+<!--check(Items)验证表单-->
+<script type="application/javascript">
+    function check(Items){
+        for(var item=0;item<Items.length;item++){
+            if($("#"+Items[item]).val()==null){
+                return false
+            }
+        }
+        return true;
+    }
+</script>
+
 <!--submitSearchData()提交表单函数-->
 <script type="application/javascript">
     function submitSearchData(param){
+        //检验
+        if(param==undefined&&!check(formItems))
+            return;
+
+        if(param==undefined)
+            param=getFormContent(formItems);
+        console.info("请求参数："+JSON.stringify(param));
+
         $.ajax({
-            type:'get',
+            type:'POST',
             contentType:'application/json',
             url:'../../definedSearch/getDefinedRankSearch',
-            data: param==undefined?$('#searchForm').serialize():param,
+            data: JSON.stringify(param),
             dataType:'json',
             cache: true,
             async:true,
@@ -565,11 +648,7 @@
 <!--storeData(formItems)存入数据-->
 <script type="application/javascript">
     function storeData(Items){{
-        var temp=new Object();
-        for(var i=0;i<Items.length;i++){
-            temp[Items[i]]=$("#"+Items[i]).val();
-        }
-        temp["param"]=getFormContent(Items).replace("?","");
+        var temp=getFormContent(formItems)
         localStorage.setItem("sml_defined_ranking_times", JSON.stringify(temp));
         store_param=temp;
         console.info("存入信息:"+(store_param==undefined?"空":JSON.stringify(store_param)));
@@ -591,15 +670,26 @@
                     $('#daterange').data('daterangepicker').setEndDate(cc[2]+""+cc[1]+""+cc[0]);
                     $("#timeSection").val(store_param["timeSection"]);
                 }else{
-                    $("#"+Items[i]+" option[value='"+store_param[Items[i]]+"']").attr("selected","selected");//根据值让option选中
+                    if(store_param[Items[i]]==undefined || store_param[Items[i]].toString().trim()==""||store_param[Items[i]].toString().trim()=="所有")
+                        $("#"+Items[i]).selectpicker("selectAll");
+                    else
+                        $("#"+Items[i]).selectpicker('val',store_param[Items[i]].split(','));
+                    //$("#"+Items[i]+" option[value='"+store_param[Items[i]]+"']").attr("selected","selected");//根据值让option选中
                     $("#"+Items[i]).trigger("change");
                 }
             }
         }else{
             //默认
-            $('#daterange').data('daterangepicker').setStartDate("02/01/2014");
-            $('#daterange').data('daterangepicker').setEndDate("03/01/2018");
-            $('#timeSection').val("2014/02/01 - 2018/03/01");
+            for(var i=0;i<Items.length;i++){
+                if(Items[i]=="timeSection"){
+                    $('#daterange').data('daterangepicker').setStartDate("02/01/2014");
+                    $('#daterange').data('daterangepicker').setEndDate("03/01/2018");
+                    $('#timeSection').val("2014/02/01 - 2018/03/01");
+                }else{
+                    $("#"+Items[i]).selectpicker("selectAll");
+                    $("#"+Items[i]).trigger("change");
+                }
+            }
         }
     }};
 </script>
@@ -617,10 +707,25 @@
             success:function (data) {
                 console.info(data);
                 setSelect(document.getElementById('academy'),data.academy,false);
+                $("#academy").selectpicker({
+                    selectedTextFormat:"count > "+(data.academy.length-1),
+                });
                 setSelect(document.getElementById('student_style'),data.student_style,false);
+                $("#student_style").selectpicker({
+                    selectedTextFormat:"count > "+(data.student_style.length-1),
+                });
                 setSelect(document.getElementById('print_type'),data.print_type,false);
+                $("#print_type").selectpicker({
+                    selectedTextFormat:"count > "+(data.print_type.length-1),
+                });
                 setSelect(document.getElementById('print_location'),data.print_location,false);
+                $("#print_location").selectpicker({
+                    selectedTextFormat:"count > "+(data.print_location.length-1),
+                });
                 setSelect(document.getElementById('paper_type'),data.print_paperType,true);
+                $("#paper_type").selectpicker({
+                    selectedTextFormat:"count > "+(data.print_paperType.length-1),
+                });
                 setSearchDefaultContent(netFormItems,false);
                 selectpickerRender(netFormItems);
             }
@@ -660,8 +765,10 @@
     $(function(){
         store_param=JSON.parse(localStorage.getItem("sml_defined_ranking_times"));
         console.info("取出的信息:"+(store_param==undefined?"空":JSON.stringify(store_param)));
+
         setSearchDefaultContent(staticFormItems,false);
         selectpickerRender(staticFormItems);
+
         //初始化table
         $('#table').bootstrapTable({
             columns: [{
@@ -691,14 +798,14 @@
         });
 
         getSearchContent();
-        if(store_param!=undefined&&store_param["param"]!=undefined){
-            submitSearchData(store_param["param"]);
+        if(store_param!=undefined){
+            submitSearchData(store_param);
         }else{
             submitSearchData();
         }
-
     });
 </script>
+
 <script language="javascript" type="application/javascript">
     $(function(){
         permissionsAllocation();    // 加载左边的list
@@ -823,15 +930,15 @@
 
                     <div class="form-group my_rank01">
                         <label for="academy" class="control-label">学院</label>
-                        <select id="academy" name="academy" class="selectpicker show-tick form-control" data-width="auto" data-size="5" data-live-search="true">
-                            <option value="">所有</option>
+                        <select id="academy" name="academy" class="selectpicker show-tick form-control" data-width="auto" data-size="5" data-live-search="true" data-actions-box="true" multiple>
+
                         </select>
                     </div>
 
                     <div class="form-group my_rank01">
                         <label for="student_style" class="control-label">学生类别</label>
-                        <select id="student_style" name="student_style" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
-                            <option value="">所有</option>
+                        <select id="student_style" name="student_style" class="selectpicker show-tick form-control" data-width="auto" data-size="5" data-actions-box="true" multiple>
+
                         </select>
                     </div>
 
@@ -854,22 +961,22 @@
 
                     <div class="form-group my_rank2">
                         <label for="print_type" class="control-label">文印类型</label>
-                        <select id="print_type" name="print_type" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
-                            <option value="">所有</option>
+                        <select id="print_type" name="print_type" class="selectpicker show-tick form-control" data-width="auto" data-size="5" data-actions-box="true" multiple>
+
                         </select>
                     </div>
 
                     <div class="form-group my_rank2">
                         <label for="print_location" class="control-label">设备地点</label>
-                        <select id="print_location" name="print_location" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
-                            <option value="">所有</option>
+                        <select id="print_location" name="print_location" class="selectpicker show-tick form-control" data-width="auto" data-size="5" data-actions-box="true" multiple>
+
                         </select>
                     </div>
 
                     <div class="form-group my_rank2">
                         <label for="paper_type" class="control-label">纸张类型</label>
-                        <select id="paper_type" name="paper_type" class="selectpicker show-tick form-control" data-width="auto" data-size="5">
-                            <option value="">所有</option>
+                        <select id="paper_type" name="paper_type" class="selectpicker show-tick form-control" data-width="auto" data-size="5" data-actions-box="true" multiple>
+
                         </select>
                     </div>
 

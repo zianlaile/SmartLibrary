@@ -470,16 +470,19 @@
 <!--submitSearchData()提交表单函数-->
 <script type="application/javascript">
     function submitSearchData(param){
-        console.info(param);
         //检验
         if(param==undefined&&!check(formItems))
             return;
+
+        if(param==undefined)
+            param=getFormContent(formItems);
+        console.info("请求参数："+JSON.stringify(param));
 
         $.ajax({
             type:'POST',
             contentType:'application/json; ',
             url:'../../definedSearch/getDefinedBookSearch',
-            data: param==undefined?JSON.stringify(getFormContent(formItems)):JSON.stringify(param),
+            data: JSON.stringify(param),
             traditional:true,
             dataType:'json',
             cache: true,
@@ -681,6 +684,7 @@
 
         setSearchDefaultContent(staticFormItems,false);
         selectpickerRender(staticFormItems);
+
         //初始化table
         $('#table').bootstrapTable({
             columns: [{

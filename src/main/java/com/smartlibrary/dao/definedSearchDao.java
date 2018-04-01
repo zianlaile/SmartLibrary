@@ -1,7 +1,6 @@
 package com.smartlibrary.dao;
 
 import com.smartlibrary.domain.*;
-import com.smartlibrary.domain2.DefinedPersonAssetSearch;
 
 import java.util.List;
 
@@ -16,5 +15,5 @@ public interface definedSearchDao {
 
     List<DefinedResult> getDefinedPersonAsset(DefinedPersonAssetSearch definedPersonAssetSearch);
 
-    List<DefinedResult> getDefinedRank(DefinedRankSearch definedRankSearch);
+    List<DefinedRankResult> getDefinedRank(DefinedRankSearch definedRankSearch);
 }

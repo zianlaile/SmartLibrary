@@ -1,9 +1,7 @@
 package com.smartlibrary.service;
 
 import com.smartlibrary.dao.definedSearchDao;
-import com.smartlibrary.dao2.definedSearch2Dao;
 import com.smartlibrary.domain.*;
-import com.smartlibrary.domain2.DefinedPersonAssetSearch;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -138,14 +136,40 @@ public class DefinedSearchService {
             logger.info("查询失败");
             return data;
         }
-        List<DefinedResult> definedResultList =definedsearchDao.getDefinedRank(definedRankSearch);
+        List<DefinedRankResult> definedResultList =definedsearchDao.getDefinedRank(definedRankSearch);
         ArrayList<Integer> amounts=new  ArrayList<Integer>();
         ArrayList<String> x_data=new  ArrayList<String>();
+        ArrayList<String> authors=new  ArrayList<String>();
+        ArrayList<String> publishers=new  ArrayList<String>();
+        ArrayList<String> ISBNs=new  ArrayList<String>();
+        ArrayList<String> publisher_times=new  ArrayList<String>();
+        ArrayList<String> accounts=new  ArrayList<String>();
+
         for(int i = 0; i< definedResultList.size(); i++){
             amounts.add(definedResultList.get(i).getAmount());
             x_data.add(definedResultList.get(i).getX_data());
+            if(definedRankSearch.getRank_style()==0){
+                if(definedRankSearch.getBook_rank_type()==0){
+                    authors.add(definedResultList.get(i).getAuthor());
+                    publishers.add(definedResultList.get(i).getPublisher());
+                    ISBNs.add(definedResultList.get(i).getISBN());
+                    publisher_times.add(definedResultList.get(i).getPublisher_time());
+                } else{
+                    accounts.add(definedResultList.get(i).getAccount());
+                }
+            }
         }
         data.put("amounts",amounts);
+        if(definedRankSearch.getRank_style()==0){
+            if(definedRankSearch.getBook_rank_type()==0){
+                data.put("authors",authors);
+                data.put("publishers",publishers);
+                data.put("ISBNs",ISBNs);
+                data.put("publisher_times",publisher_times);
+            } else{
+                data.put("accounts",accounts);
+            }
+        }
         data.put("x_datas",x_data);
         logger.info("查询成功");
         return data;

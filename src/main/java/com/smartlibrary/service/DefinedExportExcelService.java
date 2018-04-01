@@ -5,7 +5,6 @@ import com.smartlibrary.dao.definedContentConvertDao;
 import com.smartlibrary.dao.definedSearchContentDao;
 import com.smartlibrary.dao.definedSearchDao;
 import com.smartlibrary.domain.*;
-import com.smartlibrary.domain2.DefinedPersonAssetSearch;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +20,6 @@ public class DefinedExportExcelService {
     private static final Logger logger = Logger.getLogger(DefinedExportExcelService.class);
     @Autowired
     private definedSearchDao definedsearchDao;
-    @Autowired
-    private definedSearchContentDao definedsearchContentDao;
     @Autowired
     private definedContentConvertDao definedContentConvertDao;
 
@@ -52,11 +49,18 @@ public class DefinedExportExcelService {
             if(definedGctrlSearch.getStyle()==0){
                 exportMap.put("时间", "time");
             }else{
-                exportMap.put("学院", "academy");
+                if(definedGctrlSearch.getAcademy()==null||definedGctrlSearch.getAcademy().isEmpty()||definedGctrlSearch.getAcademy().trim().equals("所有"))
+                    exportMap.put("学院", "academy");
+                else if(definedGctrlSearch.getStudent_style()==null||definedGctrlSearch.getStudent_style().isEmpty()||definedGctrlSearch.getStudent_style().trim().equals("所有"))
+                    exportMap.put("学生类别", "academy");
+                else if(definedGctrlSearch.getStudent_sex()==null||definedGctrlSearch.getStudent_sex().isEmpty()||definedGctrlSearch.getStudent_sex().trim().equals("所有"))
+                    exportMap.put("学生性别", "academy");
+                else
+                    exportMap.put("学生性别", "academy");
             }
             exportMap.put("进馆次数", "amount");
             List<DefinedResult> definedResultList = definedsearchDao.getDefinedGctrl(definedGctrlSearch);
-            ExportExcelUtil.exportExcel("进馆数据分析.xls",exportMap, definedResultList,response,"进馆数据分析",definedGctrlSearch.getSearchContentSubTitle());
+            ExportExcelUtil.exportExcel("进馆数据分析.xls",exportMap, definedResultList,response,"进馆数据分析",definedGctrlSearch.getSearchContentSubTitle(definedContentConvertDao));
             return false;
         }
         return true;
@@ -71,7 +75,7 @@ public class DefinedExportExcelService {
                 exportMap.put("人次", "amount");
             }
             List<DefinedResult> definedResultList = definedsearchDao.getDefinedIc(definedIcSearch);
-            ExportExcelUtil.exportExcel("IC空间数据分析.xls",exportMap, definedResultList,response,"IC空间数据分析",definedIcSearch.getSearchContentSubTitle(definedsearchContentDao.getDefinedStudentStyleContent()));
+            ExportExcelUtil.exportExcel("IC空间数据分析.xls",exportMap, definedResultList,response,"IC空间数据分析",definedIcSearch.getSearchContentSubTitle(definedContentConvertDao));
             return false;
         }
         return true;
@@ -82,7 +86,7 @@ public class DefinedExportExcelService {
             exportMap.put("时间", "time");
             exportMap.put("数量(张)", "amount");
             List<DefinedResult> definedResultList = definedsearchDao.getDefinedPrint(definedPrintSearch);
-            ExportExcelUtil.exportExcel("自助打印复印分析.xls",exportMap, definedResultList,response,"自助打印复印分析",definedPrintSearch.getSearchContentSubTitle(definedsearchContentDao.getDefinedPrintPaperTypeContent()));
+            ExportExcelUtil.exportExcel("自助打印复印分析.xls",exportMap, definedResultList,response,"自助打印复印分析",definedPrintSearch.getSearchContentSubTitle(definedContentConvertDao));
             return false;
         }
         return true;
@@ -97,7 +101,7 @@ public class DefinedExportExcelService {
                 exportMap.put("总数", "amount");
             }
             List<DefinedResult> definedResultList = definedsearchDao.getDefinedPersonAsset(definedPersonAssetSearch);
-            ExportExcelUtil.exportExcel("人员资产统计.xls",exportMap, definedResultList,response,"人员资产统计",definedPersonAssetSearch.getSearchContentSubTitle());
+            ExportExcelUtil.exportExcel("人员资产统计.xls",exportMap, definedResultList,response,"人员资产统计",definedPersonAssetSearch.getSearchContentSubTitle(definedContentConvertDao));
             return false;
         }
         return true;
@@ -124,9 +128,19 @@ public class DefinedExportExcelService {
                 title="打印复印次数排行";
             }
             exportMap.put(first_title, "x_data");
+            if(definedRankSearch.getRank_style()==0){
+                if(definedRankSearch.getBook_rank_type()==0){
+                    exportMap.put("作者", "author");
+                    exportMap.put("ISBN", "ISBN");
+                    exportMap.put("出版社", "publisher");
+                    exportMap.put("出版时间", "publisher_time");
+                }else{
+                    exportMap.put("账号", "account");
+                }
+            }
             exportMap.put(second_title, "amount");
-            List<DefinedResult> definedResultList = definedsearchDao.getDefinedRank(definedRankSearch);
-            ExportExcelUtil.exportExcel("统计排行分析.xls",exportMap, definedResultList,response,title,definedRankSearch.getSearchContentSubTitle(definedsearchContentDao.getDefinedPrintPaperTypeContent()),true,"排名");
+            List<DefinedRankResult> definedResultList = definedsearchDao.getDefinedRank(definedRankSearch);
+            ExportExcelUtil.exportExcel("统计排行分析.xls",exportMap, definedResultList,response,title,definedRankSearch.getSearchContentSubTitle(definedContentConvertDao),true,"排名");
             return false;
         }
         return true;

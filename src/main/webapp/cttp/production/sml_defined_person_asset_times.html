@@ -63,6 +63,8 @@
     var formItems;
     //固定表单参数
     var staticFormItems;
+    //单选参数
+    var singleFormItems;
     //网上获取表单参数
     var netFormItems;
     //存储参数
@@ -195,6 +197,7 @@
         formItems=["style", "asset_type", "birth_start", "birth_end","timeSection", "sex", "profession"];
         staticFormItems=["style", "asset_type", "birth_start", "birth_end","timeSection", "sex"];
         netFormItems=["profession"];
+        singleFormItems=["style","birth_start","birth_end","sex","asset_type"];
     });
 </script>
 
@@ -572,8 +575,8 @@
                     $('#table').bootstrapTable('load',table_datas);
                     $("#toolbar").css("display","inline");
                 }
-                if(param==undefined||store_param==undefined||store_param["param"]==undefined||store_param["param"]!=param)
-                    storeData(formItems);
+                if(store_param==undefined||JSON.stringify(store_param)!=JSON.stringify(param))
+                    storeDataParam(param);
             },
             error:function(data){
                 spinner.spin();
@@ -612,14 +615,21 @@
     }}
 </script>
 
-<!--storeData(formItems)存入数据-->
+<!--storeData、storeDataParam存入数据-->
 <script type="application/javascript">
-    function storeData(Items){{
+    function storeData(Items){
         var temp=getFormContent(formItems)
         localStorage.setItem("sml_defined_person_asset_times", JSON.stringify(temp));
         store_param=temp;
         console.info("存入信息:"+(store_param==undefined?"空":JSON.stringify(store_param)));
-    }};
+    };
+    function storeDataParam(param){
+        if(param==undefined)
+            param=getFormContent(formItems);
+        localStorage.setItem("sml_defined_person_asset_times", JSON.stringify(param));
+        store_param=param;
+        console.info("存入信息:"+(store_param==undefined?"空":JSON.stringify(param)));
+    };
 </script>
 
 <!--setSearchDefaultContent(Items,isAgain)默认值设置-->
@@ -649,9 +659,10 @@
                         $("#birth_end option[value='"+store_param[Items[i]]+"']").attr("selected","selected");//根据值让option选中
                     $("#birth_end").trigger("change");
                 }else{
-                    if(store_param[Items[i]]==undefined || store_param[Items[i]].toString().trim()==""||store_param[Items[i]].toString().trim()=="所有")
-                        $("#"+Items[i]).selectpicker("selectAll");
-                    else
+                    if(store_param[Items[i]]==undefined || store_param[Items[i]].toString().trim()==""||store_param[Items[i]].toString().trim()=="所有"){
+                        if($.inArray(Items[i], singleFormItems)==-1)
+                            $("#"+Items[i]).selectpicker("selectAll");
+                    } else
                         $("#"+Items[i]).selectpicker('val',store_param[Items[i]].split(','));
                     //$("#"+Items[i]+" option[value='"+store_param[Items[i]]+"']").attr("selected","selected");//根据值让option选中
                     $("#"+Items[i]).trigger("change");
@@ -671,7 +682,8 @@
                     $("#birth_end"+" option[value='"+now.format("YYYY")+"']").attr("selected","selected");
                     $("#birth_start").trigger("change");
                 }else{
-                    $("#"+Items[i]).selectpicker("selectAll");
+                    if($.inArray(Items[i], singleFormItems)==-1)
+                        $("#"+Items[i]).selectpicker("selectAll");
                     $("#"+Items[i]).trigger("change");
                 }
             }

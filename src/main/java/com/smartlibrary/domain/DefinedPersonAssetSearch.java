@@ -1,10 +1,12 @@
-package com.smartlibrary.domain2;
+package com.smartlibrary.domain;
 
+import com.smartlibrary.dao.definedContentConvertDao;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class DefinedPersonAssetSearch implements Serializable {
     @NotNull
@@ -19,6 +21,7 @@ public class DefinedPersonAssetSearch implements Serializable {
 
     String sex;
     String profession;
+    String[] professionList;
 
     @NotNull @Size(max=1,min=0)
     int asset_type;//0-设备，1-馆藏
@@ -84,6 +87,18 @@ public class DefinedPersonAssetSearch implements Serializable {
         this.profession = profession;
     }
 
+    public String[] getProfessionList() {
+        return professionList;
+    }
+
+    public void setProfessionList(String[] professionList) {
+        this.professionList = professionList;
+    }
+
+    public int getAsset_type() {
+        return asset_type;
+    }
+
     public int getStyle() {
         return style;
     }
@@ -106,12 +121,13 @@ public class DefinedPersonAssetSearch implements Serializable {
                 ", birth_end='" + birth_end + '\'' +
                 ", sex='" + sex + '\'' +
                 ", profession='" + profession + '\'' +
+                ", professionList=" + Arrays.toString(professionList) +
                 ", asset_type=" + asset_type +
                 ", style=" + style +
                 '}';
     }
 
-    public String getSearchContentSubTitle(){
+    public String getSearchContentSubTitle(definedContentConvertDao definedContentConvertDao){
         String title="";
         if(style==0){
             title+="人员 "+getContent(timeSection,"入职时间")+getContent(birth_start+"-"+birth_end,"出生年份")+getContentofSex(sex,"性别")+getContent(profession,"职称");

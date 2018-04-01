@@ -13,6 +13,14 @@ public class SqlTestHelp {
         return false;
     }
 
+    public static boolean isOnlyOneOfList(String[] list){
+        if(list==null)
+            return false;
+        if(list.length==1)
+            return true;
+        return false;
+    }
+
 
 
 }

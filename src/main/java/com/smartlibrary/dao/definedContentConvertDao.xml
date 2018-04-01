@@ -4,9 +4,27 @@
 <mapper namespace="com.smartlibrary.dao.definedContentConvertDao">
     <!--24小时刷新-->
     <cache flushInterval="86400000"/>
-    <select id="getDefinedContentName" resultType="string">
+    <select id="getDefinedNameOfBookCategoryById" resultType="string">
         SELECT DISTINCT z.name AS name
         FROM z_book_category AS z
+        WHERE z.id in
+        <foreach collection="array" open="(" close=")" separator="," item="item" index="i">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getDefinedNameOfStudentStyleById" resultType="string">
+        SELECT DISTINCT z.name AS name
+        FROM z_identity AS z
+        WHERE z.id in
+        <foreach collection="array" open="(" close=")" separator="," item="item" index="i">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getDefinedNameOfPaperTypeById" resultType="string">
+        SELECT DISTINCT z.name AS name
+        FROM z_printcs_papertype AS z
         WHERE z.id in
         <foreach collection="array" open="(" close=")" separator="," item="item" index="i">
             #{item}

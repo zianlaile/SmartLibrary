@@ -1,7 +1,7 @@
 package com.smartlibrary.dao2;
 
+import com.smartlibrary.domain.DefinedPersonAssetSearch;
 import com.smartlibrary.domain.DefinedResult;
-import com.smartlibrary.domain2.DefinedPersonAssetSearch;
 
 import java.util.List;
 

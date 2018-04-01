@@ -63,6 +63,8 @@
     var formItems;
     //固定表单参数
     var staticFormItems;
+    //单选参数
+    var singleFormItems;
     //网上获取表单参数
     var netFormItems;
     //存储参数
@@ -505,8 +507,8 @@
                     $('#table').bootstrapTable('load',table_datas);
                     $("#toolbar").css("display","inline");
                 }
-                if(param==undefined||store_param==undefined||store_param["param"]==undefined||store_param["param"]!=param)
-                    storeData(formItems);
+                if(store_param==undefined||JSON.stringify(store_param)!=JSON.stringify(param))
+                    storeDataParam(param);
             },
             error:function(data){
                 spinner.spin();
@@ -545,14 +547,21 @@
     }}
 </script>
 
-<!--storeData(formItems)存入数据-->
+<!--storeData、storeDataParam存入数据-->
 <script type="application/javascript">
-    function storeData(Items){{
+    function storeData(Items){
         var temp=getFormContent(formItems)
         localStorage.setItem("sml_defined_printcs_times", JSON.stringify(temp));
         store_param=temp;
         console.info("存入信息:"+(store_param==undefined?"空":JSON.stringify(store_param)));
-    }};
+    };
+    function storeDataParam(param){
+        if(param==undefined)
+            param=getFormContent(formItems);
+        localStorage.setItem("sml_defined_printcs_times", JSON.stringify(param));
+        store_param=param;
+        console.info("存入信息:"+(store_param==undefined?"空":JSON.stringify(param)));
+    };
 </script>
 
 <!--setSearchDefaultContent(Items,isAgain)默认值设置-->

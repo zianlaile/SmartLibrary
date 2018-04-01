@@ -29,7 +29,7 @@
         GROUP BY year
         ORDER BY year
     </sql>
-    <select id="getDefinedPersonAsset" parameterType="com.smartlibrary.domain2.DefinedPersonAssetSearch" resultType="com.smartlibrary.domain.DefinedResult">
+    <select id="getDefinedPersonAsset" parameterType="com.smartlibrary.domain.DefinedPersonAssetSearch" resultType="com.smartlibrary.domain.DefinedResult">
         <choose>
             <when test="style==0">
                 <include refid="getDefinedPerson"></include>

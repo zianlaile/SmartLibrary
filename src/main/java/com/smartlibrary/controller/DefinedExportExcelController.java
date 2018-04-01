@@ -1,7 +1,6 @@
 package com.smartlibrary.controller;
 
 import com.smartlibrary.domain.*;
-import com.smartlibrary.domain2.DefinedPersonAssetSearch;
 import com.smartlibrary.service.DefinedExportExcelService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

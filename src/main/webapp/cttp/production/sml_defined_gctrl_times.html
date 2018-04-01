@@ -63,6 +63,8 @@
     var formItems;
     //固定表单参数
     var staticFormItems;
+    //单选参数
+    var singleFormItems;
     //网上获取表单参数
     var netFormItems;
     //存储参数
@@ -137,6 +139,7 @@
         formItems=["timeSection", "academy", "student_style", "student_sex", "style"];
         staticFormItems=["timeSection","student_sex","style"];
         netFormItems=["academy", "student_style"];
+        singleFormItems=["student_sex","style"];
     });
 
 </script>
@@ -332,14 +335,14 @@
                 }]
             });
         }else{
-            if($("#academy").val()=="")
+            if($("[data-id=academy] .filter-option").text().trim()=="所有")
                 $(".chart_title p").text("进馆数据分析-学院排名(前10)");
-            else if($("#student_style").val()=="")
+            else if($("[data-id=student_style] .filter-option").text().trim()=="所有")
                 $(".chart_title p").text("进馆数据分析-学生类别排名(前10)");
             else if($("#student_sex").val()=="")
                 $(".chart_title p").text("进馆数据分析-性别排名(前10)");
             else
-                $(".chart_title p").text("进馆数据分析-"+"男排名"+"(前10)");
+                $(".chart_title p").text("进馆数据分析-"+($("#student_sex").val()=="M"?"男":"女")+"排名"+"(前10)");
             $("#largeChart").css("display","none");
             $("#largeChart2").css("display","block")
             largeChart = echarts.init(document.getElementById('largeChart2'));
@@ -531,14 +534,14 @@
                 }]
             });
         }else{
-            if($("#academy").val()=="")
+            if($("[data-id=academy] .filter-option").text().trim()=="所有")
                 $("#title").text("进馆数据分析-学院排名(前10)");
-            else if($("#student_style").val()=="")
+            else if($("[data-id=student_style] .filter-option").text().trim()=="所有")
                 $("#title").text("进馆数据分析-学生类别排名(前10)");
             else if($("#student_sex").val()=="")
                 $("#title").text("进馆数据分析-性别排名(前10)");
             else
-                $("#title").text("进馆数据分析-"+"男排名"+"(前10)");
+                $("#title").text("进馆数据分析-"+($("#student_sex").val()=="M"?"男":"女")+"排名"+"(前10)");
             $("#searchEcharts").css("display","none");
             $("#searchEcharts2").css("display","block")
             searchEcharts = echarts.init(document.getElementById('searchEcharts2'));
@@ -689,8 +692,8 @@
                             return {id:index+1,time:datas.times[index],amount:item};
                         });
                     else{
-                        //处理数据
-                        if($("#academy").val()!=""&&$("#student_style").val()!=""){
+                        if($("[data-id=academy] .filter-option").text().trim()!="所有"
+                            &&$("[data-id=student_style] .filter-option").text().trim()!="所有"){
                             for(var i=0;i<data.academys.length;i++){
                                 if(data.academys[i]=="M") data.academys[i]="男";
                                 else data.academys[i]="女";
@@ -714,7 +717,7 @@
                         {
                             field: 'time',
                             align:'center',
-                            title: $("#style").val()==0?'时间':($("#academy").val()==""?"学院":($("#student_style").val()==""?"学生类别":"性别"))
+                            title: $("#style").val()==0?'时间':($("[data-id=academy] .filter-option").text().trim()=="所有"?"学院":($("[data-id=student_style] .filter-option").text().trim()=="所有"?"学生类别":"性别"))
                         }, {
                             field: 'amount',
                             align:'center',
@@ -723,8 +726,8 @@
                     $('#table').bootstrapTable('load',table_datas);
                     $("#toolbar").css("display","inline");
                 }
-                if(param==undefined||store_param==undefined||store_param["param"]==undefined||store_param["param"]!=param)
-                    storeData(formItems);
+                if(store_param==undefined||JSON.stringify(store_param)!=JSON.stringify(param))
+                    storeDataParam(param);
             },
             error:function(data){
                 spinner.spin();
@@ -763,14 +766,21 @@
     }}
 </script>
 
-<!--storeData(formItems)存入数据-->
+<!--storeData、storeDataParam存入数据-->
 <script type="application/javascript">
-    function storeData(Items){{
+    function storeData(Items){
         var temp=getFormContent(formItems)
         localStorage.setItem("sml_defined_gctrl_times", JSON.stringify(temp));
         store_param=temp;
         console.info("存入信息:"+(store_param==undefined?"空":JSON.stringify(store_param)));
-    }};
+    };
+    function storeDataParam(param){
+        if(param==undefined)
+            param=getFormContent(formItems);
+        localStorage.setItem("sml_defined_gctrl_times", JSON.stringify(param));
+        store_param=param;
+        console.info("存入信息:"+(store_param==undefined?"空":JSON.stringify(param)));
+    };
 </script>
 
 <!--setSearchDefaultContent(Items,isAgain)默认值设置-->
@@ -788,8 +798,10 @@
                     $('#daterange').data('daterangepicker').setEndDate(cc[2]+""+cc[1]+""+cc[0]);
                     $("#timeSection").val(store_param["timeSection"]);
                 }else{
-                    if(store_param[Items[i]]==undefined || store_param[Items[i]].toString().trim()==""||store_param[Items[i]].toString().trim()=="所有")
-                        $("#"+Items[i]).selectpicker("selectAll");
+                    if(store_param[Items[i]]==undefined || store_param[Items[i]].toString().trim()==""||store_param[Items[i]].toString().trim()=="所有"){
+                        if($.inArray(Items[i], singleFormItems)==-1)
+                            $("#"+Items[i]).selectpicker("selectAll");
+                    }
                     else
                         $("#"+Items[i]).selectpicker('val',store_param[Items[i]].split(','));
                     //$("#"+Items[i]+" option[value='"+store_param[Items[i]]+"']").attr("selected","selected");//根据值让option选中
@@ -804,7 +816,8 @@
                     $('#daterange').data('daterangepicker').setEndDate("03/01/2018");
                     $('#timeSection').val("2014/02/01 - 2018/03/01");
                 }else{
-                    $("#"+Items[i]).selectpicker("selectAll");
+                    if($.inArray(Items[i], singleFormItems)==-1)
+                        $("#"+Items[i]).selectpicker("selectAll");
                     $("#"+Items[i]).trigger("change");
                 }
             }

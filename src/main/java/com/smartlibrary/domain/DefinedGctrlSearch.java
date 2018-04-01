@@ -1,10 +1,12 @@
 package com.smartlibrary.domain;
 
+import com.smartlibrary.dao.definedContentConvertDao;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class DefinedGctrlSearch implements Serializable {
     @NotNull
@@ -14,7 +16,9 @@ public class DefinedGctrlSearch implements Serializable {
     @NotNull @DateTimeFormat(pattern = "yyyy/MM/dd")
     String end_time;
     String academy;
+    String[] academyList;
     String student_style;
+    String[] student_styleList;
     String student_sex;
 
     @NotNull @Size(max=1,min=0)
@@ -51,7 +55,16 @@ public class DefinedGctrlSearch implements Serializable {
     }
 
     public void setAcademy(String academy) {
+        academyList=academy.split(",");
         this.academy = academy;
+    }
+
+    public String[] getAcademyList() {
+        return academyList;
+    }
+
+    public void setAcademyList(String[] academyList) {
+        this.academyList = academyList;
     }
 
     public String getStudent_style() {
@@ -59,7 +72,16 @@ public class DefinedGctrlSearch implements Serializable {
     }
 
     public void setStudent_style(String student_style) {
+        student_styleList=student_style.split(",");
         this.student_style = student_style;
+    }
+
+    public String[] getStudent_styleList() {
+        return student_styleList;
+    }
+
+    public void setStudent_styleList(String[] student_styleList) {
+        this.student_styleList = student_styleList;
     }
 
     public String getStudent_sex() {
@@ -85,13 +107,15 @@ public class DefinedGctrlSearch implements Serializable {
                 ", start_time='" + start_time + '\'' +
                 ", end_time='" + end_time + '\'' +
                 ", academy='" + academy + '\'' +
+                ", academyList=" + Arrays.toString(academyList) +
                 ", student_style='" + student_style + '\'' +
+                ", student_styleList=" + Arrays.toString(student_styleList) +
                 ", student_sex='" + student_sex + '\'' +
                 ", style=" + style +
                 '}';
     }
 
-    public String getSearchContentSubTitle(){
+    public String getSearchContentSubTitle(definedContentConvertDao definedContentConvertDao){
         String title=getContent(timeSection,"时间")+getContent(academy,"学院")+getContent(student_style,"学生种类")+getContentofSex(student_sex,"性别");
         if(style==0)
             title+="总数";

@@ -83,11 +83,11 @@ public class ExportExcelUtil {
 
             /** ***************以下是EXCEL开头大标题，暂时省略********************* */
             sheet.setRowView(0, sheet.getSettings().getDefaultRowHeight()*2);// 设置第一行宽度
-            sheet.mergeCells(0, 0, 5, 0);
+            sheet.mergeCells(0, 0, 6, 0);
             sheet.addCell(new Label(0, 0, title+"（数据量："+listContent.size()+"条)", wcf_center));
             /** ***************以下是EXCEL副标题，暂时省略********************* */
             sheet.setRowView(1, sheet.getSettings().getDefaultRowHeight()*2);// 设置第二行宽度
-            sheet.mergeCells(0, 1, 5, 1);
+            sheet.mergeCells(0, 1, 6, 1);
             sheet.addCell(new Label(0, 1, subTitle, wcf_center));
             /** ***************以下是EXCEL第一行列标题********************* */
             Object[] columArr = exportMap.keySet().toArray();

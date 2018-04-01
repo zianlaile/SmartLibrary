@@ -21,7 +21,7 @@
                 #{item}
             </foreach>
         </if>
-        <if test="student_sex != null and student_sex != ''">
+        <if test="student_sex != null and student_sex != '' and student_sex != '所有'">
             AND z.`reader_gender` = #{student_sex}
         </if>
         <if test="publisher != null and publisher != '' and publisher != '所有'">
@@ -56,7 +56,7 @@
                 #{item}
             </foreach>
         </if>
-        <if test="student_sex != null and student_sex != ''">
+        <if test="student_sex != null and student_sex != '' and student_sex != '所有'">
             AND z.`reader_gender` = #{student_sex}
         </if>
         <if test="publisher != null and publisher != '' and publisher != '所有'">
@@ -91,7 +91,7 @@
                 #{item}
             </foreach>
         </if>
-        <if test="student_sex != null and student_sex != ''">
+        <if test="student_sex != null and student_sex != '' and student_sex != '所有'">
             AND z.`reader_gender` = #{student_sex}
         </if>
         <if test="publisher != null and publisher != '' and publisher != '所有'">
@@ -143,32 +143,38 @@
         SELECT count(*) AS amount,DATE_FORMAT(z.enter_time, '%Y/%m/%d') AS time
         FROM z_gctrl_ctrl_sys as z
         WHERE (z.enter_time BETWEEN #{start_time} AND #{end_time})
-        <if test="academy != null and academy != ''">
-            AND z.`academy` = #{academy}
+        <if test="academy != null and academy != '' and academy != '所有'">
+            AND z.`academy` in
+            <foreach collection="academyList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="student_style != null and student_style != ''">
-            AND z.`identity` = #{student_style}
+        <if test="student_style != null and student_style != '' and student_style != '所有'">
+            AND z.`identity` in
+            <foreach collection="student_styleList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="student_sex != null and student_sex != ''">
+        <if test="student_sex != null and student_sex != '' and student_sex != '所有'">
             AND z.`gender` = #{student_sex}
         </if>
         GROUP BY time
-        ORDER BY z.enter_time
+        ORDER BY time
     </sql>
     <!--进馆排名-->
     <sql id="getDefinedGctrl_Rank">
         <choose>
-            <when test="academy == null or academy == ''">
+            <when test="academy == null or academy == '' or academy == '所有'">
                 <include refid="getDefinedGctrlRankOfAcademy"></include>
             </when>
             <otherwise>
                 <choose>
-                    <when test="student_style == null or student_style == ''">
+                    <when test="student_style == null or student_style == '' or student_style == '所有'">
                         <include refid="getDefinedGctrlRankOfStyle"></include>
                     </when>
                     <otherwise>
                         <choose>
-                            <when test="student_sex == null or student_sex == ''">
+                            <when test="student_sex == null or student_sex == '' or student_sex == '所有'">
                                 <include refid="getDefinedGctrlRankOfSex"></include>
                             </when>
                             <otherwise>
@@ -185,13 +191,19 @@
         SELECT z.`academy` AS academy,count(*) AS amount
         FROM z_gctrl_ctrl_sys as z
         WHERE (z.enter_time BETWEEN #{start_time} AND #{end_time})
-        <if test="academy != null and academy != ''">
-            AND z.`academy` = #{academy}
+        <if test="academy != null and academy != '' and academy != '所有'">
+            AND z.`academy` in
+            <foreach collection="academyList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="student_style != null and student_style != ''">
-            AND z.`identity` = #{student_style}
+        <if test="student_style != null and student_style != '' and student_style != '所有'">
+            AND z.`identity` in
+            <foreach collection="student_styleList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="student_sex != null and student_sex != ''">
+        <if test="student_sex != null and student_sex != '' and student_sex != '所有'">
             AND z.`gender` = #{student_sex}
         </if>
         GROUP BY z.`academy`
@@ -203,13 +215,19 @@
         SELECT z.`identity` AS academy,count(*) AS amount
         FROM z_gctrl_ctrl_sys as z
         WHERE (z.enter_time BETWEEN #{start_time} AND #{end_time})
-        <if test="academy != null and academy != ''">
-            AND z.`academy` = #{academy}
+        <if test="academy != null and academy != '' and academy != '所有'">
+            AND z.`academy` in
+            <foreach collection="academyList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="student_style != null and student_style != ''">
-            AND z.`identity` = #{student_style}
+        <if test="student_style != null and student_style != '' and student_style != '所有'">
+            AND z.`identity` in
+            <foreach collection="student_styleList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="student_sex != null and student_sex != ''">
+        <if test="student_sex != null and student_sex != '' and student_sex != '所有'">
             AND z.`gender` = #{student_sex}
         </if>
         GROUP BY z.`identity`
@@ -221,13 +239,19 @@
         SELECT z.`gender` AS academy,count(*) AS amount
         FROM z_gctrl_ctrl_sys as z
         WHERE (z.enter_time BETWEEN #{start_time} AND #{end_time})
-        <if test="academy != null and academy != ''">
-            AND z.`academy` = #{academy}
+        <if test="academy != null and academy != '' and academy != '所有'">
+            AND z.`academy` in
+            <foreach collection="academyList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="student_style != null and student_style != ''">
-            AND z.`identity` = #{student_style}
+        <if test="student_style != null and student_style != '' and student_style != '所有'">
+            AND z.`identity` in
+            <foreach collection="student_styleList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="student_sex != null and student_sex != ''">
+        <if test="student_sex != null and student_sex != '' and student_sex != '所有'">
             AND z.`gender` = #{student_sex}
         </if>
         GROUP BY z.`gender`
@@ -239,13 +263,19 @@
         SELECT z.`gender` AS academy,count(*) AS amount
         FROM z_gctrl_ctrl_sys as z
         WHERE (z.enter_time BETWEEN #{start_time} AND #{end_time})
-        <if test="academy != null and academy != ''">
-            AND z.`academy` = #{academy}
+        <if test="academy != null and academy != '' and academy != '所有'">
+            AND z.`academy` in
+            <foreach collection="academyList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="student_style != null and student_style != ''">
-            AND z.`identity` = #{student_style}
+        <if test="student_style != null and student_style != '' and student_style != '所有'">
+            AND z.`identity` in
+            <foreach collection="student_styleList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="student_sex != null and student_sex != ''">
+        <if test="student_sex != null and student_sex != '' and student_sex != '所有'">
             AND z.`gender` = #{student_sex}
         </if>
         GROUP BY z.`gender`
@@ -266,91 +296,76 @@
         </choose>
     </select>
 
-
-    <sql id="getDefinedIc0">
-        SELECT DATE_FORMAT(zz.ymddate, '%Y/%m/%d') AS time,
-        <choose>
-            <when test="ic_type == 0 and style==1">
-                zz.croom_times
-            </when>
-            <when test="ic_type == 0 and style==0">
-                zz.croom_duration
-            </when>
-            <when test="ic_type == 1 and style==1">
-                zz.seat_times
-            </when>
-            <when test="ic_type == 1 and style==0">
-                zz.seat_duration
-            </when>
-            <when test="ic_type == 2 and style==1">
-                zz.eread_times
-            </when>
-            <when test="ic_type == 2 and style==0">
-                zz.eread_duration
-            </when>
-            <when test="ic_type == 3 and style==1">
-                zz.equipment_times
-            </when>
-            <when test="ic_type == 3 and style==0">
-                zz.equipment_duration
-            </when>
-            <otherwise>
-                zz.croom_times
-            </otherwise>
-        </choose>
-        AS amount
-        FROM zz_ic_day_identity as zz
-        WHERE (zz.ymddate BETWEEN #{start_time} AND #{end_time})
-        AND zz.`user_type` = #{student_style}
-        ORDER BY zz.ymddate
-    </sql>
-    <sql id="getDefinedIc1">
-        SELECT DATE_FORMAT(zz.ymddate, '%Y/%m/%d') AS time,
-        <choose>
-            <when test="ic_type == 0 and style==1">
-                SUM(zz.croom_times)
-            </when>
-            <when test="ic_type == 0 and style==0">
-                SUM(zz.croom_duration)
-            </when>
-            <when test="ic_type == 1 and style==1">
-                SUM(zz.seat_times)
-            </when>
-            <when test="ic_type == 1 and style==0">
-                SUM(zz.seat_duration)
-            </when>
-            <when test="ic_type == 2 and style==1">
-                SUM(zz.eread_times)
-            </when>
-            <when test="ic_type == 2 and style==0">
-                SUM(zz.eread_duration)
-            </when>
-            <when test="ic_type == 3 and style==1">
-                SUM(zz.equipment_times)
-            </when>
-            <when test="ic_type == 3 and style==0">
-                SUM(zz.equipment_duration)
-            </when>
-            <otherwise>
-                SUM(zz.croom_times)
-            </otherwise>
-        </choose>
-        AS amount
-        FROM zz_ic_day_identity as zz
-        WHERE (zz.ymddate BETWEEN #{start_time} AND #{end_time})
-        GROUP BY time
-        ORDER BY zz.ymddate
-    </sql>
     <!--IC-->
     <select id="getDefinedIc" parameterType="com.smartlibrary.domain.DefinedIcSearch" resultType="com.smartlibrary.domain.DefinedResult">
-        <choose>
-            <when test="student_style != null and student_style != ''">
-                <include refid="getDefinedIc0"></include>
-            </when>
-            <otherwise>
-                <include refid="getDefinedIc1"></include>
-            </otherwise>
-        </choose>
+        SELECT DATE_FORMAT(zz.ymddate, '%Y/%m/%d') AS time,
+        <trim prefix="(" prefixOverrides="+" suffix=")">
+            <choose>
+                <when test="ic_type != null and ic_type != '' and ic_type != '所有'">
+                    <if test="@com.smartlibrary.common.SqlTestHelp@isInList('0',ic_typeList)">
+                        <choose>
+                            <when test="style == 0">
+                                + SUM(zz.croom_duration)
+                            </when>
+                            <otherwise>
+                                + SUM(zz.croom_times)
+                            </otherwise>
+                        </choose>
+                    </if>
+                    <if test="@com.smartlibrary.common.SqlTestHelp@isInList('1',ic_typeList)">
+                        <choose>
+                            <when test="style == 0">
+                                + SUM(zz.seat_duration)
+                            </when>
+                            <otherwise>
+                                + SUM(zz.seat_times)
+                            </otherwise>
+                        </choose>
+                    </if>
+                    <if test="@com.smartlibrary.common.SqlTestHelp@isInList('2',ic_typeList)">
+                        <choose>
+                            <when test="style == 0">
+                                + SUM(zz.eread_duration)
+                            </when>
+                            <otherwise>
+                                + SUM(zz.eread_times)
+                            </otherwise>
+                        </choose>
+                    </if>
+                    <if test="@com.smartlibrary.common.SqlTestHelp@isInList('3',ic_typeList)">
+                        <choose>
+                            <when test="style == 0">
+                                + SUM(zz.equipment_duration)
+                            </when>
+                            <otherwise>
+                                + SUM(zz.equipment_times)
+                            </otherwise>
+                        </choose>
+                    </if>
+                </when>
+                <otherwise>
+                    <choose>
+                        <when test="style == 0">
+                            + SUM(zz.croom_duration) + SUM(zz.seat_duration) + SUM(zz.eread_duration) + SUM(zz.equipment_duration)
+                        </when>
+                        <otherwise>
+                            + SUM(zz.croom_times) + SUM(zz.seat_times) + SUM(zz.eread_times) + SUM(zz.equipment_times)
+                        </otherwise>
+                    </choose>
+                </otherwise>
+            </choose>
+        </trim>
+        AS  amount
+        FROM zz_ic_day_identity as zz
+        WHERE (zz.ymddate BETWEEN #{start_time} AND #{end_time})
+        <if test="student_style != null and student_style != '' and student_style != '所有'">
+            AND zz.`user_type` in
+            <foreach collection="student_styleList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
+        </if>
+        GROUP BY time
+        ORDER BY time
     </select>
 
     <!--打印复印-->
@@ -358,29 +373,41 @@
         SELECT count(*) AS amount,DATE_FORMAT(z.print_time, '%Y/%m/%d') AS time
         FROM z_printcs_sys AS z
         WHERE (z.print_time BETWEEN #{start_time} AND #{end_time})
-        <if test="print_type != null and print_type != ''">
-            AND z.`print_type` = #{print_type}
+        <if test="print_type != null and print_type != '' and print_type != '所有'">
+            AND z.`print_type` in
+            <foreach collection="print_typeList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="print_location != null and print_location != ''">
-            AND z.`print_location` = #{print_location}
+        <if test="print_location != null and print_location != '' and print_location != '所有'">
+            AND z.`print_location` in
+            <foreach collection="print_locationList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="paper_type != null and paper_type != ''">
-            AND z.`paper_type` = #{paper_type}
+        <if test="paper_type != null and paper_type != '' and paper_type != '所有'">
+            AND z.`paper_type` in
+            <foreach collection="paper_typeList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
         GROUP BY time
-        ORDER BY z.print_time
+        ORDER BY time
     </select>
 
-    <!--人员-->
+    <!--人员  出生日期没查-->
     <sql id="getDefinedPerson">
         SELECT DATE_FORMAT(dwBirthDate, '%Y') AS year,COUNT(*) AS amount
         FROM app_employee
         WHERE (DATE_FORMAT(dwBirthDate, '%Y') BETWEEN #{birth_start} AND #{birth_end})
-        <if test="sex != null and sex != ''">
+        <if test="sex != null and sex != '' and sex != '所有'">
             AND dwSex = #{sex}
         </if>
-        <if test="profession != null and profession != ''">
-            AND dwjobTitle = #{profession}
+        <if test="profession != null and profession != '' and profession != '所有'">
+            AND dwjobTitle in
+            <foreach collection="professionList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
         GROUP BY year
         ORDER BY year
@@ -402,7 +429,7 @@
         ORDER BY year
     </sql>
     <!--人员资产-->
-    <select id="getDefinedPersonAsset" parameterType="com.smartlibrary.domain2.DefinedPersonAssetSearch" resultType="com.smartlibrary.domain.DefinedResult">
+    <select id="getDefinedPersonAsset" parameterType="com.smartlibrary.domain.DefinedPersonAssetSearch" resultType="com.smartlibrary.domain.DefinedResult">
         <choose>
             <when test="style==0">
                 <include refid="getDefinedPerson"></include>
@@ -429,33 +456,72 @@
 
     <!--借阅排名-->
     <sql id="getDefinedBookRank0">
-        SELECT count(*) AS amount,z.`book_name` AS x_data
+        SELECT z1.amount AS amount,z1.x_data AS x_data,z2.ISBN AS ISBN,z2.author AS author,z2.publisher AS publisher,z2.pubYear AS publisher_time
+        FROM(
+        SELECT count(*) AS amount,z.`book_name` AS x_data,z.book_no AS book_no
         FROM z_book_lend_sys AS z
         WHERE (z.operation_time BETWEEN #{start_time} AND #{end_time})
-        <if test="academy != null and academy != ''">
-            AND z.`reader_academy` = #{academy}
+        <if test="academy != null and academy != '' and academy != '所有'">
+            AND z.`reader_academy` in
+            <foreach collection="academyList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="student_style != null and student_style != ''">
-            AND z.`reader_identity` = #{student_style}
+        <if test="student_style != null and student_style != '' and student_style != '所有'">
+            AND z.`reader_identity` in
+            <foreach collection="student_styleList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="student_sex != null and student_sex != ''">
+        <if test="student_sex != null and student_sex != '' and student_sex != '所有'">
             AND z.`reader_gender` = #{student_sex}
         </if>
-        GROUP BY z.`book_no`
+        GROUP BY z.`book_name`
         ORDER BY amount DESC
         LIMIT #{rank_number}
+        ) AS z1 LEFT JOIN z_book AS z2 ON z1.book_no=z2.bookNo
+
     </sql>
-    <sql id="getDefinedBookRank1">
-        SELECT count(*) AS amount,z.`reader_name` AS x_data
+    <!--<sql id="getDefinedBookRank0">
+        SELECT count(*) AS amount,z.book_name AS x_data,z.book_author AS author,z.book_publisher AS publisher,z.book_pubYear AS publisher_time
         FROM z_book_lend_sys AS z
         WHERE (z.operation_time BETWEEN #{start_time} AND #{end_time})
-        <if test="academy != null and academy != ''">
-            AND z.`reader_academy` = #{academy}
+        <if test="academy != null and academy != '' and academy != '所有'">
+            AND z.`reader_academy` in
+            <foreach collection="academyList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="student_style != null and student_style != ''">
-            AND z.`reader_identity` = #{student_style}
+        <if test="student_style != null and student_style != '' and student_style != '所有'">
+            AND z.`reader_identity` in
+            <foreach collection="student_styleList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="student_sex != null and student_sex != ''">
+        <if test="student_sex != null and student_sex != '' and student_sex != '所有'">
+            AND z.`reader_gender` = #{student_sex}
+        </if>
+        GROUP BY z.`book_name`
+        ORDER BY amount DESC
+        LIMIT #{rank_number}
+    </sql>-->
+    <sql id="getDefinedBookRank1">
+        SELECT count(*) AS amount,z.`reader_name` AS x_data,z.account AS account
+        FROM z_book_lend_sys AS z
+        WHERE (z.operation_time BETWEEN #{start_time} AND #{end_time})
+        <if test="academy != null and academy != '' and academy != '所有'">
+            AND z.`reader_academy` in
+            <foreach collection="academyList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
+        </if>
+        <if test="student_style != null and student_style != '' and student_style != '所有'">
+            AND z.`reader_identity` in
+            <foreach collection="student_styleList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
+        </if>
+        <if test="student_sex != null and student_sex != '' and student_sex != '所有'">
             AND z.`reader_gender` = #{student_sex}
         </if>
         GROUP BY z.`account`
@@ -467,13 +533,19 @@
         SELECT count(*) AS amount,DATE_FORMAT(z.enter_time, '%Y/%m/%d') AS x_data
         FROM z_gctrl_ctrl_sys AS z
         WHERE (z.enter_time BETWEEN #{start_time} AND #{end_time})
-        <if test="academy != null and academy != ''">
-            AND z.`academy` = #{academy}
+        <if test="academy != null and academy != '' and academy != '所有'">
+            AND z.`academy` in
+            <foreach collection="academyList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="student_style != null and student_style != ''">
-            AND z.`identity` = #{student_style}
+        <if test="student_style != null and student_style != '' and student_style != '所有'">
+            AND z.`identity` in
+            <foreach collection="student_styleList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="student_sex != null and student_sex != ''">
+        <if test="student_sex != null and student_sex != '' and student_sex != '所有'">
             AND z.`gender` = #{student_sex}
         </if>
         GROUP BY x_data
@@ -485,21 +557,30 @@
         SELECT count(*) AS amount,DATE_FORMAT(z.print_time, '%Y/%m/%d') AS x_data
         FROM z_printcs_sys AS z
         WHERE (z.print_time BETWEEN #{start_time} AND #{end_time})
-        <if test="print_type != null and print_type != ''">
-            AND z.`print_type` = #{print_type}
+        <if test="print_type != null and print_type != '' and print_type != '所有'">
+            AND z.`print_type` in
+            <foreach collection="print_typeList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="print_location != null and print_location != ''">
-            AND z.`print_location` = #{print_location}
+        <if test="print_location != null and print_location != '' and print_location != '所有'">
+            AND z.`print_location` in
+            <foreach collection="print_locationList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
-        <if test="paper_type != null and paper_type != ''">
-            AND z.`paper_type` = #{paper_type}
+        <if test="paper_type != null and paper_type != '' and paper_type != '所有'">
+            AND z.`paper_type` in
+            <foreach collection="paper_typeList" open="(" close=")" separator="," item="item" index="i">
+                #{item}
+            </foreach>
         </if>
         GROUP BY x_data
         ORDER BY amount DESC
         LIMIT #{rank_number}
     </sql>
     <!--排名统计-->
-    <select id="getDefinedRank" parameterType="com.smartlibrary.domain.DefinedRankSearch" resultType="com.smartlibrary.domain.DefinedResult">
+    <select id="getDefinedRank" parameterType="com.smartlibrary.domain.DefinedRankSearch" resultType="com.smartlibrary.domain.DefinedRankResult">
         <choose>
             <when test="rank_style==0">
                 <choose>

@@ -175,7 +175,7 @@ public class DefinedBookSearch implements Serializable {
     public String getSearchContentSubTitle(definedContentConvertDao definedContentConvertDao){
         String title=getContent(timeSection,"时间")+getContent(academy,"学院")+getContent(student_style,"学生类别")
                 +getContentofSex(student_sex,"性别")+getContent(publisher,"出版社")
-                +getContentofConvert(book_styleList,"图书种类",definedContentConvertDao);
+                +getContentofConvert(book_style,book_styleList,"图书种类",definedContentConvertDao);
         if(lend_style==null||lend_style.trim().equals("")||lend_style.trim().equals("所有"))
             title+="借书还书续借";
         else{
@@ -205,9 +205,11 @@ public class DefinedBookSearch implements Serializable {
             return "所有"+tip+" ";
     }
 
-    private String getContentofConvert(String[] s,String tip,definedContentConvertDao definedContentConvertDao){
+    private String getContentofConvert(String str,String[] s,String tip,definedContentConvertDao definedContentConvertDao){
+        if(str==null||str.isEmpty()||str.trim().equals("所有"))
+            return "所有"+tip+" ";
         if(s!=null&&s.length!=0)
-            return tip+":"+String.join(",", definedContentConvertDao.getDefinedContentName(s)).trim()+" ";
+            return tip+":"+String.join(",", definedContentConvertDao.getDefinedNameOfBookCategoryById(s)).trim()+" ";
         else
             return "所有"+tip+" ";
     }

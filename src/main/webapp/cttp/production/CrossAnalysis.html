@@ -18,23 +18,23 @@
     <script src="../libraryreport/template.js"></script>
 </head>
 <body>
-<div class="page chapter" style="height: auto; width: 80%;">
-    <div style="width: 95%; margin: 0 auto; display:flex; display: -webkit-flex; align-items:center;">
-        <span style="font-size: 25px; font-weight: bold;">当前显示</span>
-        <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span id="YearChosen"></span><span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a href="#"><span id="Year1"></span></a></li>
-                <li><a href="#"><span id="Year2"></span></a></li>
-                <li><a href="#"><span id="Year3"></span></a></li>
-                <li><a href="#"><span id="Year4"></span></a></li>
-            </ul>
-        </div>
-        <span style="font-size: 25px; font-weight: bold;">年图书馆交叉分析</span>
-    </div>
-</div>
+<!--<div class="page chapter" style="height: auto; width: 80%;">-->
+    <!--<div style="width: 95%; margin: 0 auto; display:flex; display: -webkit-flex; align-items:center;">-->
+        <!--&lt;!&ndash;<span style="font-size: 25px; font-weight: bold;">当前显示</span>&ndash;&gt;-->
+        <!--<div class="btn-group">-->
+            <!--<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                <!--<span id="YearChosen"></span><span class="caret"></span>-->
+            <!--</button>-->
+            <!--<ul class="dropdown-menu">-->
+                <!--<li><a href="#"><span id="Year1"></span></a></li>-->
+                <!--<li><a href="#"><span id="Year2"></span></a></li>-->
+                <!--<li><a href="#"><span id="Year3"></span></a></li>-->
+                <!--<li><a href="#"><span id="Year4"></span></a></li>-->
+            <!--</ul>-->
+        <!--</div>-->
+        <!--<span style="font-size: 25px; font-weight: bold;">年图书馆交叉分析</span>-->
+    <!--</div>-->
+<!--</div>-->
 <div class="page chapter" id="CrossAnalysisByDay" style="height: auto; width: 80%">
     <div class="second-title" style="font-size:25px;">图书馆各时段情况统计分析
         <!--<a href=\"CrossAnalysis.html\" style="text-decoration: underline"> 2017 </a>-->
@@ -72,7 +72,7 @@
         getCrossAnalysisByMonth();
         getCrossAnalysisByAcademyInUnderGraduate();
         getCrossAnalysisByAcademyInGraduate();
-        initYearSelection(); //初始化年份选择下拉框
+        // initYearSelection(); //初始化年份选择下拉框
     })
 </script>
 <script type="application/javascript">
@@ -175,27 +175,26 @@ function getCrossAnalysisByAcademyInGraduate() {
     }
 </script>
 
-<script type="application/javascript">
-    function initYearSelection(){
-        var date = new Date();
-        var year = date.getFullYear(); //获取当前年份
-        var month = date.getMonth() + 1; //获取当前月份
-        if(month < 9) year = year - 1;
-        $("#YearChosen").text(year);
-        $("#Year1").text(year);
-        year--;
-        $("#Year2").text(year);
-        year--;
-        $("#Year3").text(year);
-        year--;
-        $("#Year4").text(year);
-        $("ul").children().click(function () {
-            var yearChosen = $(this).find("span").text();
-            $("#YearChosen").text(yearChosen);
-            CrossAnalysisByDay();
-        });
-    }
-</script>
+<!--<script type="application/javascript">-->
+    <!--function initYearSelection(){-->
+        <!--var date = new Date();-->
+        <!--var year = date.getFullYear(); //获取当前年份-->
+        <!--var month = date.getMonth() + 1; //获取当前月份-->
+        <!--if(month < 9) year = year - 1;-->
+        <!--$("#YearChosen").text(year);-->
+        <!--$("#Year1").text(year);-->
+        <!--year&#45;&#45;;-->
+        <!--$("#Year2").text(year);-->
+        <!--year&#45;&#45;;-->
+        <!--$("#Year3").text(year);-->
+        <!--year&#45;&#45;;-->
+        <!--$("#Year4").text(year);-->
+        <!--$("ul").children().click(function () {-->
+            <!--var yearChosen = $(this).find("span").text();-->
+            <!--$("#YearChosen").text(yearChosen);-->
+        <!--});-->
+    <!--}-->
+<!--</script>-->
 
 <script type="text/html" id="CrossAnalysis3">
     <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">

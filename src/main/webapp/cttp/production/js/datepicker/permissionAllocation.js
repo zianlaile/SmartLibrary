@@ -82,8 +82,25 @@ function permissionsAllocation() {
             "                            </li>");
     }
     if(permission[8] == 1) {
-        $("#left-controll").append("<li><a href=\"CrossAnalysis.html\" target=\"_blank\"><i class=\"fa fa-file-word-o\"></i> 图书馆交叉分析 <span class=\"fa fa-chevron-down\"></span></a>\n" +
+        $("#left-controll").append("<li><a><i class=\"fa fa-file-word-o\"></i> 图书馆交叉分析 <span class=\"fa fa-chevron-down\"></span></a>\n" +
+            "                                <ul class=\"nav child_menu\">\n" +
+            "                                    <li><a href=\"CrossAnalysis.html\" target=\"_blank\" id=\"Year1\"></a></li>\n" +
+            "                                    <li><a href=\"#\" target=\"_blank\" id=\"Year2\"></a></li>\n" +
+            "                                    <li><a href=\"#\" target=\"_blank\" id=\"Year3\"></a></li>\n" +
+            "                                    <li><a href=\"#\" target=\"_blank\" id=\"Year4\"></a></li>\n" +
+            "                                </ul>\n" +
             "                            </li>");
+        var date = new Date();
+        var year = date.getFullYear(); //获取当前年份
+        var month = date.getMonth() + 1; //获取当前月份
+        if(month < 9) year = year - 1;
+        $("#Year1").text(year + "年");
+        year--;
+        $("#Year2").text(year + "年");
+        year--;
+        $("#Year3").text(year + "年");
+        year--;
+        $("#Year4").text(year + "年");
     }
     if(permission[9] == 1)
     {

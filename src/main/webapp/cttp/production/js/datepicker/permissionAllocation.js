@@ -1,5 +1,15 @@
 function permissionsAllocation() {
-    var permission  = decimalToBanary(sessionStorage.getItem("permissionAllocate")); // 得到权限数组
+    // var permission  = decimalToBanary(sessionStorage.getItem("permissionAllocate")); // 得到权限数组
+    var permission;
+    var name = "permissionAllocate=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++)
+    {
+        var c = ca[i].trim();
+        if (c.indexOf(name)==0)
+            permission = c.substring(name.length,c.length);
+    }
+    permission = decimalToBanary(permission);
 
     if(permission[0] == 1)
     {

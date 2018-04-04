@@ -11,5 +11,5 @@ public interface CrossAnalysisDao {
      List<CrossAnalysis>getCrossAnalysisByMonth(CrossAnalysis n);
      List<CrossAnalysis>getCrossAnalysisByAcademyInUnderGraduate(CrossAnalysis n);
      List<CrossAnalysis>getCrossAnalysisByAcademyInGraduate(CrossAnalysis n);
-     List<CrossAnalysis>getCrossAnalysisUtilizationRatio(CrossAnalysis n);
+     List<CrossAnalysis>getCrossAnalysisUtilizationRatioByyear(int year); // 资源利用年
 }

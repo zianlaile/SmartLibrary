@@ -20,4 +20,7 @@
     <select id="getCrossAnalysisUtilizationRatio" resultType = "CrossAnalysis" >
         SELECT * FROM crossanalysisutilizationratio
     </select>
+    <select id="getCrossAnalysisUtilizationRatioByyear" parameterType="int" resultType="CrossAnalysis">
+        SELECT ic_type,day_use_account, month_use_account,year_use_account,utlization_ratio FROM crossanalysisutilizationratio WHERE year = #{year}
+    </select>
 </mapper>

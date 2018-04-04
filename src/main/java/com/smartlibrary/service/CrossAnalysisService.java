@@ -16,14 +16,13 @@ public class CrossAnalysisService {
 
     public List<CrossAnalysis> CrossAnalysisByDay(CrossAnalysis n) {
         return crossAnalysisdao.CrossAnalysisByDay(n); }
-    
 
     public List<CrossAnalysis> getCrossAnalysisByMonth(CrossAnalysis n) {
         return crossAnalysisdao.getCrossAnalysisByMonth(n); }
 
-
-    public Map<String,List> getCrossAnalysisUtilizationRatio(CrossAnalysis n) {
-        List<CrossAnalysis> data = crossAnalysisdao.getCrossAnalysisUtilizationRatio(n);
+    // 资源利用率  getCrossAnalysisUtilizationRatioByyear  传入参数year
+    public Map<String,List> getCrossAnalysisUtilizationRatioByyear(int year) {
+        List<CrossAnalysis> data = crossAnalysisdao.getCrossAnalysisUtilizationRatioByyear(year);
         Map<String,List> result =  new LinkedHashMap<>();
         List<String>  ic_type = new ArrayList<>();
         List<Float> day_use_account = new ArrayList<>();

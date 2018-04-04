@@ -38,7 +38,7 @@ public class sysController {
                            @RequestParam String password,@RequestParam String code){
         Map rMap = new HashMap();
         Account account = new Account();
-        Account account1;
+       Account account1 = new Account();
         String errInfo = "";
         String passwd = "";
         if (null != loginname && null !=password && null != code){

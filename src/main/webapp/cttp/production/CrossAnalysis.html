@@ -83,10 +83,10 @@
                 $("#CrossAnalysisByDay").append("<div class='table temp'></div>");
             }
             var html = template('CrossAnalysis1', {param: data});//
-            $("#CrossAnalysisByDay").find(".\n" +
-                "</script>temp" ).html(html);
+            $("#CrossAnalysisByDay").find(".temp" ).html(html);
         });
     }
+</script>
 
 <script type="application/javascript">
     function getCrossAnalysisUtilizationRatio() {
@@ -114,7 +114,7 @@
 <script type="application/javascript">
     function getCrossAnalysisByMonth() {
         $.get('../../cross_analysis/getCrossAnalysisByMonth', function (data) {
-            // console.log(data);
+             console.log(data);
             if(!$("#CrossAnalysisByMonth").find(".temp").length > 0) {
                 $("#CrossAnalysisByMonth").append("<div class='table temp'></div>");
             }

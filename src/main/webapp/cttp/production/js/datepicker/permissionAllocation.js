@@ -1,5 +1,6 @@
 function permissionsAllocation() {
     // var permission  = decimalToBanary(sessionStorage.getItem("permissionAllocate")); // 得到权限数组
+
     var permission;
     var name = "permissionAllocate=";
     var ca = document.cookie.split(';');

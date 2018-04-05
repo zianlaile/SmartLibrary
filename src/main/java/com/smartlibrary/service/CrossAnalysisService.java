@@ -21,7 +21,7 @@ public class CrossAnalysisService {
         return crossAnalysisdao.getCrossAnalysisByMonth(n); }
 
     // 资源利用率  getCrossAnalysisUtilizationRatioByyear  传入参数year
-    public Map<String,List> getCrossAnalysisUtilizationRatioByyear(int year) {
+    public Map<String,List> getCrossAnalysisUtilizationRatioByyear(String year) {
         List<CrossAnalysis> data = crossAnalysisdao.getCrossAnalysisUtilizationRatioByyear(year);
         Map<String,List> result =  new LinkedHashMap<>();
         List<String>  ic_type = new ArrayList<>();
@@ -44,8 +44,8 @@ public class CrossAnalysisService {
         return  result;
     }
 
-    public  Map<String,ArrayList<CrossAnalysis>>getCrossAnalysisByAcademyInUnderGraduate(CrossAnalysis n){
-        List<CrossAnalysis> data = crossAnalysisdao.getCrossAnalysisByAcademyInUnderGraduate(n);
+    public  Map<String,ArrayList<CrossAnalysis>>getCrossAnalysisByAcademyInUnderGraduate(String year){
+        List<CrossAnalysis> data = crossAnalysisdao.getCrossAnalysisByAcademyInUnderGraduate(year);
         Map<String,ArrayList<CrossAnalysis> > result =  new TreeMap<String,ArrayList<CrossAnalysis> >();
         for(int i=0;i<data.size();i++){
             CrossAnalysis a = data.get(i);
@@ -60,8 +60,8 @@ public class CrossAnalysisService {
         }
         return result;
     }
-    public  Map<String,ArrayList<CrossAnalysis>>getCrossAnalysisByAcademyInGraduate(CrossAnalysis n){
-        List<CrossAnalysis> data = crossAnalysisdao.getCrossAnalysisByAcademyInGraduate(n);
+    public  Map<String,ArrayList<CrossAnalysis>>getCrossAnalysisByAcademyInGraduate(String year){
+        List<CrossAnalysis> data = crossAnalysisdao.getCrossAnalysisByAcademyInGraduate(year);
         Map<String,ArrayList<CrossAnalysis> > result =  new TreeMap<String,ArrayList<CrossAnalysis> >();
         for(int i=0;i<data.size();i++){
             CrossAnalysis b = data.get(i);

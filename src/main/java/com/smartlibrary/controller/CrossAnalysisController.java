@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,18 +31,17 @@ public class CrossAnalysisController {
         return crossAnalysisService.getCrossAnalysisByMonth(n);
     }
     @RequestMapping(value = "/getCrossAnalysisByAcademyInUnderGraduate", method = RequestMethod.GET)
-    public Map<String,ArrayList<CrossAnalysis>> getCrossAnalysisByAcademyInUnderGraduate(CrossAnalysis n){
-        return crossAnalysisService.getCrossAnalysisByAcademyInUnderGraduate(n);
+    public Map<String,ArrayList<CrossAnalysis>> getCrossAnalysisByAcademyInUnderGraduate(HttpServletRequest year){
+        return crossAnalysisService.getCrossAnalysisByAcademyInUnderGraduate(year.getQueryString());
     }
     @RequestMapping(value = "/getCrossAnalysisByAcademyInGraduate", method = RequestMethod.GET)
-    public Map<String,ArrayList<CrossAnalysis>> getCrossAnalysisByAcademyInGraduate(CrossAnalysis n){
-        return crossAnalysisService.getCrossAnalysisByAcademyInGraduate(n);
+    public Map<String,ArrayList<CrossAnalysis>> getCrossAnalysisByAcademyInGraduate(HttpServletRequest year){
+        return crossAnalysisService.getCrossAnalysisByAcademyInGraduate(year.getQueryString());
     }
-
-    @RequestMapping(value = "/getCrossAnalysisUtilizationRatioByyear",  method = RequestMethod.GET)
-    public Map<String,List> getCrossAnalysisUtilizationRatioByyear(int year) {
-        return crossAnalysisService.getCrossAnalysisUtilizationRatioByyear(year);
+    @RequestMapping(value = "/getCrossAnalysisUtilizationRatioByyear", method = RequestMethod.GET)
+    public Map<String,List> getCrossAnalysisUtilizationRatioByyear(HttpServletRequest year) {
+        return crossAnalysisService.getCrossAnalysisUtilizationRatioByyear(year.getQueryString());
     }
+    //localhost:8080/SmartLibrary/cross_analysis/getCrossAnalysisByAcademyInUnderGraduate?2017
 }
-
 

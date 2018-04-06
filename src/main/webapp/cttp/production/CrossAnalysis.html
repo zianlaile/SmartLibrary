@@ -56,28 +56,45 @@
 </div>
 
 <div class="page chapter" id="crossAnalysisByMonthOfUnderGraduate" style="height: auto; width: 80%">
-    <div class="second-title" style="font-size:25px">各学院本科生2017年度分析</div>
+    <div class="second-title" style="font-size:25px">各学院本科生<span class="year"></span>年度分析</div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
 <div class="page chapter" id="crossAnalysisByMonthOfGraduate" style="height: auto; width: 80%">
-    <div class="second-title" style="font-size:25px">各学院研究生2017年度分析</div>
+    <div class="second-title" style="font-size:25px">各学院研究生<span class="year"></span>年度分析</div>
     <div class="pagination" style="bottom: 30px"></div>
 </div>
 
 <script language="javascript" type="application/javascript">
     $(function(){
-        CrossAnalysisByDay();
-        getCrossAnalysisUtilizationRatio();
-        getCrossAnalysisByMonth();
-        getCrossAnalysisByAcademyInUnderGraduate();
-        getCrossAnalysisByAcademyInGraduate();
+        var year = GetRequest();
+        $('.year').text(year);
+        CrossAnalysisByDay(year);
+        getCrossAnalysisUtilizationRatio(year);
+        getCrossAnalysisByMonth(year);
+        getCrossAnalysisByAcademyInUnderGraduate(year);
+        getCrossAnalysisByAcademyInGraduate(year);
         // initYearSelection(); //初始化年份选择下拉框
     })
 </script>
+
 <script type="application/javascript">
-    function CrossAnalysisByDay() {
-        $.get('../../cross_analysis/CrossAnalysisByDay', function (data) {
+    //获取参数year
+    function GetRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest;
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            theRequest = str.split("=")[1];
+        }
+        return theRequest;
+    }
+</script>
+
+<script type="application/javascript">
+    function CrossAnalysisByDay(year) {
+        $.get('../../cross_analysis/CrossAnalysisByDay', year,
+            function (data) {
             // console.log(data);
             if(!$("#CrossAnalysisByDay").find(".temp").length > 0) {
                 $("#CrossAnalysisByDay").append("<div class='table temp'></div>");
@@ -89,8 +106,9 @@
 </script>
 
 <script type="application/javascript">
-    function getCrossAnalysisUtilizationRatio() {
-        $.get('../../cross_analysis/getCrossAnalysisUtilizationRatio', function (data) {
+    function getCrossAnalysisUtilizationRatio(year) {
+        $.get('../../cross_analysis/getCrossAnalysisUtilizationRatioByyear', year,
+            function (data) {
             // console.log(data);
             var result = [];
             for(var i = 0; i < data.ic_type.length; i++) {
@@ -112,9 +130,10 @@
 </script>
 
 <script type="application/javascript">
-    function getCrossAnalysisByMonth() {
-        $.get('../../cross_analysis/getCrossAnalysisByMonth', function (data) {
-             console.log(data);
+    function getCrossAnalysisByMonth(year) {
+        $.get('../../cross_analysis/getCrossAnalysisByMonth', year,
+            function (data) {
+            // console.log(data);
             if(!$("#CrossAnalysisByMonth").find(".temp").length > 0) {
                 $("#CrossAnalysisByMonth").append("<div class='table temp'></div>");
             }
@@ -125,8 +144,9 @@
 </script>
 
 <script type="application/javascript">
-function getCrossAnalysisByAcademyInUnderGraduate() {
-    $.get('../../cross_analysis/getCrossAnalysisByAcademyInUnderGraduate', function (data) {
+function getCrossAnalysisByAcademyInUnderGraduate(year) {
+    $.get('../../cross_analysis/getCrossAnalysisByAcademyInUnderGraduate', year,
+        function (data) {
         for (var key in data) {
             if(!$("#crossAnalysisByMonthOfUnderGraduate").find(".key").length > 0) {
                 $("#crossAnalysisByMonthOfUnderGraduate").append("<div style=\"text-align: center; font-size: 20px; margin-bottom: 20px\">" + key + "</div><div class='table " + key + "' style='margin-bottom: 20px'></div>");
@@ -137,8 +157,9 @@ function getCrossAnalysisByAcademyInUnderGraduate() {
     });
 }
 
-function getCrossAnalysisByAcademyInGraduate() {
-    $.get('../../cross_analysis/getCrossAnalysisByAcademyInGraduate', function (data) {
+function getCrossAnalysisByAcademyInGraduate(year) {
+    $.get('../../cross_analysis/getCrossAnalysisByAcademyInGraduate', year,
+        function (data) {
         for (var key in data) {
             if(!$("#crossAnalysisByMonthOfGraduate").find(".key").length > 0) {
                 $("#crossAnalysisByMonthOfGraduate").append("<div style=\"text-align: center; font-size: 20px; margin-bottom: 20px\">" + key + "</div><div class='table " + key + "' style='margin-bottom: 20px'></div>");
@@ -260,22 +281,52 @@ function getCrossAnalysisByAcademyInGraduate() {
     <table class="table-cyan" cellspacing="0" cellpadding="0" width="100%">
         <tr>
             <th>月份</th>
-            <th>借阅次数(次/人均)</th>
-            <th>进馆人数(次/人均)</th>
-            <th>研修间(次/人均)</th>
-            <th>电子阅览室(次/人均)</th>
-            <th>座位数(次/人均)</th>
-            <th>打印数(次/人均)</th>
+            <th>借阅次数<br>(次/人均/排名)</th>
+            <th>进馆人数<br>(次/人均/排名)</th>
+            <th>研修间<br>(次/人均/排名)</th>
+            <th>电子阅览室<br>(次/人均/排名)</th>
+            <th>座位数<br>(次/人均/排名)</th>
+            <th>打印数<br>(次/人均/排名)</th>
         </tr>
         {{each param as p}}
         <tr>
             <td>{{p.month}}</td>
-            <td>{{p.book_lend_times}}<span style=" font-size: 20px; font-weight: 300">&nbsp;/&nbsp;</span>{{toFloat p.book_lend_times/p.acdemy_stu_amount}}</td>
-            <td>{{p.gctrl_times}}<span style=" font-size: 20px; font-weight: 300">&nbsp;/&nbsp;</span>{{toFloat p.gctrl_times/p.acdemy_stu_amount}}</td>
-            <td>{{p.croom_times}}<span style=" font-size: 20px; font-weight: 300">&nbsp;/&nbsp;</span>{{toFloat p.croom_times/p.acdemy_stu_amount}}</td>
-            <td>{{p.eread_times}}<span style=" font-size: 20px; font-weight: 300">&nbsp;/&nbsp;</span>{{toFloat p.eread_times/p.acdemy_stu_amount}}</td>
-            <td>{{p.seat_times}}<span  style=" font-size: 20px; font-weight: 300">&nbsp;/&nbsp;</span>{{toFloat p.seat_times/p.acdemy_stu_amount}}</td>
-            <td>{{p.print_times}}<span style=" font-size: 20px; font-weight: 300">&nbsp;/&nbsp;</span>{{toFloat p.print_times/p.acdemy_stu_amount}}</td>
+            <td>{{p.book_lend_times}}
+                <span style=" font-size: 20px; font-weight: 300">&nbsp;/&nbsp;</span>
+                {{toFloat p.book_lend_times/p.acdemy_stu_amount}}
+                <span style=" font-size: 20px; font-weight: 300">&nbsp;/&nbsp;</span>
+                {{p.book_lend_times_rank}}
+            </td>
+            <td>{{p.gctrl_times}}
+                <span style=" font-size: 20px; font-weight: 300">&nbsp;/&nbsp;</span>
+                {{toFloat p.gctrl_times/p.acdemy_stu_amount}}
+                <span style=" font-size: 20px; font-weight: 300">&nbsp;/&nbsp;</span>
+                {{p.gctrl_times_rank}}
+            </td>
+            <td>{{p.croom_times}}
+                <span style=" font-size: 20px; font-weight: 300">&nbsp;/&nbsp;</span>
+                {{toFloat p.croom_times/p.acdemy_stu_amount}}
+                <span style=" font-size: 20px; font-weight: 300">&nbsp;/&nbsp;</span>
+                {{p.croom_times_rank}}
+            </td>
+            <td>{{p.eread_times}}
+                <span style=" font-size: 20px; font-weight: 300">&nbsp;/&nbsp;</span>
+                {{toFloat p.eread_times/p.acdemy_stu_amount}}
+                <span style=" font-size: 20px; font-weight: 300">&nbsp;/&nbsp;</span>
+                {{p.eread_times_rank}}
+            </td>
+            <td>{{p.seat_times}}
+                <span  style=" font-size: 20px; font-weight: 300">&nbsp;/&nbsp;</span>
+                {{toFloat p.seat_times/p.acdemy_stu_amount}}
+                <span style=" font-size: 20px; font-weight: 300">&nbsp;/&nbsp;</span>
+                {{p.seat_times_rank}}
+            </td>
+            <td>{{p.print_times}}
+                <span style=" font-size: 20px; font-weight: 300">&nbsp;/&nbsp;</span>
+                {{toFloat p.print_times/p.acdemy_stu_amount}}
+                <span style=" font-size: 20px; font-weight: 300">&nbsp;/&nbsp;</span>
+                {{p.print_times_rank}}
+            </td>
         </tr>
         {{/each}}
     </table>

@@ -5479,7 +5479,8 @@ function getLibraryTypeTimes() {
         var tempdata2 = []; //打复扫数量数据临时存放
         var address = [];
         var index = 0;
-        for(var ii = 0; ii < 3; ii++) {
+        var cycles = info[0].length / 3; //循环次数 打复扫为一组 每个地点都有一组
+        for(var ii = 0; ii < cycles; ii++) {
             index = 3 * ii;
             var data1 = [];
             var data2 = [];
@@ -5488,14 +5489,15 @@ function getLibraryTypeTimes() {
                     data1.push(info[i][j][2]);
                     data2.push(info[i][j][3]);
                 }
+
             }
-            address.push(info[ii][index][1]);
+            address.push(info[0][index][1]);
             tempdata1.push({
-                address: info[ii][index][1],
+                address: info[0][index][1],
                 data: data1
             });
             tempdata2.push({
-                address: info[ii][index][1],
+                address: info[0][index][1],
                 data: data2
             });
         }
@@ -5509,7 +5511,6 @@ function getLibraryTypeTimes() {
         });
         var html = template('tableGetLibraryTypeTimes',{param:param1});
         $(".tableGetLibraryTypeTimes").html(html);
-        console.log(param1[0]);
         replace["22-1-1"] = arrayYear[0];
         replace["22-1-2"] = arrayYear[1];
         replace["22-1-3"] = arrayYear[2];

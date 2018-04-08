@@ -11,6 +11,7 @@
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
     <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../../js/jquery.tips.js "></script>
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="style1.css" rel="stylesheet">
     <!-- Custom Theme Style -->
@@ -66,7 +67,7 @@
 </div>
 
 <script language="javascript" type="application/javascript">
-    $(function(){
+    $(function() {
         var year = GetRequest();
         $('.year').text(year);
         CrossAnalysisByDay(year);
@@ -74,8 +75,20 @@
         getCrossAnalysisByMonth(year);
         getCrossAnalysisByAcademyInUnderGraduate(year);
         getCrossAnalysisByAcademyInGraduate(year);
+
         // initYearSelection(); //初始化年份选择下拉框
     })
+    window.onload = function () {
+        $('td').hover(function () {
+            $(this).tips({
+                side : 1,
+                msg : 'ceshi',
+                bg : '#AE81FF'
+            });
+        }, function () {
+
+        })
+    }
 </script>
 
 <script type="application/javascript">
@@ -230,7 +243,7 @@ function getCrossAnalysisByAcademyInGraduate(year) {
         </tr>
         {{each param as p}}
         <tr>
-            <td>{{p.month}}</td>
+            <td id="ceshi">{{p.month}}</td>
             <td>{{p.book_lend_times}}</td>
             <td>{{p.gctrl_times}}</td>
             <td>{{p.croom_times}}</td>

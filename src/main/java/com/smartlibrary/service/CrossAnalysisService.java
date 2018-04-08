@@ -14,8 +14,8 @@ public class CrossAnalysisService {
     private CrossAnalysisDao crossAnalysisdao;
 
 
-    public List<CrossAnalysis> CrossAnalysisByDay(CrossAnalysis n) {
-        return crossAnalysisdao.CrossAnalysisByDay(n); }
+    public List<CrossAnalysis> CrossAnalysisByDay(String year) {
+        return crossAnalysisdao.CrossAnalysisByDay(year); }
 
     public List<CrossAnalysis> getCrossAnalysisByMonth(CrossAnalysis n) {
         return crossAnalysisdao.getCrossAnalysisByMonth(n); }

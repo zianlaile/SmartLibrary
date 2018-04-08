@@ -23,8 +23,8 @@ public class CrossAnalysisController {
     private CrossAnalysisService crossAnalysisService;
 
     @RequestMapping(value = "/CrossAnalysisByDay", method = RequestMethod.GET)
-    public List<CrossAnalysis> CrossAnalysisByDay(){  CrossAnalysis n=new CrossAnalysis();
-        return crossAnalysisService.CrossAnalysisByDay(n);
+    public List<CrossAnalysis> CrossAnalysisByDay(HttpServletRequest year){
+        return crossAnalysisService.CrossAnalysisByDay(year.getQueryString());
     }
     @RequestMapping(value = "/getCrossAnalysisByMonth", method = RequestMethod.GET)
     public List<CrossAnalysis> getCrossAnalysisByMonth(){ CrossAnalysis n=new CrossAnalysis();

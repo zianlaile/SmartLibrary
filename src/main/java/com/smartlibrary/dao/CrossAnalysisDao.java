@@ -7,7 +7,7 @@ import com.smartlibrary.domain.CrossAnalysis;
 import java.util.List;
 
 public interface CrossAnalysisDao {
-     List<CrossAnalysis>CrossAnalysisByDay(CrossAnalysis n);                              //
+     List<CrossAnalysis>CrossAnalysisByDay(String year);                              //
      List<CrossAnalysis>getCrossAnalysisByMonth(CrossAnalysis n);                         //
      List<CrossAnalysis>getCrossAnalysisByAcademyInUnderGraduate(String year);               //
      List<CrossAnalysis>getCrossAnalysisByAcademyInGraduate(String year);                    //

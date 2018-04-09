@@ -69,6 +69,10 @@
     var netFormItems;
     //存储参数
     var store_param;
+
+    var book_param;
+    var gctrl_param;
+    var print_param;
     $(function(){
         //form样式调整
         $(".form-group").css("margin-bottom","15px");
@@ -173,6 +177,9 @@
         staticFormItems=["timeSection", "rank_style","student_sex","book_rank_type","rank_number"];
         netFormItems=["academy", "student_style","print_type", "print_location","paper_type"];
         singleFormItems=["rank_style","student_sex","book_rank_type","rank_number"];
+        book_param=["timeSection","rank_style","academy", "student_style","student_sex","book_rank_type","rank_number"];
+        gctrl_param=["timeSection","rank_style","academy", "student_style","student_sex","rank_number"];
+        print_param=["timeSection","rank_style","print_type", "print_location","paper_type","rank_number"];
     });
 
 </script>
@@ -524,7 +531,14 @@
 
 <!--check(Items)验证表单-->
 <script type="application/javascript">
-    function check(Items){
+    function check(){
+        var Items;
+        if($("#rank_style").val()==0)
+            Items=book_param;
+        else if($("#rank_style").val()==1)
+            Items=gctrl_param;
+        else
+            Items=print_param;
         for(var item=0;item<Items.length;item++){
             if($("#"+Items[item]).val()==null){
                 return false
@@ -538,7 +552,7 @@
 <script type="application/javascript">
     function submitSearchData(param){
         //检验
-        if(param==undefined&&!check(formItems))
+        if(param==undefined&&!check())
             return;
 
         if(param==undefined)
@@ -787,7 +801,7 @@
             contentType:'application/json',
             url:'../../definedSearchContent/getDefinedRankContent',
             dataType:'json',
-            async:true,
+            async:false,
             cache:true,
             success:function (data) {
                 console.info(data);

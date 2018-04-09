@@ -70,6 +70,9 @@
     //存储参数
     var store_param;
 
+    var person_param;
+    var asset_param;
+
     var now;
 
     $(function(){
@@ -198,6 +201,8 @@
         staticFormItems=["style", "asset_type", "birth_start", "birth_end","timeSection", "sex"];
         netFormItems=["profession"];
         singleFormItems=["style","birth_start","birth_end","sex","asset_type"];
+        person_param=["birth_start", "birth_end","timeSection", "sex", "profession"];
+        asset_param=["asset_type", "birth_start", "birth_end"];
     });
 </script>
 
@@ -507,7 +512,12 @@
 
 <!--check(Items)验证表单-->
 <script type="application/javascript">
-    function check(Items){
+    function check(){
+        var Items;
+        if($("#style").val()==0)
+            Items=person_param;
+        else
+            Items=asset_param;
         for(var item=0;item<Items.length;item++){
             if($("#"+Items[item]).val()==null){
                 return false
@@ -521,7 +531,7 @@
 <script type="application/javascript">
     function submitSearchData(param){
         //检验
-        if(param==undefined&&!check(formItems))
+        if(param==undefined&&!check())
             return;
 
         if(param==undefined)
@@ -699,7 +709,8 @@
             contentType:'application/json',
             url:'../../definedSearchContent/getDefinedPersonAssetContent',
             dataType:'json',
-            async:true,
+            async:false,
+            cache:true,
             success:function (data) {
                 console.info(data);
                 setSelect(document.getElementById('profession'),data.profession,false);

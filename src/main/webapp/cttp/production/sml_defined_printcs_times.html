@@ -611,7 +611,8 @@
             contentType:'application/json',
             url:'../../definedSearchContent/getDefinedPrintContent',
             dataType:'json',
-            async:true,
+            async:false,
+            cache:true,
             success:function (data) {
                 console.info(data);
                 setSelect(document.getElementById('print_type'),data.print_type,false);

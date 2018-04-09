@@ -75,7 +75,12 @@
 
     var now;
 
+    var btn_default_border_color;
+
     $(function(){
+
+        btn_default_border_color= $(".btn-default").css("border-color");
+
         //form样式调整
         $(".form-group").css("margin-bottom","15px");
 
@@ -90,6 +95,13 @@
             deselectAllText:'全不选',
             selectAllText: '全选',
             countSelectedText: '所有',
+        });
+        $('.selectpicker').on('hidden.bs.select', function (e) {
+            if($(this).val()!=null){
+                $(this).next(".bootstrap-select").find(":button[title]").css("border-color", btn_default_border_color);
+            } else{
+                $(this).next(".bootstrap-select").find(":button[title]").css("border-color", "red");
+            }
         });
         $('.selectpicker').selectpicker('refresh');
         $('.selectpicker').selectpicker('render');

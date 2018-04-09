@@ -1,5 +1,16 @@
 function permissionsAllocation() {
-    var permission  = decimalToBanary(sessionStorage.getItem("permissionAllocate")); // 得到权限数组
+    // var permission  = decimalToBanary(sessionStorage.getItem("permissionAllocate")); // 得到权限数组
+
+    var permission;
+    var name = "permissionAllocate=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++)
+    {
+        var c = ca[i].trim();
+        if (c.indexOf(name)==0)
+            permission = c.substring(name.length,c.length);
+    }
+    permission = decimalToBanary(permission);
 
     if(permission[0] == 1)
     {
@@ -82,8 +93,29 @@ function permissionsAllocation() {
             "                            </li>");
     }
     if(permission[8] == 1) {
-        $("#left-controll").append("<li><a href=\"CrossAnalysis.html\" target=\"_blank\"><i class=\"fa fa-file-word-o\"></i> 图书馆交叉分析 <span class=\"fa fa-chevron-down\"></span></a>\n" +
+        $("#left-controll").append("<li><a><i class=\"fa fa-file-word-o\"></i> 图书馆交叉分析 <span class=\"fa fa-chevron-down\"></span></a>\n" +
+            "                                <ul class=\"nav child_menu\">\n" +
+            "                                    <li><a href=\"#\" target=\"_blank\" id=\"Year1\"></a></li>\n" +
+            "                                    <li><a href=\"#\" target=\"_blank\" id=\"Year2\"></a></li>\n" +
+            "                                    <li><a href=\"#\" target=\"_blank\" id=\"Year3\"></a></li>\n" +
+            "                                    <li><a href=\"#\" target=\"_blank\" id=\"Year4\"></a></li>\n" +
+            "                                </ul>\n" +
             "                            </li>");
+        var date = new Date();
+        var year = date.getFullYear(); //获取当前年份
+        var month = date.getMonth() + 1; //获取当前月份
+        if(month < 9) year = year - 1;
+        $("#Year1").text(year + "年");
+        $("#Year1").attr("href","CrossAnalysis.html?year=" + year);
+        year--;
+        $("#Year2").text(year + "年");
+        $("#Year2").attr("href","CrossAnalysis.html?year=" + year);
+        year--;
+        $("#Year3").text(year + "年");
+        $("#Year3").attr("href","CrossAnalysis.html?year=" + year);
+        year--;
+        $("#Year4").text(year + "年");
+        $("#Year4").attr("href","CrossAnalysis.html?year=" + year);
     }
     if(permission[9] == 1)
     {

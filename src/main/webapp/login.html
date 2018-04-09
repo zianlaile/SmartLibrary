@@ -46,7 +46,12 @@
                           if(2 == data.accountType){
                                window.location='cttp/production/app_notice.html';
                           }else{
-                              sessionStorage.setItem("permissionAllocate",data.permissionAllocate); // 获取sessionStorage(内容： 用户的权限)
+                              // var d = new Date();
+                              // d.setTime(d.getTime()+(2*60*60*1000)); //两小时
+                              // var expires = "expires="+d.toGMTString(); //cookie过期时间
+                              var cookie = "permissionAllocate=" + data.permissionAllocate;
+                              document.cookie = cookie;
+                              // sessionStorage.setItem("permissionAllocate",data.permissionAllocate); // 获取sessionStorage(内容： 用户的权限)
                               window.location='cttp/production/index.html';
                           }
                       }else if("usererror" == data.result){
@@ -88,6 +93,12 @@
 
           }
       }
+
+
+
+
+
+
 
       $(document).ready(function() {
           changeCode1();
@@ -204,9 +215,7 @@
     <script src="cttp/vendors/validator/validator.js"></script>
     <!-- tips -->
     <script src="js/jquery.tips.js "></script>
-
     <!-- Custom Theme Scripts -->
     <script src="cttp/build/js/custom.min.js"></script>
-
   </body>
 </html>

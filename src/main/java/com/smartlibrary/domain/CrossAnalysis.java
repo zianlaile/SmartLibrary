@@ -12,12 +12,19 @@ public class CrossAnalysis {
     }
 
     int hour;               //小时
+    String  year;               //年份 (传参使用)
     int book_lend_times;    //借阅次数
+    int book_lend_times_rank;// 借阅排名
     int croom_times;        //研修间
+    int croom_times_rank;   //  研修间使用排名
     int eread_times;        //电子阅览室
+    int eread_times_rank;   //电子阅览室使用排名
     int seat_times;         //座位
+    int seat_times_rank;    //座位使用排名
     int print_times;        //打印
+    int print_times_rank;   // 打印使用排名
     int gctrl_times;        //进馆
+    int gctrl_times_rank;   // 进馆排名
     float day_use_account;  //日使用率
     float month_use_account;//月使用率
     float year_use_account; //年使用率
@@ -25,6 +32,62 @@ public class CrossAnalysis {
     float utlization_ratio; //利用率
     String ic_type;         //ic空间类型
     String academy;         //学院
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public int getBook_lend_times_rank() {
+        return book_lend_times_rank;
+    }
+
+    public void setBook_lend_times_rank(int book_lend_times_rank) {
+        this.book_lend_times_rank = book_lend_times_rank;
+    }
+
+    public int getCroom_times_rank() {
+        return croom_times_rank;
+    }
+
+    public void setCroom_times_rank(int croom_times_rank) {
+        this.croom_times_rank = croom_times_rank;
+    }
+
+    public int getEread_times_rank() {
+        return eread_times_rank;
+    }
+
+    public void setEread_times_rank(int eread_times_rank) {
+        this.eread_times_rank = eread_times_rank;
+    }
+
+    public int getSeat_times_rank() {
+        return seat_times_rank;
+    }
+
+    public void setSeat_times_rank(int seat_times_rank) {
+        this.seat_times_rank = seat_times_rank;
+    }
+
+    public int getPrint_times_rank() {
+        return print_times_rank;
+    }
+
+    public void setPrint_times_rank(int print_times_rank) {
+        this.print_times_rank = print_times_rank;
+    }
+
+    public int getGctrl_times_rank() {
+        return gctrl_times_rank;
+    }
+
+    public void setGctrl_times_rank(int gctrl_times_rank) {
+        this.gctrl_times_rank = gctrl_times_rank;
+    }
 
     public int getAcdemy_stu_amount() {
         return acdemy_stu_amount;

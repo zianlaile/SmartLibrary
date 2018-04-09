@@ -2,22 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.smartlibrary.dao.CrossAnalysisDao">
-    <select id="CrossAnalysisByDay"  resultType = "CrossAnalysis" >
+    <select id="CrossAnalysisByDay" parameterType="String"  resultType = "CrossAnalysis" >
         SELECT HOUR,book_lend_times,croom_times,eread_times,seat_times,print_times,gctrl_times
         FROM  CrossAnalysisByDay
+        WHERE `year` = #{year}
     </select>
     <select id="getCrossAnalysisByMonth" resultType = "CrossAnalysis">
         SELECT month,book_lend_times, croom_times, eread_times,seat_times, print_times,gctrl_times
         FROM zz_time_month_count
         WHERE IF(MONTH(NOW()) > 9 , `year` = YEAR(NOW()), `year` = YEAR(NOW()) - 1)
     </select>
-    <select id="getCrossAnalysisByAcademyInUnderGraduate" resultType = "CrossAnalysis">
-        SELECT * FROM crossanalysisbyacademyundergraduate
+    <select id="getCrossAnalysisByAcademyInUnderGraduate"  parameterType="String" resultType = "CrossAnalysis">
+        SELECT * FROM crossanalysisrankbymonthinundergraduate WHERE `year` = #{year}
+</select>
+    <select id="getCrossAnalysisByAcademyInGraduate"  parameterType="String" resultType = "CrossAnalysis" >
+        SELECT * FROM crossanalysisrankbymonthingraduate WHERE `year` = #{year}
     </select>
-    <select id="getCrossAnalysisByAcademyInGraduate" resultType = "CrossAnalysis" >
-        SELECT * FROM crossanalysisbyacademygraduate
-    </select>
-    <select id="getCrossAnalysisUtilizationRatio" resultType = "CrossAnalysis" >
-        SELECT * FROM crossanalysisutilizationratio
+    <select id="getCrossAnalysisUtilizationRatioByyear" parameterType="String" resultType="CrossAnalysis">
+        SELECT ic_type,day_use_account, month_use_account,year_use_account,utlization_ratio FROM crossanalysisutilizationratio WHERE `year` = #{year}
     </select>
 </mapper>

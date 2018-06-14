@@ -114,9 +114,9 @@ public class DefinedIcSearch implements Serializable {
         }
 
         if(style==0)
-            title+="时长";
+            title+=" 时长";
         else
-            title+="人次";
+            title+=" 人次";
         return title.trim();
     }
 

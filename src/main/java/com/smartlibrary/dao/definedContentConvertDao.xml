@@ -31,4 +31,12 @@
         </foreach>
     </select>
 
+    <select id="getDefinedNameOfPrintTypeById" resultType="string">
+        SELECT DISTINCT z.name AS name
+        FROM z_printcs_printtype AS z
+        WHERE z.id in
+        <foreach collection="array" open="(" close=")" separator="," item="item" index="i">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

@@ -137,7 +137,7 @@ public class DefinedPersonAssetSearch implements Serializable {
                 title+="设备 ";
             else
                 title+="馆藏文献 ";
-            title+=getContent(timeSection,"购买时间");
+            title+=getContent(birth_start+'-'+birth_end,"购买时间");
 
         }
         return title.trim();

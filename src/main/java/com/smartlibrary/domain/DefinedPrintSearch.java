@@ -101,7 +101,7 @@ public class DefinedPrintSearch implements Serializable {
     }
 
     public String getSearchContentSubTitle(definedContentConvertDao definedContentConvertDao){
-        String title=getContent(timeSection,"时间")+getContent(print_type,"文印类型")+getContent(print_location,"设备地点")+getContentofConvert(paper_type,paper_typeList,"纸张类型",definedContentConvertDao);
+        String title=getContent(timeSection,"时间")+getContentofConvert2(print_type,print_typeList,"文印类型",definedContentConvertDao)+getContent(print_location,"设备地点")+getContentofConvert(paper_type,paper_typeList,"纸张类型",definedContentConvertDao);
         return title.trim();
     }
 
@@ -117,6 +117,15 @@ public class DefinedPrintSearch implements Serializable {
             return "所有"+tip+" ";
         if(s!=null&&s.length!=0)
             return tip+":"+String.join(",", definedContentConvertDao.getDefinedNameOfPaperTypeById(s)).trim()+" ";
+        else
+            return "所有"+tip+" ";
+    }
+
+    private String getContentofConvert2(String str,String[] s,String tip,definedContentConvertDao definedContentConvertDao){
+        if(str==null||str.isEmpty()||str.trim().equals("所有"))
+            return "所有"+tip+" ";
+        if(s!=null&&s.length!=0)
+            return tip+":"+String.join(",", definedContentConvertDao.getDefinedNameOfPrintTypeById(s)).trim()+" ";
         else
             return "所有"+tip+" ";
     }

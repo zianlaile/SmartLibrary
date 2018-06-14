@@ -627,7 +627,7 @@
             cache:true,
             success:function (data) {
                 console.info(data);
-                setSelect(document.getElementById('print_type'),data.print_type,false);
+                setSelect(document.getElementById('print_type'),data.print_type,true);
                 $("#print_type").selectpicker({
                     selectedTextFormat:"count > "+(data.print_type.length-1),
                 });
